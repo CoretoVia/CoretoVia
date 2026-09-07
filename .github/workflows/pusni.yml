@@ -49,6 +49,16 @@ jobs:
       - name: Построяване
         run: npm run build
 
+      # СПИСЪКЪТ НА СЪСТАВКИТЕ (SBOM · CycloneDX) · задължителен по CRA от 11.12.2027.
+      # Вградена команда на npm — нула библиотеки, нула наш код.
+      #
+      # Редът е НАРОЧЕН и не се мести: `npm run build` вика stroezh/pechat-sw.mjs,
+      # който слага ВСЕКИ файл от dist/ в джоба на service worker-а. Изданието тук,
+      # СЛЕД него, значи че sbom.json се сервира на живия адрес, но не се сваля
+      # предварително от всеки посетител.
+      - name: Списъкът на съставките · SBOM
+        run: npm run sbom
+
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3

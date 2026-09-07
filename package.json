@@ -19,6 +19,7 @@
     "chestnost": "node stroezh/chestnost.mjs",
     "sloeve": "depcruise --config .dependency-cruiser.cjs src app",
     "litsenzi": "node stroezh/litsenzi.mjs",
+    "sbom": "npm sbom --sbom-format cyclonedx > dist/sbom.json",
     "stil": "biome check . --error-on-warnings",
     "mostra": "node stroezh/mostra-kniga.mjs",
     "dumi": "node stroezh/dumi-ot-knigata.mjs",

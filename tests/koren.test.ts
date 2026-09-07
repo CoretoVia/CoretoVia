@@ -23,6 +23,7 @@ const POZVOLENI = Object.freeze([
   '.gitignore',
   'CLAUDE.md',
   'README.md',
+  'SECURITY.md',
   'biome.json',
   'knip.json',
   'package-lock.json',
@@ -49,10 +50,11 @@ describe('коренът на хранилището', () => {
     expect(vKorena).toEqual([...POZVOLENI].sort());
   }, 60_000);
 
-  it('и списъкът е точно ДВАНАЙСЕТ имена · пин с ръка', () => {
+  it('и списъкът е точно ТРИНАЙСЕТ имена · пин с ръка', () => {
     // Пинът е за да не расте списъкът мълчаливо: ново име в корена се вижда
     // тук в диф, заедно с причината си (обход В на честността).
-    expect(POZVOLENI).toHaveLength(12);
+    // 08.09.2026: 12 → 13 · влезе SECURITY.md (CRA · процес по уязвимости).
+    expect(POZVOLENI).toHaveLength(13);
     expect(new Set(POZVOLENI).size).toBe(POZVOLENI.length);
   });
 });
