@@ -1,10 +1,15 @@
 /**
  * ЛИЦЕНЗИТЕ · обход по `node_modules`, с праг НУЛА за заразяващ лиценз (правило 9).
  *
- * Библиотека влиза САМО с лиценз MIT · Apache-2.0 · BSD · ISC (и техните
- * съчетания). HyperFormula (GPL), SVAR Gantt (GPL) и няколко „SEE LICENSE IN"
- * изглеждаха като кандидати, докато полето `license` не беше прочетено —
- * затова това не е дисциплина, а машина, която пада в CI.
+ * Списъкът на позволените НЕ Е ТУК · домът му е `pozvoleni-litsenzi.mjs`
+ * (правило 17). Дотук той живееше на четири места и нито две не съвпадаха:
+ * тази шапка казваше „MIT · Apache-2.0 · BSD · ISC", наборът долу съдържаше
+ * шестнайсет имена (между тях MPL-2.0), редът накрая печаташе трети вариант,
+ * а `tests/biblioteki.test.ts` признаваше пет и забраняваше Zlib.
+ *
+ * HyperFormula (GPL), SVAR Gantt (GPL) и няколко „SEE LICENSE IN" изглеждаха
+ * като кандидати, докато полето `license` не беше прочетено — затова това не е
+ * дисциплина, а машина, която пада в CI.
  *
  * Чете се `package.json` на ВСЕКИ инсталиран пакет (и на транзитивните), не само
  * на обявените: заразяващият лиценз идва през зависимост на зависимостта.
@@ -16,29 +21,13 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { dumiteZaSpisaka, PRI_STROEZHA } from './pozvoleni-litsenzi.mjs';
 
 const KOREN = fileURLToPath(new URL('..', import.meta.url));
 const NM = join(KOREN, 'node_modules');
 
-/** Позволените SPDX имена · с ръка. */
-const POZVOLENI = new Set([
-  'MIT',
-  'MIT/X11',
-  'X11',
-  'Apache-2.0',
-  'BSD-2-Clause',
-  'BSD-3-Clause',
-  'ISC',
-  '0BSD',
-  'BlueOak-1.0.0',
-  'Unlicense',
-  'CC0-1.0',
-  'CC-BY-4.0',
-  'Python-2.0',
-  'MPL-2.0',
-  'Zlib',
-  'WTFPL',
-]);
+/** Позволените · ЧЕТАТ СЕ от единствения си дом, не се преписват. */
+const POZVOLENI = new Set(PRI_STROEZHA);
 
 /**
  * Пакети БЕЗ поле `license`, чийто лиценз е проверен С РЪКА в хранилището им.
@@ -105,5 +94,5 @@ if (nahodki.length) {
   for (const n of nahodki) console.log(`  ✗ ${n}`);
   process.exitCode = 1;
 } else {
-  console.log('Всички са MIT · Apache-2.0 · BSD · ISC · Zlib или позволено съчетание от тях.');
+  console.log(`Всички са в списъка: ${dumiteZaSpisaka(PRI_STROEZHA)} · или позволено съчетание.`);
 }
