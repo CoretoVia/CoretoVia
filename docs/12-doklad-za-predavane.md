@@ -34,8 +34,8 @@
 
 | какво | къде |
 | :---- | :---- |
-| **живото хранилище** | `github.com/CoretoVia/CoretoVia` · клон `main` |
-| **живият адрес** | `https://coretovia.github.io/CoretoVia/` (пътят е с главно V) |
+| **живото хранилище** | `github.com/CoretoVia/Coretovia` · клон `main` |
+| **живият адрес** | `https://coretovia.github.io/Coretovia/` (пътят е с МАЛКО v) |
 | локална папка | `C:\Users\ivayl\Projects\Coretovia` |
 | **замразеният MasterBook** | `github.com/CoretoVia/MasterBook` · таг `alfa-kray-2026-09-05` · HEAD `bf84bec` |
 | локална папка на MasterBook | `C:\Users\ivayl\Projects\VintexStroy` (клон `main`) |
@@ -504,7 +504,7 @@ OWASP ASVS 5.0**, които CRA задължително иска.
 | 6 | „единственият кеш ИЗЛИЗА" | приходна секция **„Наем Кеш"** съществува |
 | 7 | „SBOM = 150–250 реда скрипт" | `npm sbom --sbom-format cyclonedx` дава валиден CycloneDX **днес**, един ред |
 | 8 | „`LICENSE` е нула промяна" | `tests/koren.test.ts` пинва 12 имена — два червени теста |
-| 9 | адресът на хранилището | вече е `CoretoVia/CoretoVia` |
+| 9 | адресът на хранилището | `CoretoVia/Coretovia` · с МАЛКО „v" · оборено 07.09 вечерта, вж. ADR-022 |
 | 10 | **`02-sertifikatite.md`: „износ в .xlsx и в JSON"** | **JSON износ НЯМА** — едно сваляне в целия продукт |
 | 11 | **`docs/pazar/06` §7: „криптиране на износа (AES-256-GCM) ✔"** | **нула криптиране** в кода — само SHA-256 |
 | 12 | **номерата на правилата** | от MasterBook, не от Coretovia (§2.3) |

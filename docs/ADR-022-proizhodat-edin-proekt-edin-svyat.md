@@ -108,18 +108,32 @@ vintexstroy-glitch/VintexStroy → 301 → CoretoVia/Coretovia
 07.09.2026, след неговите шест хода:
 
 ```
-CoretoVia/CoretoVia            → HEAD da327d6  ← живата Coretovia
-CoretoVia/MasterBook           → HEAD bf84bec  ← замразеният MasterBook
-vintexstroy-glitch/Coretovia   → 301 → CoretoVia/CoretoVia
-vintexstroy-glitch/VintexStroy → 301 → CoretoVia/MasterBook
+CoretoVia/Coretovia            → HEAD 2ae8d21 · archived=false · Pages=да  ← живата Coretovia
+CoretoVia/MasterBook           → HEAD bf84bec · archived=true              ← замразеният
+vintexstroy-glitch/Coretovia   → 301 → CoretoVia/Coretovia
+vintexstroy-glitch/VintexStroy → ПРАЗНО хранилище (0 KB, без HEAD), създадено 06.09 23:23
+coretovia.github.io/Coretovia/          → 200  ← ЖИВИЯТ адрес
 coretovia.github.io/MasterBook/         → 404  ← замразеният не сервира нищо
 vintexstroy-glitch.github.io/Coretovia/ → 404  ← старият произход е мъртъв
 ```
 
-Той сам смени името на хранилището от `Coretovia` на **`CoretoVia`**. Това мени
-ПЪТЯ, не произхода — и понеже `vite.config.ts` носи `base: './'`, смяната струва
-нула (платено предварително, ADR-054 на MasterBook). Домейнът остава `coretovia.github.io`
-с малки букви, защото GitHub снижава само домейна, не пътя.
+**Поправено 07.09.2026 вечерта · тук стоеше ЧЕТВЪРТАТА лъжа.** Дотук блокът пишеше
+`CoretoVia/CoretoVia`, а под него стоеше изречението „Той сам смени името на
+хранилището от `Coretovia` на **`CoretoVia`**". Това НЕ се е случило:
+`api.github.com/repos/CoretoVia/CoretoVia` връща `full_name: CoretoVia/Coretovia`.
+
+**Защо не се хвана месец наред.** GitHub пренасочва имената на ХРАНИЛИЩА без оглед на
+регистъра, тъй че `curl` и `git ls-remote` връщаха 200 и на двете изписвания. Пътят на
+**Pages обаче Е чувствителен към регистъра** — затова записаният „жив адрес"
+`coretovia.github.io/CoretoVia/` даваше **404**, докато `coretovia.github.io/Coretovia/`
+дава **200**. Цената: собственикът отваряше мъртъв линк и виждаше, че „GitHub не работи".
+Урокът: име на хранилище се пита от `full_name` на API-то, не се чете от адрес, минал
+през пренасочване.
+
+Името си остава **`Coretovia`**, а пътят на Pages е `/Coretovia/`. Домейнът е с малки
+букви, защото GitHub снижава само домейна, не пътя. Понеже `vite.config.ts` носи
+`base: './'`, всяка бъдеща смяна на пътя струва нула (платено предварително,
+ADR-054 на MasterBook).
 
 **Стъпка 4 оставя MasterBook в организацията.** Това е съзнателна отстъпка от
 правилото „един произход, един проект" и цената ѝ е нула: архивирано хранилище без
@@ -149,8 +163,8 @@ Pages не сервира нищо на `coretovia.github.io`. Който пре
 
 | | стойност |
 | :---- | :---- |
-| **живият адрес** | **`https://coretovia.github.io/CoretoVia/`** |
-| хранилището | **`CoretoVia/CoretoVia`** · пътят е с ГЛАВНО V и е чувствителен към регистъра, макар домейнът да е с малки букви (GitHub снижава само домейна) |
+| **живият адрес** | **`https://coretovia.github.io/Coretovia/`** |
+| хранилището | **`CoretoVia/Coretovia`** · пътят е с МАЛКО v и е чувствителен към регистъра, макар домейнът да е с малки букви (GitHub снижава само домейна) · проверено 07.09.2026 с `curl`: `/Coretovia/` → **200**, `/CoretoVia/` → **404** |
 | старият адрес | `vintexstroy-glitch.github.io/Coretovia/` · **404 от 07.09.2026** · онзи произход е мъртъв |
 | хранилището | ПУБЛИЧНО (иначе Pages отказва) |
 | Source | GitHub Actions (не „Deploy from a branch") |
