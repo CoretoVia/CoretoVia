@@ -56,6 +56,59 @@
 | решенията | `docs/ADR-001…024` |
 | Заданието (Книгата, клетка по клетка) | `zadanie/00…11` |
 
+**С точен ред, за да не се търси:**
+
+| какво | файл : ред |
+| :---- | :---- |
+| правило 9 · библиотеките | `CLAUDE.md:75` |
+| правило 22 · търсиш преди да питаш · и платената цена | `CLAUDE.md:104` |
+| **правило 28 · ВСИЧКО Е ЕКСЕЛ** | `CLAUDE.md:144` |
+| **правило 29 · полето е типизирано** | `CLAUDE.md:150` |
+| К1 · К2 · К3 | `CLAUDE.md:15` · `:19` · `:23` |
+| таблицата на старите номера от MasterBook | `CLAUDE.md:27` |
+| **неговите отговори, отбелязани** | `docs/13:211` |
+| **отделите като затворени етапи** | `docs/13:237` |
+| редът на изпълнение | `docs/13:283` |
+| какво брои `chistota` наистина | `docs/13:363` |
+| **неговите думи дословно** | `docs/10:78` |
+| процентът готовност · 53 % | `docs/10:13` |
+| четирите необратими решения | `docs/10:61` → `ADR-024` |
+| „Диаграма Гант (**Календар**)" · изворът | `zadanie/03:59` · `zadanie/04:53` |
+| „Спешно и Важно (червен цвят в Календара)" | `zadanie/03:81` · `zadanie/04:80` |
+| осемте прозореца · ЕДИНСТВЕНИЯТ им дом | `src/model/osnova.ts:46` |
+
+### 1.4 · Кодът · 85 файла в `src/`, 32 в `app/`
+
+Посоката е една и я брои машина (`npm run sloeve`): `app/` → `src/porta/` →
+`src/komandi/` → `src/yadro/`. Обратно — никога.
+
+| папка | какво прави | ключови файлове |
+| :---- | :---- | :---- |
+| `src/yadro/` | **Вратата и Журналът** · единственият вход за запис | `vrata.ts` · `dnevnik.ts` · `sabitie.ts` · `hash.ts` · `pari.ts` · `sverka.ts` · `kotva.ts` · `takt.ts` · `pravata.ts` |
+| `src/model/` | **моделът като данни** · номенклатури · колони · таблици | `osnova.ts` ← осемте прозореца · `kletka.ts` · `tablitsa.ts` · `kolona.ts` |
+| `src/komandi/` | **каталогът** · единственият вход към Вратата (К2) | `katalog.ts` · `izpalnenie.ts` · `prozortsi/*.ts` (по един на прозорец) |
+| `src/porta/` | **портът** · над каталога | `porta.ts` · `izpalnitel.ts` · `vnasyane.ts` |
+| `src/ogledalo/` | сгъва събитията в четими таблици | `ogledalo.ts` · `sgavane.ts` · `chettsi.ts` · `stalb.ts` |
+| `src/smetach/` | **смятането** · дърво · Гант · ДДС · права · продажби | `gant.ts` · `dds.ts` · `smetki.ts` · `pravo.ts` · `kalkulator/` |
+| `src/formuli/` | свой парсер и точен сметач с дроби | `izraz.ts` · `smetach.ts` |
+| `src/kniga/` | Книгата на вход и изход · **ЕДИНСТВЕНИЯТ допир до `exceljs`** | `ooxml.ts` ← само тук · `chetene.ts` · `pisane.ts` · `sverchik.ts` |
+| `src/nositel/` | носителят · IndexedDB · хешът | `dnevnik-indexeddb.ts` · `hranilishte.ts` |
+| `app/prozorets/` | по един файл на прозорец | `smetki.ts` · `upravlenie.ts` · `prodazhbi.ts` · `sluzhiteli.ts` · `imoti.ts` · `profil.ts` · `ii.ts` · `nastroyki.ts` |
+| `app/reshetka/` | решетката · менюто · моделите на екрана | `reshetka.ts` · `gant-svg.ts` ← **днешният Гант като КАРТИНА** · `menyu.ts` |
+
+### 1.5 · Проверките · коя команда кой файл пуска
+
+| команда | файл | какво брои |
+| :---- | :---- | :---- |
+| `npm run chistota` | `stroezh/chistota.mjs` | деветте обхода · мъртво · дублирано · празно поле |
+| `npm run chestnost` | `stroezh/chestnost.mjs` | единайсет дефекта на самите проверки |
+| `npm run litsenzi` | `stroezh/litsenzi.mjs` + `pozvoleni-litsenzi.json` | 202 пакета |
+| `npm run dumi:proveri` | `stroezh/dumi-ot-knigata.mjs` | 42 думи от Книгата |
+| `npm run sloeve` | `.dependency-cruiser.cjs` | посоката на зависимостите |
+| `npm run proba` | `proba/prohod.ts` + `proba/razdeli/` | 229 стъпки през истински браузър |
+| `npm run mostra` | `stroezh/mostra-kniga.mjs` | генерира мострата · **не се вика от строежа** |
+| тестовете | `tests/*.ts` · **57 файла** | 481 теста |
+
 ---
 
 ## 2 · Свалените файлове · четири, разчетени
