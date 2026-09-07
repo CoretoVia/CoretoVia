@@ -1,0 +1,76 @@
+{
+  "//": "НАСТРОЙКИТЕ НА РЕДАКТОРА · част от хранилището, не от машината (правило 17).",
+  "//1": "Форматиращият е ЕДИН · Biome, същият, който пуска npm run stil. Два форматиращи = война в диф.",
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports.biome": "explicit"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": null,
+    "editor.formatOnSave": false
+  },
+  "//2": "КРАЯТ НА РЕДА · .gitattributes воюва за LF; редакторът не бива да го връща.",
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "files.encoding": "utf8",
+  "//3": "ЗАПАЗВАНЕ · защита срещу спиране на тока. Ръчните промени не чакат Ctrl+S.",
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "//4": "TypeScript · версията на ПРОЕКТА (6.0.3), не на редактора. Инак типовете се разминават с npm run typecheck.",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.preferences.importModuleSpecifierEnding": "js",
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "//5": "ТЪРСЕНЕТО · дървото да не се разклонява с шум. node_modules и dist не са код.",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/package-lock.json": true,
+    "**/.git": true,
+    "**/kniga-lichna": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/.git/**": true
+  },
+  "files.exclude": {
+    "**/.git": true
+  },
+  "//6": "ПОВЕРИТЕЛНОТО · правило 21. Тези изобщо не се отварят по невнимание.",
+  "files.readonlyInclude": {
+    "**/*.xlsx": true,
+    "**/*.pdf": true,
+    "kniga-lichna/**": true
+  },
+  "//7": "ТЕРМИНАЛЪТ · Git Bash по подразбиране, защото скриптовете са POSIX.",
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.scrollback": 20000,
+  "//8": "ЕЗИКЪТ НА КОДА е български на кирилица · правописът не бива да крещи.",
+  "cSpell.enabled": false,
+  "editor.rulers": [
+    100
+  ],
+  "editor.wordWrapColumn": 100,
+  "//9": "Vitest · тестовете се пускат от корена, не от app/.",
+  "vitest.rootConfig": "vitest.config.ts",
+  "vitest.disableWorkspaceWarning": true,
+  "github-actions.workflows.pinned.workflows": []
+}

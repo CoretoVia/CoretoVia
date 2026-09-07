@@ -1,0 +1,18 @@
+{
+  "//": "ДОБАВКИТЕ · препоръчани за ТОЗИ проект. VS Code ги предлага при отваряне.",
+  "recommendations": [
+    "biomejs.biome",
+    "vitest.explorer",
+    "ms-playwright.playwright",
+    "eamodio.gitlens",
+    "streetsidesoftware.code-spell-checker-bulgarian",
+    "anthropic.claude-code",
+    "usernamehw.errorlens",
+    "gruntfuggly.todo-tree"
+  ],
+  "unwantedRecommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "ms-vscode.vscode-typescript-next"
+  ]
+}

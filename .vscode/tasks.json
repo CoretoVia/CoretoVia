@@ -1,0 +1,115 @@
+{
+  "version": "2.0.0",
+  "//": "ЗАДАЧИТЕ · викат npm скриптовете, не ги преписват (правило 17).",
+  "tasks": [
+    {
+      "label": "ПОРТИТЕ · деветте (proverka)",
+      "type": "shell",
+      "command": "npm run proverka",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": [
+        "$tsc"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "ПРОХОДЪТ · истински Chromium (proba)",
+      "type": "shell",
+      "command": "npm run proba",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "ПРОХОДЪТ · два пъти поред",
+      "type": "shell",
+      "command": "npm run proba && npm run proba",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "типове (typecheck)",
+      "type": "shell",
+      "command": "npm run typecheck",
+      "problemMatcher": [
+        "$tsc"
+      ]
+    },
+    {
+      "label": "тестове · следене (test:watch)",
+      "type": "shell",
+      "command": "npm run test:watch",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "чистота",
+      "type": "shell",
+      "command": "npm run chistota",
+      "problemMatcher": []
+    },
+    {
+      "label": "честност",
+      "type": "shell",
+      "command": "npm run chestnost",
+      "problemMatcher": []
+    },
+    {
+      "label": "слоеве (sloeve)",
+      "type": "shell",
+      "command": "npm run sloeve",
+      "problemMatcher": []
+    },
+    {
+      "label": "лицензи",
+      "type": "shell",
+      "command": "npm run litsenzi",
+      "problemMatcher": []
+    },
+    {
+      "label": "думите му (dumi:proveri)",
+      "type": "shell",
+      "command": "npm run dumi:proveri",
+      "problemMatcher": []
+    },
+    {
+      "label": "строеж (build)",
+      "type": "shell",
+      "command": "npm run build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [
+        "$tsc"
+      ]
+    },
+    {
+      "label": "живо (dev)",
+      "type": "shell",
+      "command": "npm run dev",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "SBOM · CycloneDX",
+      "type": "shell",
+      "command": "npm sbom --sbom-format cyclonedx --sbom-type application --omit dev",
+      "problemMatcher": []
+    }
+  ]
+}

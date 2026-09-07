@@ -1,0 +1,59 @@
+{
+  "version": "0.2.0",
+  "//": "ПУСКАНЕ И РАЗНИЩВАНЕ · тестът и проходът, с прекъсвачи в кода.",
+  "configurations": [
+    {
+      "name": "Vitest · текущият файл",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": [
+        "run",
+        "${relativeFile}"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "smartStep": true,
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "Vitest · всички",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": [
+        "run"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "smartStep": true,
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "Проходът · с прекъсвачи",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/proba/prohod.ts",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "Обход · chistota",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/stroezh/chistota.mjs",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    }
+  ]
+}
