@@ -102,7 +102,7 @@
 
 | команда | файл | какво брои |
 | :---- | :---- | :---- |
-| `npm run chistota` | `stroezh/chistota.mjs` | **11 обхода** · шест с праг нула · два с праг над нула · три брояча |
+| `npm run chistota` | `stroezh/chistota.mjs` | **12 обхода** · седем с праг нула · два с праг над нула · три брояча |
 | `npm run chestnost` | `stroezh/chestnost.mjs` | единайсет дефекта на самите проверки |
 | `npm run litsenzi` | `stroezh/litsenzi.mjs` + `pozvoleni-litsenzi.json` | 202 пакета |
 | `npm run dumi:proveri` | `stroezh/dumi-ot-knigata.mjs` | 42 думи от Книгата |
