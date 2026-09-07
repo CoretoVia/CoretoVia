@@ -8,7 +8,9 @@
     "streetsidesoftware.code-spell-checker-bulgarian",
     "anthropic.claude-code",
     "usernamehw.errorlens",
-    "gruntfuggly.todo-tree"
+    "gruntfuggly.todo-tree",
+    "tomoki1207.pdf",
+    "rangav.vscode-thunder-client"
   ],
   "unwantedRecommendations": [
     "esbenp.prettier-vscode",
