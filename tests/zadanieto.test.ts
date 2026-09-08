@@ -66,7 +66,9 @@ describe('Заданието и кодът носят ЕДНИ И СЪЩИ не�
   it('Заданието изобщо се ЧЕТЕ · и в него ИМА инструкции', () => {
     // Обход, който не казва колко е видял, е зелен и когато не е гледал
     // (ADR-015 · обход Й). Затова първо се твърди обхватът.
-    expect(readdirSync(ZADANIE).filter((f) => f.endsWith('.md'))).toHaveLength(12);
+    // 08.09.2026: 12 → 13 · влезе zadanie/12-dopalneniya-08-09.md (двата пътя на
+    // парите — банка срещу въведено — и осемте нови неща за облика).
+    expect(readdirSync(ZADANIE).filter((f) => f.endsWith('.md'))).toHaveLength(13);
     expect(instruktsiiteVZadanieto().length).toBeGreaterThan(30);
     expect(instruktsiiteVKoda()).toHaveLength(42);
   });
