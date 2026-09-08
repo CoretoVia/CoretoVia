@@ -302,26 +302,72 @@ describe('кой РАЗДАВА Длъжности · негово, 05.09', () =
     expect(buton.zashto).toMatch(/Ти си Наблюдател/);
   });
 
+  /**
+   * ЗАДНАТА ВРАТА · и ЕДНА ПОПРАВКА НА САМИЯ ТЕСТ (08.09.2026).
+   *
+   * Дотук тук стоеше Наблюдател и се твърдеше, че той МОЖЕ да поправи телефон
+   * („него го поправя всеки, който пише редове"). Но Наблюдателят има
+   * `redove: „Вижда само всичко"` — той НЕ пише редове. Твърдението минаваше
+   * само защото Портата изобщо не питаше оста „редове" (находка Т2 от одита).
+   * Тоест тестът пазеше ДУПКАТА като очаквано поведение.
+   *
+   * Сега актьорът е Служител с ПИСМЕНО дадено право над редовете — той минава
+   * оста и стига до истинския въпрос: раздава ли Длъжности. Задната врата се
+   * проверява там, където изобщо може да бъде отворена.
+   */
   it('ЗАДНАТА врата е затворена · Длъжност не се пише и през клетката', async () => {
     const { iz, zapishi, stani } = await otvori();
+    // Длъжност „Служител", на която Стопанинът ПИСМЕНО дава редовете
+    await zapishi('d1', 'sluzhiteli.dobaviDlazhnost', {
+      kletki: {
+        dlazhnost: { nomer: DLAZHNOST.sluzhitel },
+        tabove: { tekst: 'Вижда всичко' },
+        hedari: { tekst: 'Редактира всичко' },
+        redove: { tekst: 'Редактира всичко' },
+        zhurnal: { tekst: 'Вижда само всичко' },
+      },
+    });
     await zapishi(
       's1',
+      'sluzhiteli.dobaviSluzhitel',
+      chovek('Редакторът', 'redaktor@example.bg', DLAZHNOST.sluzhitel),
+    );
+    const id = iz.ogledalo().tablitsi.get('sluzhiteli')!.id[0]!;
+    stani('redaktor@example.bg');
+    const popravka = (kletki: Record<string, unknown>) =>
+      iz.probvay('x1', 'red.popraviKletka', { tablitsa: 'sluzhiteli', id, kletki });
+
+    // минава оста „редове" · телефонът НЕ е раздаване
+    expect(eOtkaz(popravka({ telefon: { tekst: '0888 000 001' } }))).toBe(false);
+    // но Длъжност не се пише и през клетката
+    expect(dumiteNaOtkaza(popravka({ dlazhnost: { nomer: DLAZHNOST.upravitel } }))).toMatch(
+      /Длъжности се раздават/,
+    );
+    // махането на човек също раздава достъп (маха го)
+    expect(
+      dumiteNaOtkaza(iz.probvay('x2', 'red.izklyuchi', { tablitsa: 'sluzhiteli', id })),
+    ).toMatch(/Длъжности се раздават/);
+  });
+
+  it('НАБЛЮДАТЕЛЯТ не пише НИЩО · оста „редове" го спира преди всичко', async () => {
+    const { iz, zapishi, stani } = await otvori();
+    await zapishi(
+      's2',
       'sluzhiteli.dobaviSluzhitel',
       chovek('Наблюдателят', 'nablyudatel@example.bg', DLAZHNOST.nablyudatel),
     );
     const id = iz.ogledalo().tablitsi.get('sluzhiteli')!.id[0]!;
     stani('nablyudatel@example.bg');
-    const popravka = (kletki: Record<string, unknown>) =>
-      iz.probvay('x1', 'red.popraviKletka', { tablitsa: 'sluzhiteli', id, kletki });
-    expect(dumiteNaOtkaza(popravka({ dlazhnost: { nomer: DLAZHNOST.upravitel } }))).toMatch(
-      /Длъжности се раздават/,
-    );
-    // телефонът не е раздаване · него го поправя всеки, който пише редове
-    expect(eOtkaz(popravka({ telefon: { tekst: '0888 000 001' } }))).toBe(false);
-    // махането на човек също раздава достъп (маха го)
+    // дори телефон · неговото право е „Вижда само всичко"
     expect(
-      dumiteNaOtkaza(iz.probvay('x2', 'red.izklyuchi', { tablitsa: 'sluzhiteli', id })),
-    ).toMatch(/Длъжности се раздават/);
+      dumiteNaOtkaza(
+        iz.probvay('x3', 'red.popraviKletka', {
+          tablitsa: 'sluzhiteli',
+          id,
+          kletki: { telefon: { tekst: '0888 000 002' } },
+        }),
+      ),
+    ).toMatch(/само гледаш редовете/);
   });
 
   it('раздаването се ПОЗНАВА по таблицата и по колоните', () => {
@@ -330,5 +376,81 @@ describe('кой РАЗДАВА Длъжности · негово, 05.09', () =
     expect(razdavaDostap('stopani', ['ime', 'dlazhnost'])).toBe(true);
     expect(razdavaDostap('sluzhiteli', ['telefon', 'adres'])).toBe(false);
     expect(razdavaDostap('zadachi', ['dlazhnost'])).toBe(false);
+  });
+});
+
+/**
+ * ВРАТАТА НА РЕДОВЕТЕ · находка Т2 от одита на 08.09.2026.
+ *
+ * До днес оста „редове" се питаше САМО от `app/reshetka/redaktsiya.ts`. Портата
+ * не я питаше изобщо — тоест служител „Вижда само", който извика командата ПРЕЗ
+ * Портата вместо през клетката, ЗАПИСВАШЕ.
+ *
+ * К2 казва „Портата е една". Беше вярно за ПЪТЯ и невярно за ПРАВОТО.
+ */
+describe('ВРАТАТА НА РЕДОВЕТЕ · Портата пита правото, не само екранът', () => {
+  const NIKOY = 'nikoy@example.bg';
+  const DUMITE = /само гледаш редовете/;
+  const dumiteNaOtkaza = (r: unknown): string =>
+    eOtkaz(r) ? r.zashto.join(' ') : 'мина, а не биваше';
+
+  it('човек без Длъжност НЕ поправя клетка през Портата', async () => {
+    const { iz, stani } = await otvori();
+    stani(NIKOY);
+    const r = iz.probvay('x1', 'red.popraviKletka', {
+      tablitsa: 'obekti',
+      id: 'obekt:k3',
+      kletki: { tsena: { stoynost_st: 1 } },
+    });
+    expect(eOtkaz(r)).toBe(true);
+    expect(dumiteNaOtkaza(r)).toMatch(DUMITE);
+  });
+
+  it('и НЕ добавя ред · вратата е на ФАБРИКАТА, не на една команда', async () => {
+    const { iz, stani } = await otvori();
+    stani(NIKOY);
+    const r = iz.probvay('x2', 'imoti.sazdayImot', { kletki: {} });
+    expect(eOtkaz(r)).toBe(true);
+    expect(dumiteNaOtkaza(r)).toMatch(DUMITE);
+  });
+
+  it('и НЕ изключва ред', async () => {
+    const { iz, stani } = await otvori();
+    stani(NIKOY);
+    const r = iz.probvay('x3', 'red.izklyuchi', { tablitsa: 'obekti', id: 'obekt:k3' });
+    expect(eOtkaz(r)).toBe(true);
+    expect(dumiteNaOtkaza(r)).toMatch(DUMITE);
+  });
+
+  it('правото се пита ПРЕДИ товара · отказът не издава дали редът съществува', async () => {
+    // Портата пита `koyMozhe` преди схемата и преди предусловията
+    // (`izpalnenie.ts:34`). Значи „Вижда само" получава ЕДИН отговор — своя —
+    // а не разказ за това какви редове има в чужда книга.
+    const { iz, stani } = await otvori();
+    stani(NIKOY);
+    const r = iz.probvay('x4', 'red.popraviKletka', {
+      tablitsa: 'obekti',
+      id: 'нямаго',
+      kletki: {},
+    });
+    // ЕДИН отговор, не разказ: правото се пита ПРЕДИ схемата и предусловията
+    expect(dumiteNaOtkaza(r).split(' · ')).toHaveLength(2);
+    expect(dumiteNaOtkaza(r)).toMatch(DUMITE);
+  });
+
+  it('СТОПАНИНЪТ минава · инак тестът щеше да доказва само, че всички падат', async () => {
+    const { iz } = await otvori();
+    const r = iz.probvay('x5', 'imoti.sazdayImot', {
+      kletki: {
+        ime: { tekst: 'Проба' },
+        sastoyanie: { nomer: 2 },
+        nomer: null,
+        plosht: null,
+        tsena: null,
+        papka: null,
+        adres: null,
+      },
+    });
+    expect(eOtkaz(r)).toBe(false);
   });
 });

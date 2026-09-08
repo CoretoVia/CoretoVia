@@ -22,7 +22,13 @@ import { zhiviteRedove } from '../src/ogledalo/tablitsa.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import { izpalniPredlozheniyata } from '../src/porta/vnasyane.js';
 import { nomerNaRed, tekstNaNomera } from '../src/smetach/nomeratsiya.js';
-import { KNIGA, knigaZaTest, STOPANIN, VERIGA_NA_SLUZHITEL } from './pomoshtni.js';
+import {
+  dayPravoNadRedove,
+  KNIGA,
+  knigaZaTest,
+  STOPANIN,
+  VERIGA_NA_SLUZHITEL,
+} from './pomoshtni.js';
 import { MOSTRA } from './mostri/mostra-kniga.js';
 
 const KOGATO = '2026-09-05T15:00:00.000Z';
@@ -491,6 +497,8 @@ describe('променена Книга', () => {
           tsena: { stoynost_st: 100 },
         },
       });
+      // Портата пита оста „редове" (Т2) · човек без Длъжност не пише
+      await dayPravoNadRedove(r.iz, 'sluzhitel@example.bg');
       return r;
     })();
     const l = listove(iz);

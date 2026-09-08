@@ -15,7 +15,13 @@ import { poNomer } from '../src/model/nomenklatura.js';
 import { redKato, zhiviteRedove } from '../src/ogledalo/tablitsa.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import { nomerNaRed, tekstNaNomera } from '../src/smetach/nomeratsiya.js';
-import { KNIGA, knigaZaTest, STOPANIN, VERIGA_NA_SLUZHITEL } from './pomoshtni.js';
+import {
+  dayPravoNadRedove,
+  KNIGA,
+  knigaZaTest,
+  STOPANIN,
+  VERIGA_NA_SLUZHITEL,
+} from './pomoshtni.js';
 
 async function otvori() {
   const k = knigaZaTest();
@@ -651,6 +657,8 @@ describe('два раздела · и втора верига', () => {
 
   it('служителят пише в своята верига · и сторнира събитие от веригата на Стопанина', async () => {
     const { k, iz } = await nachalo();
+    // Портата пита оста „редове" (Т2) · човек без Длъжност не пише
+    await dayPravoNadRedove(iz, 'sluzhitel@example.bg');
     let takt = 300;
     const sluzhitel = await Izpalnitel.otvori({
       vrata: k.vrata,

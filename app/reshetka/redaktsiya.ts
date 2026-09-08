@@ -21,7 +21,7 @@ import type { Ogledalo } from '../../src/ogledalo/ogledalo.js';
 import { redKato, zhiviteRedove } from '../../src/ogledalo/tablitsa.js';
 import { imeNaReda } from '../../src/smetach/kletki.js';
 import { nomerNaRed, tekstNaNomera } from '../../src/smetach/nomeratsiya.js';
-import { pravotoNaImeyla } from '../../src/smetach/pravo.js';
+import { zashtoNeRedaktiraRedove } from '../../src/smetach/pravo.js';
 import { dumiZaGreshka } from '../../src/yadro/dumi.js';
 import { otSuma, pishiVPole } from '../../src/yadro/pari.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
@@ -178,13 +178,15 @@ export function zakachiRedaktsiya(koren: HTMLElement, k: KonteksNaEkrana): void 
     const beleg = razlozhiBeleg(td.dataset['redakt'] ?? '');
     if (beleg === null) return;
     const o = k.porta.ogledalo();
-    // ПРАВОТО стеснява преди полето да се отвори: оста „достъп до Секци Редове"
-    // на неговата Длъжност (правило 23 · ADR-050 · отказът се КАЗВА)
-    if (pravotoNaImeyla(o, k.aktor(), 'redove') !== 'redaktira') {
-      pokazhiGreshka(
-        k.tyalo,
-        'Ти само гледаш редовете · правото е на Длъжността ти (лист Служители).',
-      );
+    // ПРАВОТО стеснява преди полето да се отвори: оста „достъп до Секции Редове"
+    // на неговата Длъжност (правило 18 · ADR-050 · отказът се КАЗВА).
+    //
+    // Проверката и ДУМИТЕ живеят в `pravo.ts`, не тук: от 08.09 същата врата
+    // стои и на Портата (`red.ts · vratataNaRedovete`), а два дома на един
+    // отказ значат два различни отказа за едно и също (правило 14).
+    const zashtoNe = zashtoNeRedaktiraRedove(o, k.aktor());
+    if (zashtoNe !== null) {
+      pokazhiGreshka(k.tyalo, zashtoNe);
       return;
     }
     const t = tablitsata(MODEL, beleg.tablitsa);

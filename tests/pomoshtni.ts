@@ -98,3 +98,51 @@ export function knigaZaTest(): KnigaZaTest {
     sabitiya: (veriga = KNIGA) => dnevnik.chetiVsichki(veriga),
   };
 }
+
+/** Номерата на Длъжностите · както са в номенклатурата на Модела. */
+export const DLAZHNOST = Object.freeze({
+  stopanin: 1,
+  upravitel: 2,
+  pomoshtnik: 3,
+  sluzhitel: 4,
+  nablyudatel: 5,
+});
+
+/**
+ * Дава на един имейл Длъжност, която ПИШЕ редове · и защо е нужно.
+ *
+ * От 08.09.2026 Портата пита оста „редове" от Длъжността (находка Т2 на одита).
+ * Дотогава тя не я питаше и всеки актьор минаваше — тоест тестове, чийто актьор
+ * няма Длъжност, се пишеха, без да се забележи, че такъв човек по МОДЕЛ не пише
+ * редове („човек без ред ВИЖДА, но не редактира").
+ *
+ * Затова настройката живее на ЕДНО място (правило 14): тест, който изследва
+ * ВЕРИГИ или СВЕРКИ, не бива да носи копие от правилата за правото.
+ *
+ * Дава се Длъжност „Служител" с ПИСМЕНО право над редовете — базовият ѝ ред в
+ * `osnova.ts` дава само „Вижда само редовете с негови задачи".
+ */
+export async function dayPravoNadRedove(
+  iz: { izpalni: (id: string, klyuch: string, tovar: unknown) => Promise<unknown> },
+  imeyl: string,
+  belegZaId = 'pravo',
+): Promise<void> {
+  await iz.izpalni(`${belegZaId}-d`, 'sluzhiteli.dobaviDlazhnost', {
+    kletki: {
+      dlazhnost: { nomer: DLAZHNOST.sluzhitel },
+      tabove: { tekst: 'Вижда всичко' },
+      hedari: { tekst: 'Редактира всичко' },
+      redove: { tekst: 'Редактира всичко' },
+      zhurnal: { tekst: 'Вижда само всичко' },
+    },
+  });
+  await iz.izpalni(`${belegZaId}-s`, 'sluzhiteli.dobaviSluzhitel', {
+    kletki: {
+      ime: { tekst: 'Служителят' },
+      telefon: null,
+      imeyl: { tekst: imeyl },
+      adres: null,
+      dlazhnost: { nomer: DLAZHNOST.sluzhitel },
+    },
+  });
+}

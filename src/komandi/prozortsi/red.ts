@@ -29,7 +29,12 @@ import { kolonaNa, type Tablitsa } from '../../model/tablitsa.js';
 import { kletkaNa, redKato, zhiviteRedove } from '../../ogledalo/tablitsa.js';
 import { proveriTovar, TIP } from '../../sabitiya/registar.js';
 import { dumiNaKletka, imeNaReda } from '../../smetach/kletki.js';
-import { mozheDaRazdavaDlazhnosti, razdavaDostap, zashtoNeRazdava } from '../../smetach/pravo.js';
+import {
+  mozheDaRazdavaDlazhnosti,
+  razdavaDostap,
+  zashtoNeRazdava,
+  zashtoNeRedaktiraRedove,
+} from '../../smetach/pravo.js';
 import {
   nomerNaRed,
   nomerOtKletki,
@@ -318,6 +323,29 @@ export interface OshteZaNovRed {
   readonly otIzbora?: (izbran: Izbran, k: Kontekst) => TovarNovRed | null;
 }
 
+/**
+ * ВРАТАТА НА РЕДОВЕТЕ · оста „редове" от Длъжността, питана от ПОРТАТА.
+ *
+ * ═══ РЕДЪТ НА ДВАТА ВЪПРОСА · платен с два червени теста ═══
+ *
+ * Композира се със собствения `koyMozhe` на командата, ако има такъв. И питаме
+ * СПЕЦИФИЧНИЯ ПЪРВИ, не оста.
+ *
+ * Първият ми ред беше обратният, с довода „правото само СТЕСНЯВА (правило 18),
+ * значи най-тясното пита пръв". Два съществуващи теста паднаха и бяха ПРАВИ:
+ * наблюдател, който иска да раздаде Длъжност, чуваше „ти само гледаш редовете"
+ * вместо „Длъжности се раздават от Управител".
+ *
+ * И двата отказа са ВЕРНИ — той няма нито едното право. Но правило 18 нарежда
+ * ПРАВОТО, не СЪОБЩЕНИЕТО, а правило 12 иска отказът да КАЗВА нещо полезно.
+ * По-конкретната причина води човека към действие; общата го оставя да гадае.
+ */
+function vratataNaRedovete(
+  sobstven?: (k: Kontekst) => string | null,
+): (k: Kontekst) => string | null {
+  return (k) => sobstven?.(k) ?? zashtoNeRedaktiraRedove(k.ogledalo, k.aktor);
+}
+
 /** Родовата команда „нов ред" · таблицата и неговите имена на бутона идват отвън. */
 export function komandaZaNovRed(
   tablitsa: string,
@@ -334,7 +362,7 @@ export function komandaZaNovRed(
     prozortsi: [t.prozorets],
     stepen: 'pishe',
     myasto: oshte.myasto ?? 'buton',
-    ...(oshte.koyMozhe === undefined ? {} : { koyMozhe: oshte.koyMozhe }),
+    koyMozhe: vratataNaRedovete(oshte.koyMozhe),
     ...(oshte.otIzbora === undefined
       ? {}
       : { otIzbora: oshte.otIzbora, otvaryaChernova: true as const }),
@@ -433,6 +461,7 @@ const popraviKletka: Komanda<TovarPopravka> = {
   prozortsi: PROZORTSI_S_TABLITSI,
   stepen: 'pishe',
   myasto: 'kletka',
+  koyMozhe: vratataNaRedovete(),
   proizvezhda: [TIP.redZapisan],
   shema: strogObekt({
     tablitsa: TABLITSA,
@@ -550,6 +579,7 @@ function komandaZaIzklyuchvane(izklyuchen: boolean): Komanda<TovarRed> {
     prozortsi: PROZORTSI_S_TABLITSI,
     stepen: 'pishe',
     myasto: 'desen-buton',
+    koyMozhe: vratataNaRedovete(),
     proizvezhda: [TIP.redIzklyuchen],
     shema: strogObekt({ tablitsa: TABLITSA, id: ID }),
     otIzbora: (izbran: Izbran) => ({ tablitsa: izbran.tablitsa, id: izbran.id }),
