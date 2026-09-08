@@ -18,7 +18,7 @@
  */
 
 import type { Strana } from '../model/kolona.js';
-import { podravni, poTekst, zhivite } from '../model/nomenklatura.js';
+import { podravni, poTekst } from '../model/nomenklatura.js';
 import { NOMENKLATURA } from '../model/osnova.js';
 import type { Ogledalo } from '../ogledalo/ogledalo.js';
 import { kletkaNa, zhiviteRedove } from '../ogledalo/tablitsa.js';
@@ -73,6 +73,13 @@ export interface Sektsiya {
   readonly redove: readonly RedVSektsiya[];
   /** цели центове · със знака, както е записан */
   readonly sbor: number;
+  /**
+   * СПРЯНА от Настройки · но редовете ѝ ПАК СЕ СМЯТАТ (правило 18).
+   *
+   * Спирането маха стойността от ИЗБОРА за нови редове, не от миналото.
+   * Екранът я рисува с „· спряна", а сборът я брои — инак пари изчезват.
+   */
+  readonly spryana: boolean;
 }
 
 export interface Smetki {
@@ -136,16 +143,32 @@ export function smetkite(
   const sektsiiteNa = (strana: Strana): Sektsiya[] => {
     const n = o.nomenklaturi.get(NOMENKLATURA_NA_STRANATA[strana]);
     if (n === undefined) return [];
-    return zhivite(n).map((s) => {
-      const redove = poSektsiya.get(`${strana}#${s.nomer}`) ?? [];
-      return {
-        strana,
-        nomer: s.nomer,
-        tekst: s.tekst,
-        redove,
-        sbor: redove.reduce((a, r) => a + r.suma_st, 0),
-      };
-    });
+    /**
+     * ВСИЧКИ стойности, не само живите · поправка 08.09.2026.
+     *
+     * Дотук се вървеше по `zhivite(n)`. Спряна секция тогава изобщо не се
+     * раждаше, а редовете ѝ вече бяха отбелязани с `namerena = true` (клетката
+     * ИМА номер) и затова не падаха и в `bezSektsiya`. Резултатът: движение в
+     * спряна секция изчезваше от `sborPrihod`/`sborRazhod` И от изнесената
+     * Книга — мълчаливо, с разписка, която го брои за изнесен.
+     *
+     * Правило 18 казва обратното с четири думи: „скритото пак се смята".
+     *
+     * Спряна секция БЕЗ редове не се ражда — тя е шум, не история.
+     */
+    return n.stoynosti
+      .map((s) => {
+        const redove = poSektsiya.get(`${strana}#${s.nomer}`) ?? [];
+        return {
+          strana,
+          nomer: s.nomer,
+          tekst: s.tekst,
+          redove,
+          sbor: redove.reduce((a, r) => a + r.suma_st, 0),
+          spryana: s.spryana === true,
+        };
+      })
+      .filter((sek) => !sek.spryana || sek.redove.length > 0);
   };
   const prihod = sektsiiteNa('prihod');
   const razhod = sektsiiteNa('razhod');

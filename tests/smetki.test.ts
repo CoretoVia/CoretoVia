@@ -230,6 +230,57 @@ describe('секциите и сборовете', () => {
     expect(s.sverka.nared).toBe(true);
   });
 
+  /**
+   * СПРЯНА СЕКЦИЯ · находка Т1 от одита на 08.09.2026.
+   *
+   * Дотук `sektsiiteNa` вървеше по `zhivite(n)`. Спряна секция изобщо не се
+   * раждаше, а редовете ѝ вече носеха `namerena = true` и затова не падаха и в
+   * `bezSektsiya`. Резултатът: парите ИЗЧЕЗВАХА от сбора и от изнесената Книга,
+   * мълчаливо. Правило 18 казва обратното: „скритото пак се смята".
+   */
+  it('СПРЯНА секция пак се смята · парите не изчезват (правило 18)', async () => {
+    const { iz, zapishi, naem } = await sDvizheniya();
+    const predi = smetkite(iz.ogledalo(), KOGATO);
+    expect(predi.sborPrihod).toBe(200000);
+
+    await zapishi('sp1', 'nastroyki.spriStoynost', {
+      nomenklatura: NOMENKLATURA.sektsiiPrihod,
+      nomer: naem,
+      belezi: {},
+    });
+
+    const sled = smetkite(iz.ogledalo(), KOGATO);
+    // ЕДИНСТВЕНОТО, което има значение: числото за подпис не мърда.
+    expect(sled.sborPrihod).toBe(200000);
+    expect(sled.rezultat).toBe(predi.rezultat);
+    // и редовете не са се разпилели никъде другаде
+    expect(sled.bezSektsiya).toEqual([]);
+    expect(sled.broyDvizheniya).toBe(4);
+    expect(sled.sverka.nared).toBe(true);
+
+    const spryanata = sled.prihod.find((s) => s.nomer === naem);
+    expect(spryanata, 'спряната секция изчезна от изгледа').toBeDefined();
+    expect(spryanata?.spryana).toBe(true);
+    expect(spryanata?.redove).toHaveLength(2);
+    expect(spryanata?.sbor).toBe(200000);
+  });
+
+  it('спряна секция БЕЗ редове не се рисува · тя е шум, не история', async () => {
+    const { iz, zapishi } = await sDvizheniya();
+    const praznata = nomerNaSektsiya(iz.ogledalo(), 'prihod', 'Бизнес')!;
+    expect(smetkite(iz.ogledalo(), KOGATO).prihod.some((s) => s.nomer === praznata)).toBe(true);
+
+    await zapishi('sp2', 'nastroyki.spriStoynost', {
+      nomenklatura: NOMENKLATURA.sektsiiPrihod,
+      nomer: praznata,
+      belezi: {},
+    });
+
+    const sled = smetkite(iz.ogledalo(), KOGATO);
+    expect(sled.prihod.some((s) => s.nomer === praznata)).toBe(false);
+    expect(sled.sborPrihod).toBe(200000);
+  });
+
   it('периодът пресява по месец · сверката пак затваря', async () => {
     const { iz, zapishi, naem } = await sDvizheniya();
     await zapishi(
