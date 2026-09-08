@@ -10,7 +10,7 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { MODEL } from '../src/model/osnova.js';
+import { MODEL, OSI_NA_DOSTAPA } from '../src/model/osnova.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import { eOtkaz } from '../src/komandi/izpalnenie.js';
 import {
@@ -21,6 +21,7 @@ import {
   DUMI_NA_PRAVOTO,
   mozheDaRazdavaDlazhnosti,
   mozheDaRedaktira,
+  obhvatatPokriva,
   obhvatOtDumite,
   poTyasnoto,
   PRAVA,
@@ -164,11 +165,55 @@ describe('правото на един ЧОВЕК', () => {
     expect(mozheDaRedaktira(o, STOPANIN, 'Заплати Кеш')).toBe(true);
   });
 
-  it('човек без ред ВИЖДА, но не редактира · най-тясното, което върши работа', async () => {
+  /**
+   * Т41 · Т34 · ТОЗИ ТЕСТ ПАЗЕШЕ ДУПКАТА.
+   *
+   * Дотук той твърдеше „човек без ред ВИЖДА · най-тясното, което върши работа"
+   * и искаше `'vizhda'`. И двете бяха неверни:
+   *
+   *  · по СОБСТВЕНАТА константа `PRAVA` най-тясното е `'skrito'`, не `'vizhda'`
+   *    (правило 23 — „най-тясното печели");
+   *  · заради него УВОЛНЕНИЕТО работеше наопаки: изключиш ли реда на служителя,
+   *    правото му по ВСИЧКИТЕ четири оси СТАВАШЕ „Вижда".
+   *
+   * Негово, 08.09.2026: „Лицата са ЗАПЛАХА, ако не са поканени с длъжност."
+   */
+  it('човек без Длъжност е СКРИТ по четирите оси · подразбирането е ОТКАЗ', async () => {
     const { iz } = await otvori();
     const o = iz.ogledalo();
-    expect(pravotoNaImeyla(o, 'nikoy@example.bg', 'redove')).toBe('vizhda');
+    for (const os of OSI_NA_DOSTAPA) {
+      expect(pravotoNaImeyla(o, 'nikoy@example.bg', os)).toBe('skrito');
+    }
     expect(mozheDaRedaktira(o, 'nikoy@example.bg', 'Заплати Кеш')).toBe(false);
+  });
+
+  /**
+   * Т28 · ПРЕИМЕНУВАНЕТО РАЗДАВАШЕ ПРАВО · доказано с изпълнение на 08.09.
+   *
+   * Сравнението беше `obhvat.includes(duma)` — СЪДЪРЖАНЕ НА ПОДНИЗ. Обхватът на
+   * Помощника е „хедъри: Заплати, Фактури Кеш, Фактури Карта", тъй че секция на
+   * име „Кеш" даваше `true`, защото „кеш" се съдържа във „фактури кеш".
+   * А секции се раждат от Настройки.
+   */
+  it('Т28 · секция „Кеш" НЕ отваря право · подниз не е дума', async () => {
+    const obhvat = 'хедъри: заплати, фактури кеш, фактури карта';
+    // неговият стенопис ОЦЕЛЯВА · „Заплати" отваря „Заплати Кеш"
+    expect(obhvatatPokriva(obhvat, 'Заплати Кеш')).toBe(true);
+    expect(obhvatatPokriva(obhvat, 'Фактури Кеш')).toBe(true);
+    expect(obhvatatPokriva(obhvat, 'Фактури Карта')).toBe(true);
+    // а ескалацията пада · нито едно име от списъка не се побира в тези
+    expect(obhvatatPokriva(obhvat, 'Кеш')).toBe(false);
+    expect(obhvatatPokriva(obhvat, 'Фактури')).toBe(false);
+    expect(obhvatatPokriva(obhvat, 'Хедъри')).toBe(false);
+    expect(obhvatatPokriva(obhvat, 'Кредити')).toBe(false);
+  });
+
+  /** Т30 · `[].every(...)` е `true` · празната истина отваряше право. */
+  it('Т30 · празният хедър НЕ отваря · празната истина е отказ', async () => {
+    const obhvat = 'хедъри: заплати, фактури кеш, фактури карта';
+    expect(obhvatatPokriva(obhvat, '')).toBe(false);
+    expect(obhvatatPokriva(obhvat, '   ')).toBe(false);
+    expect(obhvatatPokriva(obhvat, ',,')).toBe(false);
   });
 
   it('ДВЕ Длъжности на един човек · важи НАЙ-ТЯСНАТА (правило 23)', async () => {
