@@ -26,6 +26,8 @@ export interface KonteksNaEkrana {
    * тревога — но пак се казва, инак находката не се различава от тишината.
    */
   kotvata(): { readonly nared: boolean; readonly dumi: string };
+  /** Самоличността на устройството · или причината защо я няма (ADR-024 §1). */
+  samolichnostta(): { readonly nared: boolean; readonly dumi: string };
   proveriVerigata(): Promise<string>;
   /** SHA-256 на качен файл · за отпечатъка на внесената Книга · само коренът държи хеша */
   otpechatakNaBaytove(baytove: ArrayBuffer): Promise<string>;

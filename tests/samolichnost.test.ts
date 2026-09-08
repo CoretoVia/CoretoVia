@@ -13,6 +13,7 @@ import 'fake-indexeddb/auto';
 import { describe, expect, it } from 'vitest';
 import {
   BELEG_NA_OTPECHATAK,
+  BEZ_SAMOLICHNOST,
   NASTAVKA_LICHNO,
   ZNATSI_V_OTPECHATAKA,
   eLichnaVeriga,
@@ -71,6 +72,15 @@ describe('константите са ПИН С РЪКА · адресът е В
 
   it('наставката е точно „~lichno" · ADR-024 §2', () => {
     expect(NASTAVKA_LICHNO).toBe('~lichno');
+  });
+
+  it('„без самоличност" НИКОГА не може да е нечия лична верига', () => {
+    expect(BEZ_SAMOLICHNOST).toBe('bez-samolichnost');
+    // Очакваното е ДОСЛОВНО, не построено от същите константи: инак тестът се
+    // мести заедно с кода и доказва само, че две еднакви неща са еднакви
+    // (обход А на честността го хвана точно тук).
+    expect(eOtpechatak('bez-samolichnost')).toBe(false);
+    expect(eLichnaVeriga('bez-samolichnost~lichno')).toBe(false);
   });
 });
 

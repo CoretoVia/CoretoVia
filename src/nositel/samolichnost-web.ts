@@ -33,7 +33,7 @@
  */
 
 import type { ProveriPodpis, Samolichnost } from '../yadro/samolichnost.js';
-import { otpechatakOtHesh } from '../yadro/samolichnost.js';
+import { BEZ_SAMOLICHNOST, otpechatakOtHesh } from '../yadro/samolichnost.js';
 import { sha256NaBaytove } from './hash-web.js';
 
 const ALGORITAM = 'Ed25519';
@@ -160,3 +160,34 @@ export const proveriPodpisVBrauzara: ProveriPodpis = async (publichen, kakvo, po
     return false;
   }
 };
+
+/** Какво да се покаже на човека за самоличността му. */
+export interface SamolichnosttaKazva {
+  /** отпечатъкът, или `BEZ_SAMOLICHNOST`, ако няма как да се направи ключ */
+  readonly otpechatak: string;
+  readonly nared: boolean;
+  readonly dumi: string;
+}
+
+/**
+ * Самоличността, ИЛИ причината защо я няма · същият образец като `kotvataKazva`.
+ *
+ * Приложението не бива да не тръгне, защото е отворено на несигурен адрес:
+ * служебната книга не иска ключ. Но лична верига тогава НЕ се пише, и това се
+ * КАЗВА с думи (правило 12), вместо да се откаже мълчаливо или — по-лошо — да
+ * се разреши.
+ */
+export async function samolichnosttaKazva(imeNaBazata: string): Promise<SamolichnosttaKazva> {
+  try {
+    const s = await samolichnostVBrauzara(imeNaBazata);
+    const otpechatak = await s.otpechatak();
+    return { otpechatak, nared: true, dumi: `самоличност: ${otpechatak}` };
+  } catch (e) {
+    const prichina = e instanceof Error ? e.message : String(e);
+    return {
+      otpechatak: BEZ_SAMOLICHNOST,
+      nared: false,
+      dumi: `Няма самоличност на това устройство, тъй че ЛИЧНА книга не се пише. ${prichina}`,
+    };
+  }
+}

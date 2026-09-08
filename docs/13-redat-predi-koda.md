@@ -107,9 +107,9 @@
 | `npm run litsenzi` | `stroezh/litsenzi.mjs` + `pozvoleni-litsenzi.json` | 202 пакета |
 | `npm run dumi:proveri` | `stroezh/dumi-ot-knigata.mjs` | 42 думи от Книгата |
 | `npm run sloeve` | `.dependency-cruiser.cjs` | посоката на зависимостите |
-| `npm run proba` | `proba/prohod.ts` + `proba/razdeli/` | 229 стъпки през истински браузър |
+| `npm run proba` | `proba/prohod.ts` + `proba/razdeli/` | **232 стъпки** през истински браузър |
 | `npm run mostra` | `stroezh/mostra-kniga.mjs` | генерира мострата · **не се вика от строежа** |
-| тестовете | `tests/*.ts` · **57 файла** | 481 теста |
+| тестовете | `tests/*.ts` · **59 файла** | **518 теста** |
 
 ---
 
@@ -610,7 +610,7 @@ npm run proverka
 | `litsenzi` | ✔ 202 пакета · нула извън списъка |
 | `dumi:proveri` | ✔ 42 думи = 42 · разлика 0 |
 | `stil` | ✔ 205 файла |
-| `proba` | ✔ 229 стъпки · нула находки · пуснат два пъти поред |
+| `proba` | ✔ **232 стъпки** · нула находки · пуснат два пъти поред |
 
 ### 10.1 · „Без мъртъв код и дублиран такъв" · къде сме НАИСТИНА
 

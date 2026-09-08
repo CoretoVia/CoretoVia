@@ -10,6 +10,7 @@ import type { KlyuchNaProzorets } from '../src/model/klyuchove.js';
 import { MODEL, PROZORTSI } from '../src/model/osnova.js';
 import { otvoriDnevnik } from '../src/nositel/dnevnik-indexeddb.js';
 import { sha256NaBaytove, sha256Web } from '../src/nositel/hash-web.js';
+import { samolichnosttaKazva } from '../src/nositel/samolichnost-web.js';
 import {
   klyuchalkaMezhduRazdeli,
   kolkoMyasto,
@@ -20,9 +21,10 @@ import { TIP } from '../src/sabitiya/registar.js';
 import {
   KotvaVLocalStorage,
   kotvataKazva,
+  LichnoESamoTvoe,
+  NASTAVKA_LICHNO,
   proveriVerigata,
   Vrata,
-  VsichkoRazresheno,
 } from '../src/yadro/index.js';
 import type { KonteksNaEkrana } from './kontekst.js';
 import { narisuvayProzorets } from './prozorets/prozortsite.js';
@@ -43,9 +45,23 @@ async function main(): Promise<void> {
   // без нея Вратата пак върви — с опашка в рамките на този раздел.
   const klyuchalka = klyuchalkaMezhduRazdeli();
   const kotva = new KotvaVLocalStorage('coretovia:kotva');
+
+  /**
+   * САМОЛИЧНОСТТА · свой ключ на устройството (ADR-024 §1).
+   *
+   * Своя база, не тази на Журнала: онази е на версия 1 и всяка нейна промяна е
+   * миграция върху единственото място, в което живеят парите.
+   *
+   * Отпечатъкът заменя `VsichkoRazresheno`. Днес това НЕ мени нищо видимо —
+   * лична верига още няма, а `LichnoESamoTvoe` пуска всяка верига, която не
+   * завършва на наставката. Но в мига, в който първата лична верига се роди,
+   * границата вече е на място, вместо да се добавя после върху написани
+   * събития (правило 1 не прощава закъснели огради).
+   */
+  const samolichnostta = await samolichnosttaKazva(`${KNIGA}:samolichnost`);
   const vrata = new Vrata({
     dnevnik,
-    pravata: new VsichkoRazresheno(),
+    pravata: new LichnoESamoTvoe(NASTAVKA_LICHNO, () => samolichnostta.otpechatak),
     sha: sha256Web,
     kotva,
     ...(klyuchalka ? { klyuchalka } : {}),
@@ -105,6 +121,7 @@ async function main(): Promise<void> {
       zapomniEkranno(PAMET_AKTOR, imeyl);
     },
     kotvata: () => dumiteZaKotvata,
+    samolichnostta: () => samolichnostta,
     hranilishte: () =>
       `постоянство: ${hranilishte.postoyanstvo} · заето: ${kolkoMyasto(
         hranilishte.zaeto,

@@ -75,6 +75,7 @@ export function narisuvayProfil(k: KonteksNaEkrana): void {
       <h2>Хранилището</h2>
       <p data-hranilishte>${k.hranilishte()}</p>
       <p class="${k.kotvata().nared ? 'vest' : 'greshka'}" data-kotva>${k.kotvata().dumi}</p>
+      <p class="${k.samolichnostta().nared ? 'vest' : 'greshka'}" data-samolichnost translate="no">${k.samolichnostta().dumi}</p>
       <button type="button" class="vtorichen" data-proveri>Провери веригата</button>
       <p data-veriga></p>
     </section>
