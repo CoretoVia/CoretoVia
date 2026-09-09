@@ -22,7 +22,7 @@
  * вместо да се помнят.
  */
 
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -730,7 +730,80 @@ const faylove_p = () => faylove('proba').map((f) => [f, cheti(f)]);
  * на `chistota` (дублирано: 1, с име) — броят се знае и не му се позволява да
  * порасне.
  */
+/**
+ * ОБХОД Л · РАЗРУШИТЕЛНО ВИКАНЕ, което никой не е закачал с ръка.
+ *
+ * ═══ ЦЕНАТА, платена на 10.09.2026 ═══
+ *
+ * Стъпалото на базата 1 → 2 беше написано с `deleteObjectStore` и оправданието
+ * беше негов цитат: „само проби, които може да се изтрият". Негово, на другия
+ * ден: **„Това важи за Сметки, но не и за Управление."** Управление е
+ * ИСТИНАТА (правило 20), а изтриването не различаваше двете — отнасяше целия
+ * Журнал.
+ *
+ * Нито една порта не гъкна. Единайсет обхода, 553 теста, и нито един не
+ * попита „това нещо трие ли данни".
+ *
+ * ═══ ЗАЩО ПРОСТО „НЕ ТРИЙ" НЕ СТИГА ═══
+ *
+ * Понякога трябва. Стъпало, което мени ключа на хранилище, НЕ МОЖЕ без
+ * `deleteObjectStore` — IndexedDB не мени ключ на място. Забраната би била
+ * лъжа, а лъжливото правило се изключва на третия път.
+ *
+ * Затова тук не се забранява, а се БРОИ: всяко разрушително викане трябва да
+ * е закачено с ръка в `tests/razrushitelnite.test.ts`, заедно с плана си —
+ * какво се пренася, как се сверява, и какво става при разлика. Същата сметка
+ * като правило 9 за библиотеките: списъкът е пин с ръка, не догадка.
+ */
+const RAZRUSHITELNI =
+  /\b(deleteObjectStore|deleteDatabase|clear|removeItem|rmSync|unlinkSync)\s*\(/;
+
+/**
+ * ПИНЪТ Е ПО ФАЙЛ И ВИД, НЕ ПО НОМЕР НА РЕД.
+ *
+ * Номерът се мести при всяко пренареждане и пинът щеше да пада без нищо да е
+ * станало — а проверка, която вика при вярното, се изключва на третия път
+ * (същият довод като при обход В). Файл плюс ИМЕ на викането е стабилен и пак
+ * е тесен: НОВ вид разрушение в същия файл си остава находка.
+ */
+export function yadroL(redove, f = '—') {
+  const nam = [];
+  const vidyani = new Set();
+  redove.forEach((red, i) => {
+    const m = RAZRUSHITELNI.exec(red);
+    if (m === null || eDanni(red) || red.trim().startsWith('import')) return;
+    // `Map.clear()` и `Set.clear()` не пипат ЗАПИСАНОТО — те чистят памет
+    if (m[1] === 'clear' && !/store|hranilishte|localStorage|sessionStorage/i.test(red)) return;
+    const klyuch = `${f.replace(/\\/g, '/')} · ${m[1]}`;
+    if (vidyani.has(klyuch)) return;
+    vidyani.add(klyuch);
+    nam.push(`${klyuch} — разрушително викане (ред ${i + 1}) · иска пин с ръка и ПЛАН`);
+  });
+  return nam;
+}
+
+function obhodL() {
+  const pinnati = new Set(zakachenite());
+  return [...faylove('src'), ...faylove('app')]
+    .flatMap((f) => yadroL(cheti(f).split('\n'), f))
+    .filter((n) => !pinnati.has(n.split(' — ')[0]));
+}
+
+/**
+ * Закачените с ръка · изброени в теста.
+ *
+ * Тестът е ДОМЪТ (правило 14): там стои и ПЛАНЪТ защо всяко е позволено —
+ * какво се пренася, как се сверява, какво става при разлика. Тук се чете само
+ * списъкът, за да не се пише два пъти.
+ */
+function zakachenite() {
+  const p = join(KOREN, 'tests/razrushitelnite.test.ts');
+  if (!existsSync(p)) return [];
+  return [...readFileSync(p, 'utf8').matchAll(/^\s*'([^']+ · \w+)',/gm)].map((m) => m[1]);
+}
+
 const OBHODI = [
+  { ime: 'Л · разрушително викане без пин с ръка', prag: 0, kart: obhodL },
   { ime: 'Б · гол селектор върху двусмислен белег', prag: 0, kart: obhodB },
   { ime: 'Е · четене без изчакване след действие', prag: 0, kart: obhodE },
   { ime: 'Ж · пише след прерисуване и подава, без проверка', prag: 0, kart: obhodZh },

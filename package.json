@@ -23,12 +23,13 @@
     "stil": "biome check . --error-on-warnings",
     "mostra": "node stroezh/mostra-kniga.mjs",
     "dumi": "node stroezh/dumi-ot-knigata.mjs",
-    "proverka": "npm run typecheck && npm test && npm run chistota && npm run chestnost && npm run sloeve && npm run knip && npm run litsenzi && npm run dumi:proveri && npm run stil && npm run registar && npm run karta:proveri",
+    "proverka": "npm run typecheck && npm test && npm run chistota && npm run chestnost && npm run sloeve && npm run knip && npm run litsenzi && npm run dumi:proveri && npm run stil && npm run registar && npm run protokol && npm run karta:proveri",
     "knip": "node stroezh/knip.mjs",
     "dumi:proveri": "node stroezh/dumi-ot-knigata.mjs --proveri",
     "registar": "node stroezh/registar.mjs --proveri",
     "karta": "node stroezh/karta.mjs --pishi",
-    "karta:proveri": "node stroezh/karta.mjs --proveri"
+    "karta:proveri": "node stroezh/karta.mjs --proveri",
+    "protokol": "node stroezh/protokol.mjs"
   },
   "dependencies": {
     "exceljs": "4.4.0"

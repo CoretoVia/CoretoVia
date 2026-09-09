@@ -105,8 +105,14 @@ const NE_SE_SADYAT = ['arhiv', 'izvori', 'dokladi'];
  *
  * Затова тук не се гадае: тези файлове не раждат въпроси. Ако някой ден част
  * зададе истински въпрос, той се вписва в регистъра нарочно, с ръка.
+ *
+ * `docs/00-PROTOKOL.md` · същият случай, роден на 10.09.2026. Протоколът на
+ * уменията именува ВИДОВЕТЕ РАБОТА с „У" и число (У1 … У7), а „У" е и буква на
+ * въпрос тук. Двата регистъра са РАЗЛИЧНИ пространства и всеки има СВОЯ порта:
+ * този — `npm run registar`, онзи — `npm run protokol`. Слети, всеки нов вид
+ * работа щеше да вали чуждата машина.
  */
-const SVOE_PROSTRANSTVO = ['docs/arhitektura/chasti/'];
+const SVOE_PROSTRANSTVO = ['docs/arhitektura/chasti/', 'docs/00-PROTOKOL.md'];
 
 function vsichkiFaylove(papka, sabrani = []) {
   for (const ime of readdirSync(papka)) {
