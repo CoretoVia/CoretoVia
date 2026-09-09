@@ -11,7 +11,7 @@ import {
   VsichkoRazresheno,
   type Pravata,
 } from '../src/yadro/index.js';
-import { operatsiya, SHA } from './pomoshtni.js';
+import { KNIGA, operatsiya, SHA, VERIGA_NA_SLUZHITEL } from './pomoshtni.js';
 
 function novaVrata(pravata: Pravata = new VsichkoRazresheno()) {
   const dnevnik = new DnevnikVPametta();
@@ -182,5 +182,56 @@ describe('валидност', () => {
     await expect(
       vrata.dobavi(operatsiya({ opId: 'op-3', sashtnost: { vid: 'naem', id: '' } })),
     ).rejects.toMatchObject({ kod: 'NEVALIDNO' });
+  });
+});
+
+/**
+ * Т10 · ЧАСОВНИКЪТ НЕ ТРЪГВА НАЗАД · и пазачът е НА ВРАТАТА.
+ *
+ * `ts` е първата тежест в такта (правило 6) и е В ПОДПИСА. Тръгне ли назад,
+ * сгънатото Огледало подрежда вчерашното СЛЕД днешното — тихо, защото всяко
+ * звено поотделно си е наред.
+ *
+ * Пазачът съществуваше, но живееше в ИЗПЪЛНИТЕЛЯ — в един викащ. А правило 2
+ * казва, че Вратата е ЕДИНСТВЕНИЯТ вход, и адаптерите са ТРИ (екран · Книга ·
+ * агенти). Тестът пише ПРЯКО на Вратата, тъй че доказва точно това: пътят
+ * покрай пазача го няма.
+ */
+describe('часовникът · Т10', () => {
+  it('назад тръгнало време се ПОПРАВЯ, не се записва', async () => {
+    const { vrata, dnevnik } = novaVrata();
+    await vrata.dobavi(operatsiya({ opId: 'op-1', ts: '2026-09-05T10:00:00.000Z' }));
+    // втори запис с ПО-РАННО време · точно каквото дава поправен часовник
+    await vrata.dobavi(operatsiya({ opId: 'op-2', ts: '2026-09-05T09:00:00.000Z' }));
+
+    const vsichki = await dnevnik.chetiVsichki(KNIGA);
+    expect(vsichki.map((s) => s.seq)).toEqual([1, 2]);
+    // редът се пази: второто е СЛЕД първото, с една милисекунда
+    expect(Date.parse(vsichki[1]!.ts)).toBeGreaterThan(Date.parse(vsichki[0]!.ts));
+    expect(vsichki[1]!.ts).toBe('2026-09-05T10:00:00.001Z');
+  });
+
+  it('и поправката се БРОИ · тихата поправка е същият клас като тихата загуба', async () => {
+    const { vrata } = novaVrata();
+    expect(vrata.vrateniChasovnitsi).toBe(0);
+    await vrata.dobavi(operatsiya({ opId: 'op-1', ts: '2026-09-05T10:00:00.000Z' }));
+    // напред · нищо не се поправя
+    await vrata.dobavi(operatsiya({ opId: 'op-2', ts: '2026-09-05T11:00:00.000Z' }));
+    expect(vrata.vrateniChasovnitsi).toBe(0);
+    // назад · брои се
+    await vrata.dobavi(operatsiya({ opId: 'op-3', ts: '2026-09-05T08:00:00.000Z' }));
+    expect(vrata.vrateniChasovnitsi).toBe(1);
+  });
+
+  it('всяка верига си има СВОЙ часовник · чуждият не я дърпа напред', async () => {
+    const { vrata, dnevnik } = novaVrata();
+    await vrata.dobavi(operatsiya({ opId: 'op-1', ts: '2026-09-05T20:00:00.000Z' }));
+    // друга верига · нейното време е по-ранно и това е НОРМАЛНО
+    await vrata.dobavi(
+      operatsiya({ opId: 'op-2', veriga: VERIGA_NA_SLUZHITEL, ts: '2026-09-05T09:00:00.000Z' }),
+    );
+    const chuzhda = await dnevnik.chetiVsichki(VERIGA_NA_SLUZHITEL);
+    expect(chuzhda[0]!.ts).toBe('2026-09-05T09:00:00.000Z');
+    expect(vrata.vrateniChasovnitsi).toBe(0);
   });
 });

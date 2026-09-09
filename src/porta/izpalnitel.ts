@@ -42,7 +42,6 @@ import type { Sabitie } from '../yadro/sabitie.js';
 import type { Valuta } from '../yadro/sabitie.js';
 import { veriga } from '../yadro/sabitie.js';
 import { DnevnikNaSverki, MERKA, sverka } from '../yadro/sverka.js';
-import { naprediChasovnika } from '../yadro/takt.js';
 import type { Vrata } from '../yadro/vrata.js';
 import type { Porta, RezultatNaIzpalnenie } from './porta.js';
 
@@ -226,10 +225,16 @@ export class Izpalnitel implements Porta {
     const seqove: number[] = [];
     let povtoreni = 0;
     const opIdove = pred.operatsii.map((_op, i) => `${komandaId}#${i}`);
-    let posledenTs = this.#verigi.get(veriga(this.#n))?.at(-1)?.ts;
+    /*
+     * ЧАСОВНИКЪТ вече се пази ОТ ВРАТАТА (Т10), не оттук.
+     *
+     * Дотук пазачът стоеше на това място — тоест при ЕДИН викащ. А правило 2
+     * казва, че Вратата е единственият вход, и адаптерите са три (екран ·
+     * Книга · агенти): пазач при викащия пази само него. Преместен, той пази
+     * всеки път, а тук би бил ВТОРИ дом на едно правило (правило 14).
+     */
     for (const [i, op] of pred.operatsii.entries()) {
-      const ts = naprediChasovnika(posledenTs, this.#n.sega());
-      posledenTs = ts;
+      const ts = this.#n.sega();
       let r: Awaited<ReturnType<Vrata['dobavi']>>;
       try {
         r = await this.#n.vrata.dobavi({

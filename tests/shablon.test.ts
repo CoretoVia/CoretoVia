@@ -6,10 +6,20 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { h, nashHTML } from '../app/reshetka/shablon.js';
+import { h, nashHTML, type Zapechatan } from '../app/reshetka/shablon.js';
 
-/** Само за теста · вижда какво е сглобил шаблонът, без да минава през възел. */
-const kato = (z: { readonly __zapechatanHTML: string }): string => z.__zapechatanHTML;
+/**
+ * Само за теста · вижда какво е сглобил шаблонът, без да минава през възел.
+ *
+ * Чете се през СИМВОЛА, а не по име: печатът вече е символ и нарочно НЕ се
+ * изнася (Т11). Тестът стига до него по единствения път, по който изобщо може
+ * да се стигне отвън — и точно това е доказателството, че отвън път няма.
+ */
+const kato = (z: Zapechatan): string => {
+  const simvoli = Object.getOwnPropertySymbols(z);
+  expect(simvoli).toHaveLength(1);
+  return (z as unknown as Record<symbol, string>)[simvoli[0]!]!;
+};
 
 describe('запечатаният HTML', () => {
   it('екранира ПЕТТЕ знака · и апострофът е петият', () => {
@@ -67,11 +77,46 @@ describe('запечатаният HTML', () => {
     expect(kato(h`${nashHTML('<svg><rect/></svg>')}`)).toBe('<svg><rect/></svg>');
   });
 
-  it('запечатаното НЕ се строи с обикновен обект · типът не се подправя тихо', () => {
-    // ако някой напише `{ __zapechatanHTML: chuzhdo }` на ръка, това ЛИЧИ в диф;
-    // тук се пази само, че полето се казва така, а не нещо, което се пише случайно
+  /**
+   * Т11 · ПЕЧАТЪТ Е СИМВОЛ · и точно това затваря дупката.
+   *
+   * Дотук проверката беше СТРУКТУРНА: „обект ли е и има ли низ на име
+   * `__zapechatanHTML`". Тоест обект, дошъл от `JSON.parse` на ВНЕСЕН Журнал,
+   * можеше да носи този ключ и да влезе в страницата НЕЕКРАНИРАН.
+   *
+   * Не беше теоретично: товарът на събитие е `Record<string, unknown>`, идва
+   * от чужд файл и стига до екрана — това му е работата.
+   */
+  it('Т11 · подправен печат от ВНЕСЕН JSON се екранира, не се изпълнява', () => {
+    // точно каквото би дошло от чужд Журнал · през JSON.parse, не написано тук
+    const chuzhdo = JSON.parse('{"__zapechatanHTML":"<img src=x onerror=zle()>"}') as unknown;
+    const iz = kato(h`<td>${chuzhdo}</td>`);
+
+    // от подправения товар не влиза НИЩО · нито таг, нито името на печата
+    expect(iz).not.toContain('<img');
+    expect(iz).not.toContain('onerror');
+    expect(iz).not.toContain('__zapechatanHTML');
+    // чуждият обект не е низ и не е запечатан · става безобиден текст
+    expect(iz).toBe('<td>[object Object]</td>');
+  });
+
+  it('Т11 · и същото, ВЛОЖЕНО в товар · не само на върха', () => {
+    // истинската форма: клетка вътре в товара на събитие, дошло от чужд Журнал
+    const tovar = JSON.parse(
+      '{"kletki":{"ime":{"__zapechatanHTML":"<script>zle()<\\/script>"}}}',
+    ) as { kletki: { ime: unknown } };
+    const iz = kato(h`<td>${tovar.kletki.ime}</td>`);
+    expect(iz).not.toContain('<script');
+    expect(iz).toBe('<td>[object Object]</td>');
+  });
+
+  it('Т11 · печатът НЕ е име на поле · JSON не може да произведе символ', () => {
     const z = h`<b>${'а'}</b>`;
-    expect(Object.keys(z)).toEqual(['__zapechatanHTML']);
+    // нула изброими имена: няма ключ, който чужд файл да повтори
+    expect(Object.keys(z)).toEqual([]);
+    expect(JSON.parse(JSON.stringify(z))).toEqual({});
+    // и печатът е точно ЕДИН символ
+    expect(Object.getOwnPropertySymbols(z)).toHaveLength(1);
   });
 
   it('и вмъкнато в ОБИКНОВЕН шаблон ХВЪРЛЯ · вместо да даде „[object Object]"', () => {

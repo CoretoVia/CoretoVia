@@ -19,6 +19,7 @@ import { izchisliHash, proveriVerigata, type Sha256 } from './hash.js';
 import { eTsentove } from './pari.js';
 import type { Pravata } from './pravata.js';
 import type { Operatsiya, Sabitie } from './sabitie.js';
+import { naprediChasovnika } from './takt.js';
 import { SHEMA, veriga } from './sabitie.js';
 
 type KodGreshka = 'SPRYAN' | 'BEZ_PRAVO' | 'NEVALIDNO' | 'REPLAY' | 'NESAVMESTIM';
@@ -120,6 +121,7 @@ export class Vrata {
 
   /** Единичен писач на верига — опашка от обещания. */
   readonly #opashki = new Map<string, Promise<unknown>>();
+  #vrateni = 0;
 
   constructor(n: NastroykiVrata) {
     this.#dnevnik = n.dnevnik;
@@ -129,6 +131,17 @@ export class Vrata {
     this.#klyuchalka = n.klyuchalka;
     this.#parvoto = n.parvoto;
     this.#bezOtkrivane = n.bezOtkrivane;
+  }
+
+  /**
+   * КОЛКО ПЪТИ часовникът е тръгвал назад и е бил поправен (Т10).
+   *
+   * Числото не е украса: то е разликата между „нищо не е ставало" и „времето
+   * на тази машина се мести". Нула значи нула; расте ли, човекът има повод да
+   * погледне часовника си, вместо да гадае защо редът изглежда странен.
+   */
+  get vrateniChasovnitsi(): number {
+    return this.#vrateni;
   }
 
   get zatvorena(): boolean {
@@ -441,10 +454,35 @@ export class Vrata {
 
       // 5 · append
       const posledno = await this.#dnevnik.posledno(veriga(op));
+
+      /*
+       * ЧАСОВНИКЪТ НЕ ТРЪГВА НАЗАД · Т10 · и защо пазачът е ТУК.
+       *
+       * `ts` е ПЪРВАТА тежест в такта (правило 6: `ts · веригата · seq`) и е В
+       * ПОДПИСА. Тръгне ли назад, сгънатото Огледало подрежда вчерашното
+       * СЛЕД днешното — тихо, без нито едно съобщение, защото всяко звено си е
+       * наред поотделно.
+       *
+       * Пазачът съществуваше, но живееше в ИЗПЪЛНИТЕЛЯ — тоест в един викащ.
+       * А правило 2 казва, че Вратата е ЕДИНСТВЕНИЯТ вход: пазач при викащия
+       * пази само него, а адаптерите са три (екран · Книга · агенти). Затова
+       * се мести тук, където не може да бъде подминат.
+       *
+       * НЕ СЕ ОТКАЗВА, а се ПОПРАВЯ. Часовник, тръгнал назад, е нормален живот:
+       * лятно време, поправка по мрежата, друга машина. Отказ би зазидал
+       * писането след всяко такова местене. Поправката е с една милисекунда
+       * напред — колкото да пази реда, без да съчинява време.
+       *
+       * И се БРОИ (`vrateniChasovnitsi`), вместо да мълчи: тихата поправка е
+       * същият клас като тихата загуба (правило 12).
+       */
+      const ts = naprediChasovnika(posledno?.ts, op.ts);
+      if (ts !== op.ts) this.#vrateni += 1;
+
       const zaHeshirane = {
         seq: (posledno?.seq ?? 0) + 1,
         opId: op.opId,
-        ts: op.ts,
+        ts,
         shema: SHEMA,
         valuta: op.valuta,
         kniga: op.kniga,
