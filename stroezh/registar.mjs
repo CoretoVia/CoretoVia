@@ -118,15 +118,44 @@ function chetiRegistara() {
   }
 }
 
+/**
+ * НОМЕРИРАНО ИЗИСКВАНЕ, не въпрос.
+ *
+ * Чистото Задание номерира изискванията си по тема: „Д42. За СЛУЖИТЕЛ функцията
+ * не редактира…". Това е НОМЕР на изискване, не белег на въпрос — а двете си
+ * приличат буква по буква.
+ *
+ * Разликата е в мястото: номерът на изискване стои В НАЧАЛОТО на реда (или след
+ * удебеляване) и веднага след него има точка или скоба. Белегът на въпрос стои
+ * ВЪТРЕ в изречение.
+ *
+ * Платено на 09.09.2026: без това разграничение регистърът глътна 159 „нови
+ * въпроса", които бяха изисквания — и щеше да иска отговор за всяко.
+ */
+const NOMER_NA_IZISKVANE = /^\s*(?:[*_>|\s-]*)$/u;
+
+function eNomerNaIziskvane(red, nachalo, sled) {
+  // „**Д22.**" · номерът стои в началото на реда и след него има точка или скоба
+  if (NOMER_NA_IZISKVANE.test(red.slice(0, nachalo)) && /^[.)*_]/u.test(sled)) return true;
+  // „Д22-Д25" · ОБХВАТ от номера на изисквания, не два въпроса · и двата края
+  if (/^\s*[-–—]\s*[ТАБВГДЕОСМФУПК]\d/u.test(sled)) return true;
+  if (/[ТАБВГДЕОСМФУПК]\d+\s*[-–—]\s*$/u.test(red.slice(0, nachalo))) return true;
+  return false;
+}
+
 /** Всеки белег, срещнат в документите · с файловете, в които стои. */
 function belezitéVDokumentite(faylove) {
   const kade = new Map();
   for (const f of faylove) {
-    const tekst = readFileSync(f, 'utf8');
-    for (const m of tekst.matchAll(BELEG)) {
-      const beleg = `${m[1]}${Number(m[2])}`;
-      if (!kade.has(beleg)) kade.set(beleg, new Set());
-      kade.get(beleg).add(f);
+    for (const red of readFileSync(f, 'utf8').split('\n')) {
+      for (const m of red.matchAll(BELEG)) {
+        const beleg = `${m[1]}${Number(m[2])}`;
+        const nachalo = m.index + m[0].length - `${m[1]}${m[2]}`.length;
+        const sled = red.slice(m.index + m[0].length);
+        if (eNomerNaIziskvane(red, nachalo, sled)) continue;
+        if (!kade.has(beleg)) kade.set(beleg, new Set());
+        kade.get(beleg).add(f);
+      }
     }
   }
   return kade;

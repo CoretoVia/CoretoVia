@@ -45,12 +45,12 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 
 | какво | колко | къде се брои |
 | :---- | ---: | :---- |
-| въпроса в регистъра | **137** | `npm run registar` |
+| въпроса в регистъра | **187** | `npm run registar` |
 | — с негов отговор | **53** | същото |
 | — решени от кода | **28** | същото |
 | — още открити | **32** | същото |
 | — отпаднали | **9** | същото |
-| — още неустановени | **15** | същото |
+| — още неустановени | **65** | същото |
 | реда в дълга | **213** | `docs/14-dalgat.md` |
 | реда извори (неговите думи) | **3602** | `docs/izvori/` |
 
@@ -114,7 +114,7 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | [`12-doklad-za-predavane.md`](../docs/12-doklad-za-predavane.md) | 12 · ДОКЛАД ЗА ПРЕДАВАНЕ · Coretovia |
 | [`13-redat-predi-koda.md`](../docs/13-redat-predi-koda.md) | 13 · Редът преди кода · планът за чисто кодиране |
 | [`14-dalgat.md`](../docs/14-dalgat.md) | 14 · ДЪЛГЪТ · единственият дом на чакащото |
-| [`15-arhitekturata.md`](../docs/15-arhitekturata.md) | 15 · АРХИТЕКТУРАТА · пълната карта, и кой пази какво |
+| [`15-arhitekturata.md`](../docs/15-arhitekturata.md) | 15 · АРХИТЕКТУРАТА · гръбнакът |
 | [`16-dvizhenieto-i-sastoyanieto.md`](../docs/16-dvizhenieto-i-sastoyanieto.md) | 16 · Движението и Състоянието · проверка на модела и въпросите към него |
 | [`17-pravoto-po-sektsii.md`](../docs/17-pravoto-po-sektsii.md) | 17 · Правото по СЕКЦИИ от редове · петата ос |
 | [`18-otgovorite-i-nahodkite-08-09.md`](../docs/18-otgovorite-i-nahodkite-08-09.md) | 18 · Отговорите от 08.09 вечерта · и какво намери проверката |
@@ -175,6 +175,7 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | :---- | :---- |
 | [`00-KAKVO-IMA-TUK.md`](../docs/arhiv/00-KAKVO-IMA-TUK.md) | Архивът · какво има тук |
 | [`2026-09-04-plan-za-nov-proekt.md`](../docs/arhiv/2026-09-04-plan-za-nov-proekt.md) | План · нов проект от нула · чисто Задание → чиста Архитектура → пренесен код |
+| [`2026-09-08-arhitekturata-ot-koda.md`](../docs/arhiv/2026-09-08-arhitekturata-ot-koda.md) | 15 · АРХИТЕКТУРАТА · пълната карта, и кой пази какво |
 
 ---
 
@@ -187,5 +188,5 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | `npm run karta` | тази карта да остарее · нов или изтрит документ, който не се вижда тук |
 | `npm run proba` | построеното да не работи в истински браузър · пуска се ДВА пъти |
 
-**Броено при последното писане на картата:** 84 документа в 6 папки.
+**Броено при последното писане на картата:** 85 документа в 6 папки.
 

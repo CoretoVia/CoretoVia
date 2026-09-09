@@ -71,6 +71,18 @@
       ]
     },
     {
+      "beleg": "А37",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/izvori/temi/02-naemi-i-dogovori.md"
+      ]
+    },
+    {
       "beleg": "А4",
       "vapros": "Поканата по имейл — програмата няма сървър и не може да праща поща (правило 21). Кой я праща и как?",
       "sastoyanie": "otgovoren",
@@ -85,6 +97,18 @@
         "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
         "docs/dokladi/06-propuskite-ot-arhiva.md",
         "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "А43",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/izvori/temi/02-naemi-i-dogovori.md"
       ]
     },
     {
@@ -643,6 +667,66 @@
       ]
     },
     {
+      "beleg": "К15",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К16",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К17",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К18",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К19",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
       "beleg": "К2",
       "vapros": "Портата е една: UI, Книгата и агентите са три адаптера над ЕДИН порт, а той — над един каталог от команди.",
       "sastoyanie": "reshen_ot_koda",
@@ -665,6 +749,126 @@
         "docs/dokladi/07-redat-na-kodirane.md",
         "docs/dokladi/08-finalnoto-zadanie.md",
         "docs/dokladi/09-tablitsata-i-diagramata-CHASTICHEN.md"
+      ]
+    },
+    {
+      "beleg": "К20",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К21",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К22",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К23",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К24",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К25",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К26",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К27",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К28",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К29",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
       ]
     },
     {
@@ -699,6 +903,126 @@
       ]
     },
     {
+      "beleg": "К30",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К31",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К32",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К33",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К34",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К35",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К36",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К37",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К38",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К39",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
       "beleg": "К4",
       "vapros": "",
       "sastoyanie": "nepoznat",
@@ -709,6 +1033,102 @@
       "zhivee_v": [
         "docs/dokladi/03-firmata-i-nepopitanoto.md",
         "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К40",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К41",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К42",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К43",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К44",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К45",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К46",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К47",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
       ]
     },
     {
@@ -811,6 +1231,18 @@
       ]
     },
     {
+      "beleg": "М12",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/12-model-na-dannite.md"
+      ]
+    },
+    {
       "beleg": "М2",
       "vapros": "Поканата по имейл — кой я праща, като програмата няма сървър и правило 21 казва, че нищо не живее при нас? Стопанинът от своята поща с код, файл-покана, или наш сървър?",
       "sastoyanie": "otgovoren",
@@ -854,6 +1286,18 @@
       ]
     },
     {
+      "beleg": "М6",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/arhitektura/06-plashtaniya-i-vzemaniya.md"
+      ]
+    },
+    {
       "beleg": "О1",
       "vapros": "Бутонният ред групира ли се по ТЕМИ, всяка тема — падащо меню, и откъде идва списъкът с теми?",
       "sastoyanie": "otgovoren",
@@ -869,6 +1313,30 @@
         "docs/dokladi/06-propuskite-ot-arhiva.md",
         "docs/dokladi/07-redat-na-kodirane.md",
         "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О10",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md"
+      ]
+    },
+    {
+      "beleg": "О11",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md"
       ]
     },
     {
@@ -979,6 +1447,18 @@
         "docs/dokladi/06-propuskite-ot-arhiva.md",
         "docs/dokladi/07-redat-na-kodirane.md",
         "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О9",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md"
       ]
     },
     {
@@ -1966,6 +2446,54 @@
       ]
     },
     {
+      "beleg": "Т46",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т47",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т48",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т49",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
       "beleg": "Т5",
       "vapros": "Кранът (правило 8) важи ли за операция, минала проверката и заспала на опашката?",
       "sastoyanie": "reshen_ot_koda",
@@ -1981,6 +2509,78 @@
         "docs/dokladi/01-pravoto-po-sektsii.md",
         "docs/dokladi/03-firmata-i-nepopitanoto.md",
         "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т50",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т51",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т52",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т53",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т54",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т55",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
       ]
     },
     {
