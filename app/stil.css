@@ -699,3 +699,24 @@ label.malak.buton-grupa .pole.malak {
 [data-nap-nahodki] td:last-child {
   white-space: normal;
 }
+
+/* ═══ ПАЗАЧЪТ НА ИСТОРИЯТА · непрочетените събития ═══
+   Жълто, не червено: Журналът е ЦЯЛ и нищо не е загубено — просто част от
+   него още не може да се приложи. Червеното е за счупено, а тук не е. */
+.neprocheteno {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0.75rem;
+  background: var(--zhalto);
+  border-left: 3px solid var(--cherveno);
+  font-size: 0.9rem;
+}
+.neprocheteno p {
+  margin: 0;
+  font-weight: 600;
+}
+.neprocheteno ul {
+  margin: 0.4rem 0 0;
+  padding-left: 1.1rem;
+  font-weight: 400;
+  color: var(--sivo);
+}
