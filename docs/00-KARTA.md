@@ -46,9 +46,9 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | какво | колко | къде се брои |
 | :---- | ---: | :---- |
 | въпроса в регистъра | **187** | `npm run registar` |
-| — с негов отговор | **54** | същото |
+| — с негов отговор | **56** | същото |
 | — решени от кода | **28** | същото |
-| — още открити | **31** | същото |
+| — още открити | **29** | същото |
 | — отпаднали | **9** | същото |
 | — още неустановени | **65** | същото |
 | реда в дълга | **213** | `docs/14-dalgat.md` |
@@ -126,6 +126,7 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | [`24-tablitsata-i-diagramata.md`](../docs/24-tablitsata-i-diagramata.md) | 24 · Таблицата и Диаграмата · ЕДНО цяло |
 | [`25-planat-i-vaprosite.md`](../docs/25-planat-i-vaprosite.md) | 25 · ПЪЛНИЯТ ПЛАН · и въпросите с тикчета |
 | [`26-zhurnalat-valutata-i-dvata-vaprosa.md`](../docs/26-zhurnalat-valutata-i-dvata-vaprosa.md) | 26 · Къде живее Журналът · валутата и езиците · и двата въпроса, зададени по-добре |
+| [`27-proektite-i-valutata.md`](../docs/27-proektite-i-valutata.md) | 27 · ПРОЕКТИТЕ И ВАЛУТАТА · двете необратими решения |
 | [`ADR-001-nasledstvoto-i-granitsite.md`](../docs/ADR-001-nasledstvoto-i-granitsite.md) | ADR-001 · Наследството от MasterBook · границите на слоевете · регистърът на преноса |
 | [`ADR-002-exceljs.md`](../docs/ADR-002-exceljs.md) | ADR-002 · Първата библиотека · ExcelJS · Книгата се отваря в Excel като неговата |
 | [`ADR-003-modelat-kato-danni.md`](../docs/ADR-003-modelat-kato-danni.md) | ADR-003 · Моделът като данни · номенклатурите · каталогът и Портата · колонното Огледало · Книгата на изход |
@@ -188,5 +189,5 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | `npm run karta` | тази карта да остарее · нов или изтрит документ, който не се вижда тук |
 | `npm run proba` | построеното да не работи в истински браузър · пуска се ДВА пъти |
 
-**Броено при последното писане на картата:** 85 документа в 6 папки.
+**Броено при последното писане на картата:** 86 документа в 6 папки.
 
