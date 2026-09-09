@@ -83,6 +83,19 @@ const CHAKA =
  */
 const NE_SE_SADYAT = ['arhiv', 'izvori', 'dokladi'];
 
+/**
+ * Папки със СВОЕ пространство на имената · белези оттам изобщо не се събират.
+ *
+ * `docs/arhitektura/chasti/` · седемте части на архитектурата именуват своите 263
+ * инварианта с буква и число (А5 · Б31 · Д4) и се позовават едни на други в
+ * изречения („Б3 ↔ Б27"). Това е СЪЩОТО пространство, в което живеят белезите на
+ * въпроси — и никакво правило за мястото не ги различава надеждно.
+ *
+ * Затова тук не се гадае: тези файлове не раждат въпроси. Ако някой ден част
+ * зададе истински въпрос, той се вписва в регистъра нарочно, с ръка.
+ */
+const SVOE_PROSTRANSTVO = ['docs/arhitektura/chasti/'];
+
 function vsichkiFaylove(papka, sabrani = []) {
   for (const ime of readdirSync(papka)) {
     const pat = join(papka, ime);
@@ -140,6 +153,20 @@ function eNomerNaIziskvane(red, nachalo, sled) {
   // „Д22-Д25" · ОБХВАТ от номера на изисквания, не два въпроса · и двата края
   if (/^\s*[-–—]\s*[ТАБВГДЕОСМФУПК]\d/u.test(sled)) return true;
   if (/[ТАБВГДЕОСМФУПК]\d+\s*[-–—]\s*$/u.test(red.slice(0, nachalo))) return true;
+  /**
+   * „| **А5** |" · ИД НА ИНВАРИАНТ в клетка на таблица.
+   *
+   * Част 5 на архитектурата брои 263 инварианта и ги именува с буква и число
+   * (А5 · Б31 · Д4) — същото пространство, в което живеят белезите на въпроси.
+   * Разликата пак е в МЯСТОТО: ид-то на инвариант стои САМО в своята клетка,
+   * между две черти, без изречение около себе си.
+   *
+   * Платено на 09.09.2026: без това машината обяви 227 сблъсъка и почервеня за
+   * нещо, което изобщо не е въпрос.
+   */
+  if (/\|\s*[*_]{0,2}\s*$/u.test(red.slice(0, nachalo)) && /^[*_]{0,2}\s*\|/u.test(sled)) {
+    return true;
+  }
   return false;
 }
 
@@ -147,6 +174,7 @@ function eNomerNaIziskvane(red, nachalo, sled) {
 function belezitéVDokumentite(faylove) {
   const kade = new Map();
   for (const f of faylove) {
+    if (SVOE_PROSTRANSTVO.some((p) => f.includes(p))) continue;
     for (const red of readFileSync(f, 'utf8').split('\n')) {
       for (const m of red.matchAll(BELEG)) {
         const beleg = `${m[1]}${Number(m[2])}`;
@@ -260,7 +288,17 @@ for (const v of reg.vaprosi) {
 // 3 · никой не пита отговореното · само в ЖИВИТЕ документи
 for (const f of faylove.filter(sesadi)) {
   for (const [i, red] of readFileSync(f, 'utf8').split('\n').entries()) {
-    if (!CHAKA.test(red)) continue;
+    /**
+     * ЦИТИРАНОТО ЧАКАНЕ НЕ Е ЧАКАНЕ.
+     *
+     * Ред, който казва „Т17 стои под „ЧАКА НЕГОВА ДУМА" — а думата Е дадена",
+     * ЦИТИРА чуждо чакане, за да го обори. Той е ПОПРАВКАТА, не дефектът.
+     *
+     * Затова кавичките се махат ПРЕДИ проверката: остава онова, което самият
+     * документ твърди за себе си. Платено на 09.09.2026 с две лъжливи находки.
+     */
+    const bezTsitati = red.replace(/„[^“”"]*[“”"]/gu, ' ');
+    if (!CHAKA.test(bezTsitati)) continue;
     for (const m of red.matchAll(BELEG)) {
       const beleg = `${m[1]}${Number(m[2])}`;
       const v = po.get(beleg);
