@@ -29,6 +29,7 @@ import {
   pravotoNaImeyla,
   razdavaDostap,
 } from '../src/smetach/pravo.js';
+import { kletkaNa, zhiviteRedove } from '../src/ogledalo/tablitsa.js';
 import { KNIGA, knigaZaTest, STOPANIN } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T13:00:00.000Z';
@@ -538,6 +539,57 @@ describe('ВРАТАТА НА РЕДОВЕТЕ · Портата пита пра
       expect(eOtkaz(r), `${klyuch} трябваше да откаже`).toBe(true);
       expect(dumiteNaOtkaza(r)).toMatch(SAMO_STOPANINAT);
     }
+  });
+
+  /**
+   * Т42 · ДЛЪЖНОСТТА НА ПЪРВИЯ СТОПАНИН Е НЕПРИКОСНОВЕНА.
+   *
+   * Негово, 08.09: „Длъжността на първия стопанин не се променя никога от
+   * никого." · „Неприкосновена е."
+   *
+   * Дотук `mozheDaRazdavaDlazhnosti` пускаше Управител И Помощник Управител да
+   * пипат колоната „Длъжност", БЕЗ нито една проверка кой е ЦЕЛТА. Пази се и
+   * ИЗКЛЮЧВАНЕТО: изключен ред не е жив, тоест Длъжността изчезва по друг път
+   * за същия резултат.
+   */
+  it('Т42 · дори УПРАВИТЕЛ не пипа Длъжността на Стопанина · нито я мени, нито го изключва', async () => {
+    const { iz, zapishi, stani } = await otvori();
+    // Стопанинът получава СВОЙ ред в Служители — иначе няма какво да се пипа
+    await zapishi(
+      'c1',
+      'sluzhiteli.dobaviSluzhitel',
+      chovek('Стопанинът', STOPANIN, DLAZHNOST.stopanin),
+    );
+    const tv = iz.ogledalo().tablitsi.get('sluzhiteli')!;
+    const red = zhiviteRedove(tv).find((j) => {
+      const k = kletkaNa(tv, j, 'imeyl');
+      return k !== null && 'tekst' in k && k.tekst === STOPANIN;
+    })!;
+    const idNaStopanina = tv.id[red]!;
+    await zapishi(
+      'c2',
+      'sluzhiteli.dobaviSluzhitel',
+      chovek('Управителят', 'upravitel@example.bg', DLAZHNOST.upravitel),
+    );
+    stani('upravitel@example.bg');
+    const NEPRIKOSNOVENA = /НЕПРИКОСНОВЕНА/;
+
+    // (1) не му мени Длъжността
+    const smyana = iz.probvay('c3', 'red.popraviKletka', {
+      tablitsa: 'sluzhiteli',
+      id: idNaStopanina,
+      kletki: { dlazhnost: { nomer: DLAZHNOST.nablyudatel } },
+    });
+    expect(eOtkaz(smyana)).toBe(true);
+    expect(dumiteNaOtkaza(smyana)).toMatch(NEPRIKOSNOVENA);
+
+    // (2) и не го изключва · същият резултат по друг път
+    const izklyuchi = iz.probvay('c4', 'red.izklyuchi', {
+      tablitsa: 'sluzhiteli',
+      id: idNaStopanina,
+    });
+    expect(eOtkaz(izklyuchi)).toBe(true);
+    expect(dumiteNaOtkaza(izklyuchi)).toMatch(NEPRIKOSNOVENA);
   });
 
   it('правото се пита ПРЕДИ товара · отказът не издава дали редът съществува', async () => {

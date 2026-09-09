@@ -32,6 +32,7 @@ import { dumiNaKletka, imeNaReda } from '../../smetach/kletki.js';
 import {
   mozheDaRazdavaDlazhnosti,
   razdavaDostap,
+  zashtoNePipaStopanina,
   zashtoNeRazdava,
   zashtoNeRedaktiraRedove,
 } from '../../smetach/pravo.js';
@@ -256,7 +257,7 @@ function vsichkiKletki(t: Tablitsa, kletki: Kletki): Kletki {
 
 /** Датите на реда · краят не е преди началото · и двете са ГГГГ-ММ-ДД (четенето ги е свело). */
 /**
- * ЗНАКЪТ решава страната (правило 20) · родово, по данните на колоните.
+ * ЗНАКЪТ решава страната (правило 16) · родово, по данните на колоните.
  *
  * Таблица, чиито колони носят `strana` (секциите на Сметки), трябва да има ТОЧНО
  * ЕДНА пълна такава колона, и знакът на парите да е от нейната страна: приходът
@@ -487,6 +488,11 @@ const popraviKletka: Komanda<TovarPopravka> = {
           : null,
     },
     {
+      // Т42 · и НАД раздаването стои един ред, който никой не пипа
+      ime: 'Длъжността на първия Стопанин е неприкосновена',
+      proveri: (v, k) => zashtoNePipaStopanina(k.ogledalo, v.tablitsa, v.id, Object.keys(v.kletki)),
+    },
+    {
       ime: 'редът съществува и е жив',
       proveri: (v, k) => {
         const r = redat(v, k);
@@ -597,6 +603,11 @@ function komandaZaIzklyuchvane(izklyuchen: boolean): Komanda<TovarRed> {
           razdavaDostap(v.tablitsa, ['dlazhnost']) && !mozheDaRazdavaDlazhnosti(k.ogledalo, k.aktor)
             ? zashtoNeRazdava(k.ogledalo, k.aktor)
             : null,
+      },
+      {
+        // Т42 · изключването маха Длъжността по ДРУГ път, за същия резултат
+        ime: 'Длъжността на първия Стопанин е неприкосновена',
+        proveri: (v, k) => zashtoNePipaStopanina(k.ogledalo, v.tablitsa, v.id, ['dlazhnost']),
       },
       {
         ime: izklyuchen ? 'редът е жив' : 'редът е изключен',

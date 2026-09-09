@@ -87,6 +87,52 @@ export function zashtoNePipaNastroykite(o: Ogledalo, imeyl: string): string | nu
     : 'Номенклатурите се създават, преименуват и спират само от Стопанина (Настройки · негово, 05.09).';
 }
 
+/**
+ * ЗАЩО НЕ ПИПА ДЛЪЖНОСТТА НА ПЪРВИЯ СТОПАНИН · и защо това е ИНВАРИАНТ (Т42).
+ *
+ * Негово, 08.09.2026, казано като правило и веднага потвърдено с една дума:
+ *
+ *   „Длъжността на първия стопанин НЕ СЕ ПРОМЕНЯ НИКОГА ОТ НИКОГО."
+ *   „НЕПРИКОСНОВЕНА е."
+ *
+ * ═══ ЗАЩО НЕ СТИГА, ЧЕ РАЗДАВАНЕТО Е ОГРАНИЧЕНО ═══
+ *
+ * `mozheDaRazdavaDlazhnosti` пуска Управител И Помощник Управител да пипат
+ * колоната „Длъжност" (`razdavaDostap` го обявява за раздаване), и НЯМА нито
+ * една проверка КОЙ Е ЦЕЛТА. Тоест Управител можеше да смени Длъжността на
+ * Стопанина.
+ *
+ * Днес това още не му отнема властта, защото `eStopaninat` чете имейла от
+ * Огледалото, не Длъжността. Но собственикът поиска Стопанинът да СЕ ПОДРАЗБИРА
+ * ОТ ДЛЪЖНОСТТА („всички са Служители, а стопанинът се подразбира при избора на
+ * длъжността"). В мига, в който това стане, незащитената Длъжност се превръща в
+ * пътя за отнемане на властта — затова пазачът влиза ПРЕДИ извеждането, не след.
+ *
+ * Пази се и ИЗКЛЮЧВАНЕТО на реда: изключен ред не се брои за жив, тоест
+ * Длъжността изчезва по друг път за същия резултат.
+ */
+export function zashtoNePipaStopanina(
+  o: Ogledalo,
+  tablitsa: string,
+  id: string,
+  koloni: readonly string[],
+): string | null {
+  if (o.stopanin === '') return null;
+  if (tablitsa !== 'stopani' && tablitsa !== 'sluzhiteli') return null;
+  // само раздаването и изключването пипат Длъжността · телефонът и адресът не
+  if (!koloni.includes('dlazhnost')) return null;
+  const tv = o.tablitsi.get(tablitsa);
+  if (tv === undefined) return null;
+  for (const i of zhiviteRedove(tv)) {
+    if (tv.id[i] !== id) continue;
+    const k = kletkaNa(tv, i, 'imeyl');
+    const imeyl = k !== null && 'tekst' in k ? k.tekst : '';
+    if (svedeno(imeyl) !== svedeno(o.stopanin)) return null;
+    return 'Длъжността на първия Стопанин е НЕПРИКОСНОВЕНА · не се променя никога от никого (негово, 08.09).';
+  }
+  return null;
+}
+
 /** Правото от НЕГОВОТО изречение · по първата дума; празното е скрито. */
 export function pravoOtDumite(izrechenie: string): Pravo {
   const parva = svedeno(izrechenie).split(/\s+/)[0] ?? '';
