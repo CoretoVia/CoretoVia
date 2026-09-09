@@ -15,7 +15,7 @@
  */
 
 import { tablitsata } from '../model/model.js';
-import { podravni } from '../model/nomenklatura.js';
+import { podravni, zhivite } from '../model/nomenklatura.js';
 import {
   DOSTAP_PO_PODRAZBIRANE,
   MODEL,
@@ -25,6 +25,7 @@ import {
 import type { Ogledalo } from '../ogledalo/ogledalo.js';
 import { kletkaNa, zhiviteRedove } from '../ogledalo/tablitsa.js';
 import { tekstNaIzbora } from './kletki.js';
+import { NOMENKLATURA_NA_STRANATA } from './smetki.js';
 
 export type { OsNaDostapa } from '../model/osnova.js';
 
@@ -322,8 +323,77 @@ export function mozheDaRedaktira(o: Ogledalo, imeyl: string, hedar: string): boo
     if (d.pravo.hedari !== 'redaktira') return false;
     const obhvat = svedeno(obhvatOtDumite(d.dumi.hedari));
     if (obhvat === '' || obhvat.startsWith('всичко')) return true;
-    return obhvatatPokriva(obhvat, hedar);
+    if (!obhvatatPokriva(obhvat, hedar)) return false;
+    // късото име не бива да отваря ДВЕ секции · Т44
+    return !imetoEDvusmisleno(o, obhvat, hedar);
   });
+}
+
+/**
+ * ДВУСМИСЛЕНОТО КЪСО ИМЕ · Т44 · и защо не се пита човекът за него.
+ *
+ * Неговият D19 пише „Заплати", а секциите Разходи са осем и ДВЕ започват със
+ * „Заплати": **Заплати Кеш** и **Заплати Банка**. Сравнението по цяло име отваря
+ * и двете — тоест едно късо име раздава повече, отколкото стои в изречението.
+ *
+ * ═══ КОЯ Е ИМАЛ ПРЕДВИД · отговорът е в НЕГОВИТЕ думи, не в предположение ═══
+ *
+ * Трите имена в D19 са ТОЧНО трите секции на блока „Вкарване": Заплати Кеш ·
+ * Фактури Кеш · Фактури Карта. Същата тройка я казва и другаде: „Всичко освен
+ * Кредит, а именно: Заплати, Фактури Кеш и Фактури Карта" — онова, което се
+ * пише НА РЪКА. Банковото изобщо не се въвежда: „При Фактури банка няма да се
+ * въвеждат ръчно, а ще се обобщават от извлеченията."
+ *
+ * Значи „Заплати" в неговото изречение е **Заплати Кеш**.
+ *
+ * ═══ КАКВО ПРАВИ КОДЪТ ═══
+ *
+ * Изречението му НЕ се пипа (правило 17 · К1). Стеснява се СРАВНЯВАНЕТО: късо
+ * име, което сочи повече от една жива секция, отваря САМО онази, която стои
+ * заедно с останалите имена от същия обхват — тоест кешовата, когато обхватът
+ * говори за кеш. Няма ли такава опора, не отваря НИТО ЕДНА (подразбирането е
+ * отказ) и това се вижда в отказа на екрана.
+ */
+function imetoEDvusmisleno(o: Ogledalo, obhvat: string, hedar: string): boolean {
+  const imena = obhvat
+    .replace(/^[^:]*:\s*/, '')
+    .split(',')
+    .map((x) => x.trim())
+    .filter((x) => x !== '');
+
+  // кое от имената покрива този хедър · то е „късото име"
+  const kratkoto = imena.find((ime) => obhvatatPokriva(ime, hedar));
+  if (kratkoto === undefined) return false;
+
+  const vsichki = zhivitéSektsii(o);
+  const pokriti = vsichki.filter((s) => obhvatatPokriva(kratkoto, s));
+  if (pokriti.length <= 1) return false;
+
+  // ДВЕ или повече · печели онази, чиято допълваща дума се среща и в останалите
+  // имена от същия обхват („Кеш" стои във „Фактури Кеш")
+  const drugite = new Set(imena.filter((x) => x !== kratkoto).flatMap((x) => dumite(x)));
+  const kratkite = new Set(dumite(kratkoto));
+  const podkrepeni = pokriti.filter((s) =>
+    dumite(s)
+      .filter((d) => !kratkite.has(d))
+      .some((d) => drugite.has(d)),
+  );
+
+  // подкрепена е точно една → тя минава, другите са двусмислени
+  if (podkrepeni.length === 1) return podkrepeni[0] !== svedeno(hedar) && podkrepeni[0] !== hedar;
+  // няма опора или има повече от една → никоя не се отваря
+  return true;
+}
+
+/** Живите секции · и двете страни, по имената им от номенклатурата. */
+function zhivitéSektsii(o: Ogledalo): string[] {
+  const imena: string[] = [];
+  for (const klyuch of Object.values(NOMENKLATURA_NA_STRANATA)) {
+    const n = o.nomenklaturi.get(klyuch);
+    if (n === undefined) continue;
+    for (const s of zhivite(n)) imena.push(s.tekst);
+  }
+  return imena;
 }
 
 /** Думите на едно име · без празните · сведени. */

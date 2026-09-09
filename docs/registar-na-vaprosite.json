@@ -1,0 +1,2226 @@
+{
+  "vaprosi": [
+    {
+      "beleg": "А0",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/12-doklad-za-predavane.md",
+        "docs/14-dalgat.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "А1",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/12-doklad-za-predavane.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "А2",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/12-doklad-za-predavane.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "А3",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/16-dvizhenieto-i-sastoyanieto.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "А4",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "А94",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/04-finansite-i-otchetite.md"
+      ]
+    },
+    {
+      "beleg": "Б1",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Б2",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Б3",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Б4",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Б5",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Б6",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md"
+      ]
+    },
+    {
+      "beleg": "В1",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/12-doklad-za-predavane.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/26-zhurnalat-valutata-i-dvata-vaprosa.md",
+        "docs/ADR-023-pette-resheniya-06-09-vecherta.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/04-finansite-i-otchetite.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "В10",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В11",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В12",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В13",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В2",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/12-doklad-za-predavane.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/26-zhurnalat-valutata-i-dvata-vaprosa.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/sigurnost/02-sertifikatite.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "В3",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/26-zhurnalat-valutata-i-dvata-vaprosa.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "В4",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/26-zhurnalat-valutata-i-dvata-vaprosa.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "В5",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В6",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В7",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В8",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В9",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "Г1",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/ADR-023-pette-resheniya-06-09-vecherta.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Г2",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/ADR-023-pette-resheniya-06-09-vecherta.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Г3",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/12-doklad-za-predavane.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Д1",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/sigurnost/02-sertifikatite.md"
+      ]
+    },
+    {
+      "beleg": "Д2",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Д3",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Е1",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Е2",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md"
+      ]
+    },
+    {
+      "beleg": "Е3",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md"
+      ]
+    },
+    {
+      "beleg": "Е4",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md"
+      ]
+    },
+    {
+      "beleg": "Е5",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/00b-oditat-46-agenta.md"
+      ]
+    },
+    {
+      "beleg": "К1",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/12-doklad-za-predavane.md",
+        "docs/13-redat-predi-koda.md",
+        "docs/15-arhitekturata.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/21-nepopitanoto.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/26-zhurnalat-valutata-i-dvata-vaprosa.md",
+        "docs/ADR-016-portite-veche-meryat.md",
+        "docs/ADR-024-chetirite-neobratimi.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "docs/dokladi/08-finalnoto-zadanie.md",
+        "docs/dokladi/09-tablitsata-i-diagramata-CHASTICHEN.md",
+        "zadanie/12-dopalneniya-08-09.md",
+        "zadanie/FINALNO/00-CHETI-PARVO.md"
+      ]
+    },
+    {
+      "beleg": "К10",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К11",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К12",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К13",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md"
+      ]
+    },
+    {
+      "beleg": "К14",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md"
+      ]
+    },
+    {
+      "beleg": "К2",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/12-doklad-za-predavane.md",
+        "docs/13-redat-predi-koda.md",
+        "docs/15-arhitekturata.md",
+        "docs/ADR-016-portite-veche-meryat.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "docs/dokladi/08-finalnoto-zadanie.md",
+        "docs/dokladi/09-tablitsata-i-diagramata-CHASTICHEN.md"
+      ]
+    },
+    {
+      "beleg": "К3",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/00-CHETI-PARVO.md",
+        "docs/10-kakvo-chaka.md",
+        "docs/12-doklad-za-predavane.md",
+        "docs/13-redat-predi-koda.md",
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/21-nepopitanoto.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "docs/dokladi/08-finalnoto-zadanie.md",
+        "docs/dokladi/09-tablitsata-i-diagramata-CHASTICHEN.md",
+        "zadanie/FINALNO/08-proverkite.md"
+      ]
+    },
+    {
+      "beleg": "К4",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К5",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К6",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К7",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К8",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К9",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "М1",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/00-CHETI-PARVO.md",
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/16-dvizhenieto-i-sastoyanieto.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "М2",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/00-CHETI-PARVO.md",
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/16-dvizhenieto-i-sastoyanieto.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "М3",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/00-CHETI-PARVO.md",
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/16-dvizhenieto-i-sastoyanieto.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "О1",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О2",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О3",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О4",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О5",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/04-finansite-i-otchetite.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О6",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/23-helpat-dvete-stepeni.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О7",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О8",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "П1",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П10",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П11",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П2",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П3",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/08-finalnoto-zadanie.md",
+        "docs/pazar/02-produktov-model.md",
+        "zadanie/FINALNO/02-dvigatelyat.md"
+      ]
+    },
+    {
+      "beleg": "П4",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П5",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П6",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П7",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П8",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П9",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "С1",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/00-CHETI-PARVO.md",
+        "docs/10-kakvo-chaka.md",
+        "docs/13-redat-predi-koda.md",
+        "docs/14-dalgat.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "С13",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "С17",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "С2",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/13-redat-predi-koda.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "С3",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/13-redat-predi-koda.md",
+        "docs/14-dalgat.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "С4",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/13-redat-predi-koda.md",
+        "docs/14-dalgat.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "С5",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/13-redat-predi-koda.md",
+        "docs/14-dalgat.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "С6",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/00-CHETI-PARVO.md",
+        "docs/10-kakvo-chaka.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "С7",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md"
+      ]
+    },
+    {
+      "beleg": "Т1",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т10",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т11",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т12",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т13",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т14",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т15",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т16",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т17",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т18",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т19",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т2",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т20",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т21",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т22",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т23",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т24",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т25",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т26",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т27",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/21-nepopitanoto.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т28",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т29",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т3",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "Т30",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т31",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т32",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т33",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т34",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т35",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т36",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т37",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/21-nepopitanoto.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т38",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т39",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т4",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т40",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т41",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т42",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т43",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т44",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т45",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т5",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т6",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т7",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/00-CHETI-PARVO.md",
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т8",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т9",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "У1",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "У2",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "У3",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md"
+      ]
+    },
+    {
+      "beleg": "Ф1",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/21-nepopitanoto.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/04-finansite-i-otchetite.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Ф2",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/21-nepopitanoto.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/04-finansite-i-otchetite.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Ф3",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/04-finansite-i-otchetite.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Ф4",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/04-finansite-i-otchetite.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Ф5",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Ф6",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md"
+      ]
+    },
+    {
+      "beleg": "Ф7",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md"
+      ]
+    }
+  ]
+}
