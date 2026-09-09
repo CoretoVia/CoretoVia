@@ -73,8 +73,11 @@ export function otvoriDnevnik(ime: string): Promise<DnevnikVIndexedDB> {
        *   · СВЕРКА вход↔изход (правило 7): прочетени срещу записани. Не
        *     съвпаднат ли — транзакцията се ОТМЕНЯ и старата база остава цяла.
        */
-      if (staro === 0 || transaktsiya === null) {
-        napraviHranilishte(db);
+      // Нова база · или стара без хранилище (няма какво да се пренася). Второто
+      // не бива да хвърля: то би зазидало приложението заради състояние, в
+      // което НЯМА какво да се загуби.
+      if (staro === 0 || transaktsiya === null || !db.objectStoreNames.contains(HRANILISHTE)) {
+        if (!db.objectStoreNames.contains(HRANILISHTE)) napraviHranilishte(db);
         return;
       }
 
