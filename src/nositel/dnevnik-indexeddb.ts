@@ -12,7 +12,7 @@
 import type { Dnevnik } from '../yadro/dnevnik.js';
 import { GreshkaDnevnik } from '../yadro/dnevnik.js';
 import type { Sabitie, Sashtnost } from '../yadro/sabitie.js';
-import { koyPishe, veriga } from '../yadro/sabitie.js';
+import { koyPishe, PREDI_RAZREZA, SHEMA_PREDI_RAZREZA, veriga } from '../yadro/sabitie.js';
 
 const HRANILISHTE = 'sabitiya';
 /**
@@ -39,39 +39,60 @@ export function otvoriDnevnik(ime: string): Promise<DnevnikVIndexedDB> {
     zayavka.onupgradeneeded = (sabitie) => {
       const db = zayavka.result;
       const staro = (sabitie as IDBVersionChangeEvent).oldVersion;
+      const transaktsiya = zayavka.transaction;
 
       /*
-       * СТЪПАЛО 1 → 2 · РАЗРЕЗЪТ (Т39).
+       * СТЪПАЛО 1 → 2 · РАЗРЕЗЪТ (Т39) · ПРЕНАСЯ, не трие.
        *
        * Ключът беше `['veriga', 'seq']` — по полето, което носеше ТРИ смисъла
-       * наведнъж. Сега трите са отделни и ключът е `['kniga', 'pisach',
-       * 'seq']`. Ключ на съществуващо хранилище НЕ се мени в IndexedDB: то се
-       * прави наново.
+       * наведнъж. Сега е `['kniga', 'pisach', 'seq']`. Ключ на съществуващо
+       * хранилище НЕ се мени в IndexedDB, тъй че хранилището се прави наново —
+       * но записите СЕ ПРЕНАСЯТ в него, до един.
        *
-       * ЗАЩО ТОВА Е ПОЗВОЛЕНО ДНЕС, казано честно: питан беше има ли истински
-       * данни на живия адрес, и отговори — „**Само проби, които може да се
-       * изтрият.**" (09.09.2026 · docs/10 запис 65). Точно затова необратимите
-       * разрези се правят СЕГА.
+       * ═══ ЦЕНАТА, платена на 10.09.2026 ═══
        *
-       * И какво следва оттук: от първия истински Журнал нататък това стъпало
-       * НЕ може да е „направи наново". То трябва да ЧЕТЕ старите записи и да
-       * ги пренася — правило 1 не прощава изтрито. Записано е като дълг.
+       * Дотук тук стоеше `deleteObjectStore` и оправданието беше негова дума:
+       * „само проби, които може да се изтрият". Неговата поправка:
+       * **„Това важи за СМЕТКИ, но не и за УПРАВЛЕНИЕ."**
+       *
+       * И той е прав. Сметки е пясъчникът, Управление е ИСТИНАТА (правило 20),
+       * а изтриването на хранилището не прави разлика между двете — то отнася
+       * целия Журнал. Тоест едно стъпало на базата щеше да изяде истината,
+       * прикрито зад цитат, който не важи за нея.
+       *
+       * ═══ КАК СЕ ПРЕНАСЯ, без да се пипне нито един байт от подписа ═══
+       *
+       *   · `kniga` и `pisach` се ИЗВЕЖДАТ от стария низ (`koyPishe`) · това е
+       *     обратимо и се доказва с тест
+       *   · `shema: 0` казва „подписан по стария ред" — и `hash.ts` го проверява
+       *     точно с онази форма, тъй че веригата остава ЦЯЛА
+       *   · `ustroystvo` и `valuta` НЕ се измислят: получават `PREDI_RAZREZA`.
+       *     Да сложиш „EUR" на запис, писан преди валутата да съществува, е да
+       *     съчиниш факт за пари
+       *   · старото поле `veriga` ПАДА · то вече се извежда (правило 14)
+       *   · СВЕРКА вход↔изход (правило 7): прочетени срещу записани. Не
+       *     съвпаднат ли — транзакцията се ОТМЕНЯ и старата база остава цяла.
        */
-      if (staro >= 1 && db.objectStoreNames.contains(HRANILISHTE)) {
+      if (staro === 0 || transaktsiya === null) {
+        napraviHranilishte(db);
+        return;
+      }
+
+      const staroto = transaktsiya.objectStore(HRANILISHTE);
+      const chetene = staroto.getAll();
+      chetene.onsuccess = () => {
+        const zapisi = chetene.result as StarZapis[];
         db.deleteObjectStore(HRANILISHTE);
-      }
-      if (!db.objectStoreNames.contains(HRANILISHTE)) {
-        const hranilishte = db.createObjectStore(HRANILISHTE, {
-          keyPath: ['kniga', 'pisach', 'seq'],
-        });
-        hranilishte.createIndex(INDEKS_OPID, ['kniga', 'pisach', 'opId'], { unique: true });
-        hranilishte.createIndex(INDEKS_SASHTNOST, [
-          'kniga',
-          'pisach',
-          'sashtnost.vid',
-          'sashtnost.id',
-        ]);
-      }
+        const novo = napraviHranilishte(db);
+        for (const z of zapisi) novo.add(prenesi(z));
+        // сверката е върху ПРОЧЕТЕНОТО срещу ЗАПИСАНОТО, не върху намерението
+        const broene = novo.count();
+        broene.onsuccess = () => {
+          if (broene.result !== zapisi.length) {
+            transaktsiya.abort();
+          }
+        };
+      };
     };
 
     zayavka.onsuccess = () => {
@@ -83,6 +104,39 @@ export function otvoriDnevnik(ime: string): Promise<DnevnikVIndexedDB> {
     };
     zayavka.onerror = () => reject(zayavka.error);
   });
+}
+
+/** Хранилището и двата му индекса · ЕДИН дом на формата им (правило 14). */
+function napraviHranilishte(db: IDBDatabase): IDBObjectStore {
+  const hranilishte = db.createObjectStore(HRANILISHTE, {
+    keyPath: ['kniga', 'pisach', 'seq'],
+  });
+  hranilishte.createIndex(INDEKS_OPID, ['kniga', 'pisach', 'opId'], { unique: true });
+  hranilishte.createIndex(INDEKS_SASHTNOST, ['kniga', 'pisach', 'sashtnost.vid', 'sashtnost.id']);
+  return hranilishte;
+}
+
+/** Записът, както е лежал ПРЕДИ разреза · едното поле с трите смисъла. */
+type StarZapis = Omit<Sabitie, 'kniga' | 'pisach' | 'ustroystvo' | 'valuta' | 'shema'> & {
+  readonly veriga: string;
+};
+
+/**
+ * Стар запис → нов, БЕЗ да се пипа подписът му.
+ *
+ * Изведеното (`kniga` · `pisach`) идва от стария низ; онова, което не е
+ * съществувало, се КАЗВА, а не се измисля; версията става нула, за да го
+ * провери `hash.ts` със собствената му форма.
+ */
+function prenesi(z: StarZapis): Sabitie {
+  const { veriga: star, ...ostanalo } = z;
+  return {
+    ...ostanalo,
+    ...koyPishe(star),
+    shema: SHEMA_PREDI_RAZREZA,
+    ustroystvo: PREDI_RAZREZA,
+    valuta: PREDI_RAZREZA,
+  };
 }
 
 export class DnevnikVIndexedDB implements Dnevnik {

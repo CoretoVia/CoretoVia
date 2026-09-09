@@ -4,7 +4,7 @@
  */
 
 import type { Sabitie, ZaHeshirane } from './sabitie.js';
-import { veriga } from './sabitie.js';
+import { SHEMA, SHEMA_PREDI_RAZREZA, veriga } from './sabitie.js';
 
 /**
  * Портът: асинхронен, за да върви и на Web Crypto в браузъра.
@@ -121,8 +121,25 @@ function podredi(v: unknown): unknown {
   return v;
 }
 
+/**
+ * КОЯ канонична форма важи за ТОЗИ запис · пита се самият запис.
+ *
+ * Дотук проверката пробваше новата форма и при разминаване обявяваше стария
+ * запис за СЧУПЕН — с добра дума, но счупен. Това беше вярно само докато
+ * Журналът е празен. Той не е: **„само проби, които може да се изтрият"
+ * важи за СМЕТКИ, не за УПРАВЛЕНИЕ** (негово, 10.09.2026), а Управление е
+ * истината (правило 20).
+ *
+ * Затова версията решава, вместо да се гадае: липсваща версия е нула и се
+ * проверява с формата отпреди разреза. Стар запис минава като ЦЯЛ, без нито
+ * един байт от него да се пипа (правило 1).
+ */
+function kanonichnoZa(s: ZaHeshirane): string {
+  return (s.shema ?? SHEMA_PREDI_RAZREZA) >= SHEMA ? kanonichno(s) : kanonichnoPrediRazreza(s);
+}
+
 export async function izchisliHash(s: ZaHeshirane, sha: Sha256): Promise<string> {
-  return sha(kanonichno(s));
+  return sha(kanonichnoZa(s));
 }
 
 interface RezultatOtProverka {
@@ -167,17 +184,23 @@ export async function proveriVerigata(
     }
     const presmetnat = await izchisliHash(bezHash(s), sha);
     if (presmetnat !== s.hash) {
-      // Пипнат файл, или файл отпреди една от двете смени на подписа? Трите
-      // искат различни думи към човека, затова се различават ТУК, а не се
-      // сливат в „не съвпада". Редът е от НОВО към СТАРО: най-близката смяна
-      // е и най-вероятната.
+      /*
+       * Записът вече е проверен с ФОРМАТА, която сам обявява (`kanonichnoZa`),
+       * тъй че стар запис не стига дотук — той минава като цял. Оттук нататък
+       * се различава КАКВО е сбъркано, вместо всичко да се слее в „не съвпада":
+       *
+       *   `predi-razreza` · записът твърди днешна версия, а е подписан по
+       *                     СТАРАТА · тоест лъже за версията си
+       *   `star-podpis`   · подписан е още преди `actor` да влезе в хеша
+       *   `hash`          · нищо не съвпада · пипнат файл
+       */
       const zaHesh = bezHash(s);
-      const predi = await sha(kanonichnoPrediRazreza(zaHesh));
-      const naystaro = predi === s.hash ? undefined : await sha(kanonichnoPrediActor(zaHesh));
+      const kato0 = await sha(kanonichnoPrediRazreza(zaHesh));
+      const naystaro = kato0 === s.hash ? undefined : await sha(kanonichnoPrediActor(zaHesh));
       return {
         tsyala: false,
         parvoSchupeno: s.seq,
-        prichina: predi === s.hash ? 'predi-razreza' : naystaro === s.hash ? 'star-podpis' : 'hash',
+        prichina: kato0 === s.hash ? 'predi-razreza' : naystaro === s.hash ? 'star-podpis' : 'hash',
         proverni: ochakvanSeq - 1,
       };
     }
