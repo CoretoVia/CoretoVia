@@ -158,7 +158,15 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
 
   // ПРАВОТО стеснява „Вкарване": неговото D19 дава на Помощник Управителя точно
   // трите секции; който няма правото, ГЛЕДА (правило 23 · ADR-008)
-  const mozhePriVkarvane = v.sektsii.every((sek) => mozheDaRedaktira(o, k.aktor(), sek.tekst));
+  //
+  // Т29 · ПРАЗНИЯТ СПИСЪК ОТКАЗВА, НЕ РАЗРЕШАВА. Дотук тук стоеше само
+  // `v.sektsii.every(...)`, а `[].every(...)` е `true`. Преименува ли се
+  // някоя от трите секции от Настройки, тя изпадаше мълчаливо; изпаднеха ли и
+  // трите, гардът се ОТВАРЯШЕ за всички. Сега липсата затваря и се КАЗВА.
+  const mozhePriVkarvane =
+    v.lipsvashti.length === 0 &&
+    v.sektsii.length > 0 &&
+    v.sektsii.every((sek) => mozheDaRedaktira(o, k.aktor(), sek.tekst));
 
   /** Един ред с пари · клетките са редактируеми на място, както в дървото. */
   const redHTML = (r: RedNaEkrana, samoGledane = false): Zapechatan => {
@@ -341,9 +349,11 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
           <h2 class="lenta" translate="no">Вкарване</h2>
           <p class="pod-tablitsata">Заплати Кеш · Фактури Кеш · Фактури Карта на едно място (негово, 05.09).</p>
           <p class="pod-tablitsata" data-vkarvane-pravo>${
-            mozhePriVkarvane
-              ? 'Имаш право да вкарваш тук.'
-              : 'Ти само гледаш тук · правото за вкарване е на Помощник Управителя (лист Служители).'
+            v.lipsvashti.length > 0
+              ? `Вкарването е затворено: липсва${v.lipsvashti.length === 1 ? '' : 'т'} секция${v.lipsvashti.length === 1 ? '' : 'и'} „${v.lipsvashti.join('" · „')}". Върни име${v.lipsvashti.length === 1 ? 'то' : 'ната'} от Настройки → Номенклатури.`
+              : mozhePriVkarvane
+                ? 'Имаш право да вкарваш тук.'
+                : 'Ти само гледаш тук · правото за вкарване е на Помощник Управителя (лист Служители).'
           }</p>
           <table class="reshetka smetki" data-reshetka="vkarvane">
             <thead><tr>${glaviHTML}</tr></thead>

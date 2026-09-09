@@ -307,6 +307,33 @@ describe('секциите и сборовете', () => {
     expect(v.sektsii.map((s) => s.tekst)).toEqual(['Заплати Кеш', 'Фактури Кеш', 'Фактури Карта']);
     expect(v.redove).toHaveLength(2);
     expect(v.sbor).toBe(-175000);
+    // и трите са налице · липсващи няма
+    expect(v.lipsvashti).toEqual([]);
+  });
+
+  /**
+   * Т29 · ПРЕИМЕНУВАНА СЕКЦИЯ ИЗПАДАШЕ МЪЛЧАЛИВО · и това ОТВАРЯШЕ гарда.
+   *
+   * Трите секции се познават по ТЕКСТ. Преименува ли се някоя от Настройки,
+   * `.filter(x !== undefined)` я махаше и никой не научаваше. А екранът питаше
+   * `v.sektsii.every(...)` — а `[].every(...)` е `true`. Тоест преименуването
+   * на трите ОТВАРЯШЕ „Вкарване" за всеки.
+   *
+   * Сега липсата се НОСИ (`lipsvashti`) и екранът я КАЗВА (правило 12).
+   */
+  it('Т29 · преименувана секция се БРОИ като липсваща, не изпада мълчаливо', async () => {
+    const { iz, zapishi } = await sDvizheniya();
+    // „Заплати Кеш" е разходна секция №1 · преименува се от Настройки
+    await zapishi('p1', 'nastroyki.preimenuvayStoynost', {
+      nomenklatura: 'sektsii-razhodi',
+      nomer: 1,
+      tekst: 'Кеш',
+      belezi: {},
+    });
+    const v = vkarvaneto(iz.ogledalo(), KOGATO);
+    expect(v.lipsvashti).toEqual(['Заплати Кеш']);
+    // и списъкът вече НЕ е пълен · гардът на екрана стъпва точно на това
+    expect(v.sektsii).toHaveLength(2);
   });
 });
 

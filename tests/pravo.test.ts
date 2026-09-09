@@ -467,6 +467,79 @@ describe('ВРАТАТА НА РЕДОВЕТЕ · Портата пита пра
     expect(dumiteNaOtkaza(r)).toMatch(DUMITE);
   });
 
+  /**
+   * Т27 · НАБЛЮДАТЕЛ ПИШЕШЕ ПАРИ · доказано с ИЗПЪЛНЕНИЕ на 08.09.
+   *
+   * Наблюдателят е Длъжност с ВСИЧКИТЕ четири оси „Вижда" — и въпреки това
+   * `smetki.zapishiKesh` (5 000,00) и `smetki.zapishiDds` (123,45) се ЗАПИСАХА
+   * в Журнала. Командите нямаха `koyMozhe`, а полето е по избор — тъй че
+   * липсата му не вдигаше нищо.
+   */
+  it('Т27 · НАБЛЮДАТЕЛ не пише пари · нито кеш, нито ДДС', async () => {
+    const { iz, zapishi, stani } = await otvori();
+    await zapishi(
+      'n1',
+      'sluzhiteli.dobaviSluzhitel',
+      chovek('Наблюдателят', 'nablyudatel@example.bg', DLAZHNOST.nablyudatel),
+    );
+    stani('nablyudatel@example.bg');
+
+    const kesh = iz.probvay('k1', 'smetki.zapishiKesh', {
+      mesets: '2026-09',
+      zaplati: { stoynost_st: 500000 },
+      fakturi: { stoynost_st: 0 },
+      izvlechenie: { stoynost_st: 0 },
+    });
+    expect(eOtkaz(kesh)).toBe(true);
+    expect(dumiteNaOtkaza(kesh)).toMatch(DUMITE);
+
+    const dds = iz.probvay('d1', 'smetki.zapishiDds', {
+      mesets: '2026-09',
+      nachislen: { stoynost_st: 12345 },
+    });
+    expect(eOtkaz(dds)).toBe(true);
+    expect(dumiteNaOtkaza(dds)).toMatch(DUMITE);
+  });
+
+  /**
+   * Т23 · и коренът на Т28 · НАСТРОЙКИТЕ БЯХА ОТВОРЕНИ ЗА ВСЕКИ.
+   *
+   * Наблюдател преименува разходна секция „Кредити" на „Кеш" — и с това
+   * РАЗДАДЕ право върху нея, защото обхватът се четеше по подниз. Номенклатурите
+   * раждат секциите, значи отворените Настройки са заден вход към правото.
+   *
+   * Негово (`zadanie/02:16`): номенклатурите се пипат „от секция Номенклатура
+   * при **Настройки на Стопанина**".
+   */
+  it('Т23 · НАБЛЮДАТЕЛ не пипа номенклатурите · нито създава, нито преименува, нито спира', async () => {
+    const { iz, zapishi, stani } = await otvori();
+    await zapishi(
+      'n2',
+      'sluzhiteli.dobaviSluzhitel',
+      chovek('Наблюдателят', 'nablyudatel@example.bg', DLAZHNOST.nablyudatel),
+    );
+    stani('nablyudatel@example.bg');
+    const SAMO_STOPANINAT = /само от Стопанина/;
+
+    for (const [opId, klyuch, tovar] of [
+      [
+        's1',
+        'nastroyki.dobaviStoynost',
+        { nomenklatura: 'sektsii-razhodi', tekst: 'Ново', belezi: {} },
+      ],
+      [
+        's2',
+        'nastroyki.preimenuvayStoynost',
+        { nomenklatura: 'sektsii-razhodi', nomer: 5, tekst: 'Кеш', belezi: {} },
+      ],
+      ['s3', 'nastroyki.spriStoynost', { nomenklatura: 'sektsii-razhodi', nomer: 5, belezi: {} }],
+    ] as const) {
+      const r = iz.probvay(opId, klyuch, tovar);
+      expect(eOtkaz(r), `${klyuch} трябваше да откаже`).toBe(true);
+      expect(dumiteNaOtkaza(r)).toMatch(SAMO_STOPANINAT);
+    }
+  });
+
   it('правото се пита ПРЕДИ товара · отказът не издава дали редът съществува', async () => {
     // Портата пита `koyMozhe` преди схемата и преди предусловията
     // (`izpalnenie.ts:34`). Значи „Вижда само" получава ЕДИН отговор — своя —

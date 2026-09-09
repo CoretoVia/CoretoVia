@@ -52,6 +52,41 @@ function svedeno(dumi: string): string {
   return podravni(dumi).toLowerCase();
 }
 
+/**
+ * ТИ ЛИ СИ СТОПАНИНЪТ · един дом на въпроса (правило 14).
+ *
+ * Същият израз стоеше преписан на ТРИ места (`pravotoNaImeyla` ·
+ * `mozheDaRedaktira` · `mozheDaRazdavaDlazhnosti`). Преписан въпрос е въпрос,
+ * който ще се промени на две от трите места.
+ *
+ * Стопанинът е онзи, чийто имейл стои в Огледалото — той идва от ПЪРВОТО
+ * събитие и се замразява там. Негово, 08.09: „Длъжността на първия стопанин
+ * не се променя никога от никого. Неприкосновена е."
+ */
+function eStopaninat(o: Ogledalo, imeyl: string): boolean {
+  return o.stopanin !== '' && svedeno(imeyl) === svedeno(o.stopanin);
+}
+
+/**
+ * ЗАЩО НЕ ПИПА НАСТРОЙКИТЕ · и думите на отказа (правило 12).
+ *
+ * Негово (`zadanie/02-imoti-obekti-biznesi.md:16`): номенклатурите „се добавят
+ * и редактират и премахват от секция Номенклатура при **Настройки на
+ * Стопанина**". И самият прозорец се казва „Настройки(Стопанин)".
+ *
+ * ═══ ЗАЩО ТОВА Е СИГУРНОСТ, А НЕ ПОДРЕДБА (Т23 · и коренът на Т28) ═══
+ *
+ * Номенклатурите РАЖДАТ секциите, а секциите се назовават в обхвата на правото.
+ * Доказано с изпълнение на 08.09: Наблюдател преименува разходна секция и с това
+ * РАЗДАДЕ право върху нея. Тоест отворените Настройки не са удобство — те са
+ * заден вход към правото.
+ */
+export function zashtoNePipaNastroykite(o: Ogledalo, imeyl: string): string | null {
+  return eStopaninat(o, imeyl)
+    ? null
+    : 'Номенклатурите се създават, преименуват и спират само от Стопанина (Настройки · негово, 05.09).';
+}
+
 /** Правото от НЕГОВОТО изречение · по първата дума; празното е скрито. */
 export function pravoOtDumite(izrechenie: string): Pravo {
   const parva = svedeno(izrechenie).split(/\s+/)[0] ?? '';
@@ -173,7 +208,7 @@ export function dlazhnosttaNaImeyla(o: Ogledalo, imeyl: string): string {
  * Сега и двете затварят.
  */
 export function pravotoNaImeyla(o: Ogledalo, imeyl: string, os: OsNaDostapa): Pravo {
-  if (svedeno(imeyl) === svedeno(o.stopanin) && o.stopanin !== '') return 'redaktira';
+  if (eStopaninat(o, imeyl)) return 'redaktira';
   const dlazhnosti = dlazhnostiteNaImeyla(o, imeyl);
   if (dlazhnosti.length === 0) return 'skrito';
   return dlazhnosti
@@ -215,7 +250,7 @@ export function zashtoNeRedaktiraRedove(o: Ogledalo, imeyl: string): string | nu
  * отваря всички.
  */
 export function mozheDaRedaktira(o: Ogledalo, imeyl: string, hedar: string): boolean {
-  if (svedeno(imeyl) === svedeno(o.stopanin) && o.stopanin !== '') return true;
+  if (eStopaninat(o, imeyl)) return true;
   const dlazhnosti = dlazhnostiteNaImeyla(o, imeyl);
   if (dlazhnosti.length === 0) return false;
   // две Длъжности на един човек · важи НАЙ-ТЯСНАТА, затова „всяка", не „някоя"
@@ -325,7 +360,7 @@ export const DLAZHNOSTI_S_RAZDAVANE: readonly string[] = Object.freeze([
  * ред в Служители с Длъжност Управител и да влезе отзад.
  */
 export function mozheDaRazdavaDlazhnosti(o: Ogledalo, imeyl: string): boolean {
-  if (svedeno(imeyl) === svedeno(o.stopanin) && o.stopanin !== '') return true;
+  if (eStopaninat(o, imeyl)) return true;
   const dlazhnost = svedeno(dlazhnosttaNaImeyla(o, imeyl));
   if (dlazhnost === '') return false;
   return DLAZHNOSTI_S_RAZDAVANE.some((d) => svedeno(d) === dlazhnost);

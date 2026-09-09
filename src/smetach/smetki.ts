@@ -204,6 +204,18 @@ export interface Vkarvane {
   readonly sektsii: readonly Sektsiya[];
   readonly redove: readonly RedVSektsiya[];
   readonly sbor: number;
+  /**
+   * КОИ ОТ ТРИТЕ ЛИПСВАТ · и защо това поле съществува (Т29).
+   *
+   * Трите секции се познават по ТЕКСТ срещу зашити низове. Преименува ли се
+   * някоя от Настройки, тя изпадаше МЪЛЧАЛИВО — `.filter(x !== undefined)`
+   * я махаше и никой не научаваше. А гардът на екрана беше `sektsii.every(…)`,
+   * тъй че при изпаднали и трите списъкът ставаше празен, `[].every(...)` е
+   * `true`, и „Вкарване" се ОТВАРЯШЕ за всички.
+   *
+   * Сега липсата се НОСИ и се КАЗВА (правило 12), вместо да се преглъща.
+   */
+  readonly lipsvashti: readonly string[];
 }
 
 /**
@@ -220,11 +232,14 @@ export function vkarvaneto(
 ): Vkarvane {
   const s = smetkite(o, kogato, prezMeseca);
   const trite = [SEKTSIYA_ZAPLATI_KESH, SEKTSIYA_FAKTURI_KESH, SEKTSIYA_FAKTURI_KARTA];
-  const sektsii = trite
-    .map((tekst) => s.razhod.find((x) => podravni(x.tekst) === podravni(tekst)))
-    .filter((x): x is Sektsiya => x !== undefined);
+  const namereni = trite.map((tekst) => ({
+    tekst,
+    sek: s.razhod.find((x) => podravni(x.tekst) === podravni(tekst)),
+  }));
+  const sektsii = namereni.map((x) => x.sek).filter((x): x is Sektsiya => x !== undefined);
+  const lipsvashti = namereni.filter((x) => x.sek === undefined).map((x) => x.tekst);
   const redove = sektsii.flatMap((x) => x.redove);
-  return { sektsii, redove, sbor: redove.reduce((a, r) => a + r.suma_st, 0) };
+  return { sektsii, redove, sbor: redove.reduce((a, r) => a + r.suma_st, 0), lipsvashti };
 }
 
 export interface Kesh {

@@ -19,6 +19,7 @@ import { MODEL } from '../../model/osnova.js';
 import { shemaNaReda, strogObekt } from '../../model/shema.js';
 import { kletkaNa, zhiviteRedove } from '../../ogledalo/tablitsa.js';
 import { TIP } from '../../sabitiya/registar.js';
+import { zashtoNeRedaktiraRedove } from '../../smetach/pravo.js';
 import { OBRAZETS_NA_MESETSA } from '../../smetach/smetki.js';
 import { pishi } from '../../yadro/pari.js';
 import {
@@ -114,6 +115,16 @@ function komandaZaMesets(
     prozortsi: [t.prozorets],
     stepen: 'pishe',
     myasto: 'sluzhebna',
+    // Т27 · ТУК СЕ ПИШАТ ПАРИ, А ПРАВОТО НЕ СЕ ПИТАШЕ.
+    //
+    // Доказано с изпълнение на 08.09: Наблюдател — Длъжност с всичките четири
+    // оси „Вижда" — изпълни `smetki.zapishiKesh` (5 000,00) и `smetki.zapishiDds`
+    // (123,45), и ДВЕТЕ се записаха в Журнала. Командата нямаше `koyMozhe`, а
+    // полето е по избор, тъй че липсата не вдигаше нищо.
+    //
+    // Кешът и ДДС-то са редове с пари като всеки друг — значи същата врата
+    // (правило 18 · оста „редове"), и същите думи на отказа (правило 14).
+    koyMozhe: (k) => zashtoNeRedaktiraRedove(k.ogledalo, k.aktor),
     proizvezhda: [TIP.redZapisan],
     shema: strogObekt({
       // дължината я казва ПРЕДУСЛОВИЕТО, с думите на месеца, а не схемата с „7 знака"

@@ -26,6 +26,7 @@ import {
 import type { Predlozhenie } from '../../model/predlozhenie.js';
 import { strogObekt } from '../../model/shema.js';
 import { TIP } from '../../sabitiya/registar.js';
+import { zashtoNePipaNastroykite } from '../../smetach/pravo.js';
 import {
   type Komanda,
   type Kontekst,
@@ -104,6 +105,9 @@ const dobaviStoynost: Komanda<TovarDobaviStoynost> = {
   prozortsi: ['nastroyki'],
   stepen: 'pishe',
   myasto: 'kletka',
+  // Т23 · Настройките раждат СЕКЦИИТЕ, а секциите се назовават в обхвата на
+  // правото. Отворени Настройки са заден вход към правото (вж. pravo.ts).
+  koyMozhe: (k) => zashtoNePipaNastroykite(k.ogledalo, k.aktor),
   proizvezhda: [TIP.stoynostZapisana],
   shema: strogObekt({ nomenklatura: NOMENKLATURA, tekst: TEKST, belezi: BELEZI }),
   otPredlozhenie: (p: Predlozhenie) =>
@@ -164,6 +168,7 @@ const preimenuvayStoynost: Komanda<TovarPreimenuvayStoynost> = {
   prozortsi: ['nastroyki'],
   stepen: 'pishe',
   myasto: 'kletka',
+  koyMozhe: (k) => zashtoNePipaNastroykite(k.ogledalo, k.aktor),
   proizvezhda: [TIP.stoynostZapisana],
   shema: strogObekt({ nomenklatura: NOMENKLATURA, nomer: NOMER, belezi: BELEZI, tekst: TEKST }),
   otPredlozhenie: (p: Predlozhenie) =>
@@ -213,6 +218,7 @@ function komandaZaSpirane(spryana: boolean): Komanda<SNomer> {
     prozortsi: ['nastroyki'],
     stepen: 'pishe',
     myasto: 'kletka',
+    koyMozhe: (k) => zashtoNePipaNastroykite(k.ogledalo, k.aktor),
     proizvezhda: [TIP.stoynostSpryana],
     shema: strogObekt({ nomenklatura: NOMENKLATURA, nomer: NOMER, belezi: BELEZI }),
     otPredlozhenie: (p: Predlozhenie) =>
