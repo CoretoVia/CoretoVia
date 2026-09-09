@@ -177,6 +177,13 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
       if (klyuch === 'kam') {
         const kl = red.kletki['kam'] ?? null;
         const dumi = kl !== null && 'tekst' in kl ? imeNaVrazkata(o, kol, kl.tekst) : '';
+        // Т33 · и тази клетка се затваря, когато редът е само за гледане.
+        // Тя се пише на ръка (връзката иска свое меню), но правото важи и за
+        // ръчно написаното: клетка без белег за редакция и без табулация не се
+        // отваря от никого. Дотук „кам" беше единствената, която го заобикаляше.
+        if (samoGledane) {
+          return h`<td class="kletka vrazka" data-kolona="kam" translate="no">${dumi}</td>`;
+        }
         return h`<td class="kletka vrazka" data-kolona="kam" data-redakt="${TABLITSA}·${r.id}·kam" tabindex="0" translate="no">${dumi}</td>`;
       }
       return kletkaHTML(o, TABLITSA, kol, red, samoGledane);

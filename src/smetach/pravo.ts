@@ -176,10 +176,24 @@ function ottsenka(dumi: Record<OsNaDostapa, string>): Record<OsNaDostapa, Pravo>
  *
  * Длъжност без ред и без базов ред получава НАЙ-ТЯСНОТО: непозната длъжност не
  * отваря врати (правило 15: изключено ≠ липсващо, но липсващото не е позволено).
+ *
+ * ═══ ДВА ЖИВИ РЕДА ЗА ЕДНА ДЛЪЖНОСТ · ПЕЧЕЛИ ПОСЛЕДНИЯТ (Т31) ═══
+ *
+ * Журналът е само за добавяне (правило 1): поправката НЕ мени стария ред, а
+ * добавя нов. Значи в таблицата може да стоят два живи реда за една и съща
+ * Длъжност, и по-новият е поправката.
+ *
+ * Дотук тук се връщаше ПЪРВИЯТ намерен, тоест печелеше НАЙ-СТАРИЯТ — и стеснено
+ * право, записано с нов ред, не влизаше в сила. Дупката е точно в посоката, в
+ * която боли: отнемане на достъп, което не се случва.
+ *
+ * `zhiviteRedove` върви по реда на записване, затова последното съвпадение е
+ * най-новото.
  */
 export function dostapaNaDlazhnostta(o: Ogledalo, dlazhnost: string): DostapNaDlazhnost {
   const tv = o.tablitsi.get(TABLITSA);
   if (tv !== undefined) {
+    let posleden: Record<OsNaDostapa, string> | null = null;
     for (const i of zhiviteRedove(tv)) {
       const kl = kletkaNa(tv, i, 'dlazhnost');
       const tekst = kl === null ? '' : tekstNaIzbora(o, TABLITSA, 'dlazhnost', kl);
@@ -189,7 +203,10 @@ export function dostapaNaDlazhnostta(o: Ogledalo, dlazhnost: string): DostapNaDl
         const k = kletkaNa(tv, i, os);
         dumi[os] = k !== null && 'tekst' in k ? k.tekst : '';
       }
-      return { dlazhnost, dumi, pravo: ottsenka(dumi), zapisan: true };
+      posleden = dumi;
+    }
+    if (posleden !== null) {
+      return { dlazhnost, dumi: posleden, pravo: ottsenka(posleden), zapisan: true };
     }
   }
   const bazov = DOSTAP_PO_PODRAZBIRANE.find((d) => svedeno(d.dlazhnost) === svedeno(dlazhnost));
@@ -366,21 +383,63 @@ export function obhvatatPokriva(obhvat: string, hedar: string): boolean {
  *
  * Живее тук, при смятането, а не при екрана: Профилът и Служители го четат
  * еднакво, а екран, който вика друг екран, прави кръг (`sloeve`).
+ *
+ * ═══ ПОКАЗАНОТО И ДЕЙСТВАЩОТО СА ЕДНО (Т32 · Т25) ═══
+ *
+ * Дотук тази функция четеше ПЪРВАТА намерена Длъжност и връщаше нейните думи —
+ * а записът се пита от `pravotoNaImeyla`, което прави ДРУГИ три неща: знае за
+ * Стопанина, отказва на човек без Длъжност, и взима НАЙ-ТЯСНОТО от всичките му
+ * Длъжности.
+ *
+ * Тоест Профилът лъжеше в двете посоки наведнъж: Стопанин без ред в Достъп
+ * четеше „Скрито" по четирите оси, докато реално редактира; а човек с две
+ * Длъжности виждаше по-широката, докато го пази по-тясната.
+ *
+ * Екран, който казва различно от вратата, е по-опасен от екран, който мълчи:
+ * човекът си вярва и се оплаква за нещо, което работи, или разчита на право,
+ * което го няма. Затова тук се повтарят СЪЩИТЕ три правила, в същия ред.
  */
 export function dostapaMi(
   o: Ogledalo,
   imeyl: string,
 ): { dlazhnost: string; osi: readonly { os: string; dumi: string; pravo: string }[] } {
-  const dlazhnost = dlazhnosttaNaImeyla(o, imeyl);
-  const d = dostapaNaDlazhnostta(o, dlazhnost);
+  const dlazhnosti = dlazhnostiteNaImeyla(o, imeyl);
+  const dlazhnost = dlazhnosti[0] ?? '';
   const koloni = tablitsata(MODEL, TABLITSA).koloni;
+  const stopanin = eStopaninat(o, imeyl);
+
   return {
     dlazhnost,
-    osi: OSI_NA_DOSTAPA.map((os) => ({
-      os: koloni.find((c) => c.klyuch === os)?.ime ?? os,
-      dumi: d.dumi[os],
-      pravo: DUMI_NA_PRAVOTO[d.pravo[os]],
-    })),
+    osi: OSI_NA_DOSTAPA.map((os) => {
+      const ime = koloni.find((c) => c.klyuch === os)?.ime ?? os;
+
+      // Стопанинът е над Длъжностите · същото заобикаляне като в `pravotoNaImeyla`
+      if (stopanin) {
+        const dumi = dlazhnosti
+          .map((dl) => dostapaNaDlazhnostta(o, dl).dumi[os])
+          .filter((d) => d !== '')
+          .join(' · ');
+        return {
+          os: ime,
+          dumi: dumi === '' ? 'Стопанин на Книгата · над Длъжностите' : dumi,
+          pravo: DUMI_NA_PRAVOTO['redaktira'],
+        };
+      }
+
+      // човек без Длъжност е СКРИТ · подразбирането е ОТКАЗ (Т41)
+      if (dlazhnosti.length === 0) {
+        return { os: ime, dumi: '', pravo: DUMI_NA_PRAVOTO['skrito'] };
+      }
+
+      // няколко Длъжности · печели НАЙ-ТЯСНОТО (правило 18), както при записа
+      const dostapi = dlazhnosti.map((dl) => dostapaNaDlazhnostta(o, dl));
+      const pravo = dostapi.map((d) => d.pravo[os]).reduce((a, b) => poTyasnoto(a, b));
+      const dumi = dostapi
+        .map((d) => d.dumi[os])
+        .filter((d) => d !== '')
+        .join(' · ');
+      return { os: ime, dumi, pravo: DUMI_NA_PRAVOTO[pravo] };
+    }),
   };
 }
 

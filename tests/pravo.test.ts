@@ -624,3 +624,161 @@ describe('ВРАТАТА НА РЕДОВЕТЕ · Портата пита пра
     expect(eOtkaz(r)).toBe(false);
   });
 });
+
+/**
+ * ═══ ТРИТЕ ДУПКИ, ЗАТВОРЕНИ НА 09.09.2026 · Т31 · Т32 · Т25 ═══
+ *
+ * И трите са от един клас: правото се СМЯТА на две места и двете места не
+ * казваха едно и също. Вратата пита `pravotoNaImeyla`, Профилът питаше
+ * `dostapaMi`, а таблицата на Достъпа връщаше първия намерен ред.
+ */
+describe('поправката бие стария ред · и Профилът казва ДЕЙСТВАЩОТО (Т31 · Т32 · Т25)', () => {
+  const dlazhnostSDostap = (nomer: number, redove: string) => ({
+    kletki: {
+      dlazhnost: { nomer },
+      tabove: { tekst: 'Вижда всичко' },
+      hedari: { tekst: 'Вижда само всичко' },
+      redove: { tekst: redove },
+      zhurnal: { tekst: 'Вижда само всичко' },
+    },
+  });
+
+  it('Т31 · ДВА живи реда за една Длъжност → печели ПОСЛЕДНИЯТ, не най-старият', async () => {
+    const { iz, zapishi } = await otvori();
+
+    // първият ред отваря редовете за Наблюдателя …
+    await zapishi(
+      'd1',
+      'sluzhiteli.dobaviDlazhnost',
+      dlazhnostSDostap(DLAZHNOST.nablyudatel, 'Редактира всичко'),
+    );
+    expect(dostapaNaDlazhnostta(iz.ogledalo(), 'Наблюдател').pravo.redove).toBe('redaktira');
+
+    // … а вторият (поправката, правило 1: ново събитие) ги СТЕСНЯВА
+    await zapishi(
+      'd2',
+      'sluzhiteli.dobaviDlazhnost',
+      dlazhnostSDostap(DLAZHNOST.nablyudatel, 'Вижда само всичко'),
+    );
+
+    const o = iz.ogledalo();
+    expect(dostapaNaDlazhnostta(o, 'Наблюдател').pravo.redove).toBe('vizhda');
+    expect(dostapaNaDlazhnostta(o, 'Наблюдател').dumi.redove).toBe('Вижда само всичко');
+  });
+
+  it('Т32 · СТОПАНИНЪТ без ред в Достъп вижда в Профила „Редактира", не „Скрито"', async () => {
+    const { iz } = await otvori();
+    const o = iz.ogledalo();
+
+    // вратата вече му дава всичко · Профилът трябва да казва СЪЩОТО
+    for (const os of OSI_NA_DOSTAPA) expect(pravotoNaImeyla(o, STOPANIN, os)).toBe('redaktira');
+
+    const d = dostapaMi(o, STOPANIN);
+    expect(d.osi.map((x) => x.pravo)).toEqual(['Редактира', 'Редактира', 'Редактира', 'Редактира']);
+    expect(d.osi[0]?.dumi).toBe('Стопанин на Книгата · над Длъжностите');
+  });
+
+  it('Т25 · ДВЕ Длъжности → Профилът показва НАЙ-ТЯСНОТО, както го пази вратата', async () => {
+    const { iz, zapishi } = await otvori();
+    const IMEYL = 'dvete@example.bg';
+
+    // един и същ човек в ДВЕТЕ таблици · Управител в едната, Наблюдател в другата
+    await zapishi('s1', 'sluzhiteli.dobaviStopan', chovek('Двойният', IMEYL, DLAZHNOST.upravitel));
+    await zapishi(
+      's2',
+      'sluzhiteli.dobaviSluzhitel',
+      chovek('Двойният', IMEYL, DLAZHNOST.nablyudatel),
+    );
+
+    const o = iz.ogledalo();
+    const d = dostapaMi(o, IMEYL);
+
+    // вратата и Профилът дават ЕДНО И СЪЩО по всяка ос
+    for (const [i, os] of OSI_NA_DOSTAPA.entries()) {
+      expect(d.osi[i]?.pravo).toBe(DUMI_NA_PRAVOTO[pravotoNaImeyla(o, IMEYL, os)]);
+    }
+    // и това не е „и двете са Редактира" · Наблюдателят стеснява редовете
+    expect(pravotoNaImeyla(o, IMEYL, 'redove')).toBe('vizhda');
+  });
+});
+
+/**
+ * ═══ Т33 · БЕЛЕГЪТ ЗА РЕДАКЦИЯ НЕ СЕ ПИША БЕЗ ПАЗАЧ ═══
+ *
+ * Клетката „кам" в Сметки получаваше `data-redakt` БЕЗУСЛОВНО: човек без право
+ * по оста „хедъри" виждаше секцията „Вкарване" като само за гледане, но точно
+ * тази клетка се отваряше. Дупка, която Заданието описваше като затворена.
+ *
+ * Поправянето на единия случай не пази от следващия. Затова тук се брои
+ * СТРУКТУРНО: всяко място в екрана, което ПИШЕ белега, стои до пазача си.
+ * Обходът обявява колко е видял (правило 14) и доказва, че лови (правило 2 на
+ * проверките) — върху нарочно счупен откъс.
+ */
+describe('Т33 · нито един белег за редакция без пазач · обход по екрана', () => {
+  const PAZACHI = /bezRedaktsiya|samoGledane/;
+
+  /**
+   * Редовете, които ПИШАТ белега.
+   *
+   * Не се броят: четенето (`querySelector`) и КОМЕНТАРИТЕ — шапката на решетката
+   * обяснява белега с думи и това не е място, което го издава.
+   */
+  const pishatBelega = (kod: string): number[] =>
+    kod
+      .split('\n')
+      .map((red, i) => ({ red, n: i + 1 }))
+      .filter(({ red }) => {
+        const gol = red.trim();
+        if (gol.startsWith('*') || gol.startsWith('//') || gol.startsWith('/*')) return false;
+        return red.includes('data-redakt="') && !red.includes('querySelector');
+      })
+      .map(({ n }) => n);
+
+  const bezPazach = (kod: string): string[] => {
+    const redove = kod.split('\n');
+    const nahodki: string[] = [];
+    for (const n of pishatBelega(kod)) {
+      // пазачът стои НАД мястото · шест реда стигат за `if` и за тройното условие
+      const okolo = redove.slice(Math.max(0, n - 7), n).join('\n');
+      if (!PAZACHI.test(okolo)) nahodki.push(`ред ${n}`);
+    }
+    return nahodki;
+  };
+
+  it('обходът е ВИДЯЛ екрана · иначе нулата долу не значи нищо', async () => {
+    const { readFileSync, readdirSync, statSync } = await import('node:fs');
+    const { join } = await import('node:path');
+    const faylove: string[] = [];
+    const obhodi = (p: string): void => {
+      for (const ime of readdirSync(p)) {
+        const pat = join(p, ime);
+        if (statSync(pat).isDirectory()) obhodi(pat);
+        else if (ime.endsWith('.ts')) faylove.push(pat);
+      }
+    };
+    obhodi('app');
+    expect(faylove.length).toBeGreaterThan(20);
+    const pishat = faylove.filter((f) => pishatBelega(readFileSync(f, 'utf8')).length > 0);
+    // днес са ДВЕ: общата решетка и клетката „кам" в Сметки
+    expect(pishat.length).toBe(2);
+  });
+
+  it('нито едно място не пише белега без пазач наблизо', async () => {
+    const { readFileSync } = await import('node:fs');
+    for (const f of ['app/reshetka/reshetka.ts', 'app/prozorets/smetki.ts']) {
+      expect(bezPazach(readFileSync(f, 'utf8')), f).toEqual([]);
+    }
+  });
+
+  it('МЯРКАТА ЛОВИ · нарочно счупен откъс дава находка', () => {
+    // адресът се сглобява, за да не изглежда като заместител в ТОЗИ файл
+    const adres = `$\{TABLITSA}·$\{r.id}·kam`;
+    const schupen = [
+      'const tds = KOLONI.map((klyuch) => {',
+      '  const kol = kolonaNa(t, klyuch);',
+      `  return h\`<td data-redakt="${adres}" tabindex="0"></td>\`;`,
+      '});',
+    ].join('\n');
+    expect(bezPazach(schupen)).toEqual(['ред 3']);
+  });
+});
