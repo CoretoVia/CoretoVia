@@ -56,18 +56,58 @@ const PAPKI = ['docs', 'zadanie'].map((p) => join(KOREN, p)).filter((p) => exist
 /** Белезите на въпрос · буквата е ТЕМАТА, числото е номерът в нея. */
 const BELEG = /(?:^|[^\p{Script=Cyrillic}\p{Script=Latin}])([ТАБВГДЕОСМФУПК])(\d{1,3})(?![0-9])/gu;
 
-/** Думите, с които документ обявява, че чака него. */
-const CHAKA = /чака негова дума|ЧАКА НЕГОВА ДУМА|чака него\b|негова дума|чака неговата дума/u;
+/**
+ * Думите, с които документ обявява, че ЧАКА него.
+ *
+ * Стеснено на 09.09.2026: първата версия ловеше голото „негова дума" и даваше
+ * тринайсет лъжливи находки — изречения като „**затворени с негова дума**" и
+ * „осем са, и това е негова дума" ПОТВЪРЖДАВАТ отговор, а не го искат.
+ *
+ * Проверка, която вика при вярното, се изключва след третия път и тогава не
+ * пази нищо. Затова тук стои ЧАКАНЕТО, не думата „дума".
+ */
+const CHAKA =
+  /чака(т)? (негова|неговата) дума|ЧАКА НЕГОВА ДУМА|чака(т)? него\b|(без|няма|иска|липсва) негова дума|не се строи без нея|чака(т)? отговор/u;
+
+/**
+ * Кои папки НЕ се съдят за „пита отговореното" · и защо.
+ *
+ * `arhiv` · приключеното (правило 13) — то нарочно пази стария си вид.
+ * `izvori` · неговите думи, както са казани — те не питат, те отговарят.
+ * `dokladi` · ЗАПИСИ от проверка в определен ден. Доклад, който казва „това
+ *   чакаше негова дума", е ВЯРЕН за деня си; поправен задна дата, той престава
+ *   да е доклад. Живият дълг обаче се съди — той твърди за ДНЕС.
+ *
+ * Белезите в тях СЕ БРОЯТ (за да няма въпрос без дом); само проверка 3 ги
+ * подминава.
+ */
+const NE_SE_SADYAT = ['arhiv', 'izvori', 'dokladi'];
 
 function vsichkiFaylove(papka, sabrani = []) {
   for (const ime of readdirSync(papka)) {
     const pat = join(papka, ime);
     if (statSync(pat).isDirectory()) {
-      if (ime === 'arhiv' || ime === 'izvori') continue; // архивът и изворите не питат
       vsichkiFaylove(pat, sabrani);
     } else if (ime.endsWith('.md')) sabrani.push(pat.replace(/\\/g, '/'));
   }
   return sabrani;
+}
+
+/**
+ * ГОЛИТЕ ДУМИ · без украсата на markdown.
+ *
+ * Документите носят удебеляване ВЪТРЕ в цитатите („Стопанин и Служител не се
+ * сливат**, но просто **всички са Служители"), а регистърът пази чистия цитат.
+ * Сравнението на голи думи гледа СМИСЪЛА, не форматирането — инак машината би
+ * валила заради две звездички.
+ */
+function goli(t) {
+  return t.replace(/[*_`]/gu, '').replace(/\s+/gu, ' ').trim();
+}
+
+/** Съди ли се този файл за „пита нещо вече отговорено"? */
+function sesadi(f) {
+  return !NE_SE_SADYAT.some((p) => f.includes(`/${p}/`));
 }
 
 function chetiRegistara() {
@@ -141,23 +181,55 @@ for (const v of reg.vaprosi) {
     nahodki.push(`2 · „${v.beleg}" носи думи без адрес`);
     continue;
   }
-  const fayl = v.adres.split(':')[0];
-  let tekst = '';
-  try {
-    tekst = readFileSync(fayl, 'utf8');
-  } catch {
-    nahodki.push(`2 · „${v.beleg}" сочи файл, който го няма: ${fayl}`);
+  /**
+   * Адресът често носи ПОВЕЧЕ от един файл („docs/10:128 · zadanie/05:60") и
+   * понякога започва с дума („Цитат 05.09: …"). Затова тук се вадят ВСИЧКИ
+   * файлове от него и цитатът се търси във всеки: стои ли поне в един, опората
+   * е налице. Инак машината би валила заради формата на записа, не заради
+   * липсваща опора — а тя пази опората.
+   */
+  const faylove = [...v.adres.matchAll(/[\w./\\-]+\.(?:md|ts|mjs|json|cjs)/gu)].map((m) =>
+    m[0].replace(/\\/g, '/').replace(/^.*Coretovia\//u, ''),
+  );
+  if (faylove.length === 0) {
+    nahodki.push(`2 · „${v.beleg}" няма файл в адреса си: ${v.adres.slice(0, 80)}`);
     continue;
   }
-  // сверява се ПАРЧЕ от цитата · дългите изречения се пренасят с нов ред
-  const parche = v.negovite_dumi.replace(/\s+/g, ' ').trim().slice(0, 40);
-  if (!tekst.replace(/\s+/g, ' ').includes(parche)) {
-    nahodki.push(`2 · думите на „${v.beleg}" ги няма на адреса ${v.adres}`);
+  /**
+   * ЦИТАТЪТ, не обвивката му.
+   *
+   * Записът често носи и наша дума пред него („Не се иска поправка. Дословно,
+   * както стои: „…""). Сверява се НЕГОВОТО — най-дългото, което стои в кавички.
+   * Няма ли кавички, взима се целият запис.
+   */
+  const vKavichki = [...v.negovite_dumi.matchAll(/„([^“”"]{10,})[“”"]/gu)].map((m) => m[1]);
+  const suroviyat =
+    vKavichki.length > 0 ? vKavichki.sort((a, b) => b.length - a.length)[0] : v.negovite_dumi;
+  const parche = goli(suroviyat).slice(0, 40);
+  let namereno = false;
+  let chetoh = false;
+  for (const f of faylove) {
+    let tekst = '';
+    try {
+      tekst = readFileSync(join(KOREN, f), 'utf8');
+    } catch {
+      continue;
+    }
+    chetoh = true;
+    if (goli(tekst).includes(parche)) {
+      namereno = true;
+      break;
+    }
+  }
+  if (!chetoh) {
+    nahodki.push(`2 · „${v.beleg}" сочи файлове, които ги няма: ${faylove.join(' · ')}`);
+  } else if (!namereno) {
+    nahodki.push(`2 · думите на „${v.beleg}" ги няма в ${faylove.join(' · ')}`);
   }
 }
 
-// 3 · никой не пита отговореното
-for (const f of faylove) {
+// 3 · никой не пита отговореното · само в ЖИВИТЕ документи
+for (const f of faylove.filter(sesadi)) {
   for (const [i, red] of readFileSync(f, 'utf8').split('\n').entries()) {
     if (!CHAKA.test(red)) continue;
     for (const m of red.matchAll(BELEG)) {
@@ -177,7 +249,9 @@ for (const v of reg.vaprosi) broy[v.sastoyanie] = (broy[v.sastoyanie] ?? 0) + 1;
 console.log('');
 console.log('═══ РЕГИСТЪРЪТ НА ВЪПРОСИТЕ ═══');
 console.log('');
-console.log(`  видени: ${faylove.length} документа · ${kade.size} белега в тях`);
+console.log(
+  `  видени: ${faylove.length} документа (${faylove.filter(sesadi).length} живи · останалите са записи) · ${kade.size} белега в тях`,
+);
 console.log(`  вписани: ${reg.vaprosi.length} въпроса`);
 console.log(
   `  отговорени: ${broy.otgovoren} · открити: ${broy.otkrit} · отпаднали: ${broy.otpadnal} · непознати: ${broy.nepoznat}`,
