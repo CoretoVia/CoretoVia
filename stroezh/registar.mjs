@@ -310,7 +310,12 @@ for (const f of faylove.filter(sesadi)) {
 }
 
 // 4 · обхватът се обявява
-const broy = { otgovoren: 0, otkrit: 0, otpadnal: 0, nepoznat: 0 };
+/*
+ * Състоянията НЕ се изброяват тук с ръка (правило 14): броят се от самия
+ * регистър. Стоеше твърд списък от четири, а в данните живееха шест — тоест
+ * два вида въпроси не се виждаха в отчета. Числото се БРОИ, не се преписва.
+ */
+const broy = {};
 for (const v of reg.vaprosi) broy[v.sastoyanie] = (broy[v.sastoyanie] ?? 0) + 1;
 
 console.log('');
@@ -320,8 +325,20 @@ console.log(
   `  видени: ${faylove.length} документа (${faylove.filter(sesadi).length} живи · останалите са записи) · ${kade.size} белега в тях`,
 );
 console.log(`  вписани: ${reg.vaprosi.length} въпроса`);
+const IMENA = {
+  otgovoren: 'отговорени',
+  otkrit: 'открити',
+  otpadnal: 'отпаднали',
+  nepoznat: 'непознати',
+  reshen_ot_koda: 'решени от кода',
+  obyaveno_predpolozhenie: 'обявени предположения',
+};
 console.log(
-  `  отговорени: ${broy.otgovoren} · открити: ${broy.otkrit} · отпаднали: ${broy.otpadnal} · непознати: ${broy.nepoznat}`,
+  '  ' +
+    Object.entries(broy)
+      .sort((a, b) => b[1] - a[1])
+      .map(([k, n]) => `${IMENA[k] ?? k}: ${n}`)
+      .join(' · '),
 );
 console.log('');
 
