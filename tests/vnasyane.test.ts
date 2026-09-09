@@ -17,7 +17,7 @@ import {
 } from '../src/model/predlozhenie.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import { izpalniPredlozheniyata, probvayPredlozheniyata } from '../src/porta/vnasyane.js';
-import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T16:00:00.000Z';
 const idNa = (i: number): string => `vnos:${i}`;
@@ -32,6 +32,7 @@ async function otvori() {
     model: MODEL,
     ...koyPishe(KNIGA),
     ustroystvo: USTROYSTVO,
+    valuta: VALUTA,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;

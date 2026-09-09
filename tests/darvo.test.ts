@@ -14,7 +14,7 @@ import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import { TIP } from '../src/sabitiya/registar.js';
 import { darvoto } from '../src/smetach/darvo.js';
 import { tekstNaNomera } from '../src/smetach/nomeratsiya.js';
-import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T13:00:00.000Z';
 const PRAZEN = { plosht: null, tsena: null, papka: null, adres: null };
@@ -28,6 +28,7 @@ async function ogledalo() {
     model: MODEL,
     ...koyPishe(KNIGA),
     ustroystvo: USTROYSTVO,
+    valuta: VALUTA,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;

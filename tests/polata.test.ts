@@ -15,7 +15,7 @@ import {
   poletataNaUpravlenie,
   SPESHNO_I_VAZHNO,
 } from '../src/smetach/polata.js';
-import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T13:00:00.000Z';
 const DNES = '2026-09-05';
@@ -30,6 +30,7 @@ async function ogledalo() {
     model: MODEL,
     ...koyPishe(KNIGA),
     ustroystvo: USTROYSTVO,
+    valuta: VALUTA,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;
@@ -126,6 +127,7 @@ describe('полетата с цифри', () => {
       model: MODEL,
       ...koyPishe(KNIGA),
       ustroystvo: USTROYSTVO,
+      valuta: VALUTA,
       aktor: () => STOPANIN,
       sega: () => KOGATO,
     });

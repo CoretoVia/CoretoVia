@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest';
 import { MODEL } from '../src/model/osnova.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import type { PortaZaChetene } from '../src/porta/porta.js';
-import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
 
 async function otvori() {
   const k = knigaZaTest();
@@ -19,6 +19,7 @@ async function otvori() {
     model: MODEL,
     ...koyPishe(KNIGA),
     ustroystvo: USTROYSTVO,
+    valuta: VALUTA,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;

@@ -12,7 +12,7 @@ import { knigataOtOgledaloto } from '../src/kniga/pisane.js';
 import { MODEL, NOMENKLATURA } from '../src/model/osnova.js';
 import { fold } from '../src/ogledalo/ogledalo.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
-import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
 import { MOSTRA } from './mostri/mostra-kniga.js';
 
 const KOGATO = '2026-09-05T14:00:00.000Z';
@@ -138,6 +138,7 @@ async function nashata() {
     model: MODEL,
     ...koyPishe(KNIGA),
     ustroystvo: USTROYSTVO,
+    valuta: VALUTA,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;

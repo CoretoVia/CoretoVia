@@ -15,7 +15,7 @@ import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import { ddsat, stranaNaDdsa } from '../src/smetach/dds.js';
 import { nahodkiteNaNap, NIVA, PROVERKI } from '../src/smetach/nahodki-nap.js';
 import { nomerNaSektsiya, SEKTSIYA_ZAPLATI_KESH } from '../src/smetach/smetki.js';
-import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T13:00:00.000Z';
 const DNES = '2026-09-05';
@@ -35,6 +35,7 @@ async function otvori() {
     model: MODEL,
     ...koyPishe(KNIGA),
     ustroystvo: USTROYSTVO,
+    valuta: VALUTA,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;

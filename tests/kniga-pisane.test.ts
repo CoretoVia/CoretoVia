@@ -17,7 +17,7 @@ import { DUMI_OT_KNIGATA } from '../src/model/dumi-ot-knigata.js';
 import { MODEL, NOMENKLATURA, PROZORTSI, SLUZHEBEN_LIST } from '../src/model/osnova.js';
 import { otpechatakNaModela } from '../src/model/otpechatak.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
-import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T13:00:00.000Z';
 const PRAZEN = { plosht: null, tsena: null, papka: null, adres: null };
@@ -31,6 +31,7 @@ async function knigata() {
     model: MODEL,
     ...koyPishe(KNIGA),
     ustroystvo: USTROYSTVO,
+    valuta: VALUTA,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;

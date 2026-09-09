@@ -27,7 +27,7 @@ import {
 } from '../src/yadro/index.js';
 import { naprediChasovnika, sravniPoTakt, taktNaSabitie } from '../src/yadro/takt.js';
 import { sgani } from '../src/ogledalo/sgavane.js';
-import { SHA, USTROYSTVO } from './pomoshtni.js';
+import { SHA, USTROYSTVO, VALUTA } from './pomoshtni.js';
 
 const KOGATO = '2026-08-26T09:00:00.000Z';
 
@@ -41,6 +41,7 @@ async function veriga(klyuch: string, broy: number, ot: number): Promise<readonl
       ts: new Date(Date.UTC(2026, 7, 26, 9, 0, ot + i)).toISOString(),
       ...koyPishe(klyuch),
       ustroystvo: USTROYSTVO,
+      valuta: VALUTA,
       actor: `${klyuch}@example.bg`,
       type: 'ИмотДобавен',
       sashtnost: { vid: 'imot', id: `${klyuch}-${i}` },

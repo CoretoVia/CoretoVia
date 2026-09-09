@@ -33,7 +33,7 @@ import {
   VIDOVE_OBEKT,
 } from '../src/smetach/kalkulator/nastroyki.js';
 import { otseni, otsenkata, vidatOtImeto } from '../src/smetach/kalkulator/stoynost.js';
-import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
 
 const KOGATO = '2026-09-06T10:00:00.000Z';
 /** сто квадратни метра в цели кв. см */
@@ -216,6 +216,7 @@ describe('калкулаторът над Продажбите', () => {
       model: MODEL,
       ...koyPishe(KNIGA),
       ustroystvo: USTROYSTVO,
+      valuta: VALUTA,
       aktor: () => STOPANIN,
       sega: () => {
         takt += 1;

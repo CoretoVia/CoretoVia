@@ -39,6 +39,7 @@ import { sgani } from '../ogledalo/sgavane.js';
 import type { Dnevnik } from '../yadro/dnevnik.js';
 import { dumiZaGreshka } from '../yadro/dumi.js';
 import type { Sabitie } from '../yadro/sabitie.js';
+import type { Valuta } from '../yadro/sabitie.js';
 import { veriga } from '../yadro/sabitie.js';
 import { DnevnikNaSverki, MERKA, sverka } from '../yadro/sverka.js';
 import { naprediChasovnika } from '../yadro/takt.js';
@@ -63,8 +64,15 @@ export interface NastroykiNaIzpalnitelya {
    * извежда на едно място (`veriga()` в `sabitie.ts`).
    */
   readonly pisach: string;
-  /** ОТ КОЕ УСТРОЙСТВО · днес съвпада с писача и това е обявено */
+  /** ОТ КОЕ УСТРОЙСТВО · отпечатъкът на машината */
   readonly ustroystvo: string;
+  /**
+   * ВАЛУТАТА на тази Книга · избира се ЕДНА при регистрация (негово, 09.09).
+   *
+   * Влиза във всяко събитие и в подписа му, за да не може историята да бъде
+   * тихо преномерирана в друга валута. Курс няма (правило 3).
+   */
+  readonly valuta: Valuta;
   /** имейлът на този, който пише · функция, защото се научава при откриването */
   readonly aktor: () => string;
   readonly sega: () => string;
@@ -227,6 +235,7 @@ export class Izpalnitel implements Porta {
         r = await this.#n.vrata.dobavi({
           opId: opIdove[i]!,
           ts,
+          valuta: this.#n.valuta,
           kniga: this.#n.kniga,
           pisach: this.#n.pisach,
           ustroystvo: this.#n.ustroystvo,

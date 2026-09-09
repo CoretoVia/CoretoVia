@@ -29,6 +29,7 @@ export const STOPANIN = 'vintexstroy@gmail.com';
 /** веригата на втория писач · наставката е дума на домейна, тук е само за теста */
 export const VERIGA_NA_SLUZHITEL = `${KNIGA}~sluzhitel`;
 /** устройството в тестовете · един факт, за да не се разминават подписите */
+export const VALUTA = 'EUR';
 export const USTROYSTVO = 'k1-' + '0'.repeat(32);
 
 /**
@@ -45,6 +46,7 @@ export function operatsiya(
     ts: '2026-09-05T09:00:00.000Z',
     ...koyPishe(v ?? KNIGA),
     ustroystvo: USTROYSTVO,
+    valuta: VALUTA,
     actor: STOPANIN,
     type: 'ЗаписЗаписан',
     sashtnost: { vid: 'zapis', id: 'Z-1' },
@@ -91,6 +93,7 @@ export function knigaZaTest(): KnigaZaTest {
       ts: new Date(nachalo + broyach * 1000).toISOString(),
       ...koyPishe(opts.veriga ?? KNIGA),
       ustroystvo: USTROYSTVO,
+      valuta: VALUTA,
       actor: opts.actor ?? STOPANIN,
       type,
       sashtnost,

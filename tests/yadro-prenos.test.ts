@@ -13,6 +13,7 @@
  */
 
 import { describe, expect, it } from 'vitest';
+import { sha256Node } from '../src/nositel/hash-node.js';
 import {
   KotvaVPametta,
   kotvataKazva,
@@ -23,9 +24,12 @@ import {
   VsichkoRazresheno,
   ZASHTO_I_NULATA,
   klyuchNaZveno,
+  izchisliHash,
   koyPishe,
   NASTAVKA_LICHNO,
   PISACH_NA_KNIGATA,
+  SHEMA,
+  VALUTI,
   veriga,
   proveriKotvata,
   sverka,
@@ -182,5 +186,61 @@ describe('разрезът · книга · писач · устройство',
 
   it('писачът може да носи наставки · разлага се по ПЪРВАТА тилда', () => {
     expect(koyPishe('kniga~a~b')).toEqual({ kniga: 'kniga', pisach: 'a~b' });
+  });
+});
+
+/**
+ * ВЕРСИЯТА И ВАЛУТАТА · двата факта, които Журналът не може да си върне после.
+ *
+ * Проверява се не че полетата ги ИМА, а че СЕ ПОДПИСВАТ: поле извън подписа е
+ * поле, което може да се смени с текстов редактор — точно измерването, което
+ * вкара `actor` в хеша.
+ */
+describe('версията на схемата и валутата', () => {
+  const osnova = {
+    seq: 1,
+    shema: SHEMA,
+    opId: 'op-1',
+    ts: KOGATO,
+    valuta: 'EUR',
+    kniga: 'kniga',
+    pisach: PISACH_NA_KNIGATA,
+    ustroystvo: `k1-${'0'.repeat(32)}`,
+    actor: 'ivo@x.bg',
+    type: 'ЗаписЗаписан',
+    sashtnost: { vid: 'zapis', id: 'Z-1' },
+    payload: {},
+    prevHash: '',
+  };
+
+  it('днешната версия е ЕДНО число и се заковава с ръка', () => {
+    expect(SHEMA).toBe(1);
+  });
+
+  it('валутите са ДВЕ · трета няма и курс няма', () => {
+    expect([...VALUTI]).toEqual(['EUR', 'USD']);
+  });
+
+  it('смяна на ВАЛУТАТА мени подписа · историята не се преномерира тихо', async () => {
+    const a = await izchisliHash(osnova, sha256Node);
+    const b = await izchisliHash({ ...osnova, valuta: 'USD' }, sha256Node);
+    expect(a).not.toBe(b);
+  });
+
+  it('смяна на ВЕРСИЯТА мени подписа', async () => {
+    const a = await izchisliHash(osnova, sha256Node);
+    const b = await izchisliHash({ ...osnova, shema: 2 }, sha256Node);
+    expect(a).not.toBe(b);
+  });
+
+  it('и трите нови полета на разреза са в подписа', async () => {
+    const a = await izchisliHash(osnova, sha256Node);
+    for (const smyana of [
+      { kniga: 'druga' },
+      { pisach: 'k1-chuzhd' },
+      { ustroystvo: `k1-${'f'.repeat(32)}` },
+    ]) {
+      expect(await izchisliHash({ ...osnova, ...smyana }, sha256Node)).not.toBe(a);
+    }
   });
 });

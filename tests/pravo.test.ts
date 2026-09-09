@@ -31,7 +31,7 @@ import {
   razdavaDostap,
 } from '../src/smetach/pravo.js';
 import { kletkaNa, zhiviteRedove } from '../src/ogledalo/tablitsa.js';
-import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T13:00:00.000Z';
 
@@ -69,6 +69,7 @@ async function otvori() {
     kniga: KNIGA,
     pisach: PISACH_NA_KNIGATA,
     ustroystvo: USTROYSTVO,
+    valuta: VALUTA,
     aktor: () => koyPishe,
     sega: () => {
       takt += 1;

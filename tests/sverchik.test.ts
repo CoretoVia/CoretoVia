@@ -30,6 +30,7 @@ import {
   STOPANIN,
   VERIGA_NA_SLUZHITEL,
   USTROYSTVO,
+  VALUTA,
 } from './pomoshtni.js';
 import { MOSTRA } from './mostri/mostra-kniga.js';
 
@@ -48,6 +49,7 @@ async function otvori() {
     model: MODEL,
     ...koyPishe(KNIGA),
     ustroystvo: USTROYSTVO,
+    valuta: VALUTA,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;
@@ -514,6 +516,7 @@ describe('променена Книга', () => {
       model: MODEL,
       ...koyPishe(VERIGA_NA_SLUZHITEL),
       ustroystvo: USTROYSTVO,
+      valuta: VALUTA,
       kniga: KNIGA,
       aktor: () => 'sluzhitel@example.bg',
       sega: () => '2026-09-05T15:30:00.000Z',

@@ -47,8 +47,10 @@ export type Sha256 = (danni: string) => Promise<string>;
 function kanonichno(s: ZaHeshirane): string {
   return JSON.stringify([
     s.seq,
+    s.shema,
     s.opId,
     s.ts,
+    s.valuta,
     s.kniga,
     s.pisach,
     s.ustroystvo,
@@ -189,8 +191,10 @@ export async function proveriVerigata(
 function bezHash(s: Sabitie): ZaHeshirane {
   return {
     seq: s.seq,
+    shema: s.shema,
     opId: s.opId,
     ts: s.ts,
+    valuta: s.valuta,
     kniga: s.kniga,
     pisach: s.pisach,
     ustroystvo: s.ustroystvo,

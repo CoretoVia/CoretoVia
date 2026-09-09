@@ -34,6 +34,14 @@ import { h, nashSkript, sloji } from './reshetka/shablon.js';
 import { chetiEkranno, zapomniEkranno } from './reshetka/pamet-ekran.js';
 
 const KNIGA = 'coretovia';
+/**
+ * ВАЛУТАТА на тази Книга · негово, 09.09: избира се ЕДНА при регистрация.
+ *
+ * Стои тук като начална стойност, докато екранът за регистрация го няма.
+ * Влиза в подписа на всяко събитие, тъй че смяната ѝ после не е настройка,
+ * а видимо ново събитие — точно затова полето се реже СЕГА.
+ */
+const VALUTA_NA_KNIGATA = 'EUR';
 /** имейлът на този, който пише · научава се при откриването · удобство на устройството */
 const PAMET_AKTOR = 'aktor';
 
@@ -83,6 +91,7 @@ async function main(): Promise<void> {
     kniga: KNIGA,
     pisach: PISACH_NA_KNIGATA,
     ustroystvo: samolichnostta.otpechatak,
+    valuta: VALUTA_NA_KNIGATA,
     aktor: () => aktor,
     sega: () => new Date().toISOString(),
   });

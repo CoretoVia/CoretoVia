@@ -19,7 +19,7 @@ import { izchisliHash, proveriVerigata, type Sha256 } from './hash.js';
 import { eTsentove } from './pari.js';
 import type { Pravata } from './pravata.js';
 import type { Operatsiya, Sabitie } from './sabitie.js';
-import { veriga } from './sabitie.js';
+import { SHEMA, veriga } from './sabitie.js';
 
 type KodGreshka = 'SPRYAN' | 'BEZ_PRAVO' | 'NEVALIDNO' | 'REPLAY' | 'NESAVMESTIM';
 
@@ -445,6 +445,8 @@ export class Vrata {
         seq: (posledno?.seq ?? 0) + 1,
         opId: op.opId,
         ts: op.ts,
+        shema: SHEMA,
+        valuta: op.valuta,
         kniga: op.kniga,
         pisach: op.pisach,
         ustroystvo: op.ustroystvo,
