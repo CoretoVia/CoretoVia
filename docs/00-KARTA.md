@@ -126,7 +126,7 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | [`24-tablitsata-i-diagramata.md`](../docs/24-tablitsata-i-diagramata.md) | 24 · Таблицата и Диаграмата · ЕДНО цяло |
 | [`25-planat-i-vaprosite.md`](../docs/25-planat-i-vaprosite.md) | 25 · ПЪЛНИЯТ ПЛАН · и въпросите с тикчета |
 | [`26-zhurnalat-valutata-i-dvata-vaprosa.md`](../docs/26-zhurnalat-valutata-i-dvata-vaprosa.md) | 26 · Къде живее Журналът · валутата и езиците · и двата въпроса, зададени по-добре |
-| [`27-proektite-i-valutata.md`](../docs/27-proektite-i-valutata.md) | 27 · ПРОЕКТИТЕ И ВАЛУТАТА · двете необратими решения |
+| [`27-faylovete-i-valutata.md`](../docs/27-faylovete-i-valutata.md) | 27 · ФАЙЛОВЕТЕ И ВАЛУТАТА · двете необратими решения |
 | [`ADR-001-nasledstvoto-i-granitsite.md`](../docs/ADR-001-nasledstvoto-i-granitsite.md) | ADR-001 · Наследството от MasterBook · границите на слоевете · регистърът на преноса |
 | [`ADR-002-exceljs.md`](../docs/ADR-002-exceljs.md) | ADR-002 · Първата библиотека · ExcelJS · Книгата се отваря в Excel като неговата |
 | [`ADR-003-modelat-kato-danni.md`](../docs/ADR-003-modelat-kato-danni.md) | ADR-003 · Моделът като данни · номенклатурите · каталогът и Портата · колонното Огледало · Книгата на изход |
