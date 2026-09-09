@@ -68,7 +68,7 @@ export interface PayloadRedIzklyuchen {
 
 /** Къде е стигнала една верига · подписаните полета, по които dryRun ↔ izpalni се сравняват. */
 export interface Kursor {
-  readonly naematel: string;
+  readonly veriga: string;
   readonly seq: number;
   readonly hash: string;
 }

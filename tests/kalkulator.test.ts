@@ -1,3 +1,4 @@
+import { koyPishe } from '../src/yadro/index.js';
 /**
  * КАЛКУЛАТОРЪТ · трите подхода, съгласуването и оценката над Продажбите (ADR-012).
  *
@@ -32,7 +33,7 @@ import {
   VIDOVE_OBEKT,
 } from '../src/smetach/kalkulator/nastroyki.js';
 import { otseni, otsenkata, vidatOtImeto } from '../src/smetach/kalkulator/stoynost.js';
-import { KNIGA, knigaZaTest, STOPANIN } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
 
 const KOGATO = '2026-09-06T10:00:00.000Z';
 /** сто квадратни метра в цели кв. см */
@@ -213,7 +214,8 @@ describe('калкулаторът над Продажбите', () => {
       vrata: k.vrata,
       dnevnik: k.dnevnik,
       model: MODEL,
-      veriga: KNIGA,
+      ...koyPishe(KNIGA),
+      ustroystvo: USTROYSTVO,
       aktor: () => STOPANIN,
       sega: () => {
         takt += 1;

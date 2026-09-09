@@ -168,11 +168,11 @@ export const SABITIYA: Readonly<Record<TipSabitie, Proverka>> = Object.freeze({
     else {
       const kur = k as Tovar;
       if (
-        !eNeprazenTekst(kur['naematel']) ||
+        !eNeprazenTekst(kur['veriga']) ||
         !eTsyalo(kur['seq']) ||
         typeof kur['hash'] !== 'string'
       ) {
-        n.push('Курсорът носи naematel · seq · hash.');
+        n.push('Курсорът носи veriga · seq · hash.');
       }
     }
     const redove = p['redove'];

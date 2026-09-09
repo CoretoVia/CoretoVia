@@ -1,3 +1,4 @@
+import { koyPishe } from '../src/yadro/index.js';
 /**
  * СВЕРЧИКЪТ · неподвижната точка (износ → внос = нищо), поправка, нов ред,
  * махнат ред, номенклатурите от Настройки, растежът САМО от Настройки, редът
@@ -28,6 +29,7 @@ import {
   knigaZaTest,
   STOPANIN,
   VERIGA_NA_SLUZHITEL,
+  USTROYSTVO,
 } from './pomoshtni.js';
 import { MOSTRA } from './mostri/mostra-kniga.js';
 
@@ -44,7 +46,8 @@ async function otvori() {
     vrata: k.vrata,
     dnevnik: k.dnevnik,
     model: MODEL,
-    veriga: KNIGA,
+    ...koyPishe(KNIGA),
+    ustroystvo: USTROYSTVO,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;
@@ -509,7 +512,8 @@ describe('променена Книга', () => {
       vrata: k.vrata,
       dnevnik: k.dnevnik,
       model: MODEL,
-      veriga: VERIGA_NA_SLUZHITEL,
+      ...koyPishe(VERIGA_NA_SLUZHITEL),
+      ustroystvo: USTROYSTVO,
       kniga: KNIGA,
       aktor: () => 'sluzhitel@example.bg',
       sega: () => '2026-09-05T15:30:00.000Z',

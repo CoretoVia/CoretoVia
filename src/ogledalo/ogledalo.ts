@@ -37,6 +37,8 @@ import type {
 import {
   klyuchNaSashtnost,
   klyuchNaZveno,
+  veriga,
+  zvenoNa,
   type Sabitie,
   type Sashtnost,
 } from '../yadro/sabitie.js';
@@ -106,10 +108,7 @@ export function fold(sabitiya: readonly Sabitie[], model: Model, kogato: string)
     if (s.type === TIP.storno) {
       storna += 1;
       const p = s.payload as unknown as PayloadStorno;
-      const tsel = klyuchNaZveno({
-        naematel: p.pogasyavaVeriga ?? s.naematel,
-        seq: p.pogasyavaSeq,
-      });
+      const tsel = zvenoNa(p.pogasyavaVeriga ?? veriga(s), p.pogasyavaSeq);
       pogaseniZvena.add(tsel);
       pogaseniZvena.add(zveno);
       // ПЪРВОТО сторно печели: причината, с която редът е свален, не се презаписва.
@@ -147,7 +146,7 @@ export function fold(sabitiya: readonly Sabitie[], model: Model, kogato: string)
   const pogasi = (s: Sabitie, prichina: string, storniranOt: string): void => {
     pogaseni.push(
       Object.freeze({
-        veriga: s.naematel,
+        veriga: veriga(s),
         seq: s.seq,
         type: s.type,
         sashtnost: s.sashtnost,
@@ -157,15 +156,15 @@ export function fold(sabitiya: readonly Sabitie[], model: Model, kogato: string)
     );
   };
   const neprocheti = (s: Sabitie, zashto: readonly string[]): void => {
-    neprocheteni.push(Object.freeze({ veriga: s.naematel, seq: s.seq, type: s.type, zashto }));
+    neprocheteni.push(Object.freeze({ veriga: veriga(s), seq: s.seq, type: s.type, zashto }));
   };
 
   for (const s of sabitiya) {
-    kursori.set(s.naematel, { naematel: s.naematel, seq: s.seq, hash: s.hash });
-    let rev = revove.get(s.naematel);
+    kursori.set(veriga(s), { veriga: veriga(s), seq: s.seq, hash: s.hash });
+    let rev = revove.get(veriga(s));
     if (rev === undefined) {
       rev = new Map();
-      revove.set(s.naematel, rev);
+      revove.set(veriga(s), rev);
     }
     rev.set(klyuchNaSashtnost(s.sashtnost), s.seq);
 

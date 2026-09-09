@@ -120,7 +120,7 @@ export async function zapaziKnigata(k: KonteksNaEkrana): Promise<void> {
   kazhiZaIznosa(k, 'пиша Книгата…');
   try {
     const o = k.porta.ogledalo();
-    const kursor = o.kursori.get(k.veriga) ?? { naematel: k.veriga, seq: 0, hash: '' };
+    const kursor = o.kursori.get(k.veriga) ?? { veriga: k.veriga, seq: 0, hash: '' };
     const sega = new Date().toISOString();
     const [{ knigataOtOgledaloto }, { napishiKniga }] = await Promise.all([
       import('../../src/kniga/pisane.js'),

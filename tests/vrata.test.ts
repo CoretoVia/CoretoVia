@@ -46,18 +46,16 @@ describe('спирателен кран', () => {
 });
 
 describe('право', () => {
-  it('отказва писане при чужд наемател', async () => {
-    const { dnevnik, vrata } = novaVrata(new PoSpisak({ 'ivo@example.com': ['naematel-a'] }));
+  it('отказва писане при чужд верига', async () => {
+    const { dnevnik, vrata } = novaVrata(new PoSpisak({ 'ivo@example.com': ['veriga-a'] }));
 
-    await vrata.dobavi(
-      operatsiya({ opId: 'op-1', actor: 'ivo@example.com', naematel: 'naematel-a' }),
-    );
+    await vrata.dobavi(operatsiya({ opId: 'op-1', actor: 'ivo@example.com', veriga: 'veriga-a' }));
 
     await expect(
-      vrata.dobavi(operatsiya({ opId: 'op-2', actor: 'ivo@example.com', naematel: 'naematel-b' })),
+      vrata.dobavi(operatsiya({ opId: 'op-2', actor: 'ivo@example.com', veriga: 'veriga-b' })),
     ).rejects.toMatchObject({ kod: 'BEZ_PRAVO' });
 
-    expect(await dnevnik.chetiVsichki('naematel-b')).toHaveLength(0);
+    expect(await dnevnik.chetiVsichki('veriga-b')).toHaveLength(0);
   });
 });
 

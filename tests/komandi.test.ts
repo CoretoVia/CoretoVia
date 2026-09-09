@@ -1,3 +1,4 @@
+import { koyPishe } from '../src/yadro/index.js';
 /**
  * КОМАНДИТЕ ПРЕЗ ИЗПЪЛНИТЕЛЯ · вехата на резена · от край до край, без DOM.
  *
@@ -21,6 +22,7 @@ import {
   knigaZaTest,
   STOPANIN,
   VERIGA_NA_SLUZHITEL,
+  USTROYSTVO,
 } from './pomoshtni.js';
 
 async function otvori() {
@@ -31,7 +33,8 @@ async function otvori() {
     vrata: k.vrata,
     dnevnik: k.dnevnik,
     model: MODEL,
-    veriga: KNIGA,
+    ...koyPishe(KNIGA),
+    ustroystvo: USTROYSTVO,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;
@@ -595,7 +598,8 @@ describe('два раздела · и втора верига', () => {
       vrata: k.vrata,
       dnevnik: k.dnevnik,
       model: MODEL,
-      veriga: KNIGA,
+      ...koyPishe(KNIGA),
+      ustroystvo: USTROYSTVO,
       aktor: () => STOPANIN,
       sega: () => {
         takt += 1;
@@ -637,7 +641,8 @@ describe('два раздела · и втора верига', () => {
       vrata: k.vrata,
       dnevnik: k.dnevnik,
       model: MODEL,
-      veriga: KNIGA,
+      ...koyPishe(KNIGA),
+      ustroystvo: USTROYSTVO,
       aktor: () => STOPANIN,
       sega: () => {
         takt += 1;
@@ -664,7 +669,8 @@ describe('два раздела · и втора верига', () => {
       vrata: k.vrata,
       dnevnik: k.dnevnik,
       model: MODEL,
-      veriga: VERIGA_NA_SLUZHITEL,
+      ...koyPishe(VERIGA_NA_SLUZHITEL),
+      ustroystvo: USTROYSTVO,
       kniga: KNIGA,
       aktor: () => 'sluzhitel@example.bg',
       sega: () => {
@@ -724,7 +730,8 @@ describe('часовникът назад (отложено от ADR-003 §8)', 
       vrata: k.vrata,
       dnevnik: k.dnevnik,
       model: MODEL,
-      veriga: KNIGA,
+      ...koyPishe(KNIGA),
+      ustroystvo: USTROYSTVO,
       aktor: () => STOPANIN,
       sega: () => new Date(sega).toISOString(),
     });

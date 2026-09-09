@@ -23,6 +23,10 @@ import {
   VsichkoRazresheno,
   ZASHTO_I_NULATA,
   klyuchNaZveno,
+  koyPishe,
+  NASTAVKA_LICHNO,
+  PISACH_NA_KNIGATA,
+  veriga,
   proveriKotvata,
   sverka,
 } from '../src/yadro/index.js';
@@ -97,8 +101,8 @@ describe('правата по верига · всеки писач пише в 
   it('PoSvoyataVeriga · чужда верига на писач се отказва, своята минава', async () => {
     const p = new PoSvoyataVeriga(
       new VsichkoRazresheno(),
-      (naematel) => (naematel.includes('#pero:') ? naematel.split('#pero:')[1] : undefined),
-      (naematel) => naematel.split('#')[0]!,
+      (veriga) => (veriga.includes('#pero:') ? veriga.split('#pero:')[1] : undefined),
+      (veriga) => veriga.split('#')[0]!,
       () => 'stopanin@x.bg',
       svedi,
     );
@@ -129,13 +133,54 @@ describe('сверката и звеното', () => {
   });
 
   it('ключът на звеното носи веригата, за да не се сблъскат еднаквите seq', () => {
-    expect(klyuchNaZveno({ naematel: 'A', seq: 2 })).toBe('A#2');
-    expect(klyuchNaZveno({ naematel: 'B', seq: 2 })).not.toBe(
-      klyuchNaZveno({ naematel: 'A', seq: 2 }),
-    );
+    const na = (kniga: string, seq: number) =>
+      klyuchNaZveno({ kniga, pisach: PISACH_NA_KNIGATA, seq });
+    expect(na('A', 2)).toBe('A#2');
+    expect(na('B', 2)).not.toBe(na('A', 2));
   });
 
   it('думите за сумата над нула са едни', () => {
     expect(SUMATA_NAD_NULA).toBe('Сумата трябва да е повече от нула.');
+  });
+});
+
+/**
+ * РАЗРЕЗЪТ · Т39 · едно поле с три смисъла стана три полета.
+ *
+ * Композицията и разлагането ѝ са ЕДНО правило (правило 14) и живеят в един
+ * файл. Договорът им се ДОКАЗВА тук, а не се обещава в коментар: обиколката
+ * низ → факти → низ трябва да върне същото за трите случая, инак Дневникът
+ * ще търси редици под ключ, който сам не може да построи.
+ */
+describe('разрезът · книга · писач · устройство', () => {
+  const sluchai: readonly [string, string][] = [
+    ['на самата книга', 'coretovia'],
+    ['на писач', 'coretovia~k1-abc'],
+    ['лична', `k1-${'0'.repeat(32)}~lichno`],
+  ];
+
+  for (const [ime, niz] of sluchai) {
+    it(`обиколката се затваря · ${ime}`, () => {
+      expect(veriga(koyPishe(niz))).toBe(niz);
+    });
+  }
+
+  it('веригата на книгата НЕ носи наставка · инак „без откриване" я гони', () => {
+    expect(veriga({ kniga: 'coretovia', pisach: PISACH_NA_KNIGATA })).toBe('coretovia');
+    expect(veriga({ kniga: 'coretovia', pisach: PISACH_NA_KNIGATA })).not.toContain('~');
+  });
+
+  it('личната верига е ИЗВЪН всяка книга · по конструкция, не по настройка', () => {
+    // наставката се заковава С РЪКА тук: сверка на константа със себе си не
+    // доказва нищо, а точно тази стойност държи границата (ADR-024 §2)
+    expect(NASTAVKA_LICHNO).toBe('~lichno');
+    const lichna = veriga({ kniga: NASTAVKA_LICHNO, pisach: `k1-${'a'.repeat(32)}` });
+    expect(lichna.startsWith('coretovia')).toBe(false);
+    expect(lichna.endsWith('~lichno')).toBe(true);
+    expect(koyPishe(lichna).kniga).toBe('~lichno');
+  });
+
+  it('писачът може да носи наставки · разлага се по ПЪРВАТА тилда', () => {
+    expect(koyPishe('kniga~a~b')).toEqual({ kniga: 'kniga', pisach: 'a~b' });
   });
 });

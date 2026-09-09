@@ -1,3 +1,4 @@
+import { koyPishe } from '../src/yadro/index.js';
 /**
  * МОДЕЛИТЕ НА ЕКРАНА · неговите „Отвори" и „Запази" (ADR-014).
  *
@@ -13,7 +14,7 @@ import { describe, expect, it } from 'vitest';
 import { eOtkaz } from '../src/komandi/izpalnenie.js';
 import { MODEL } from '../src/model/osnova.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
-import { KNIGA, knigaZaTest, STOPANIN } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
 
 const KOGATO = '2026-09-06T14:00:00.000Z';
 
@@ -24,7 +25,8 @@ async function otvori() {
     vrata: k.vrata,
     dnevnik: k.dnevnik,
     model: MODEL,
-    veriga: KNIGA,
+    ...koyPishe(KNIGA),
+    ustroystvo: USTROYSTVO,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;

@@ -44,7 +44,7 @@ export interface ZvenoVKratse {
   readonly actor: string;
 }
 
-/** Една операция към Вратата · без opId, ts, naematel, actor — тях слага изпълнителят. */
+/** Една операция към Вратата · без opId, ts, veriga, actor — тях слага изпълнителят. */
 export interface Operatsiya {
   readonly type: TipSabitie;
   readonly sashtnost: Sashtnost;
@@ -128,7 +128,7 @@ export function revNa(k: Kontekst, s: Sashtnost): number {
 }
 
 export function kursorNa(k: Kontekst): Kursor {
-  return k.ogledalo.kursori.get(k.veriga) ?? { naematel: k.veriga, seq: 0, hash: '' };
+  return k.ogledalo.kursori.get(k.veriga) ?? { veriga: k.veriga, seq: 0, hash: '' };
 }
 
 export function razlika(kakvo: string, bilo: string, stava: string): Razlika {

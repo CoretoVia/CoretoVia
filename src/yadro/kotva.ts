@@ -23,8 +23,8 @@ interface Kotva {
 
 /** Портът: къде живее котвата. Реализацията по подразбиране е localStorage. */
 export interface DrajkaNaKotva {
-  cheti(naematel: string): Kotva | null;
-  zabij(naematel: string, kotva: Kotva): void;
+  cheti(veriga: string): Kotva | null;
+  zabij(veriga: string, kotva: Kotva): void;
 }
 
 export class KotvaVLocalStorage implements DrajkaNaKotva {
@@ -34,9 +34,9 @@ export class KotvaVLocalStorage implements DrajkaNaKotva {
     this.#predstavka = predstavka;
   }
 
-  cheti(naematel: string): Kotva | null {
+  cheti(veriga: string): Kotva | null {
     try {
-      const surovo = localStorage.getItem(`${this.#predstavka}:${naematel}`);
+      const surovo = localStorage.getItem(`${this.#predstavka}:${veriga}`);
       if (!surovo) return null;
       const k = JSON.parse(surovo) as Kotva;
       return Number.isSafeInteger(k.seq) && typeof k.hash === 'string' ? k : null;
@@ -46,9 +46,9 @@ export class KotvaVLocalStorage implements DrajkaNaKotva {
     }
   }
 
-  zabij(naematel: string, kotva: Kotva): void {
+  zabij(veriga: string, kotva: Kotva): void {
     try {
-      localStorage.setItem(`${this.#predstavka}:${naematel}`, JSON.stringify(kotva));
+      localStorage.setItem(`${this.#predstavka}:${veriga}`, JSON.stringify(kotva));
     } catch {
       // Няма къде — записът в Журнала пак е станал; котвата е допълнителна мярка.
     }
@@ -59,12 +59,12 @@ export class KotvaVLocalStorage implements DrajkaNaKotva {
 export class KotvaVPametta implements DrajkaNaKotva {
   readonly #po = new Map<string, Kotva>();
 
-  cheti(naematel: string): Kotva | null {
-    return this.#po.get(naematel) ?? null;
+  cheti(veriga: string): Kotva | null {
+    return this.#po.get(veriga) ?? null;
   }
 
-  zabij(naematel: string, kotva: Kotva): void {
-    this.#po.set(naematel, kotva);
+  zabij(veriga: string, kotva: Kotva): void {
+    this.#po.set(veriga, kotva);
   }
 }
 
@@ -130,10 +130,10 @@ export function proveriKotvata(
  */
 export function kotvataKazva(
   drajka: DrajkaNaKotva,
-  naematel: string,
+  veriga: string,
   posledno: { readonly seq: number; readonly hash: string } | undefined,
 ): { readonly nared: boolean; readonly dumi: string } {
-  const kotva = drajka.cheti(naematel);
+  const kotva = drajka.cheti(veriga);
   if (kotva === null) {
     return { nared: true, dumi: 'Котва още няма на този браузър · захваща се при първия запис.' };
   }

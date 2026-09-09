@@ -1279,12 +1279,12 @@ function listSluzheben(
   const redove: Red[] = [
     [SLUZHEBNO.versiya, o.model.versiya],
     [SLUZHEBNO.otpechatak, otpechatakNaModela(o.model)],
-    [SLUZHEBNO.kursor, kursor.naematel, kursor.seq, kursor.hash],
+    [SLUZHEBNO.kursor, kursor.veriga, kursor.seq, kursor.hash],
     [SLUZHEBNO.iznesenoNa, kogato],
     [SLUZHEBNO.stopanin, o.stopanin],
   ];
   // върхът на ВСЯКА верига, не само на пишещата: сблъсъкът се мери по веригата на реда
-  for (const k of o.kursori.values()) redove.push([SLUZHEBNO.veriga, k.naematel, k.seq, k.hash]);
+  for (const k of o.kursori.values()) redove.push([SLUZHEBNO.veriga, k.veriga, k.seq, k.hash]);
   for (const m of mesta) {
     redove.push([SLUZHEBNO.tablitsa, m.klyuch, m.list, m.obhvat, m.klyuchKolona, m.redove]);
   }

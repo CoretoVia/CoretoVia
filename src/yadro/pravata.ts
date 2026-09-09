@@ -9,14 +9,14 @@
 import type { Sashtnost } from './sabitie.js';
 
 export interface Pravata {
-  mozheDaPishe(actor: string, naematel: string, sashtnost: Sashtnost): Promise<boolean>;
+  mozheDaPishe(actor: string, veriga: string, sashtnost: Sashtnost): Promise<boolean>;
   /**
    * Свалянето на Журнала и на архива е ПРАВО, не даденост — думата на
    * собственика: „от хората с разрешение до бутона". Политиката кой е в
    * списъка идва със самоличността (П3); портът стои отсега, за да не се
    * появи втори бутон без питане.
    */
-  mozheDaIznasya(actor: string, naematel: string): Promise<boolean>;
+  mozheDaIznasya(actor: string, veriga: string): Promise<boolean>;
 }
 
 /** Първи резен: един собственик, всичко негово. */
@@ -48,8 +48,8 @@ export class VsichkoRazresheno implements Pravata {
 export class LichnoESamoTvoe implements Pravata {
   readonly #nastavka: string;
   readonly #svedi: (imeyl: string) => string;
-  readonly #vizhdat: (naematel: string) => ReadonlySet<string>;
-  readonly #pishat: (naematel: string) => ReadonlySet<string>;
+  readonly #vizhdat: (veriga: string) => ReadonlySet<string>;
+  readonly #pishat: (veriga: string) => ReadonlySet<string>;
 
   /**
    * Допуснатите идват ОТВЪН · ядрото не чете домейна (И99).
@@ -72,8 +72,8 @@ export class LichnoESamoTvoe implements Pravata {
   constructor(
     nastavka: string,
     svedi: (imeyl: string) => string,
-    vizhdat: (naematel: string) => ReadonlySet<string> = () => new Set(),
-    pishat: (naematel: string) => ReadonlySet<string> = () => new Set(),
+    vizhdat: (veriga: string) => ReadonlySet<string> = () => new Set(),
+    pishat: (veriga: string) => ReadonlySet<string> = () => new Set(),
   ) {
     this.#nastavka = nastavka;
     this.#svedi = svedi;
@@ -83,22 +83,22 @@ export class LichnoESamoTvoe implements Pravata {
 
   #negovoLiE(
     actor: string,
-    naematel: string,
-    koito: (naematel: string) => ReadonlySet<string>,
+    veriga: string,
+    koito: (veriga: string) => ReadonlySet<string>,
   ): boolean {
-    if (!naematel.endsWith(this.#nastavka)) return true; // служебен — както досега
+    if (!veriga.endsWith(this.#nastavka)) return true; // служебен — както досега
     const sveden = this.#svedi(actor);
-    if (naematel === `${sveden}${this.#nastavka}`) return true; // собственикът
+    if (veriga === `${sveden}${this.#nastavka}`) return true; // собственикът
     // …или онзи, на когото собственикът е дал ТОВА право — обратната посока (И99).
-    return koito(naematel).has(sveden);
+    return koito(veriga).has(sveden);
   }
 
-  async mozheDaPishe(actor: string, naematel: string): Promise<boolean> {
-    return this.#negovoLiE(actor, naematel, this.#pishat);
+  async mozheDaPishe(actor: string, veriga: string): Promise<boolean> {
+    return this.#negovoLiE(actor, veriga, this.#pishat);
   }
 
-  async mozheDaIznasya(actor: string, naematel: string): Promise<boolean> {
-    return this.#negovoLiE(actor, naematel, this.#vizhdat);
+  async mozheDaIznasya(actor: string, veriga: string): Promise<boolean> {
+    return this.#negovoLiE(actor, veriga, this.#vizhdat);
   }
 }
 
@@ -133,15 +133,15 @@ export class LichnoESamoTvoe implements Pravata {
  */
 export class PoSvoyataVeriga implements Pravata {
   readonly #vatre: Pravata;
-  readonly #pisachat: (naematel: string) => string | undefined;
-  readonly #knigata: (naematel: string) => string;
+  readonly #pisachat: (veriga: string) => string | undefined;
+  readonly #knigata: (veriga: string) => string;
   readonly #stopaninat: (kniga: string) => string | undefined;
   readonly #svedi: (imeyl: string) => string;
 
   constructor(
     vatre: Pravata,
-    pisachat: (naematel: string) => string | undefined,
-    knigata: (naematel: string) => string,
+    pisachat: (veriga: string) => string | undefined,
+    knigata: (veriga: string) => string,
     stopaninat: (kniga: string) => string | undefined,
     svedi: (imeyl: string) => string,
   ) {
@@ -152,38 +152,36 @@ export class PoSvoyataVeriga implements Pravata {
     this.#svedi = svedi;
   }
 
-  async mozheDaPishe(actor: string, naematel: string, sashtnost: Sashtnost): Promise<boolean> {
+  async mozheDaPishe(actor: string, veriga: string, sashtnost: Sashtnost): Promise<boolean> {
     const az = this.#svedi(actor);
-    const pisach = this.#pisachat(naematel);
+    const pisach = this.#pisachat(veriga);
     if (pisach !== undefined) {
       if (this.#svedi(pisach) !== az) return false;
     } else {
-      const stopanin = this.#stopaninat(this.#knigata(naematel));
+      const stopanin = this.#stopaninat(this.#knigata(veriga));
       if (stopanin !== undefined && this.#svedi(stopanin) !== az) return false;
     }
-    return this.#vatre.mozheDaPishe(actor, naematel, sashtnost);
+    return this.#vatre.mozheDaPishe(actor, veriga, sashtnost);
   }
 
-  async mozheDaIznasya(actor: string, naematel: string): Promise<boolean> {
-    return this.#vatre.mozheDaIznasya(actor, naematel);
+  async mozheDaIznasya(actor: string, veriga: string): Promise<boolean> {
+    return this.#vatre.mozheDaIznasya(actor, veriga);
   }
 }
 
-/** Изрична карта actor → наематели. Ползва се в тестовете за изолация. */
+/** Изрична карта actor → вериги. Ползва се в тестовете за изолация. */
 export class PoSpisak implements Pravata {
   readonly #karta: ReadonlyMap<string, ReadonlySet<string>>;
 
   constructor(karta: Readonly<Record<string, readonly string[]>>) {
-    this.#karta = new Map(
-      Object.entries(karta).map(([actor, naemateli]) => [actor, new Set(naemateli)]),
-    );
+    this.#karta = new Map(Object.entries(karta).map(([actor, verigi]) => [actor, new Set(verigi)]));
   }
 
-  async mozheDaPishe(actor: string, naematel: string): Promise<boolean> {
-    return this.#karta.get(actor)?.has(naematel) ?? false;
+  async mozheDaPishe(actor: string, veriga: string): Promise<boolean> {
+    return this.#karta.get(actor)?.has(veriga) ?? false;
   }
 
-  async mozheDaIznasya(actor: string, naematel: string): Promise<boolean> {
-    return this.#karta.get(actor)?.has(naematel) ?? false;
+  async mozheDaIznasya(actor: string, veriga: string): Promise<boolean> {
+    return this.#karta.get(actor)?.has(veriga) ?? false;
   }
 }

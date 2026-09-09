@@ -1,3 +1,4 @@
+import { koyPishe } from '../src/yadro/index.js';
 /**
  * ПОРТАТА · агентът получава `PortaZaChetene` и тя НЯМА `izpalni` (K3);
  * бутоните идват от каталога с предусловията, сметнати върху избрания ред.
@@ -7,7 +8,7 @@ import { describe, expect, it } from 'vitest';
 import { MODEL } from '../src/model/osnova.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import type { PortaZaChetene } from '../src/porta/porta.js';
-import { KNIGA, knigaZaTest, STOPANIN } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
 
 async function otvori() {
   const k = knigaZaTest();
@@ -16,7 +17,8 @@ async function otvori() {
     vrata: k.vrata,
     dnevnik: k.dnevnik,
     model: MODEL,
-    veriga: KNIGA,
+    ...koyPishe(KNIGA),
+    ustroystvo: USTROYSTVO,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;

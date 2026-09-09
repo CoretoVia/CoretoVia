@@ -1,3 +1,4 @@
+import { veriga as verigata } from '../src/yadro/index.js';
 /**
  * СЪЩИТЕ инварианти, друг носител.
  *
@@ -68,29 +69,29 @@ describe('Журналът върху IndexedDB · същият договор',
     expect((await proveriVerigata(vsichki, SHA)).tsyala).toBe(true);
   });
 
-  it('всеки наемател има своя редица — данните не се смесват', async () => {
+  it('всеки верига има своя редица — данните не се смесват', async () => {
     const { dnevnik, vrata } = await stend();
 
-    await vrata.dobavi(operatsiya({ opId: 'a-1', naematel: 'naematel-a' }));
-    await vrata.dobavi(operatsiya({ opId: 'b-1', naematel: 'naematel-b' }));
-    await vrata.dobavi(operatsiya({ opId: 'a-2', naematel: 'naematel-a' }));
+    await vrata.dobavi(operatsiya({ opId: 'a-1', veriga: 'veriga-a' }));
+    await vrata.dobavi(operatsiya({ opId: 'b-1', veriga: 'veriga-b' }));
+    await vrata.dobavi(operatsiya({ opId: 'a-2', veriga: 'veriga-a' }));
 
-    const a = await dnevnik.chetiVsichki('naematel-a');
-    const b = await dnevnik.chetiVsichki('naematel-b');
+    const a = await dnevnik.chetiVsichki('veriga-a');
+    const b = await dnevnik.chetiVsichki('veriga-b');
 
     expect(a.map((s) => s.seq)).toEqual([1, 2]);
     expect(b.map((s) => s.seq)).toEqual([1]);
-    expect(a.every((s) => s.naematel === 'naematel-a')).toBe(true);
+    expect(a.every((s) => verigata(s) === 'veriga-a')).toBe(true);
   });
 
-  it('един и същ opId при различни наематели са различни операции', async () => {
+  it('един и същ opId при различни вериги са различни операции', async () => {
     const { dnevnik, vrata } = await stend();
 
-    await vrata.dobavi(operatsiya({ opId: 'op-1', naematel: 'naematel-a' }));
-    await vrata.dobavi(operatsiya({ opId: 'op-1', naematel: 'naematel-b' }));
+    await vrata.dobavi(operatsiya({ opId: 'op-1', veriga: 'veriga-a' }));
+    await vrata.dobavi(operatsiya({ opId: 'op-1', veriga: 'veriga-b' }));
 
-    expect(await dnevnik.chetiVsichki('naematel-a')).toHaveLength(1);
-    expect(await dnevnik.chetiVsichki('naematel-b')).toHaveLength(1);
+    expect(await dnevnik.chetiVsichki('veriga-a')).toHaveLength(1);
+    expect(await dnevnik.chetiVsichki('veriga-b')).toHaveLength(1);
   });
 
   it('текущият rev на същност е seq на последното ѝ събитие', async () => {

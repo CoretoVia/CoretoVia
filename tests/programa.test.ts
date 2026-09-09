@@ -1,3 +1,4 @@
+import { koyPishe } from '../src/yadro/index.js';
 /**
  * ОТГОВОРНИКЪТ на задачата и ПРОГРАМАТА за Задачи (ADR-009).
  *
@@ -14,7 +15,7 @@ import { describe, expect, it } from 'vitest';
 import { MODEL } from '../src/model/osnova.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import { nachaloNaSedmitsata, programata } from '../src/smetach/programa.js';
-import { KNIGA, knigaZaTest, STOPANIN } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
 
 const KOGATO = '2026-09-09T10:00:00.000Z';
 /** 09.09.2026 е СРЯДА · седмицата ѝ е 07.09 (пон) – 13.09 (нед) */
@@ -27,7 +28,8 @@ async function otvori() {
     vrata: k.vrata,
     dnevnik: k.dnevnik,
     model: MODEL,
-    veriga: KNIGA,
+    ...koyPishe(KNIGA),
+    ustroystvo: USTROYSTVO,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;

@@ -1,3 +1,4 @@
+import { koyPishe } from '../src/yadro/index.js';
 /**
  * ДЪРВОТО · Имот → Обект/Бизнес → Задача · в реда на номерацията (ADR-005).
  *
@@ -13,7 +14,7 @@ import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import { TIP } from '../src/sabitiya/registar.js';
 import { darvoto } from '../src/smetach/darvo.js';
 import { tekstNaNomera } from '../src/smetach/nomeratsiya.js';
-import { KNIGA, knigaZaTest, STOPANIN } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T13:00:00.000Z';
 const PRAZEN = { plosht: null, tsena: null, papka: null, adres: null };
@@ -25,7 +26,8 @@ async function ogledalo() {
     vrata: k.vrata,
     dnevnik: k.dnevnik,
     model: MODEL,
-    veriga: KNIGA,
+    ...koyPishe(KNIGA),
+    ustroystvo: USTROYSTVO,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;

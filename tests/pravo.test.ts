@@ -1,3 +1,4 @@
+import { PISACH_NA_KNIGATA } from '../src/yadro/index.js';
 /**
  * ПРАВОТО на Длъжността · четирите оси на неговия лист „Служители" (ADR-008).
  *
@@ -30,7 +31,7 @@ import {
   razdavaDostap,
 } from '../src/smetach/pravo.js';
 import { kletkaNa, zhiviteRedove } from '../src/ogledalo/tablitsa.js';
-import { KNIGA, knigaZaTest, STOPANIN } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T13:00:00.000Z';
 
@@ -65,7 +66,9 @@ async function otvori() {
     vrata: k.vrata,
     dnevnik: k.dnevnik,
     model: MODEL,
-    veriga: KNIGA,
+    kniga: KNIGA,
+    pisach: PISACH_NA_KNIGATA,
+    ustroystvo: USTROYSTVO,
     aktor: () => koyPishe,
     sega: () => {
       takt += 1;

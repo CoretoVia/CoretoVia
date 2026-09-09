@@ -4,6 +4,7 @@
  */
 
 import type { Sabitie, ZaHeshirane } from './sabitie.js';
+import { veriga } from './sabitie.js';
 
 /**
  * Портът: асинхронен, за да върви и на Web Crypto в браузъра.
@@ -48,7 +49,9 @@ function kanonichno(s: ZaHeshirane): string {
     s.seq,
     s.opId,
     s.ts,
-    s.naematel,
+    s.kniga,
+    s.pisach,
+    s.ustroystvo,
     s.actor,
     s.type,
     s.sashtnost.vid,
@@ -59,18 +62,43 @@ function kanonichno(s: ZaHeshirane): string {
 }
 
 /**
- * СТАРИЯТ подпис · само за да се РАЗПОЗНАЕ, никога за да се приеме.
+ * СТАРИТЕ подписи · само за да се РАЗПОЗНАЯТ, никога за да се приемат.
  *
- * Файл отпреди смяната се къса на първото си звено. Без този ред отказът щеше
+ * Файл отпреди смяна се къса на първото си звено. Без тези редове отказът щеше
  * да казва „хешът не съвпада" — вярно и безполезно: човекът не може да различи
  * пипнат файл от файл, писан по стария ред. Тук се различават.
+ *
+ * Смените са ДВЕ и всяка има своя дума:
+ *
+ *   `star-podpis`     · отпреди `actor` да влезе в хеша
+ *   `predi-razreza`   · отпреди едното поле `veriga` да стане ТРИ
+ *                       (`kniga` · `pisach` · `ustroystvo` · Т39)
+ *
+ * И двете четат композитния низ през `veriga(s)` — единственият дом на
+ * композицията (правило 14). Тоест старият подпис се възпроизвежда точно,
+ * без низът да се пази втори път като поле.
  */
-function kanonichnoStaro(s: ZaHeshirane): string {
+function kanonichnoPrediActor(s: ZaHeshirane): string {
   return JSON.stringify([
     s.seq,
     s.opId,
     s.ts,
-    s.naematel,
+    veriga(s),
+    s.type,
+    s.sashtnost.vid,
+    s.sashtnost.id,
+    podredi(s.payload),
+    s.prevHash,
+  ]);
+}
+
+function kanonichnoPrediRazreza(s: ZaHeshirane): string {
+  return JSON.stringify([
+    s.seq,
+    s.opId,
+    s.ts,
+    veriga(s),
+    s.actor,
     s.type,
     s.sashtnost.vid,
     s.sashtnost.id,
@@ -102,17 +130,18 @@ interface RezultatOtProverka {
   /**
    * ЗАЩО се е счупило.
    *
-   * `star-podpis` НЕ е повреда, а ДИАГНОЗА: звеното се проверява с подписа
-   * отпреди `actor` да влезе в хеша. Веригата пак не е цяла — този файл не се
-   * приема — но човекът научава КАКВО държи, вместо да гадае.
+   * `star-podpis` и `predi-razreza` НЕ са повреда, а ДИАГНОЗА: звеното се
+   * проверява с подписа отпреди `actor` да влезе в хеша, съответно отпреди
+   * едното поле да стане три. Веригата пак не е цяла — тези файлове не се
+   * приемат — но човекът научава КАКВО държи, вместо да гадае.
    */
-  readonly prichina?: 'hash' | 'prevHash' | 'seq' | 'star-podpis';
+  readonly prichina?: 'hash' | 'prevHash' | 'seq' | 'star-podpis' | 'predi-razreza';
   /** колко звена са минали проверката преди счупването */
   readonly proverni: number;
 }
 
 /**
- * Проверка на веригата за един наемател.
+ * Проверка на веригата за една верига.
  * Събитията трябва да са подредени по seq, възходящо.
  */
 export async function proveriVerigata(
@@ -136,13 +165,17 @@ export async function proveriVerigata(
     }
     const presmetnat = await izchisliHash(bezHash(s), sha);
     if (presmetnat !== s.hash) {
-      // Пипнат файл или файл отпреди смяната на подписа? Двете искат различни
-      // думи към човека, затова се различават ТУК, а не се сливат в „не съвпада".
-      const staro = await sha(kanonichnoStaro(bezHash(s)));
+      // Пипнат файл, или файл отпреди една от двете смени на подписа? Трите
+      // искат различни думи към човека, затова се различават ТУК, а не се
+      // сливат в „не съвпада". Редът е от НОВО към СТАРО: най-близката смяна
+      // е и най-вероятната.
+      const zaHesh = bezHash(s);
+      const predi = await sha(kanonichnoPrediRazreza(zaHesh));
+      const naystaro = predi === s.hash ? undefined : await sha(kanonichnoPrediActor(zaHesh));
       return {
         tsyala: false,
         parvoSchupeno: s.seq,
-        prichina: staro === s.hash ? 'star-podpis' : 'hash',
+        prichina: predi === s.hash ? 'predi-razreza' : naystaro === s.hash ? 'star-podpis' : 'hash',
         proverni: ochakvanSeq - 1,
       };
     }
@@ -158,7 +191,9 @@ function bezHash(s: Sabitie): ZaHeshirane {
     seq: s.seq,
     opId: s.opId,
     ts: s.ts,
-    naematel: s.naematel,
+    kniga: s.kniga,
+    pisach: s.pisach,
+    ustroystvo: s.ustroystvo,
     actor: s.actor,
     type: s.type,
     sashtnost: s.sashtnost,

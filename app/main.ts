@@ -23,6 +23,7 @@ import {
   kotvataKazva,
   LichnoESamoTvoe,
   NASTAVKA_LICHNO,
+  PISACH_NA_KNIGATA,
   proveriVerigata,
   Vrata,
 } from '../src/yadro/index.js';
@@ -75,7 +76,13 @@ async function main(): Promise<void> {
     vrata,
     dnevnik,
     model: MODEL,
-    veriga: KNIGA,
+    // ТРИТЕ ФАКТА вместо един низ с три смисъла (Т39 · негово: „Това даже не
+    // са проекти, а втори файл"). Писачите са един, затова веригата е на
+    // самата Книга; устройството обаче е СВОЙ факт и се записва отделно —
+    // втората машина на същия човек вече ще личи, вместо да се слее.
+    kniga: KNIGA,
+    pisach: PISACH_NA_KNIGATA,
+    ustroystvo: samolichnostta.otpechatak,
     aktor: () => aktor,
     sega: () => new Date().toISOString(),
   });

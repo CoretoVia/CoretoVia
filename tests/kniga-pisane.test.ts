@@ -1,3 +1,4 @@
+import { koyPishe } from '../src/yadro/index.js';
 /**
  * КНИГАТА НА ИЗХОД · от Огледалото до .xlsx и обратно, клетка по клетка.
  *
@@ -16,7 +17,7 @@ import { DUMI_OT_KNIGATA } from '../src/model/dumi-ot-knigata.js';
 import { MODEL, NOMENKLATURA, PROZORTSI, SLUZHEBEN_LIST } from '../src/model/osnova.js';
 import { otpechatakNaModela } from '../src/model/otpechatak.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
-import { KNIGA, knigaZaTest, STOPANIN } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T13:00:00.000Z';
 const PRAZEN = { plosht: null, tsena: null, papka: null, adres: null };
@@ -28,7 +29,8 @@ async function knigata() {
     vrata: k.vrata,
     dnevnik: k.dnevnik,
     model: MODEL,
-    veriga: KNIGA,
+    ...koyPishe(KNIGA),
+    ustroystvo: USTROYSTVO,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;

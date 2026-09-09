@@ -1,3 +1,4 @@
+import { koyPishe } from '../src/yadro/index.js';
 /**
  * МЕРКИТЕ НА СКОРОСТТА · обещани в `docs/00` §3 за резен 3 · числата са в плана.
  *
@@ -15,7 +16,7 @@ import { darvoto } from '../src/smetach/darvo.js';
 import { filtrirayDarvoto } from '../src/smetach/filtar.js';
 import { lentaNa, reshetka } from '../src/smetach/gant.js';
 import type { Sabitie } from '../src/yadro/sabitie.js';
-import { KNIGA, STOPANIN } from './pomoshtni.js';
+import { KNIGA, STOPANIN, USTROYSTVO } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T13:00:00.000Z';
 /** праговете · милисекунди · домът на числата е `docs/03-plan.md` */
@@ -32,7 +33,8 @@ function sabitiya(): Sabitie[] {
     seq += 1;
     s.push({
       ts: new Date(Date.parse(KOGATO) + seq).toISOString(),
-      naematel: KNIGA,
+      ...koyPishe(KNIGA),
+      ustroystvo: USTROYSTVO,
       actor: STOPANIN,
       type,
       sashtnost,

@@ -117,7 +117,7 @@ describe('останалите товари', () => {
         TIP.knigaIznesena,
         {
           otpechatak: 'x',
-          kursor: { naematel: 'k', seq: 3, hash: 'h' },
+          kursor: { veriga: 'k', seq: 3, hash: 'h' },
           redove: { imoti: 2 },
           iznesenoNa: 't',
         },

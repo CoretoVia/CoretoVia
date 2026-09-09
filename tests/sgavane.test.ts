@@ -18,10 +18,16 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { DnevnikVPametta, Vrata, VsichkoRazresheno, type Sabitie } from '../src/yadro/index.js';
+import {
+  DnevnikVPametta,
+  Vrata,
+  VsichkoRazresheno,
+  type Sabitie,
+  koyPishe,
+} from '../src/yadro/index.js';
 import { naprediChasovnika, sravniPoTakt, taktNaSabitie } from '../src/yadro/takt.js';
 import { sgani } from '../src/ogledalo/sgavane.js';
-import { SHA } from './pomoshtni.js';
+import { SHA, USTROYSTVO } from './pomoshtni.js';
 
 const KOGATO = '2026-08-26T09:00:00.000Z';
 
@@ -33,7 +39,8 @@ async function veriga(klyuch: string, broy: number, ot: number): Promise<readonl
     await vrata.dobavi({
       opId: `${klyuch}-${i}`,
       ts: new Date(Date.UTC(2026, 7, 26, 9, 0, ot + i)).toISOString(),
-      naematel: klyuch,
+      ...koyPishe(klyuch),
+      ustroystvo: USTROYSTVO,
       actor: `${klyuch}@example.bg`,
       type: 'ИмотДобавен',
       sashtnost: { vid: 'imot', id: `${klyuch}-${i}` },
@@ -45,19 +52,19 @@ async function veriga(klyuch: string, broy: number, ot: number): Promise<readonl
 
 describe('тактът', () => {
   it('чете времето като ЧИСЛО, не като текст', () => {
-    const s = { ts: '2026-08-26', naematel: 'a', seq: 1 } as Sabitie;
+    const s = { ts: '2026-08-26', kniga: 'a', seq: 1 } as Sabitie;
     expect(taktNaSabitie(s).kogato).toBe(Date.parse('2026-08-26'));
   });
 
   it('непарсимото време пада на нула — отпред, където се вижда', () => {
-    const s = { ts: 'абв', naematel: 'a', seq: 1 } as Sabitie;
+    const s = { ts: 'абв', kniga: 'a', seq: 1 } as Sabitie;
     expect(taktNaSabitie(s).kogato).toBe(0);
   });
 
   it('веригата разчупва равното време, seq разчупва равната верига', () => {
-    const a = { ts: KOGATO, naematel: 'aaa', seq: 9 } as Sabitie;
-    const b = { ts: KOGATO, naematel: 'bbb', seq: 1 } as Sabitie;
-    const c = { ts: KOGATO, naematel: 'aaa', seq: 10 } as Sabitie;
+    const a = { ts: KOGATO, kniga: 'aaa', seq: 9 } as Sabitie;
+    const b = { ts: KOGATO, kniga: 'bbb', seq: 1 } as Sabitie;
+    const c = { ts: KOGATO, kniga: 'aaa', seq: 10 } as Sabitie;
     expect(sravniPoTakt(a, b)).toBeLessThan(0);
     expect(sravniPoTakt(a, c)).toBeLessThan(0);
     expect(sravniPoTakt(b, c)).toBeGreaterThan(0);

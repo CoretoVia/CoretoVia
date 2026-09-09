@@ -1,3 +1,4 @@
+import { koyPishe } from '../src/yadro/index.js';
 /**
  * ДДС · редът по знака · натрупването по месеци · сверките · и таблицата с
  * находки на подтаб НАП (ADR-007).
@@ -14,7 +15,7 @@ import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import { ddsat, stranaNaDdsa } from '../src/smetach/dds.js';
 import { nahodkiteNaNap, NIVA, PROVERKI } from '../src/smetach/nahodki-nap.js';
 import { nomerNaSektsiya, SEKTSIYA_ZAPLATI_KESH } from '../src/smetach/smetki.js';
-import { KNIGA, knigaZaTest, STOPANIN } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T13:00:00.000Z';
 const DNES = '2026-09-05';
@@ -32,7 +33,8 @@ async function otvori() {
     vrata: k.vrata,
     dnevnik: k.dnevnik,
     model: MODEL,
-    veriga: KNIGA,
+    ...koyPishe(KNIGA),
+    ustroystvo: USTROYSTVO,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;

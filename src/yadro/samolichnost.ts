@@ -163,10 +163,8 @@ export function verigaLichna(o: Otpechatak): string {
 }
 
 /** Лична ли е тази верига. */
-export function eLichnaVeriga(naematel: string): boolean {
-  return (
-    naematel.endsWith(NASTAVKA_LICHNO) && eOtpechatak(naematel.slice(0, -NASTAVKA_LICHNO.length))
-  );
+export function eLichnaVeriga(veriga: string): boolean {
+  return veriga.endsWith(NASTAVKA_LICHNO) && eOtpechatak(veriga.slice(0, -NASTAVKA_LICHNO.length));
 }
 
 /**
@@ -175,7 +173,7 @@ export function eLichnaVeriga(naematel: string): boolean {
  * Връща `undefined`, а не хвърля: пита се за ЧУЖДИ вериги, а чуждото може да
  * е какво ли не. Отказът тук е отговор, не изключение.
  */
-export function otpechatakNaVeriga(naematel: string): Otpechatak | undefined {
-  if (!eLichnaVeriga(naematel)) return undefined;
-  return naematel.slice(0, -NASTAVKA_LICHNO.length);
+export function otpechatakNaVeriga(veriga: string): Otpechatak | undefined {
+  if (!eLichnaVeriga(veriga)) return undefined;
+  return veriga.slice(0, -NASTAVKA_LICHNO.length);
 }

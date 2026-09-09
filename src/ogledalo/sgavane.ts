@@ -27,6 +27,7 @@
  */
 
 import type { Sabitie } from '../yadro/index.js';
+import { veriga } from '../yadro/sabitie.js';
 import { sravniTakt, taktNaSabitie, type Takt } from '../yadro/takt.js';
 import { sverka, type Sverka } from '../yadro/sverka.js';
 
@@ -60,7 +61,7 @@ export interface SgunatoOgledalo {
  * Празна верига се пропуска мълчаливо: тя не е събитие и няма какво да каже.
  *
  * ЛИПСВА КАРТА, И ТОВА Е НАРОЧНО. Първият подпис приемаше `Map<ключ, събития>`
- * и веднага роди своя грешка: ключът на картата и `naematel` на събитията са
+ * и веднага роди своя грешка: ключът на картата и `veriga` на събитията са
  * ДВА записа на един факт, тъй че могат да се разминат — а разминат ли се,
  * всяка находка сочи грешната верига. Ключът е В СЪБИТИЯТА и е подписан
  * (`hash.ts`). Един факт, един дом (правило 17).
@@ -76,7 +77,7 @@ export function sgani(
     const parvo = s[0]!;
     const posledno = s[s.length - 1]!;
     return Object.freeze({
-      veriga: parvo.naematel,
+      veriga: veriga(parvo),
       broy: s.length,
       parviyatActor: parvo.actor,
       posledenHash: posledno.hash,

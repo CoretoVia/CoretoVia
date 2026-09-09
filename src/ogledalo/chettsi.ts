@@ -19,6 +19,7 @@ import type {
   PayloadStoynostZapisana,
 } from '../sabitiya/tovari.js';
 import type { Sabitie } from '../yadro/sabitie.js';
+import { veriga } from '../yadro/sabitie.js';
 import type { StroezhNaOgledaloto } from './stroezh.js';
 
 export type Chetets = (s: Sabitie, st: StroezhNaOgledaloto) => void;
@@ -55,12 +56,12 @@ export const CHETTSI: Readonly<Record<TipSabitie, Chetets>> = Object.freeze({
 
   [TIP.redZapisan]: (s, st) => {
     const p = tovar<PayloadRedZapisan>(s);
-    st.tablitsa(p.tablitsa).zapishi(p.id, s.naematel, s.seq, p.kletki);
+    st.tablitsa(p.tablitsa).zapishi(p.id, veriga(s), s.seq, p.kletki);
   },
 
   [TIP.redIzklyuchen]: (s, st) => {
     const p = tovar<PayloadRedIzklyuchen>(s);
-    st.tablitsa(p.tablitsa).izklyuchi(p.id, s.naematel, s.seq, p.izklyuchen);
+    st.tablitsa(p.tablitsa).izklyuchi(p.id, veriga(s), s.seq, p.izklyuchen);
   },
 
   [TIP.modelZapisan]: (s, st) => {

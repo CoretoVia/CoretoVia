@@ -47,14 +47,14 @@ describe('инвариант 2 · идемпотентност по opId', () =>
     expect(rezultati.filter((r) => !r.povtoreno)).toHaveLength(1);
   });
 
-  it('един и същ opId при различни наематели са различни операции', async () => {
+  it('един и същ opId при различни вериги са различни операции', async () => {
     const { dnevnik, vrata } = novaVrata();
 
-    await vrata.dobavi(operatsiya({ opId: 'op-1', naematel: 'naematel-a' }));
-    await vrata.dobavi(operatsiya({ opId: 'op-1', naematel: 'naematel-b' }));
+    await vrata.dobavi(operatsiya({ opId: 'op-1', veriga: 'veriga-a' }));
+    await vrata.dobavi(operatsiya({ opId: 'op-1', veriga: 'veriga-b' }));
 
-    expect(await dnevnik.chetiVsichki('naematel-a')).toHaveLength(1);
-    expect(await dnevnik.chetiVsichki('naematel-b')).toHaveLength(1);
+    expect(await dnevnik.chetiVsichki('veriga-a')).toHaveLength(1);
+    expect(await dnevnik.chetiVsichki('veriga-b')).toHaveLength(1);
   });
 
   it('rev-предпазителят отказва с REPLAY и връща актуалния rev', async () => {

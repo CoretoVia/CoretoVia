@@ -1,3 +1,4 @@
+import { koyPishe } from '../src/yadro/index.js';
 /**
  * ПОЛЕТАТА С ЦИФРИ на Управление · осемте, от ляво надясно · сметнати от Огледалото.
  *
@@ -14,7 +15,7 @@ import {
   poletataNaUpravlenie,
   SPESHNO_I_VAZHNO,
 } from '../src/smetach/polata.js';
-import { KNIGA, knigaZaTest, STOPANIN } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T13:00:00.000Z';
 const DNES = '2026-09-05';
@@ -27,7 +28,8 @@ async function ogledalo() {
     vrata: k.vrata,
     dnevnik: k.dnevnik,
     model: MODEL,
-    veriga: KNIGA,
+    ...koyPishe(KNIGA),
+    ustroystvo: USTROYSTVO,
     aktor: () => STOPANIN,
     sega: () => {
       takt += 1;
@@ -122,7 +124,8 @@ describe('полетата с цифри', () => {
       vrata: k.vrata,
       dnevnik: k.dnevnik,
       model: MODEL,
-      veriga: KNIGA,
+      ...koyPishe(KNIGA),
+      ustroystvo: USTROYSTVO,
       aktor: () => STOPANIN,
       sega: () => KOGATO,
     });
