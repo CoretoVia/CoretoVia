@@ -41,7 +41,19 @@ export function probvay(klyuch: string, tovar: unknown, k: Kontekst): Predvarite
   if (dumi.length > 0) return otkaz(...dumi);
   const pred = komanda.dryRun(tovar, k);
   for (const op of pred.operatsii) {
-    const n = proveriTovar(op.type, op.payload, k.model);
+    /*
+     * ПО СГЪНАТИЯ Модел, не по базовия. Платено на 10.09.2026.
+     *
+     * `k.model` е Моделът, с който приложението е ТРЪГНАЛО. Откакто
+     * структурата е събитие (десетият тип), той не е днешният: колона,
+     * родена от Журнала, я няма в него. Проверката отказваше собствената
+     * ни команда с думите „Таблица „Имоти" няма колона …" — вярно за
+     * базовия Модел и невярно за живия.
+     *
+     * `k.ogledalo.model` е онова, което Журналът е направил. Той е
+     * единственият, срещу който има смисъл да се съди операция.
+     */
+    const n = proveriTovar(op.type, op.payload, k.ogledalo.model);
     if (n.length > 0) return otkaz(`Командата „${klyuch}" роди невалидна операция: ${n.join(' ')}`);
   }
   return pred;

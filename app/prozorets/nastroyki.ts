@@ -29,6 +29,7 @@ import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
 import { naEnterIEscape, pokazhiGreshka } from '../reshetka/redaktsiya.js';
 import { zakachiZebrata } from '../reshetka/zebra.js';
 import { dumiteHTML } from './profil.js';
+import { narisuvayStruktura } from './struktura.js';
 
 /** Нашите думи на екрана · главите на голямата таблица. */
 const GLAVI = ['Номенклатура', '№', 'Стойност', 'Белег', 'Спряна'] as const;
@@ -108,10 +109,23 @@ export function narisuvayNastroyki(k: KonteksNaEkrana): void {
     <table class="reshetka nomenklaturi" data-reshetka="nomenklaturi">
       <thead><tr>${GLAVI.map((g) => h`<th>${g}</th>`)}</tr></thead>
       <tbody class="tablitsa">${redove}</tbody>
-    </table>`,
+    </table>
+    <div data-struktura></div>`,
   );
 
   zakachiZebrata(k.tyalo);
+
+  /*
+   * СТРУКТУРАТА живее ПОД Номенклатурите, в същия прозорец.
+   *
+   * Двете са едно и също по форма — голяма таблица с подтаблици — и това е
+   * нарочно (правило 29). Разликата е КАКВО описват: едната кои стойности
+   * може да носи една колона, другата кои колони изобщо ги има.
+   *
+   * Рисува се в СВОЙ възел, за да не си изтриват телата взаимно.
+   */
+  const kadeStruktura = k.tyalo.querySelector<HTMLElement>('[data-struktura]');
+  if (kadeStruktura !== null) narisuvayStruktura(k, kadeStruktura);
 
   // нов ред · Enter → добавяне · ключът се ражда при рисуването на полето и се пази до успех
   for (const vhod of k.tyalo.querySelectorAll<HTMLInputElement>('[data-nova-stoynost]')) {
