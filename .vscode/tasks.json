@@ -3,7 +3,7 @@
   "//": "ЗАДАЧИТЕ · викат npm скриптовете, не ги преписват (правило 17).",
   "tasks": [
     {
-      "label": "ПОРТИТЕ · деветте (proverka)",
+      "label": "ПОРТИТЕ · всичките (proverka)",
       "type": "shell",
       "command": "npm run proverka",
       "group": {
@@ -33,7 +33,7 @@
     {
       "label": "ПРОХОДЪТ · два пъти поред",
       "type": "shell",
-      "command": "npm run proba && npm run proba",
+      "command": "npm run proba:dva",
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",

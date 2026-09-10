@@ -27,7 +27,12 @@ async function main(): Promise<void> {
   const server = pusniServer();
   await pochakaySurvara();
 
-  const brauzar = await chromium.launch({ executablePath: nameriHroma() });
+  // `--disable-crashpad`: инак Chromium пише `debug.log` в корена на проекта при
+  // всяко пускане · чужд файл, невидим за портите (хванат от `dnevnik --proveri` Д9)
+  const brauzar = await chromium.launch({
+    executablePath: nameriHroma(),
+    args: ['--disable-crashpad'],
+  });
   const stranitsa = await brauzar.newPage();
 
   const greshkiVKonzolata: string[] = [];

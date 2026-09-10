@@ -1,0 +1,3 @@
+#!/bin/sh
+# бързото пред коммита · логиката е в stroezh/kuka.mjs
+exec node stroezh/kuka.mjs pre-commit

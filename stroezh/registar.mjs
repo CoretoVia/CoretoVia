@@ -93,7 +93,7 @@ const CHAKA =
  * Белезите в тях СЕ БРОЯТ (за да няма въпрос без дом); само проверка 3 ги
  * подминава.
  */
-const NE_SE_SADYAT = ['arhiv', 'izvori', 'dokladi'];
+const NE_SE_SADYAT = ['arhiv', 'izvori', 'dokladi', 'dnevnik'];
 
 /**
  * Папки със СВОЕ пространство на имената · белези оттам изобщо не се събират.
@@ -112,7 +112,7 @@ const NE_SE_SADYAT = ['arhiv', 'izvori', 'dokladi'];
  * този — `npm run registar`, онзи — `npm run protokol`. Слети, всеки нов вид
  * работа щеше да вали чуждата машина.
  */
-const SVOE_PROSTRANSTVO = ['docs/arhitektura/chasti/', 'docs/00-PROTOKOL.md'];
+const SVOE_PROSTRANSTVO = ['docs/arhitektura/chasti/', 'docs/00-PROTOKOL.md', '-plan-'];
 
 function vsichkiFaylove(papka, sabrani = []) {
   for (const ime of readdirSync(papka)) {
@@ -202,6 +202,17 @@ function eNomerNaIziskvane(red, nachalo, sled) {
    */
   const PRED_NEGO = /инвариант\p{Script=Cyrillic}*(?:[\s„“”"'*_·,()]|[ТАБВГДЕОСМФУПК]\d{1,3})*$/iu;
   if (PRED_NEGO.test(red.slice(0, nachalo))) {
+    return true;
+  }
+  /**
+   * „вид работа У7" · ВИД РАБОТА от протокола, назован в дневника.
+   *
+   * Дневникът на деня (`docs/dnevnik/`) е длъжен да казва кой вид работа е
+   * вършен (правило 23) — и буквата У е и буква на въпрос. Отличава го думата
+   * пред него, както при инвариантите. 10.09.2026.
+   */
+  const VID_RABOTA = /вид(?:ове)? работа\s*(?:[·,\s]|У\d+)*$/iu;
+  if (VID_RABOTA.test(red.slice(0, nachalo))) {
     return true;
   }
   return false;
