@@ -1,0 +1,3 @@
+#!/bin/sh
+# номерът на коммита се ПРОВЕРЯВА · логиката е в stroezh/kuka.mjs
+exec node stroezh/kuka.mjs commit-msg "$1"

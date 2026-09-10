@@ -51,7 +51,7 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | — още открити | **8** | същото |
 | — отпаднали | **9** | същото |
 | — още неустановени | **65** | същото |
-| реда в дълга | **284** | `docs/14-dalgat.md` |
+| реда в дълга | **285** | `docs/14-dalgat.md` |
 | реда извори (неговите думи) | **3602** | `docs/izvori/` |
 
 Числата на портите (тестове, обходи, модули, лицензи) НЕ стоят тук: те се броят
@@ -104,6 +104,12 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | [`03-koloni-hedari-tablitsi.md`](../docs/izvori/03-koloni-hedari-tablitsi.md) | ИЗВОР-3 · ЕДНАТА ОБЩА ТЕМА |
 | [`04-prozortsite-i-vrazkite.md`](../docs/izvori/04-prozortsite-i-vrazkite.md) | ИЗВОР-4 · ПРОЗОРЦИТЕ И ВРЪЗКИТЕ · картата на сигнала |
 
+### docs/izvori/dni/ · ДУМИТЕ МУ ПО ДНИ · от 10.09.2026 · журнал, само добавяне · домът им
+
+| файл | какво е |
+| :---- | :---- |
+| [`2026-09-10.md`](../docs/izvori/dni/2026-09-10.md) | 2026-09-10 · неговите думи · ДОСЛОВНО |
+
 ### docs/ · РЕШЕНИЯТА · какво е решено и защо
 
 | файл | какво е |
@@ -133,6 +139,7 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | [`30-faktura-ot-telefon.md`](../docs/30-faktura-ot-telefon.md) | 30 · ФАКТУРАТА ОТ ТЕЛЕФОН · папката, сканирането и всеки участник |
 | [`33-koefitsientite-i-orientirat.md`](../docs/33-koefitsientite-i-orientirat.md) | 33 · КОЕФИЦИЕНТИТЕ · ОРИЕНТИРЪТ · и СВОЯТА ФОРМУЛА |
 | [`34-desetiyat-tip-strukturata.md`](../docs/34-desetiyat-tip-strukturata.md) | 34 · ДЕСЕТИЯТ ТИП · структурата има история като всичко друго |
+| [`35-dovarshvaneto-1893-imenno.md`](../docs/35-dovarshvaneto-1893-imenno.md) | 35 · ДОВЪРШВАНЕТО · 1893 неща, отворени поименно |
 | [`ADR-001-nasledstvoto-i-granitsite.md`](../docs/ADR-001-nasledstvoto-i-granitsite.md) | ADR-001 · Наследството от MasterBook · границите на слоевете · регистърът на преноса |
 | [`ADR-002-exceljs.md`](../docs/ADR-002-exceljs.md) | ADR-002 · Първата библиотека · ExcelJS · Книгата се отваря в Excel като неговата |
 | [`ADR-003-modelat-kato-danni.md`](../docs/ADR-003-modelat-kato-danni.md) | ADR-003 · Моделът като данни · номенклатурите · каталогът и Портата · колонното Огледало · Книгата на изход |
@@ -158,6 +165,13 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | [`ADR-023-pette-resheniya-06-09-vecherta.md`](../docs/ADR-023-pette-resheniya-06-09-vecherta.md) | ADR-023 · Петте му решения от 06.09 вечерта |
 | [`ADR-024-chetirite-neobratimi.md`](../docs/ADR-024-chetirite-neobratimi.md) | ADR-024 · Четирите необратими решения |
 | [`registar-na-prenosa.md`](../docs/registar-na-prenosa.md) | Регистърът на преноса · всеки стар файл с ТОЧНО една присъда |
+
+### docs/dnevnik/ · ДНЕВНИКЪТ · какво стана, по дни · `npm run nachalo` го отваря, `npm run kray` го затваря
+
+| файл | какво е |
+| :---- | :---- |
+| [`2026-09-10-plan-sistemata-na-rabota.md`](../docs/dnevnik/2026-09-10-plan-sistemata-na-rabota.md) | ПЛАН · 2026-09-10 · системата на работа |
+| [`2026-09-10.md`](../docs/dnevnik/2026-09-10.md) | 2026-09-10 · ход 2 затворен · 1893 неща отворени поименно · и системата на работа се роди |
 
 ### docs/dokladi/ · ДОКЛАДИТЕ · проверките, цели
 
@@ -195,5 +209,5 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | `npm run karta` | тази карта да остарее · нов или изтрит документ, който не се вижда тук |
 | `npm run proba` | построеното да не работи в истински браузър · пуска се ДВА пъти |
 
-**Броено при последното писане на картата:** 92 документа в 6 папки.
+**Броено при последното писане на картата:** 96 документа в 8 папки.
 
