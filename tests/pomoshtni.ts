@@ -2,6 +2,7 @@ import { sha256Node } from '../src/nositel/hash-node.js';
 import { TIP } from '../src/sabitiya/registar.js';
 import {
   DnevnikVPametta,
+  koyPishe,
   type Operatsiya,
   type Rezultat,
   type Sabitie,
@@ -27,6 +28,9 @@ export const KNIGA = 'vintexstroy';
 export const STOPANIN = 'vintexstroy@gmail.com';
 /** веригата на втория писач · наставката е дума на домейна, тук е само за теста */
 export const VERIGA_NA_SLUZHITEL = `${KNIGA}~sluzhitel`;
+/** устройството в тестовете · един факт, за да не се разминават подписите */
+export const VALUTA = 'EUR';
+export const USTROYSTVO = 'k1-' + '0'.repeat(32);
 
 /**
  * Една операция с разумни стойности по подразбиране.
@@ -34,15 +38,20 @@ export const VERIGA_NA_SLUZHITEL = `${KNIGA}~sluzhitel`;
  * Типът на събитието е нарочно ОБЩ („ЗаписЗаписан"): ядрото не знае домейна и
  * тестовете му не бива да зависят от прозорец, който още не е построен.
  */
-export function operatsiya(chast: Partial<Operatsiya> & { opId: string }): Operatsiya {
+export function operatsiya(
+  chast: Partial<Operatsiya> & { opId: string; veriga?: string },
+): Operatsiya {
+  const { veriga: v, ...ostanalo } = chast;
   return {
     ts: '2026-09-05T09:00:00.000Z',
-    naematel: KNIGA,
+    ...koyPishe(v ?? KNIGA),
+    ustroystvo: USTROYSTVO,
+    valuta: VALUTA,
     actor: STOPANIN,
     type: 'ЗаписЗаписан',
     sashtnost: { vid: 'zapis', id: 'Z-1' },
     payload: {},
-    ...chast,
+    ...ostanalo,
   };
 }
 
@@ -82,7 +91,9 @@ export function knigaZaTest(): KnigaZaTest {
     return vrata.dobavi({
       opId: opts.opId ?? `op-${broyach}`,
       ts: new Date(nachalo + broyach * 1000).toISOString(),
-      naematel: opts.veriga ?? KNIGA,
+      ...koyPishe(opts.veriga ?? KNIGA),
+      ustroystvo: USTROYSTVO,
+      valuta: VALUTA,
       actor: opts.actor ?? STOPANIN,
       type,
       sashtnost,

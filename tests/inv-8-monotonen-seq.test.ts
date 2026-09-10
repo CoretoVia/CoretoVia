@@ -1,6 +1,7 @@
+import { veriga as verigata } from '../src/yadro/index.js';
 /**
  * ИНВАРИАНТ 8 · МОНОТОНЕН SEQ В РАМКИТЕ НА НАЕМАТЕЛ
- * Плюс: изолация на наемател — seq на единия не пипа seq на другия.
+ * Плюс: изолация на верига — seq на единия не пипа seq на другия.
  */
 
 import { describe, expect, it } from 'vitest';
@@ -36,27 +37,27 @@ describe('инвариант 8 · монотонен seq', () => {
     expect((await proveriVerigata(vsichki, SHA)).tsyala).toBe(true);
   });
 
-  it('всеки наемател има своя редица — броенето не се смесва', async () => {
+  it('всеки верига има своя редица — броенето не се смесва', async () => {
     const { dnevnik, vrata } = novaVrata();
     const random = seyalka(7);
-    const naemateli = ['naematel-a', 'naematel-b', 'naematel-v'];
-    const broi: Record<string, number> = { 'naematel-a': 0, 'naematel-b': 0, 'naematel-v': 0 };
+    const verigi = ['veriga-a', 'veriga-b', 'veriga-v'];
+    const broi: Record<string, number> = { 'veriga-a': 0, 'veriga-b': 0, 'veriga-v': 0 };
 
     const raboti: Promise<unknown>[] = [];
     for (let i = 1; i <= 300; i += 1) {
-      const naematel = naemateli[Math.floor(random() * naemateli.length)]!;
-      broi[naematel] = (broi[naematel] ?? 0) + 1;
-      raboti.push(vrata.dobavi(operatsiya({ opId: `op-${i}`, naematel })));
+      const veriga = verigi[Math.floor(random() * verigi.length)]!;
+      broi[veriga] = (broi[veriga] ?? 0) + 1;
+      raboti.push(vrata.dobavi(operatsiya({ opId: `op-${i}`, veriga })));
     }
     await Promise.all(raboti);
 
-    for (const naematel of naemateli) {
-      const vsichki = await dnevnik.chetiVsichki(naematel);
-      expect(vsichki).toHaveLength(broi[naematel]!);
+    for (const veriga of verigi) {
+      const vsichki = await dnevnik.chetiVsichki(veriga);
+      expect(vsichki).toHaveLength(broi[veriga]!);
       expect(vsichki.map((s) => s.seq)).toEqual(
-        Array.from({ length: broi[naematel]! }, (_, i) => i + 1),
+        Array.from({ length: broi[veriga]! }, (_, i) => i + 1),
       );
-      expect(vsichki.every((s) => s.naematel === naematel)).toBe(true);
+      expect(vsichki.every((s) => verigata(s) === veriga)).toBe(true);
       expect((await proveriVerigata(vsichki, SHA)).tsyala).toBe(true);
     }
   });

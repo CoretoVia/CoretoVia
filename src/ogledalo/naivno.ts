@@ -29,6 +29,7 @@ import type {
   PayloadStoynostZapisana,
 } from '../sabitiya/tovari.js';
 import type { Sabitie } from '../yadro/sabitie.js';
+import { veriga, zvenoNa } from '../yadro/sabitie.js';
 
 export interface NaivenRed {
   readonly id: string;
@@ -53,7 +54,6 @@ export interface NaivnoOgledalo {
 }
 
 export function naivnoSgavane(sabitiya: readonly Sabitie[], model: Model): NaivnoOgledalo {
-  const zveno = (naematel: string, seq: number): string => `${naematel}#${seq}`;
   const validno = (s: Sabitie): boolean => proveriTovar(s.type, s.payload, model).length === 0;
 
   const pogaseni = new Set<string>();
@@ -62,8 +62,8 @@ export function naivnoSgavane(sabitiya: readonly Sabitie[], model: Model): Naivn
     if (s.type !== TIP.storno || !validno(s)) continue;
     storna += 1;
     const p = s.payload as unknown as PayloadStorno;
-    pogaseni.add(zveno(p.pogasyavaVeriga ?? s.naematel, p.pogasyavaSeq));
-    pogaseni.add(zveno(s.naematel, s.seq));
+    pogaseni.add(zvenoNa(p.pogasyavaVeriga ?? veriga(s), p.pogasyavaSeq));
+    pogaseni.add(zvenoNa(veriga(s), s.seq));
   }
   const martvi = new Set<string>();
   const videni = new Set<string>();
@@ -73,7 +73,7 @@ export function naivnoSgavane(sabitiya: readonly Sabitie[], model: Model): Naivn
     const k = `${p.tablitsa}#${p.id}`;
     if (videni.has(k)) continue;
     videni.add(k);
-    if (pogaseni.has(zveno(s.naematel, s.seq))) martvi.add(k);
+    if (pogaseni.has(zvenoNa(veriga(s), s.seq))) martvi.add(k);
   }
 
   let stopanin = '';
@@ -93,7 +93,7 @@ export function naivnoSgavane(sabitiya: readonly Sabitie[], model: Model): Naivn
       continue;
     }
     if (s.type === TIP.storno) continue;
-    if (pogaseni.has(zveno(s.naematel, s.seq))) {
+    if (pogaseni.has(zvenoNa(veriga(s), s.seq))) {
       broyPogaseni += 1;
       continue;
     }
@@ -142,10 +142,10 @@ export function naivnoSgavane(sabitiya: readonly Sabitie[], model: Model): Naivn
         const t = tablitsi.get(p.tablitsa)!;
         let red = t.get(p.id);
         if (red === undefined) {
-          red = { id: p.id, veriga: s.naematel, seq: s.seq, izklyuchen: false, kletki: {} };
+          red = { id: p.id, veriga: veriga(s), seq: s.seq, izklyuchen: false, kletki: {} };
           t.set(p.id, red);
         }
-        red.veriga = s.naematel;
+        red.veriga = veriga(s);
         red.seq = s.seq;
         for (const [k, v] of Object.entries(p.kletki)) {
           if (v === null) delete red.kletki[k];
@@ -156,7 +156,7 @@ export function naivnoSgavane(sabitiya: readonly Sabitie[], model: Model): Naivn
       case TIP.redIzklyuchen: {
         const p = s.payload as unknown as PayloadRedIzklyuchen;
         const red = tablitsi.get(p.tablitsa)!.get(p.id)!;
-        red.veriga = s.naematel;
+        red.veriga = veriga(s);
         red.seq = s.seq;
         red.izklyuchen = p.izklyuchen;
         break;

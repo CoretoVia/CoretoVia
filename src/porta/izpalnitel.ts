@@ -39,8 +39,9 @@ import { sgani } from '../ogledalo/sgavane.js';
 import type { Dnevnik } from '../yadro/dnevnik.js';
 import { dumiZaGreshka } from '../yadro/dumi.js';
 import type { Sabitie } from '../yadro/sabitie.js';
+import type { Valuta } from '../yadro/sabitie.js';
+import { veriga } from '../yadro/sabitie.js';
 import { DnevnikNaSverki, MERKA, sverka } from '../yadro/sverka.js';
-import { naprediChasovnika } from '../yadro/takt.js';
 import type { Vrata } from '../yadro/vrata.js';
 import type { Porta, RezultatNaIzpalnenie } from './porta.js';
 
@@ -48,10 +49,29 @@ export interface NastroykiNaIzpalnitelya {
   readonly vrata: Vrata;
   readonly dnevnik: Dnevnik;
   readonly model: Model;
-  /** веригата, в която се пише · ключът на Книгата или `ключ~писач` */
-  readonly veriga: string;
-  /** префиксът на всички вериги на Книгата · по подразбиране = ключът на Книгата */
-  readonly kniga?: string;
+  /**
+   * КОЯ КНИГА · един файл = една фирма.
+   *
+   * Тя е и префиксът на всички вериги в нея: `verigi(kniga)` ги събира.
+   */
+  readonly kniga: string;
+  /**
+   * КОЙ ПИСАЧ · `PISACH_NA_KNIGATA`, докато писачите са един.
+   *
+   * Дотук тук стоеше едно поле `veriga` с готовия низ, и точно то носеше
+   * трите смисъла наведнъж (Т39). Сега Портата подава ФАКТИТЕ, а низът се
+   * извежда на едно място (`veriga()` в `sabitie.ts`).
+   */
+  readonly pisach: string;
+  /** ОТ КОЕ УСТРОЙСТВО · отпечатъкът на машината */
+  readonly ustroystvo: string;
+  /**
+   * ВАЛУТАТА на тази Книга · избира се ЕДНА при регистрация (негово, 09.09).
+   *
+   * Влиза във всяко събитие и в подписа му, за да не може историята да бъде
+   * тихо преномерирана в друга валута. Курс няма (правило 3).
+   */
+  readonly valuta: Valuta;
   /** имейлът на този, който пише · функция, защото се научава при откриването */
   readonly aktor: () => string;
   readonly sega: () => string;
@@ -105,9 +125,10 @@ export class Izpalnitel implements Porta {
   /** Пресгъва от Дневника · всички вериги · слушателите получават новото. */
   async prezaredi(): Promise<void> {
     const novi = new Map<string, Sabitie[]>();
-    const klyuchove = await this.#n.dnevnik.verigi(this.#n.kniga ?? this.#n.veriga);
+    const klyuchove = await this.#n.dnevnik.verigi(this.#n.kniga);
     for (const k of klyuchove) novi.set(k, await this.#n.dnevnik.chetiVsichki(k));
-    if (!novi.has(this.#n.veriga)) novi.set(this.#n.veriga, []);
+    const moyata = veriga(this.#n);
+    if (!novi.has(moyata)) novi.set(moyata, []);
     this.#verigi.clear();
     for (const [k, v] of novi) this.#verigi.set(k, v);
     const sega = this.#n.sega();
@@ -124,7 +145,7 @@ export class Izpalnitel implements Porta {
       ogledalo: this.#ogledalo,
       komandaId,
       aktor: this.#n.aktor(),
-      veriga: this.#n.veriga,
+      veriga: veriga(this.#n),
       sega: this.#n.sega(),
       // по seq, не по място: веригата в паметта може да е четена преди чужд запис
       zveno: (veriga, seq) => {
@@ -204,16 +225,25 @@ export class Izpalnitel implements Porta {
     const seqove: number[] = [];
     let povtoreni = 0;
     const opIdove = pred.operatsii.map((_op, i) => `${komandaId}#${i}`);
-    let posledenTs = this.#verigi.get(this.#n.veriga)?.at(-1)?.ts;
+    /*
+     * ЧАСОВНИКЪТ вече се пази ОТ ВРАТАТА (Т10), не оттук.
+     *
+     * Дотук пазачът стоеше на това място — тоест при ЕДИН викащ. А правило 2
+     * казва, че Вратата е единственият вход, и адаптерите са три (екран ·
+     * Книга · агенти): пазач при викащия пази само него. Преместен, той пази
+     * всеки път, а тук би бил ВТОРИ дом на едно правило (правило 14).
+     */
     for (const [i, op] of pred.operatsii.entries()) {
-      const ts = naprediChasovnika(posledenTs, this.#n.sega());
-      posledenTs = ts;
+      const ts = this.#n.sega();
       let r: Awaited<ReturnType<Vrata['dobavi']>>;
       try {
         r = await this.#n.vrata.dobavi({
           opId: opIdove[i]!,
           ts,
-          naematel: this.#n.veriga,
+          valuta: this.#n.valuta,
+          kniga: this.#n.kniga,
+          pisach: this.#n.pisach,
+          ustroystvo: this.#n.ustroystvo,
           actor: this.#n.aktor(),
           type: op.type,
           sashtnost: op.sashtnost,
@@ -228,7 +258,7 @@ export class Izpalnitel implements Porta {
       seqove.push(r.seq);
       if (r.povtoreno) {
         povtoreni += 1;
-        const zapisano = await this.#n.dnevnik.poOpId(this.#n.veriga, opIdove[i]!);
+        const zapisano = await this.#n.dnevnik.poOpId(veriga(this.#n), opIdove[i]!);
         if (
           zapisano !== undefined &&
           otpechatakNaOperatsiite([operatsiyaOt(zapisano, op.expectedRev)]) !==
@@ -243,7 +273,7 @@ export class Izpalnitel implements Porta {
     // Сверка от Дневника: всяка операция стои под своя opId (правило 7 · и нулата).
     let nameren = 0;
     for (const opId of opIdove) {
-      if ((await this.#n.dnevnik.poOpId(this.#n.veriga, opId)) !== undefined) nameren += 1;
+      if ((await this.#n.dnevnik.poOpId(veriga(this.#n), opId)) !== undefined) nameren += 1;
     }
     const sv = this.sverki.zapishi(
       sverka(`изпълнение „${klyuch}"`, pred.operatsii.length, nameren, this.#n.sega(), MERKA.broy),

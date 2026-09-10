@@ -9,7 +9,7 @@
  *   5. append (seq, prevHash, hash)
  *   6. върни { seq, hash }
  *
- * Единичен писач на наемател: стъпки 4–5 се сериализират, иначе се къса веригата.
+ * Единичен писач на верига: стъпки 4–5 се сериализират, иначе се къса веригата.
  */
 
 import type { Dnevnik } from './dnevnik.js';
@@ -19,6 +19,8 @@ import { izchisliHash, proveriVerigata, type Sha256 } from './hash.js';
 import { eTsentove } from './pari.js';
 import type { Pravata } from './pravata.js';
 import type { Operatsiya, Sabitie } from './sabitie.js';
+import { naprediChasovnika } from './takt.js';
+import { SHEMA, veriga } from './sabitie.js';
 
 type KodGreshka = 'SPRYAN' | 'BEZ_PRAVO' | 'NEVALIDNO' | 'REPLAY' | 'NESAVMESTIM';
 
@@ -74,11 +76,11 @@ interface NastroykiVrata {
    * реда само в един раздел; ключалката го пази между няколко. По избор —
    * без нея сблъсъкът се оправя с повторение (виж #zapishi).
    */
-  readonly klyuchalka?: <T>(naematel: string, rabota: () => Promise<T>) => Promise<T>;
+  readonly klyuchalka?: <T>(veriga: string, rabota: () => Promise<T>) => Promise<T>;
   /**
    * ОТКРИВАЩОТО СЪБИТИЕ · кой тип трябва да стои ПЪРВИ в Журнала.
    *
-   * Стопанинът е първото събитие в Журнала на наемателя (И97 т.8 · ADR-043), но
+   * Стопанинът е първото събитие в Журнала на веригата (И97 т.8 · ADR-043), но
    * ядрото не знае имената на домейна — `type` тук е низ и това е нарочно
    * (`sabitie.ts`). Затова правилото е ОБЩО, а името се ПОДАВА: „в празен
    * Журнал влиза само това; и то влиза само веднъж".
@@ -101,7 +103,7 @@ interface NastroykiVrata {
    * на откриващото. За такава верига откриващото е ОТКАЗАНО: втори стопанин
    * в чужд подпис е точно онова, което ADR-043 забранява.
    */
-  readonly bezOtkrivane?: (naematel: string) => boolean;
+  readonly bezOtkrivane?: (veriga: string) => boolean;
 }
 
 export class Vrata {
@@ -109,16 +111,17 @@ export class Vrata {
   readonly #pravata: Pravata;
   readonly #sha: Sha256;
   readonly #kotva: DrajkaNaKotva | undefined;
-  readonly #klyuchalka: (<T>(naematel: string, rabota: () => Promise<T>) => Promise<T>) | undefined;
+  readonly #klyuchalka: (<T>(veriga: string, rabota: () => Promise<T>) => Promise<T>) | undefined;
   readonly #parvoto: string | undefined;
-  readonly #bezOtkrivane: ((naematel: string) => boolean) | undefined;
+  readonly #bezOtkrivane: ((veriga: string) => boolean) | undefined;
 
   /** Спирателен кран (П1.4): спира записа, без да събаря приложението. */
   #zatvorena = false;
   #prichinaZaZatvaryane = '';
 
-  /** Единичен писач на наемател — опашка от обещания. */
+  /** Единичен писач на верига — опашка от обещания. */
   readonly #opashki = new Map<string, Promise<unknown>>();
+  #vrateni = 0;
 
   constructor(n: NastroykiVrata) {
     this.#dnevnik = n.dnevnik;
@@ -128,6 +131,17 @@ export class Vrata {
     this.#klyuchalka = n.klyuchalka;
     this.#parvoto = n.parvoto;
     this.#bezOtkrivane = n.bezOtkrivane;
+  }
+
+  /**
+   * КОЛКО ПЪТИ часовникът е тръгвал назад и е бил поправен (Т10).
+   *
+   * Числото не е украса: то е разликата между „нищо не е ставало" и „времето
+   * на тази машина се мести". Нула значи нула; расте ли, човекът има повод да
+   * погледне часовника си, вместо да гадае защо редът изглежда странен.
+   */
+  get vrateniChasovnitsi(): number {
+    return this.#vrateni;
   }
 
   get zatvorena(): boolean {
@@ -182,7 +196,7 @@ export class Vrata {
    * записа, не след него.
    */
   async vazstanovi(
-    naematel: string,
+    kamVerigata: string,
     actor: string,
     sabitiya: readonly Sabitie[],
   ): Promise<RezultatVazstanovyavane> {
@@ -192,10 +206,10 @@ export class Vrata {
     }
 
     for (const [i, s] of sabitiya.entries()) {
-      if (s.naematel !== naematel) {
+      if (veriga(s) !== kamVerigata) {
         throw new GreshkaVrata(
           'NESAVMESTIM',
-          `Събитие ${s.seq} е на наемател „${s.naematel}", а се възстановява при „${naematel}".`,
+          `Събитие ${s.seq} е на верига „${veriga(s)}", а се възстановява при „${kamVerigata}".`,
         );
       }
       if (s.seq !== i + 1) {
@@ -231,8 +245,10 @@ export class Vrata {
       }
     }
 
-    if (!(await this.#pravata.mozheDaPishe(actor, naematel, { vid: 'zhurnal', id: naematel }))) {
-      throw new GreshkaVrata('BEZ_PRAVO', `${actor} няма право да пише при наемател ${naematel}`);
+    if (
+      !(await this.#pravata.mozheDaPishe(actor, kamVerigata, { vid: 'zhurnal', id: kamVerigata }))
+    ) {
+      throw new GreshkaVrata('BEZ_PRAVO', `${actor} няма право да пише при верига ${kamVerigata}`);
     }
 
     const proverka = await proveriVerigata(sabitiya, this.#sha);
@@ -257,8 +273,8 @@ export class Vrata {
       );
     }
 
-    return this.#naOpashka(naematel, async () => {
-      const sega = await this.#dnevnik.chetiVsichki(naematel);
+    return this.#naOpashka(kamVerigata, async () => {
+      const sega = await this.#dnevnik.chetiVsichki(kamVerigata);
       if (sega.length > sabitiya.length) {
         throw new GreshkaVrata(
           'NESAVMESTIM',
@@ -282,7 +298,7 @@ export class Vrata {
 
       // Върнатата история става новото помнено — котвата се премества на върха ѝ.
       const posledno = sabitiya[sabitiya.length - 1]!;
-      this.#kotva?.zabij(naematel, {
+      this.#kotva?.zabij(kamVerigata, {
         seq: posledno.seq,
         hash: posledno.hash,
         kogato: posledno.ts,
@@ -306,30 +322,30 @@ export class Vrata {
     const chista = normalizirayNFC(op) as Operatsiya;
     proveriValidnost(chista);
 
-    if (!(await this.#pravata.mozheDaPishe(chista.actor, chista.naematel, chista.sashtnost))) {
+    if (!(await this.#pravata.mozheDaPishe(chista.actor, veriga(chista), chista.sashtnost))) {
       throw new GreshkaVrata(
         'BEZ_PRAVO',
-        `${chista.actor} няма право да пише при наемател ${chista.naematel}`,
+        `${chista.actor} няма право да пише при верига ${veriga(chista)}`,
       );
     }
 
-    return this.#naOpashka(chista.naematel, () =>
-      this.#podKlyuch(chista.naematel, () => this.#zapishi(chista)),
+    return this.#naOpashka(veriga(chista), () =>
+      this.#podKlyuch(veriga(chista), () => this.#zapishi(chista)),
     );
   }
 
   /** Ключалката между раздели, когато я има; иначе направо. */
-  async #podKlyuch<T>(naematel: string, rabota: () => Promise<T>): Promise<T> {
-    return this.#klyuchalka ? this.#klyuchalka(naematel, rabota) : rabota();
+  async #podKlyuch<T>(veriga: string, rabota: () => Promise<T>): Promise<T> {
+    return this.#klyuchalka ? this.#klyuchalka(veriga, rabota) : rabota();
   }
 
-  /** Сериализира записите за един наемател — пази seq и веригата. */
-  async #naOpashka<T>(naematel: string, rabota: () => Promise<T>): Promise<T> {
-    const predisha = this.#opashki.get(naematel) ?? Promise.resolve();
+  /** Сериализира записите за една верига — пази seq и веригата. */
+  async #naOpashka<T>(veriga: string, rabota: () => Promise<T>): Promise<T> {
+    const predisha = this.#opashki.get(veriga) ?? Promise.resolve();
     const sled = predisha.then(rabota, rabota);
     // Опашката не бива да пази отказите — иначе следващият запис пада с чужда грешка.
     this.#opashki.set(
-      naematel,
+      veriga,
       sled.then(
         () => undefined,
         () => undefined,
@@ -341,7 +357,7 @@ export class Vrata {
   /**
    * ОТКРИВАЩОТО СЪБИТИЕ · три правила, и трите за едно и също нещо.
    *
-   * Негови думи: „Той е **първото събитие в Журнала** на този наемател."
+   * Негови думи: „Той е **първото събитие в Журнала** на този верига."
    * Оттам следва повече, отколкото изглежда:
    *
    *   1. **ПРАЗЕН Журнал** приема само откриващото събитие. Иначе Журнал може
@@ -365,24 +381,24 @@ export class Vrata {
     const otkrivashto = op.type === this.#parvoto;
     // ВЕРИГАТА НА ПИСАЧ · открита е книгата, не веригата (ADR-055): нищо не
     // се чака отпред, а откриващото е отказано — то стои във веригата-нула.
-    if (this.#bezOtkrivane?.(op.naematel)) {
+    if (this.#bezOtkrivane?.(veriga(op))) {
       if (otkrivashto) {
         throw new GreshkaVrata(
           'NEVALIDNO',
-          `„${this.#parvoto}" не влиза във верига на писач (${op.naematel}) — книгата е ` +
+          `„${this.#parvoto}" не влиза във верига на писач (${veriga(op)}) — книгата е ` +
             'открита във веригата на стопанина и втори стопанин в чужд подпис не се записва.',
         );
       }
       return;
     }
-    const parvo = await this.#dnevnik.parvo(op.naematel);
+    const parvo = await this.#dnevnik.parvo(veriga(op));
 
     if (!parvo) {
       if (otkrivashto) return;
       throw new GreshkaVrata(
         'NEVALIDNO',
         `Празен Журнал се открива с „${this.#parvoto}" — то е първото събитие ` +
-          `на наемателя. Опитът да влезе „${op.type}" преди него е отказан.`,
+          `на веригата. Опитът да влезе „${op.type}" преди него е отказан.`,
       );
     }
     if (!otkrivashto) return;
@@ -391,7 +407,7 @@ export class Vrata {
       throw new GreshkaVrata(
         'NEVALIDNO',
         `„${this.#parvoto}" се записва ВЕДНЪЖ и вече стои като първо събитие ` +
-          `на ${op.naematel}. Смяната не минава оттук.`,
+          `на ${veriga(op)}. Смяната не минава оттук.`,
       );
     }
     if (op.actor !== parvo.actor) {
@@ -403,10 +419,10 @@ export class Vrata {
     }
     // И в стария Журнал влиза ЕДНО дописване: първото стои не като първо
     // събитие, а като първо на СЪЩНОСТТА, и оттам се брои.
-    if ((await this.#dnevnik.tekushtRev(op.naematel, op.sashtnost)) > 0) {
+    if ((await this.#dnevnik.tekushtRev(veriga(op), op.sashtnost)) > 0) {
       throw new GreshkaVrata(
         'NEVALIDNO',
-        `„${this.#parvoto}" вече е дописано при ${op.naematel}. Влиза веднъж.`,
+        `„${this.#parvoto}" вече е дописано при ${veriga(op)}. Влиза веднъж.`,
       );
     }
   }
@@ -420,7 +436,7 @@ export class Vrata {
     for (let opit = 0; opit < 10; opit += 1) {
       // 3 · дедупликация по opId — проверява се на ВСЕКИ опит: междувременно
       // другият раздел може да е записал точно тази операция.
-      const veche = await this.#dnevnik.poOpId(op.naematel, op.opId);
+      const veche = await this.#dnevnik.poOpId(veriga(op), op.opId);
       if (veche) {
         return { seq: veche.seq, hash: veche.hash, povtoreno: true };
       }
@@ -430,19 +446,48 @@ export class Vrata {
 
       // 4 · rev-предпазител
       if (op.expectedRev !== undefined) {
-        const tekusht = await this.#dnevnik.tekushtRev(op.naematel, op.sashtnost);
+        const tekusht = await this.#dnevnik.tekushtRev(veriga(op), op.sashtnost);
         if (tekusht !== op.expectedRev) {
           throw new GreshkaReplay(tekusht, op.expectedRev);
         }
       }
 
       // 5 · append
-      const posledno = await this.#dnevnik.posledno(op.naematel);
+      const posledno = await this.#dnevnik.posledno(veriga(op));
+
+      /*
+       * ЧАСОВНИКЪТ НЕ ТРЪГВА НАЗАД · Т10 · и защо пазачът е ТУК.
+       *
+       * `ts` е ПЪРВАТА тежест в такта (правило 6: `ts · веригата · seq`) и е В
+       * ПОДПИСА. Тръгне ли назад, сгънатото Огледало подрежда вчерашното
+       * СЛЕД днешното — тихо, без нито едно съобщение, защото всяко звено си е
+       * наред поотделно.
+       *
+       * Пазачът съществуваше, но живееше в ИЗПЪЛНИТЕЛЯ — тоест в един викащ.
+       * А правило 2 казва, че Вратата е ЕДИНСТВЕНИЯТ вход: пазач при викащия
+       * пази само него, а адаптерите са три (екран · Книга · агенти). Затова
+       * се мести тук, където не може да бъде подминат.
+       *
+       * НЕ СЕ ОТКАЗВА, а се ПОПРАВЯ. Часовник, тръгнал назад, е нормален живот:
+       * лятно време, поправка по мрежата, друга машина. Отказ би зазидал
+       * писането след всяко такова местене. Поправката е с една милисекунда
+       * напред — колкото да пази реда, без да съчинява време.
+       *
+       * И се БРОИ (`vrateniChasovnitsi`), вместо да мълчи: тихата поправка е
+       * същият клас като тихата загуба (правило 12).
+       */
+      const ts = naprediChasovnika(posledno?.ts, op.ts);
+      if (ts !== op.ts) this.#vrateni += 1;
+
       const zaHeshirane = {
         seq: (posledno?.seq ?? 0) + 1,
         opId: op.opId,
-        ts: op.ts,
-        naematel: op.naematel,
+        ts,
+        shema: SHEMA,
+        valuta: op.valuta,
+        kniga: op.kniga,
+        pisach: op.pisach,
+        ustroystvo: op.ustroystvo,
         actor: op.actor,
         type: op.type,
         sashtnost: op.sashtnost,
@@ -451,6 +496,24 @@ export class Vrata {
       };
       const hash = await izchisliHash(zaHeshirane, this.#sha);
       const sabitie: Sabitie = { ...zaHeshirane, hash };
+
+      /*
+       * КРАНЪТ · ПОСЛЕДНАТА КРАЧКА ПРЕДИ НОСИТЕЛЯ. Т5.
+       *
+       * `dobavi` пита крана на входа и после слага работата на ОПАШКА (единичен
+       * писач на верига). Между двете минава време: чуждата операция пред нея,
+       * ключалката между разделите, отстъпът при сблъсък. Дръпне ли се кранът
+       * тогава, заспалата операция се събужда и ПИШЕ — вече след дърпането.
+       *
+       * Кранът се дърпа при ИНЦИДЕНТ (правило 8) и обещава едно: от този миг в
+       * Журнала не влиза нищо. Проверка само на входа обещава друго и по-слабо —
+       * „нищо ново не ЗАПОЧВА".
+       *
+       * Затова питането е ТУК, на последния възможен ред, и е ВЪТРЕ в цикъла на
+       * повторенията: всеки нов опит е нов запис и минава наново. По-рано в
+       * записа не стига — между проверката и носителя пак остава хлабина.
+       */
+      this.#akoEDrapnatKranat();
 
       try {
         await this.#dnevnik.dobavi(sabitie);
@@ -466,7 +529,7 @@ export class Vrata {
       }
 
       // Котвата: последното звено, забито ИЗВЪН Журнала — срещу скъсяване отзад.
-      this.#kotva?.zabij(op.naematel, { seq: sabitie.seq, hash, kogato: op.ts });
+      this.#kotva?.zabij(veriga(op), { seq: sabitie.seq, hash, kogato: op.ts });
 
       // 6 · върни
       return { seq: sabitie.seq, hash, povtoreno: false };
@@ -524,7 +587,7 @@ const NASTAVKA_PARI = '_st';
 
 function proveriValidnost(op: Operatsiya): void {
   neprazen(op.opId, 'opId');
-  neprazen(op.naematel, 'naematel');
+  neprazen(veriga(op), 'veriga');
   neprazen(op.actor, 'actor');
   neprazen(op.type, 'type');
   neprazen(op.sashtnost?.vid, 'sashtnost.vid');

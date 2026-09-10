@@ -1141,16 +1141,16 @@ class Chetets {
     const versiya = po.get(SLUZHEBNO.versiya)?.[1];
     const kursorOt = (r: readonly ProchetenaStoynost[] | undefined): Kursor | null =>
       r !== undefined && typeof r[1] === 'string' && typeof r[2] === 'number'
-        ? { naematel: r[1], seq: r[2], hash: String(r[3] ?? '') }
+        ? { veriga: r[1], seq: r[2], hash: String(r[3] ?? '') }
         : null;
     const kursori = new Map<string, Kursor>();
     for (const r of l.kletki) {
       if (r[0] !== SLUZHEBNO.veriga) continue;
       const k = kursorOt(r);
-      if (k !== null) kursori.set(k.naematel, k);
+      if (k !== null) kursori.set(k.veriga, k);
     }
     const kursor = kursorOt(po.get(SLUZHEBNO.kursor));
-    if (kursor !== null && !kursori.has(kursor.naematel)) kursori.set(kursor.naematel, kursor);
+    if (kursor !== null && !kursori.has(kursor.veriga)) kursori.set(kursor.veriga, kursor);
     return {
       versiya: typeof versiya === 'number' ? versiya : null,
       otpechatak: String(po.get(SLUZHEBNO.otpechatak)?.[1] ?? ''),

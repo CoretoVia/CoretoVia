@@ -49,7 +49,7 @@ const iznesi: Komanda<TovarIznesi> = {
   shema: strogObekt({
     otpechatak: { type: 'string', minLength: 1 },
     kursor: strogObekt({
-      naematel: { type: 'string', minLength: 1 },
+      veriga: { type: 'string', minLength: 1 },
       seq: { type: 'integer', minimum: 0 },
       hash: { type: 'string' },
     }),
@@ -68,7 +68,7 @@ const iznesi: Komanda<TovarIznesi> = {
       ime: 'курсорът е текущият',
       proveri: (v, k) => {
         const sega = kursorNa(k);
-        return v.kursor.naematel === sega.naematel &&
+        return v.kursor.veriga === sega.veriga &&
           v.kursor.seq === sega.seq &&
           v.kursor.hash === sega.hash
           ? null

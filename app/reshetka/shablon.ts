@@ -39,13 +39,36 @@
  */
 
 /**
- * ЗАПЕЧАТАН HTML · строи се само от `h`, разпечатва се само от `sloji`.
+ * ПЕЧАТЪТ · СИМВОЛ, не име на поле. Т11.
  *
- * Полето е с непроизносимо име нарочно: то не се пише на ръка, а типът не може
- * да се подправи с обикновен обектен литерал, без това да личи в диф.
+ * ═══ ДУПКАТА, КОЯТО ТОВА ЗАТВАРЯ ═══
+ *
+ * Дотук печатът беше обикновено поле `__zapechatanHTML`, а проверката —
+ * СТРУКТУРНА: „обект ли е и има ли низ на това име". Тоест всеки обект с
+ * такъв ключ минаваше за запечатан и влизаше в страницата **неекраниран**.
+ *
+ * А обекти влизат отвън: `JSON.parse` на ВНЕСЕН Журнал. Товарът на едно
+ * събитие е `Record<string, unknown>` и нищо не му пречи да носи ключ
+ * `__zapechatanHTML` със стойност `<img src=x onerror=…>`. Достатъчно е
+ * такава клетка да стигне до екрана — а тя стига, това е смисълът ѝ.
+ *
+ * ═══ ЗАЩО СИМВОЛ ═══
+ *
+ * `JSON.parse` НЕ МОЖЕ да произведе символен ключ — JSON няма символи. Не може
+ * и структурираното копиране на IndexedDB: символите не са прехвърляеми. Тоест
+ * печат, който е символ, е недостижим за всичко, което идва отвън — не по
+ * проверка, а по КОНСТРУКЦИЯ. Това е същата сметка като адреса на личната
+ * верига: граница, която не може да се заобиколи, бие граница, която се пази.
+ *
+ * Символът е ЧАСТЕН за този файл и не се изнася: изнесен, той би станал ключ,
+ * който всеки съсед може да сложи на свой обект — и дупката се връща отвътре,
+ * вместо отвън.
  */
+const PECHAT: unique symbol = Symbol('zapechatanHTML');
+
+/** ЗАПЕЧАТАН HTML · строи се само от `h`, разпечатва се само от `sloji`. */
 export interface Zapechatan {
-  readonly __zapechatanHTML: string;
+  readonly [PECHAT]: string;
 }
 
 /** Всичко, написано от човек, минава оттук · вкл. апострофа. */
@@ -59,9 +82,7 @@ function ekraniray(tekst: string): string {
 }
 
 function eZapechatan(x: unknown): x is Zapechatan {
-  return (
-    typeof x === 'object' && x !== null && typeof (x as Zapechatan).__zapechatanHTML === 'string'
-  );
+  return typeof x === 'object' && x !== null && typeof (x as Zapechatan)[PECHAT] === 'string';
 }
 
 /**
@@ -74,7 +95,7 @@ function eZapechatan(x: unknown): x is Zapechatan {
  */
 function stoynostta(v: unknown): string {
   if (v === null || v === undefined) return '';
-  if (eZapechatan(v)) return v.__zapechatanHTML;
+  if (eZapechatan(v)) return v[PECHAT];
   if (Array.isArray(v)) return v.map(stoynostta).join('');
   return ekraniray(typeof v === 'string' ? v : String(v));
 }
@@ -91,7 +112,7 @@ function stoynostta(v: unknown): string {
  * Полето е неизброимо, за да не се появи в `Object.keys` и в износ.
  */
 function zapechatay(html: string): Zapechatan {
-  const z = { __zapechatanHTML: html };
+  const z = { [PECHAT]: html };
   Object.defineProperty(z, 'toString', {
     enumerable: false,
     value: () => {
@@ -189,7 +210,7 @@ export function sloji(kade: Element, kakvo: Zapechatan): void {
   // Заглушаване тук НЯМА: правилото, което заглушавах, е за React-свойството
   // `dangerouslySetInnerHTML` и не се задейства върху присвояване. Заглушител,
   // който не заглушава нищо, е надпис — и самият Biome го съобщава.
-  kade.innerHTML = politika().createHTML(kakvo.__zapechatanHTML) as string;
+  kade.innerHTML = politika().createHTML(kakvo[PECHAT]) as string;
 }
 
 /**

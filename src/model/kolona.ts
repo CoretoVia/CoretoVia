@@ -103,9 +103,19 @@ export interface Kolona {
   readonly vKlyucha?: true;
 }
 
-/** Кой слот носи клетката на тази колона · `undefined` за затворените. */
-export function slotNaKolonata(k: Kolona): Slot | undefined {
-  if (k.zatvorena) return undefined;
+/**
+ * Кой слот носи клетката · ПО ВИД, без да пита затворена ли е колоната.
+ *
+ * Двата въпроса са различни и се сляха в един до 10.09.2026: „каква стойност
+ * НОСИ тази колона" и „може ли някой да ѝ ПИШЕ". Слети, затворената колона
+ * оставаше без стълб — и вчерашният ред, който има стойност в нея, чупеше
+ * сгъването. А правило 18 казва обратното: колоната се СКРИВА, скритото пак
+ * се смята.
+ *
+ * Намерено от изискването на десетия тип (`docs/28` §2.2): затвориш ли колона
+ * днес, вчерашният ред трябва да оцелее.
+ */
+export function slotPoVida(k: Kolona): Slot | undefined {
   switch (k.vid) {
     case 'evro':
       return 'stoynost_st';
@@ -121,6 +131,16 @@ export function slotNaKolonata(k: Kolona): Slot | undefined {
     case 'nomeratsiya':
       return undefined;
   }
+}
+
+/**
+ * Кой слот се ПИШЕ · `undefined` за затворените.
+ *
+ * Това е въпросът на Вратата и на регистъра: „приема ли се стойност тук".
+ * За „каква стойност носи колоната" виж `slotPoVida`.
+ */
+export function slotNaKolonata(k: Kolona): Slot | undefined {
+  return k.zatvorena ? undefined : slotPoVida(k);
 }
 
 /** Колоната влиза ли в сбор · само еврото (правило 3 · ADR-014). */

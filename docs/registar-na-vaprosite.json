@@ -1,0 +1,2839 @@
+{
+  "vaprosi": [
+    {
+      "beleg": "А0",
+      "vapros": "Пълната архитектура · всеки слой, всеки порт, всеки инвариант и КОЙ ГО ПАЗИ, плюс известните начини да се счупи и нашият отговор на всеки.",
+      "sastoyanie": "otpadnal",
+      "negovite_dumi": "„Завърши цялата архитектура подробно и в детайли, за да не се изпусне нищо, а само да се надгражда, като се търси проблема преди да е дошъл и най-доброто му решение от практиката.“",
+      "adres": "docs/14-dalgat.md:89-91 (задачата, дословно) · docs/14-dalgat.md:95 (~~А0~~ ✔ ЗАТВОРЕН) · docs/14-dalgat.md:181 (как е затворен) · docs/15-arhitekturata.md:1-30",
+      "kakvo_sledva": "Няма предмет: А0 е ЗАТВОРЕН на 08.09 — картата стои в docs/15-arhitekturata.md (единайсет слоя · 33 инварианта с ред „кой го пази“: 19 с машина · 11 с НИКОЙ · 3 частични). Остатъкът НЕ е А0, а единайсетте инварианта с „НИКОЙ“ — те са отделни редове в дълга, не този белег.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/12-doklad-za-predavane.md",
+        "docs/14-dalgat.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "А1",
+      "vapros": "Служител сменя имейла си — старите му записи с стария `actor` остават ли и се СВЪРЗВАТ със събитие „имейлът се смени“, или новият имейл е нов човек?",
+      "sastoyanie": "otpadnal",
+      "negovite_dumi": "",
+      "adres": "docs/10-kakvo-chaka.md:187 (~~А1~~ ОТГОВОРЕН 07.09) · docs/10-kakvo-chaka.md:74 („Оттам се затварят и три от долните: А1…“) · docs/ADR-024-chetirite-neobratimi.md:22-38 (§1 · самоличността)",
+      "kakvo_sledva": "Няма предмет: въпросът пада заедно с избора на самоличност — свой ключ Ed25519 на устройството, а не имейл в подписа, значи смяна на имейл изобщо не пипа `actor`. ВНИМАНИЕ по правило 17: ADR-024 §1 казва „РЕШЕНО от собственика“, но за §1 НЕ носи нито един негов дословен цитат (за разлика от §4, където стои „Физически пари в брой.“). Решение без цитат е решение без адрес — заслужава ред, а не тихо преминаване.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/12-doklad-za-predavane.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "А2",
+      "vapros": "Кой маха писач от списъка — само Стопанинът, или и Управителят?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Стопанина които създава реда и определя правилата и таблиците и всичко вътре дава покана и от Стпоанина дава и права с имейл и приемане и валидация с приемането. Така се и маха достъпа до драйва и програмата.“ (08.09) — а за 05.09 остава само: „Длъжности се раздават от управителите и помощник управители.“",
+      "adres": "C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\10-kakvo-chaka.md:133 (по-новата дума, 08.09) · C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\ADR-009-otgovornikat-i-koy-razdava-dlazhnosti.md:6-7 (05.09, но за РАЗДАВАНЕ) · състоянието на белега: C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\10-kakvo-chaka.md:188",
+      "kakvo_sledva": "НЕ само Стопанинът: махането на човек е РАЗДАВАНЕ на достъп, значи минава през същата една врата — Стопанин · Управител · Помощник Управител (`DLAZHNOSTI_S_RAZDAVANE`, src/smetach/pravo.ts:523). Остава единствено ЛИЧНАТА/СЕМЕЙНАТА верига: там списъкът писачи (до 7) няма Длъжности и за него негова дума още няма — това е Б2, не А2.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/12-doklad-za-predavane.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "А3",
+      "vapros": "Ако човек влезе с имейл, който го няма в лист „Служители“ — отказваме, или го записваме като чакащ?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Вход с Имейл без длъжност няма. Няма и как някой да се логне с имейла си в програмата без покана по имейл и без длъжност която да е избрана. Това е важна сигурност.“",
+      "adres": "docs/10-kakvo-chaka.md:125 (ред 22 от думите му на 08.09) · docs/16-dvizhenieto-i-sastoyanieto.md:114 (същият цитат) · docs/10-kakvo-chaka.md:189 (~~А3~~ ЗАТВОРЕН)",
+      "kakvo_sledva": "ОТКАЗВАМЕ: няма „чакащ“ вход. Входът иска ДВЕ неща наведнъж — покана по имейл И избрана Длъжност; отказът се казва с думи (правило 12). И родѝ ново: механизмът „покана“ не съществуваше никъде — оттам А4/М2.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/16-dvizhenieto-i-sastoyanieto.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "А37",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/izvori/temi/02-naemi-i-dogovori.md"
+      ]
+    },
+    {
+      "beleg": "А4",
+      "vapros": "Поканата по имейл — програмата няма сървър и не може да праща поща (правило 21). Кой я праща и как?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "без поправка — цитатът е верен; напомням само, че „…“ покрива изречението „Когато уволниш човек му спираш служебния достъп, но му оставяш личния…“, което принадлежи на Б4",
+      "adres": "docs/10-kakvo-chaka.md:133 (ред 30 от думите му на 08.09) · сравнението, което го предизвика: docs/16-dvizhenieto-i-sastoyanieto.md §3 · М2 · допълва го И110: docs/izvori/01-chist-dopiska.md:930 („КОгато се изпшрати поканната тя е по имейл по избор и задължително в програмата…“)",
+      "kakvo_sledva": "Вариант А, но АВТОМАТИЗИРАН: пощата на Стопанина праща, кодът я вика през OAuth към Гугъл (после Майкрософт и Епъл) — нула наши сървъри, правило 21 остава цяло. Приемането носи валидация, а уволнението МАХА достъпа по същия път. Отпушващото условие е блок 7 (входът · OAuth), който днес е на нула — дотогава ходът „покани служител“ не се пише.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "А43",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/izvori/temi/02-naemi-i-dogovori.md"
+      ]
+    },
+    {
+      "beleg": "А94",
+      "vapros": "Клетка A94 на лист „Сметки“ · библиотеката с коефициенти и таблици: откъде идват величините и ИЗВЪН или В ядрото и двигателя влизат библиотеките за най-висока сигурност?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Извън или в ядрото и двигатела е най добре да се включат библютеки за най висока сигурността, която сигурност е адекватна на конкуренцията? Проучи конкуренцията за сигурността.“ — това е ВЪПРОС и ЗАПОВЕД, не отговор",
+      "adres": "C:\\Users\\ivayl\\Projects\\Coretovia\\zadanie\\04-smetki.md:376 · неизпълнената заповед: C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\14-dalgat.md:73 (П4) · находката: C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\dokladi\\04-finansite-i-otchetite.md:1580 · И135: C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\izvori\\01-chist-dopiska.md:1236",
+      "kakvo_sledva": "Три задължения, нито едно още неизпълнено: (1) величините се четат ПЪРВО от неговия `Coretovia.xlsx` — той твърди, че вече стоят там с неговите имена, а докладът за финансите е тръгнал отвън (ЗСч · ЗДДС · wallstreetprep) и не е отворил Книгата — това е точно дефектът по правило 22; (2) дължи се сравнение по правило 24 за „в ядрото или извън“ плюс ПРОВЕРЕНО проучване на конкуренцията по сигурност; (3) показват се ВСИЧКИ коефициенти (И135), а тактът и периодът менят СТОЙНОСТИТЕ, не списъка.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/04-finansite-i-otchetite.md"
+      ]
+    },
+    {
+      "beleg": "Б1",
+      "vapros": "Приема ли се името „Едноличен“ за клетката „един акаунт + професионален“? („Семеен“ вече е прието.)",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Нека са Едноличен и Семеен и Професионален и комбинации от тях. Професионалния плаща за Личния, а за семайния се доплаща. Работодателя избира фдали да го отключи да плати като опция. А после от едноличен да стане семеен си плаща сами човек активирайки личен драйв и лична отговорност.",
+      "adres": "docs/10-kakvo-chaka.md (ред 101 · 09.09.2026) · docs/pazar/06-osemte-kletki-i-dvata-paketa.md §12",
+      "kakvo_sledva": "„Едноличен“ вече НЕ е мое предложение — то е негова дума, и четирите документа, които го носеха като предположение (docs/12:177-178 · docs/pazar/06:53-54,172-173,196), го пишат като факт. Отговорът дава и повече от питаното: Професионалният ПЛАЩА за Личния (служителят не плаща за личната си страна); Семейният се ДОПЛАЩА като добавка; работодателят решава дали да отключи и плати, като ОПЦИЯ; а без него човекът минава сам от Едноличен към Семеен само срещу ЛИЧЕН ДРАЙВ и ЛИЧНА ОТГОВОРНОСТ, казани с думи преди активирането (правило 12). Цените остават за резена си по негова по-ранна дума: „остави ги за резена, когато дойде“.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Б2",
+      "vapros": "Какво става при СВАЛЯНЕ на план — от Семеен на Личен, от 7 души на 1? Журналът е само за добавяне, значи записите на другите шестима не могат да се изтрият. Стават невидими? Остават видими само за четене?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Остават видими, САМО ЗА ЧЕТЕНЕ · хората не могат да влизат",
+      "adres": "docs/10-kakvo-chaka.md (§5 · ред 98)",
+      "kakvo_sledva": "Свалянето на плана не трие и не крие нищо: редовете остават видими и сборовете верни; затваря се само ВХОДЪТ на хората над бройката, с думи.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Б3",
+      "vapros": "30-те дни пробване: от кой миг тече и какво става на 31-ия ден?",
+      "sastoyanie": "otpadnal",
+      "negovite_dumi": "„с 30 дн7 беьплатно пробване“ · потвърдено с една дума: „da wavi“",
+      "adres": "docs/izvori/02-po-temi.md:536-537 и :1441 (И86) · docs/pazar/04-tridesette-dni-probvane.md:13-14 (негова дума) · §3:36-38 (началото = първото събитие) · §4:49-51 (по `ts`, не по датата на записа) · §6:71 (честна спирачка) · docs/10-kakvo-chaka.md:198",
+      "kakvo_sledva": "Няма предмет: отговорът е стоял в хранилището от 05.09, а въпросът е зададен ВТОРИ път — това е цената по правило 22 и правило 25, платена на 08.09. В сила: началото е `ts` на ПЪРВОТО събитие (смята се, не се записва), а на 31-ия ден изтеклият срок само КАЗВА, че е изтекъл — нито един бутон не изчезва, Журналът не се заключва, износът работи.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Б4",
+      "vapros": "Когато служител напусне фирмата — личната му книга (активирана с неговия Драйв) тръгва ли с него и как се откача от фирмения интерфейс?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Когато уволниш човек му спираш служебния достъп, но му оставяш личния ако иска да го ползва. Това е важно пак за сигурността а симите клиенти(разводи, уволнения).“",
+      "adres": "docs/10-kakvo-chaka.md:133 (ред 30, негово 08.09) · отчетено като затворено в docs/18-otgovorite-i-nahodkite-08-09.md:244 · механизмът, който го прави възможен: docs/ADR-024-chetirite-neobratimi.md §2 (ключът `<отпечатък на публичния ключ>~lichno`, който НЕ започва с `coretovia`)",
+      "kakvo_sledva": "Уволнението спира САМО служебния достъп; личната верига остава негова и не се пипа. Откачане не се пише като ход — то е нула действия по конструкция, защото ключът на личната книга не попада в служебния префикс и служебният Изпълнител никога не я е сгъвал. Остава да се напише ЕДИНСТВЕНО отказът с думи (правило 12) на екрана на уволнения: кое спря и кое остана.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Б5",
+      "vapros": "Обединената таблица („може да ги видиш и да свалиш обща таблица или да принтираш“) — вижда я само онзи, който е в ДВЕТЕ, или и Стопанинът вижда общото на служителя си?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "негово, 06.09 (по-новото и двусмисленото): „Иначе може да ги видиш и да свалиш обща таблица или да принтираш за преглед.“ · негово, 25.08 (посоката на даването): „ЛИчния екран се активира с даване на достъп до място в личния драйв и ако иска да даде достъп на работотдателя си става спозволение и от настройки даване на права, но този път в обратната посока…“",
+      "adres": "C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\ADR-023-pette-resheniya-06-09-vecherta.md:94-103 (суровият му цитат; „При останалите добавени…“ е на :99-100, НЕ на :104-108) · C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\izvori\\01-chist-dopiska.md:824 (И99) · нашето предположение: ADR-023:160-163 · противоречието: ADR-023:165-170 · белегът: C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\10-kakvo-chaka.md:200",
+      "kakvo_sledva": "Стопанинът НЕ вижда личното на служителя си: посоката на даването е ОБРАТНАТА — служителят дава на работодателя, изрично и от Настройки, или изобщо не дава. Обединеното е ИЗГЛЕД в паметта на онзи, който държи двата ключа, никога трета верига и никога в износа на служебната Книга. И една находка ЗА самия въпрос: ADR-023 си противоречи вътрешно — §4.2 дава отговора, а §4.3 го обявява за открит; §4.3 се поправя, не се трие.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Б6",
+      "vapros": "Отпечатъкът на личната верига до блок 7 — временно име ('l1-' + 16 знака SHA-256 от свеждания имейл), или се чака истинската самоличност?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "src/yadro/samolichnost.ts:95 (BELEG_NA_OTPECHATAK = „k1-“) · :106 (32 знака) · src/nositel/samolichnost-web.ts:123-124 (хешът е на СУРОВИЯ публичен ключ Ed25519, не на имейл) · src/yadro/samolichnost.ts:47-52 (защо не имейл, с довода по GDPR) · docs/14-dalgat.md (Т46 · вписан погрешно и махнат същия ден)",
+      "kakvo_sledva": "РЕШЕН ОТ КОДА, и въпросът е бил ОСТАРЯЛ. Описанието в регистъра твърдеше временно име „l1-“ + 16 знака SHA-256 от свеждания имейл; претърсването „l1-“ в src/ app/ tests/ дава НУЛА попадения. Живото е друго и е по-доброто: отпечатъкът е „k1-“ + 32 знака SHA-256 от суровия публичен ключ Ed25519, направен от crypto.subtle на самото устройство и проверен в четири среди, включително file://, тоест работи и в пакета без мрежа. Самият файл носи довода защо НЕ е имейл: „sha256(имейл) е ПСЕВДОНИМИЗИРАН личен данен по GDPR“ — а в непроменим запис разликата е голяма. Значи маската по Д3 маскира истински, и няма какво да се преименува при блок 7: истинската самоличност ВЕЧЕ е тук. Урок за мен, не за него — повярвах на полето „адрес“, вместо да отворя файла (правило 22).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md"
+      ]
+    },
+    {
+      "beleg": "В1",
+      "vapros": "„Таблиците, използвани от НАП“ е име на поне три различни неща — дневниците по ЗДДС + справка-декларацията · стандартизираният одитен файл · одитният файл по Приложение 29 (СУПТО). Кое от трите (може и повече от едно)?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "За парите се избира една валута в началото при регистрация… Ако може да се купи и да се добавя като езици различни.",
+      "adres": "docs/10-kakvo-chaka.md (§5 · ред 69) · docs/27-proektite-i-valutata.md:1",
+      "kakvo_sledva": "ЗАТВОРЕН: полето valuta влиза сега и е в подписа; изборът е при регистрация, една; втората валута е ПЛАТЕНА добавка като езиците; курс няма.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/12-doklad-za-predavane.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/26-zhurnalat-valutata-i-dvata-vaprosa.md",
+        "docs/ADR-023-pette-resheniya-06-09-vecherta.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/04-finansite-i-otchetite.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "В10",
+      "vapros": "Изключението в B5 на zadanie/07 („освен ако не е автоматизирана от текущите задачи“) — закон ли е, или отпада? CLAUDE.md го е отрязало.",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Никога не променя без да даде доклад и отчет на промяната, освен ако не е автоматизирана от текущите задачи.“",
+      "adres": "zadanie/07-ii.md:20 (клетка B5 · неговата Книга) · отрязването: CLAUDE.md, К3 („Никога не променя без доклад“ — без втората половина) · въпросът е зададен в docs/25-planat-i-vaprosite.md:174-182",
+      "kakvo_sledva": "Неговите думи СТОЯТ и не са надживени от нищо по-ново: изключението е част от Заданието, а Заданието е Книгата (К1). Значи не той дължи избор, а ние дължим поправка — К3 цитира вътре в кавичките наполовина, което правило 17 забранява изрично („съкращаване с многоточие — да; пренаписване вътре в кавичките — не“). Законът на ИИ трябва да НАЗОВЕ класа автоматизирани задачи, за които доклад не се дава (вписване в Журнала остава), или промяната на правилото да се ЗАПИШЕ с довод по правило 32. Тиха промяна на правило е дефект.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В11",
+      "vapros": "Документите — ЕДНА таблица с колона „вид документ“, или ДВЕ отделни (регистърът на бон/е-фактура/дневниците по ЗДДС срещу папката със скици, схеми и нотариални актове)?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Нека е една папка с подпапки, които да се свържат автоматично от подтаблиците за всеки таб (шийт от Ексел общия).",
+      "adres": "docs/10-kakvo-chaka.md (§5) · docs/29-devette-otgovora-09-09.md §10",
+      "kakvo_sledva": "една главна папка с подпапки · подредбата следва ТАБОВЕТЕ, не вид документ · връзка към папката, не качване",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В12",
+      "vapros": "Датата на Имота — само придобиване, или и въвеждане в експлоатация (второто е начало на амортизацията по ЗКПО)?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "да, според вкараната; има я в нотариалния акт, може да се даде папка и да се попълни нужното само.",
+      "adres": "docs/10-kakvo-chaka.md (§5) · docs/29-devette-otgovora-09-09.md:1",
+      "kakvo_sledva": "дата на придобиване от нотариалния акт · папка към имота",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В13",
+      "vapros": "Вторият пакет (локалният, без мрежа) — строи се ПРЕДИ Гугъл, обявява се за БЪДЕЩ, или отпада съвсем?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Да, има без мрежа пакет за еднократна продажба.",
+      "adres": "docs/10-kakvo-chaka.md (§5) · docs/29-devette-otgovora-09-09.md:1",
+      "kakvo_sledva": "два пакета · затваря и Т35",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В2",
+      "vapros": "Издава ли Coretovia фискален бон, или управлява продажби, за които се издава такъв? Тоест СУПТО ли сме?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Не сме по СУПТО, продаваме достъп до приложение и продаваме самото приложение срещу банково заплащане само.",
+      "adres": "docs/10-kakvo-chaka.md (§5) · docs/29-devette-otgovora-09-09.md:1",
+      "kakvo_sledva": "Наредба Н-18 не важи · пада цял отдел изисквания",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/12-doklad-za-predavane.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/26-zhurnalat-valutata-i-dvata-vaprosa.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/sigurnost/02-sertifikatite.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "В3",
+      "vapros": "Ставките по ДДС — разбивката, която Книгата не показва.",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "по-новото, И25 (22.08): „ДДС е избор при въвеждане на всяка фактура и при четене на таблици. Там фигурира в създадена колона от хедъра на таблицата.“ · по-старото, надживяно (10.08): „ддс сиимима място горе в таблото на таба където се редактира и седи като връзка и вски си го опррделя…“",
+      "adres": "C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\izvori\\01-chist-dopiska.md:228-229 (И25 · 22.08 · в сила) · C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\izvori\\02-po-temi.md:406-409 (10.08) и :479 („Надживяно“) · белегът: C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\10-kakvo-chaka.md:208",
+      "kakvo_sledva": "Разбивка от нас НЕ се закова: ставката е КОНСТАНТА, която живее ГОРЕ в таблото на таба, редактира се там и всеки си я определя, защото се различава по сектор и по държава. Тоест мястото ѝ е меню, върху което системата СМЯТА → расте само от Настройки (правило 19), а в редовете тя само се смята и стои между „цена без ДДС“ и „крайна цена“. Остава открит единствено законовият списък по подразбиране за България — а той е ФАКТ отвън, не негова дума.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/26-zhurnalat-valutata-i-dvata-vaprosa.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "В4",
+      "vapros": "Микроинвест — форматът на износа.",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "не, няма формат, а прилежна информация за сверка и къде да работи счетоводството, ако има проблем.",
+      "adres": "docs/10-kakvo-chaka.md (§5) · docs/29-devette-otgovora-09-09.md:1",
+      "kakvo_sledva": "няма износ във формат на чужда програма · информация за сверка, човешки четима",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/26-zhurnalat-valutata-i-dvata-vaprosa.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "В5",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В6",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В7",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В8",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "В9",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/25-planat-i-vaprosite.md"
+      ]
+    },
+    {
+      "beleg": "Г1",
+      "vapros": "Кой път първо при сканирането: QR кодът на фискалния бон (точен, офлайн, по Приложение 18а) или снимка + ИИ (само онлайн, приблизителен)?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "негово (ограничението, не редът): „Да има опция навсякъде в акаунтите да сканираш фактура или бележка и да я вкарва като разход на всички планове и модели код.“ · нашето: „Първите два не са „разпознаване“ — те са ЧЕТЕНЕ.“",
+      "adres": "C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\ADR-023-pette-resheniya-06-09-vecherta.md:176-177 (негово) · :180-190 (НАШИЯТ разчет и ред) · признанието, че препоръката е наша: C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\10-kakvo-chaka.md:215",
+      "kakvo_sledva": "„на всички планове и модели код“ е думата, която решава: тя включва ЛОКАЛНИЯ пакет, а той по конструкция няма мрежа. Значи снимка+ИИ не може да е първият път — остават QR-ът по Приложение 18а и структурираната е-фактура (EN 16931), които не са „разпознаване“, а ЧЕТЕНЕ: точни, безплатни и работят офлайн. ИИ влиза трети и само като ПРЕДЛОЖЕНИЕ, което човек потвърждава (К3). Проверено при кодирането: QR-ът носи ПЕТ полета, кодировката е ISO 8859-5, а номерът е НИЗ заради водещите нули (ADR-024:106-108).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/ADR-023-pette-resheniya-06-09-vecherta.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Г2",
+      "vapros": "Сканираният разход влиза в Сметки · движения, или иска нова таблица?",
+      "sastoyanie": "otpadnal",
+      "negovite_dumi": "",
+      "adres": "docs/10-kakvo-chaka.md:216 (~~Г2~~ ОТГОВОРЕН 07.09) · docs/10-kakvo-chaka.md:74-76 · решението: docs/ADR-024-chetirite-neobratimi.md:84-101 (§3 · нов лист „Документи“ с ОБЪРНАТА връзка)",
+      "kakvo_sledva": "Няма предмет: избран е нов лист „Документи“, чиято `vrazka` стои в НАШАТА таблица и сочи движението — неговият ред не получава нова колона и нито един негов адрес не мърда. Същата уговорка по правило 17 като при А1: ADR-024 §3 казва „негова дума — и тя е дадена на 07.09“, но НЕ носи дословния цитат. Той трябва да се извади от извора и да се впише, иначе К1 стъпва на преразказ.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/ADR-023-pette-resheniya-06-09-vecherta.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Г3",
+      "vapros": "Къде живее САМИЯТ образ на бележката — никъде (само числата), в неговия Драйв, или локално?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Отговорът за сканирането на фактури: да се съхранява в папка за това. Там да могат да се качват също и фактури на PDF и да се сканират… Да има функцията през телефон. | Сканирайки, да препраща към проект с фирмата. Ако е само касов бон без фирма, да се пита дали е за лични или за служебни, да мине.",
+      "adres": "docs/10-kakvo-chaka.md (§5 · ред 94) · docs/30-faktura-ot-telefon.md:1",
+      "kakvo_sledva": "Образът живее в ПАПКА при него (правило 21) · програмата държи път и отпечатък · всеки участник подава, правото решава записа · работи от телефон. Сканирането чете ФИРМАТА и препраща към нейния файл; бон без фирма ПИТА лично или служебно, и отговорът се записва с реда.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/12-doklad-za-predavane.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Д1",
+      "vapros": "Кой е ПРОИЗВОДИТЕЛЯТ по CRA — фирма или физическо лице? Върху декларацията и CE маркировката стоят име и адрес.",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Избери най-надеждния за реклама.",
+      "adres": "docs/10-kakvo-chaka.md (§5) · docs/29-devette-otgovora-09-09.md:1",
+      "kakvo_sledva": "производителят по CRA е ФИРМАТА · проверим ЕИК, седалище вместо домашен адрес",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/sigurnost/02-sertifikatite.md"
+      ]
+    },
+    {
+      "beleg": "Д2",
+      "vapros": "Търсим ли ISO 27001 / SOC 2? Те сертифицират ФИРМА, не код, искат външен одитор и годишни пари.",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "не, ИИ го прави.",
+      "adres": "docs/10-kakvo-chaka.md (§5) · docs/29-devette-otgovora-09-09.md:1",
+      "kakvo_sledva": "без ISO 27001 и SOC 2 · сигурността се върши вътре с портите",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Д3",
+      "vapros": "GDPR · „правото да бъдеш забравен“ срещу Журнал само за добавяне. Лекът е сторно + маска, не триене — съгласен ли е този текст да се обяви ПИСМЕНО пред клиента?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "СТОРНО + МАСКА · записът остава, името се скрива",
+      "adres": "docs/10-kakvo-chaka.md (§5 · ред 96)",
+      "kakvo_sledva": "Забравянето е НОВО събитие, не триене. След него всяко четене показва „Служител № N\" вместо име и имейл. Веригата остава цяла, сборовете верни, правило 1 не пада.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Е1",
+      "vapros": "Цените на плановете.",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Остави го за накрая преди пускане в продажби заедно с плановете и цените за продажба.“ (И92 · 24.08) · по-новото, 08.09: „Това е финалната права с видовете лан цени и маркетинг. Те ще участват в маркетинга. и ще имат символични цени, като добавки и улеснение.“",
+      "adres": "C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\izvori\\01-chist-dopiska.md:776 (И92 · 24.08 · истинският му цитат) · по-новото: C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\10-kakvo-chaka.md:135 · нашата перифраза (да НЕ се цитира като негова): ADR-023:117 · docs\\pazar\\06-osemte-kletki-i-dvata-paketa.md:313 · docs\\10-kakvo-chaka.md:231",
+      "kakvo_sledva": "Не се пита повторно — това е ОТЛАГАНЕ с негова дума, не липса. Значи цената не е поле, което чака стойност: тя не се въвежда, не се показва и не се предполага никъде, докато не дойде резенът за пазара. Ред в `docs/14-dalgat.md` с отпушващо условие „резенът за плановете тръгва“ — а не „после“.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Е2",
+      "vapros": "Редакцията на числата на Калкулатора и коефициентите по етаж · изложение · състояние · асансьор.",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "негово, дословно (числата): „2. Да числоро което избирам е 3 000 евро на кварат. 3. Остави и ги празн или напиши 2 000 евро на всички… 5. ИЗбор . То ми кажи. Имаш цялото знание свободно.“ — БЕЗ поправка на „То“ на „Ти“; за МЯСТОТО на редакцията негова сурова дума няма",
+      "adres": "C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\izvori\\01-chist-dopiska.md:1053 (И119 · 31.08 · числата) · преразказаният блок, който НЕ бива да се цитира като негов: същият файл:808 (И97) · какво не влезе: C:\\Users\\ivayl\\Projects\\Coretovia\\docs\\ADR-012-kalkulatorat-nad-prodazhbite.md:80-88 · белегът: docs\\10-kakvo-chaka.md:232",
+      "kakvo_sledva": "Две неща са решени с неговите думи и не се питат втори път: ЧИСЛАТА са наши („Избор. Ти ми кажи“ · 3 000 €/м² за апартамент, 2 000 за останалите бази), а МЯСТОТО на редакцията е Настройки, защото коефициентите са меню, върху което системата СМЯТА (правило 19). Остава единствено МИГЪТ — ADR-012 §5 казва „идва, когато той поиска да мени коефициенти“, а по правило 30 това е „после“, преоблечено като план: трябва му ред с отпушващо условие, не с изчакване.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md"
+      ]
+    },
+    {
+      "beleg": "Е3",
+      "vapros": "Формула, писана от човека в клетка на приложението.",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "допълнение, което липсваше: „Формулите ще се пишат само при създаване на таблицита, а след това ще се редактира само от Стопанина.“ (И92 · 24.08)",
+      "adres": "docs/izvori/01-chist-dopiska.md:1009 (И115 · 29.08) · docs/izvori/01-chist-dopiska.md:998 (И114 · 29.08) · допълва ги :1040 (И118 · „Можеш да вкарваш сам коефициенти.“) · белегът: docs/10-kakvo-chaka.md:233 · какво не влезе: docs/ADR-013-formulite-i-sverkata-sreshtu-kesha.md:63-67",
+      "kakvo_sledva": "Той иска го изрично и на две места: сам да добавя КОЛОНА с формула (лихва за забавени плащания) и сам да пише формулите ВЪТРЕ, когато вносът е донесъл само структурата и числата. Сметачът вече ги смята (ADR-013), тъй че липсва не математика, а входът за човека — поле, което приема формула, плюс правото кой може (правило 18) и подсказка с формулата (правило 31). Наборът функции расте ПОИМЕННО по нужда, не наведнъж.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md"
+      ]
+    },
+    {
+      "beleg": "Е4",
+      "vapros": "Има ли таван на задачите за един човек в един ден?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "src/smetach/programa.ts:104-112 (`b.vsichki += 1` · `if (pokriva(…)) b.dneshni += 1` — брои се всяка задача, никъде няма праг) · присъдата в проза: docs/ADR-009-otgovornikat-i-koy-razdava-dlazhnosti.md:97-98 · белегът: docs/10-kakvo-chaka.md:234",
+      "kakvo_sledva": "ТАВАН НЯМА и това е факт от кода, не предположение: `programata()` брои днешните, седмичните и всички задачи на човек и не сравнява с нищо. Един човек може да носи колкото задачи получи. Ако той поиска праг или предупреждение, това е нов ред (число в Настройки + думите на предупреждението), а не поправка — днешното поведение е пълно и се казва.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md"
+      ]
+    },
+    {
+      "beleg": "Е5",
+      "vapros": "Кой сменя отговорника на ред?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "src/model/osnova.ts:447-457 (колоната `otgovornik` е обикновена `vrazka` със `samoSochi`, без собствено право) · src/komandi/prozortsi/red.ts:465 (`koyMozhe: vratataNaRedovete()` — общата врата за редовете) · за контраст: src/smetach/pravo.ts:523-527 (раздаването на Длъжности е заключено за Стопанин · Управител · Помощник Управител) · присъдата в проза: docs/ADR-009:99-100",
+      "kakvo_sledva": "Днес отговорника сменя ВСЕКИ, който има право да редактира редове — възлагането на задача НЕ е раздаване на достъп и не минава през заключената врата. Границата е нарочна и се вижда в кода: `otgovornik` носи `samoSochi`, значи правилото „ред с живи деца не се изключва“ го пропуска и човек със задачи пак може да бъде изключен. Ако той иска възлагането да е право (например само Управител), това е нов `koyMozhe` на колоната — но е негова дума, не наша.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/00b-oditat-46-agenta.md"
+      ]
+    },
+    {
+      "beleg": "К1",
+      "vapros": "Книгата е Заданието: всеки лист от неговия .xlsx е прозорец, и прозорците са точно осем — нито един повече.",
+      "sastoyanie": "otkrit",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "ТВЪРДЯН ОТГОВОР БЕЗ ОПОРА · агентът посочи цитат, който машината НЕ намери на адреса му (сверено 09.09.2026). Предишното твърдение: „Новият Проект се казва Coretovia… този проект ще започне с екселкса таблица с всичко описано и обяснено как работи. Всеки шиит от ексела е равен на прозорец от програмата. Само това и нищо повече или | zadanie/00-obshto.md:7 (негови думи, 05.09.2026, дословно с правописа му) · осемте листа са изброени поименно на zadanie/00-obshto.md:13-22 · повторено като граница в zadanie/09-izklyucheno.md:3 („Сам — трябва точен адрес и дословен цитат, преди да се брои за отговорен.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/12-doklad-za-predavane.md",
+        "docs/13-redat-predi-koda.md",
+        "docs/15-arhitekturata.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/21-nepopitanoto.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/26-zhurnalat-valutata-i-dvata-vaprosa.md",
+        "docs/ADR-016-portite-veche-meryat.md",
+        "docs/ADR-024-chetirite-neobratimi.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "docs/dokladi/08-finalnoto-zadanie.md",
+        "docs/dokladi/09-tablitsata-i-diagramata-CHASTICHEN.md",
+        "zadanie/12-dopalneniya-08-09.md",
+        "zadanie/FINALNO/00-CHETI-PARVO.md"
+      ]
+    },
+    {
+      "beleg": "К10",
+      "vapros": "Кои коефициенти влизат — пренасят ли се деветнайсетте от MasterBook, пренася ли се само ядрото, или списъкът се преглежда ред по ред от него?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„избор коефициент: Всички важни коефициенти за финансите на един бизнес и конкретно специфика от библютеки за конкретния бизнес по всяко време достъпна за всеки един Стопанин. Заредени са необходимите но се дават за избор само тези които могат да се покажат за избрания период. …\" — цитатът е ВЕРЕН; добавя се само многоточието накрая, защото клетката продължава („След избора на коефициента се избира възможноста за Диаграма/Гафика/Таблица…\"), а правило 17 иска съкращаването да се ВИЖДА.",
+      "adres": "zadanie/04-smetki.md:376 (клетка A94, 05.09.2026 — НАЙ-НОВАТА му дума по темата и затова водещата) · по-старите две, които сочат в същата посока: docs/izvori/01-chist-dopiska.md:800 (И96 т.6, 25.08): „Избери най основните използвани в повечето бизнеси без пбройка. Избери таквиа на месечнса база и се появяват само тогава, такива които са на месечна база, такива на всякакъв период и опция да видиш коефициент и в различен период от официалният и с интерполация да се приравни на годушна диаграма.“ · docs/izvori/02-po-temi.md:953-954 (09.08): „Искам около 10 коефициента и 5 вида графики за показване на тези най добри коефициенти.“ · „Избери в кръгче“",
+      "kakvo_sledva": "ИЗБОРЪТ Е МОЙ, не негов — той три пъти казва „избери“ и нито веднъж не назовава списък, тоест въпросът „дали 19-те са тези, които той иска днес“ е бил ДЕФЕКТ по правило 22 (отговорът стои в Книгата му от 05.09). Кодът дължи: списък от важните коефициенти, СТЕСНЯВАН по такт и период (A94), но по правило 12 невъзможните се показват СИВИ с причина, а не изчезват — иначе К1-екранът крие от него, че коефициентът съществува. Внимание за сблъсък, който не е негов: docs/izvori/02-po-temi.md:991 записва „Да — 13 общо, нищо не пада“ като приет ОТГОВОР НА МОЕ ПРЕДЛОЖЕНИЕ (10 + DSCR + LTV + Дълг/EBITDA), а самата бележка там признава, че описът е държал МОЯ въпрос в кавички като негово изречение — не се цитира като негова заповед за число.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К11",
+      "vapros": "Влиза ли „ориентирът“ (обичайното число, с което се сравнява коефициентът) — и ако да, ОТКЪДЕ идва за български имотен бизнес: от нас (тогава сме източник на съвет, който може да е грешен), от него, или се маха изцяло?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Няма ориентир тогава. Когато се даде коефициента агнта сранява с момнта и тогава дава оценка сравнявайки с актуални данни.",
+      "adres": "docs/10-kakvo-chaka.md (ред 99 · 09.09.2026) · docs/33-koefitsientite-i-orientirat.md §4. Преди отговора беше претърсено и не беше намерено: `grep -rn \"ориентир\\|обичайно\\|бенчмарк\\|нормал\\|средно за\\|еталон\\|препоръчител\" docs/izvori/ zadanie/ docs/10-kakvo-chaka.md` → нула попадения по смисъла; въпросът съществуваше само като наш: docs/dokladi/03-firmata-i-nepopitanoto.md:600. Готовият код в чуждото хранилище (`domein/orientiri.ts`, 167 реда, присъда ПРЕНАПИСВАНЕ · docs/registar-na-prenosa.md) ОТПАДА с този отговор — съхраняван ориентир няма.",
+      "kakvo_sledva": "Ориентир НЕ се съхранява: нито наш, нито негов, нито поле в модела. Оценката „добро/лошо“ е работа на АГЕНТА в момента на питането, срещу актуални данни, и е ТЕКСТ с дата и източник — не число, не влиза в сбор, не се подписва в Журнала (К3). В пакета без мрежа (docs/29 §6) агентът няма актуални данни и го казва с думи, не гадае (правило 12). Значи отчетният сметач вече не е блокиран: той смята коефициента и НЕ съди за него.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К12",
+      "vapros": "Влиза ли „свой коефициент“ (човекът пише собствена формула) в исканата от него „таблица с всички налични коефициенти“ — и ако да, чий е входът?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Можеш да вкарваш сам коефициенти.",
+      "adres": "docs/izvori/01-chist-dopiska.md:1040 (И118 т.2 · 30.08) · docs/33-koefitsientite-i-orientirat.md",
+      "kakvo_sledva": "НАМЕРЕН в изворите от проучването: отговорът е стоял от 30.08. Вход само от Настройки; езикът е СЪЩЕСТВУВАЩИЯТ src/formuli/ плюс възел „име на поле\" и кирилица в лексера. Чужда библиотека НЕ влиза: HyperFormula е GPL, math.js и expr-eval носят RCE.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К13",
+      "vapros": "Кое число е „печалба/загуба“ за един Бизнес — приход минус разход по движенията, сочещи този Бизнес, или NOI (без вноските по кредит), или и двете едно до друго?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Неговите думи са ВЕРНИ, но са отговор на ДРУГ въпрос: „Приходи и раходи са пари и не са площ, не са процент, а те са пари и се събиртат в обороти и други счетоводни имена. Провери за финанси и отчети, няма аз да те уча.\" (докс/10:145) и „Проучи, защото това е все едно дете ме пита. Няма да обяснявам финансите как се водят.\" (докс/10:148) — тоест той КАЗА да не го питаме кое е числото. Числото се взима от кода и проучването: „днешният „Резултат\" не е нито печалба, нито паричен поток — той е трето число, което няма счетоводно име.\" (docs/dokladi/04-finansite-i-otchetite.md:279)",
+      "adres": "docs/10-kakvo-chaka.md:145 ✔ · :138 ✔ · :146 ✔ · :148 ✔ (всичките проверени дословно) · ПОПРАВКА НА СЪСТОЯНИЕТО: не `otgovoren`, а `otpadnal` към него + `reshen_ot_koda` за числото, с адрес docs/dokladi/04-finansite-i-otchetite.md:103 (`smetki.rezultat` · src/smetach/smetki.ts:91) · :109 (НОД) · :110 (паричен поток) · :279 (трите не се сливат) · ПОПРАВКА НА ФАКТА: `biznesi` ИМА парична колона `tsena` — src/model/osnova.ts:368 (`...obshtiteKoloni`) → src/model/osnova.ts:314; вярното е „няма колона за приход/разход\", и опората е `dvizheniya.kam` (src/model/osnova.ts:496) · ПОПРАВКА НА АДРЕСА НА ДОКЛАДА: К13 е на docs/dokladi/03-firmata-i-nepopitanoto.md:602, не :603 (:603 е К14)",
+      "kakvo_sledva": "Числото НЕ се пита от него — той изрично отказа да го определя и нареди ПРОУЧВАНЕ по счетоводна практика; въпросът „кой ключ за преразпределяне“ е бил сгрешен въпрос и той го каза. Значи изборът пада по правило 24 върху назована и проверена счетоводна норма (проучването живее в docs/dokladi/04-finansite-i-otchetite.md), а екранът дължи каквото той е поискал буквално: горно поле „печалба/загуба и колко“ за Бизнеса, с превключвател за разбивка (отговор 44 · Ф4, docs/10:146). Стои и една твърда пречка в кода: таблицата `biznesi` няма нито една парична колона (docs/dokladi/03-firmata-i-nepopitanoto.md:603), тоест числото днес може да стъпи само на връзката `kam` — това се решава преди първия ред, не след него.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md"
+      ]
+    },
+    {
+      "beleg": "К14",
+      "vapros": "Какво се изнася обратно в клетките A94 · B94 · A100 на неговата Книга — НЕГОВИЯТ текст, нашата дума, или нашата само докато секцията е празна?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "В сметки е само сверка на цифрите и дделата задно и наблюдаване на числата с отчетите п оразлични финансови коефициенти чиито числаможе да сметнем и да се покаже коефициента и да изберем начин а показване от вторто падашо мен' където избираш. В сметки се запазва само модел с датаили избира име на модела. Не влиае никъде другаде. Само от Управление се влиае. Оъ СМетки се наблюдава и експериментира и записва као е добър плана.",
+      "adres": "docs/10-kakvo-chaka.md (ред 100 · 09.09.2026) · docs/33-koefitsientite-i-orientirat.md §3.2. Клетките, чиито думи са негови: zadanie/04-smetki.md:376 (A94 · „избор коефициент: Всички важни коефициенти…“), :377 (B94 · „Диаграма/Гафика/Таблица“), :378 (A100 · „избор диаграма: Диаграма/Гафика/Таблица“). Претърсено и НЕ Е НАМЕРЕНО решение: `grep -rn \"A94\\|B94\\|A100\" src/ app/ tests/ docs/` дава само `tests/mostri/mostra-kniga.ts:939` (слят обхват „B94:K102“, тоест форма, не текст), docs/ADR-006:115 (отлага отчетите), docs/14-dalgat.md:73 (П4 — неизпълнената му заповед в СЪЩАТА клетка) и docs/21-nepopitanoto.md:70. Нито един ред за посоката на износа. Въпросът е формулиран само у нас: docs/dokladi/03-firmata-i-nepopitanoto.md:613.",
+      "kakvo_sledva": "Отговорът смени въпроса: трите клетки НЕ са място за текст, а КОНТРОЛИ. A94 е падащо меню за коефициент; B94 и A100 са ВТОРОТО падащо меню за начина на показване. Изнася се избраното плюс МОДЕЛЪТ (с дата или с негово име) — наше изречение в негова клетка НЕ влиза, тоест вариант А отпада и днешното поведение на кода е ДЕФЕКТ: src/kniga/pisane.ts:1083 пише наша дума под неговата лента и това се маха (дълг Т45). Правило 20 е потвърдено от него дословно: Сметки наблюдава, сверява и експериментира, и НЕ влияе никъде другаде — влияе се само от Управление. Остава верен свързаният факт от кода: в целия `app/` има ЕДИН вид рисунка — Гантът (docs/21-nepopitanoto.md:70) — тоест второто падащо меню обещава три избора, а програмата има един; дотогава менюто казва кое може и кое още не (правило 12).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md"
+      ]
+    },
+    {
+      "beleg": "К15",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К16",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К17",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К18",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К19",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К2",
+      "vapros": "Портата е една: UI, Книгата и агентите са три адаптера над ЕДИН порт, а той — над един каталог от команди.",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "src/porta/porta.ts:28 (`export interface PortaZaChetene`) и :38 (`export interface Porta extends PortaZaChetene`) — едно нещо с две лица; реализацията е ЕДНА: src/porta/izpalnitel.ts (коментарът на porta.ts:7 го казва) · единственият каталог: src/komandi/katalog.ts:36 (`export const KATALOG: readonly KoyaDaE[] = Object.freeze([…])`, 25 команди) · посоката на зависимостите я БРОИ машина: package.json:20 → `\"sloeve\": \"depcruise --config .dependency-cruiser.cjs src app\"`",
+      "kakvo_sledva": "Правилото е ФАКТ ОТ КОДА, не негова дума: няма нито един негов цитат в шестте дома, който да казва „порта“ или „адаптер“. Най-близкото до опора у него е семето в zadanie/00-obshto.md:7 — „Идеята е да се пригоди кода да се управлява от изкуствен интелект, които да използва само функционалноста на кода като ограничением“ — но „една порта“ е НАШЕ архитектурно решение и трябва да се държи като такова (правило 32: мени се само срещу довод за кода). Живият дълг под него е Т6 (docs/14-dalgat.md:~119): четирите забрани в слоевете броят по-малко от коментарите си и `src/yadro/index.ts` изнася Вратата през барела — тоест обходът, който твърди, че пази К2, още не е доказан върху нарочно счупен файл.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/12-doklad-za-predavane.md",
+        "docs/13-redat-predi-koda.md",
+        "docs/15-arhitekturata.md",
+        "docs/ADR-016-portite-veche-meryat.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "docs/dokladi/08-finalnoto-zadanie.md",
+        "docs/dokladi/09-tablitsata-i-diagramata-CHASTICHEN.md"
+      ]
+    },
+    {
+      "beleg": "К20",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К21",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К22",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К23",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К24",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К25",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К26",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К27",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К28",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К29",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К3",
+      "vapros": "Агентът не пише: получава PortaZaChetene (тип без `izpalni`), предлага чрез dryRun, човекът приема, actor е човекът.",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Никога не променя без да даде доклад и отчет на промяната, освен ако не е автоматизирана от текущите задачи.“",
+      "adres": "zadanie/07-ii.md:20 (клетка B5 на листа ИИ, 05.09.2026) · съседните му клетки: :16 (B3, „Изпълнява общи за всички агенти Основи Команди и Правила, като се създаде умение в Клод, което не се редактира…“) и :18 (B4, „Задават му се задачи които се редактират, но не могат да се изпълнят ако противоречат на основните команди“) · построено в src/porta/porta.ts:4-5 („`PortaZaChetene` чете, пробва и слуша — и НЯМА `izpalni`; агентът получава само нея, и типът е това, което го спира“)",
+      "kakvo_sledva": "Забраната е ТИП, не промпт — но конституцията цитира само първата половина на изречението му: CLAUDE.md пише „Никога не променя без доклад“ и изпуска „освен ако не е автоматизирана от текущите задачи“, тоест правило 17 е нарушено В САМАТА конституция (записано като Т37, docs/14-dalgat.md:54, с отпушващо условие „негова дума — конституция се мени само от него“). Второ незатворено под същия белег: Т7 (docs/14-dalgat.md:136) — „замразен низ с контролна сума“, който К3 обещава, ОЩЕ НЕ СЪЩЕСТВУВА, а `tests/katalog.test.ts:30` е твърдение, което не може да падне. Трето: негово от 08.09 (docs/10-kakvo-chaka.md:132, отговор 29) добавя, че основните умения „ще са записани в основни умения, които ще са в кода“ с „забрана изрична и основна и непроменима“ — тоест К3 расте от тип към замразен предмет.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/00-CHETI-PARVO.md",
+        "docs/10-kakvo-chaka.md",
+        "docs/12-doklad-za-predavane.md",
+        "docs/13-redat-predi-koda.md",
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/21-nepopitanoto.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/00a-sedemte-akaunta-i-protsentat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "docs/dokladi/08-finalnoto-zadanie.md",
+        "docs/dokladi/09-tablitsata-i-diagramata-CHASTICHEN.md",
+        "zadanie/FINALNO/08-proverkite.md"
+      ]
+    },
+    {
+      "beleg": "К30",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К31",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К32",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К33",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К34",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К35",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К36",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К37",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К38",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К39",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К4",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К40",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К41",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К42",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К43",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К44",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К45",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К46",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К47",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/04-krediti-i-finansirane.md"
+      ]
+    },
+    {
+      "beleg": "К5",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К6",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К7",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К8",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "К9",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "М1",
+      "vapros": "Родителското Състояние, показано в приемащата таблица — ЖИВО (чете се днешното състояние на Имота) или ЗАМРАЗЕНО в мига на поставянето? Днес кодът чете живо (`ot: 'roditel'`) и задача отпреди година почва да показва днешното състояние.",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Състоянията могат да са повече от едно едновременно и се натрупват. Построиш ли сграда с обекти те си остават за винаги съществуващи. Накрая са в Архив Продажби.",
+      "adres": "docs/10-kakvo-chaka.md (ред 104 · 10.09.2026) · docs/18-otgovorite-i-nahodkite-08-09.md §4 (М3 · натрупването като отделни КОЛОНИ)",
+      "kakvo_sledva": "ВЪПРОСЪТ БЕШЕ СГРЕШЕН и той го поправи. „Живо или замразено\" има смисъл само ако състоянието СЕ СМЕНЯ; то се НАТРУПВА. Имотът не престава да е „Проектиране\" — става И „Завършен\". Значи задачата отпреди година не показва невярно и замразяване не трябва. Пада и старият ми довод за спешност: „невъзстановимо\" беше грешка — всяка промяна на клетка е събитие РедЗаписан с време (src/ogledalo/chettsi.ts:57), тъй че миналото се пресмята и утре. ОСТАВА РАБОТА, не решение: Имотът днес носи ЕДНА колона „Състояние\" (src/model/osnova.ts), а по думите му трябва да може да носи повече; механизмът вече съществува (Обектът носи ДВЕ) и се отваря за човека от ДЕСЕТИЯ ТИП СЪБИТИЕ. Плюс две нови негови неща за записване: построеното не изчезва никога, и краят на пътя е Архив Продажби (docs/izvori/01-chist-dopiska.md:998 — „Продажби Завършени\", с „Продажби Активни\" над него).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/00-CHETI-PARVO.md",
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/16-dvizhenieto-i-sastoyanieto.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "М11",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/izvori/01-chist-dopiska.md",
+        "docs/izvori/02-po-temi.md"
+      ]
+    },
+    {
+      "beleg": "М12",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/12-model-na-dannite.md"
+      ]
+    },
+    {
+      "beleg": "М2",
+      "vapros": "Поканата по имейл — кой я праща, като програмата няма сървър и правило 21 казва, че нищо не живее при нас? Стопанинът от своята поща с код, файл-покана, или наш сървър?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Стопанина които създава реда и определя правилата и таблиците и всичко вътре дава покана и от Стпоанина дава и права с имейл и приемане и валидация с приемането… Праща се имейла от пощата която е регистрирала програмата и се нарича Стопанин. Дава достъп на календара и имейла си… Такива за сега са Гугъл Майкрософт и Епъл… Един вид не пращаме ние а самата програма се свързва с имейл и с календар на Гугхъл в случая и го прави, не го правим ние а кода и Стопанина.\"",
+      "adres": "docs/10-kakvo-chaka.md:133 (негово, 08.09.2026, запис №30, обявен като „М2 = А, но автоматизирано\")",
+      "kakvo_sledva": "Поканата тръгва от НЕГОВАТА поща, но я праща КОДЪТ, не ръката му и не наш сървър — тоест вариант А от docs/16:121, надграден с трите доставчика (Гугъл · Майкрософт · Епъл). Правило 21 НЕ пада: то забранява данни ПРИ НАС, не мрежа, и прецедентът вече е приет за ИИ в ADR-023 (docs/18:36-43). Цената е раздвояване по пакет: онлайн пакетът се свързва с неговия доставчик, локалният има `connect-src 'none'` и пада на ръчния код — а „двата пакета\" днес са обещание в документ, не код (дълг Т35), значи М2 не може да се строи, преди `npm run build` да дава два изхода. Същият отговор затваря и Б4: „Когато уволниш човек му спираш служебния достъп, но му оставяш личния\".",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/00-CHETI-PARVO.md",
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/16-dvizhenieto-i-sastoyanieto.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "М3",
+      "vapros": "Състоянието отключва поставяне (zadanie/03:22 — „Голямо дело\" се отключва след Състояние „Строителство\"). Какво става при ВРЪЩАНЕ назад — Имотът е върнат на „ПИ\", а под него вече има Голямо Дело с 50 подзадачи? Преходът се отказва, позволява се и се казва, или се каскадира изключване?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„МОже да е на няколко неща като придобива нови състояния Които всеки един имот може да придобие, но точно това е интересното, че те се развиват по различен начин както е нормално да бъде.\" — това е дума за НАТРУПВАНЕТО на състояния, не за връщането назад.",
+      "adres": "docs/10-kakvo-chaka.md:174 (запис №32) · въпросът за пазача стои отворен на docs/25-planat-i-vaprosite.md:134-141 и на docs/16-dvizhenieto-i-sastoyanieto.md:144 · невярното затваряне — docs/18-otgovorite-i-nahodkite-08-09.md:243 · един слот в клетка — src/sabitiya/registar.ts:118 · четирите избора на Движения — src/model/osnova.ts:512-554",
+      "kakvo_sledva": "Състоянията се НАТРУПВАТ — една същност носи повече от едно и всяко се развива самостоятелно; значи „връщане назад\" в буквалния смисъл може изобщо да не е ход, а ново състояние ДО старото. Формата е решена от кода: клетката е ЕДИН скалар и много стойности в една колона са активно ЗАБРАНЕНИ („Клетката трябва да носи точно един слот\", `registar.ts:117`), значи натрупването е отделни КОЛОНИ — както Обектът вече носи две (`kategoriya` и `vid`, `src/model/osnova.ts:343`) и Движението четири (`:515`). РАЗМИНАВАНЕ, което трябва да се сведе ДНЕС: docs/18:243 обявява М3 за „затворен с негова дума\", а по-новият docs/25-planat-i-vaprosite.md:134 (09.09) го връща като „М3 · връщането назад · още няма отговор\" с три празни тикчета — точно двойното счетоводство, което тази работа закрива. Ако вариант В на docs/25:140 („старото състояние НЕ СЕ МАХА\") е прочитът на неговата дума, той се обявява като такъв и въпросът се маха от отворените; инак се пита ЕДИН път, конкретно за пазача, не за модела.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/00-CHETI-PARVO.md",
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/16-dvizhenieto-i-sastoyanieto.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "М6",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/arhitektura/06-plashtaniya-i-vzemaniya.md"
+      ]
+    },
+    {
+      "beleg": "О1",
+      "vapros": "Бутонният ред групира ли се по ТЕМИ, всяка тема — падащо меню, и откъде идва списъкът с теми?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Имаме главни бутони, които са с падащи менюта някой, други не, зависи как са разпределени, но хедъра който се лепи отгоре и се сменя за всяка таблица се маха, защотот не работи добре и натоварва Заместваме го от бутоните които обхващат целия таб с всчки функционалности на включените таблици  в него. Тези бутони са самостоятелни и са видими към табло горе което е хоризонтално и видими по всяко време на скрола.\" (двата интервала пред „в него\" са негови)",
+      "adres": "docs/10-kakvo-chaka.md:120 (негово, 08.09, ред 17) · docs/10-kakvo-chaka.md:168 (негово, 08.09 вечерта, ред 54) · docs/izvori/01-chist-dopiska.md:1110 (И124, точка 3, 31.08) · суровият низ: zadanie/12-dopalneniya-08-09.md:9-10",
+      "kakvo_sledva": "Бутонният ред спира да е плосък списък: групира се по теми, всяка тема е падащо меню, и живият хедър, който се лепи отгоре, ПАДА. Днес `app/reshetka/menyu.ts` е само дясно контекстно меню, а `butoniteHTML` (app/prozorets/deystviya.ts:33) рисува плосък ред — тоест механизмът не съществува. Отворено остава САМО кои са темите (въпрос В3, zadanie/12:93): те не са в Книгата, тръгва се с НАШ списък от Модела, той го пренарежда. И тук виси П3: `domein/temi-nastroyki.ts` (484 реда) е отписан ОТПАДА в registar-na-prenosa.md:254 точно два дни преди да бъде поискан.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О10",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md"
+      ]
+    },
+    {
+      "beleg": "О11",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md"
+      ]
+    },
+    {
+      "beleg": "О2",
+      "vapros": "Един ли е обликът на таблицата през целия продукт („всички таблици да приличат на таблици\")?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Всички таблици да приличат на таблици… Скрол по вертикала на таблица няма, но за диаграмата на Гант има хоризонтален скролс мишката.\" [= „скрол с мишката\"] — верен, дословен. Вторият цитат остава дословен, но се снема като ОТГОВОР: „Имаме проблем с височините на редовете, които са забравени и не са спазени . Намери и ги направи. Няма да повтарям по 100 пъти.\" (интервалът пред точката е негов)",
+      "adres": "docs/10-kakvo-chaka.md:121 (негово, 08.09, ред 18) · docs/izvori/01-chist-dopiska.md:1110 (И124, точка 4, 31.08) · разчитането: zadanie/12-dopalneniya-08-09.md:77",
+      "kakvo_sledva": "Един облик за всяка таблица през целия продукт — рамки, зебра, подравняване, глави (правило 29: „равни значи еднакви по форма през целия продукт\"). Днес това е СЧУПЕНО и е доказано с адрес: зебрата в Управление е ПО РЕД, а в Сметки — ПО СЕКЦИЯ, защото `<tbody>` на Управление няма нито един `.grupata` (app/reshetka/zebra.ts:64,66 срещу app/prozorets/smetki.ts:180 · доклад 09, находка 6). Два прозореца с две различни зебри е точно нарушението на правило 29.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О3",
+      "vapros": "Има ли вертикален скрол ВЪТРЕ в таблица?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„В самата Диаграма когато скролваш да не се скролва по вертикла, а по хоризонтал в времето, за да стане това обаче всички таблици които ползваш трябва да са разгънати по височина и хоризонтала\" — верен дословно, но се пренася през три реда в извора",
+      "adres": "docs/10-kakvo-chaka.md:121 (негово, 08.09, ред 18) · docs/10-kakvo-chaka.md:164 (негово, 08.09 вечерта, ред 64) · docs/izvori/02-po-temi.md:1299 (р52·[221] · 08.08) · разчитането: zadanie/12-dopalneniya-08-09.md:78",
+      "kakvo_sledva": "Таблицата не се скролва вертикално вътре в себе си — страницата се движи; думата му стои от 08.08 и е повторена два пъти на 08.09, тоест по-нова дума няма и няма спор. НО доклад 09 намери ДВЕ живи противоречия, които трябва да се решат ПРЕДИ ред код (правило 26): (1) хоризонталният скрол иска `overflow-x` контейнер, а `overflow-x` убива `position: sticky` на `<thead>`/`<tfoot>` — тоест изисквания 7 и 9+11 се бият на ниво браузър (доклад 09, РИСК 1, с източник css-tricks); (2) на телефон „таблицата и диаграмата една до друга\" и „нула вертикален скрол\" не могат да са верни едновременно (РИСК 4) — а `grep -rn \"@media\" app/` дава НУЛА.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О4",
+      "vapros": "Гантът движи ли се хоризонтално с колелото на мишката, и това ли е неговата ос?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Да е модерно и изчистено и леко за окото. На MS Project е добре изгледът.",
+      "adres": "docs/10-kakvo-chaka.md (§5) · docs/29-devette-otgovora-09-09.md §10",
+      "kakvo_sledva": "Гантът се движи хоризонтално с колелото · по вертикала се движи страницата",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О5",
+      "vapros": "Главите на колоните стават ли с ЕДНА дума — и кои са новите думи за днешните глави от по три-четири?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "— цитатът е дословен и не се поправя; добавя се пропуснатото знание от доклада: „ПОЛОВИНАТА ОТ О5 ВЕЧЕ Е ПОСТРОЕНА, и това трябва да му се каже, преди да го питаме.\"",
+      "adres": "zadanie/12-dopalneniya-08-09.md:12-13 · разчитането :80 · подредбата :107 · доклад docs/dokladi/06-propuskite-ot-arhiva.md:1468 (находка 10) И :1469 (находка 11 — липсва в твърдението)",
+      "kakvo_sledva": "ИЗИСКВАНЕТО е негово и е ясно, но О5 НЕ Е ОБЛИК — то пипа Модела (`kolona.ts` · `ime`), тоест мени ДАННИ и е необратимо в изнесена Книга. Затова доклад 06:1468 е прав, че О5 трябва да се извади от резена на облика: то е Tier 1 (връзващ низ), останалите седем са Tier 3; един ред за осемте би вкарал най-скъпото зад най-евтиното. Собствената подредба от zadanie/12:107 го казва: „дупките в пазачите → Моделът (О5, защото мени данни) → обликът (О1–О4 · О6–О8)\". Остава СЪС СВОЙ подвъпрос, който още не е питан: коя ЕДНА дума заменя всяка от днешните глави от по три-четири думи — това е негово, защото е име на данни.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/04-finansite-i-otchetite.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О6",
+      "vapros": "Помощта отметка ли е с две степени в Настройки, и как се казват степените?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "вярното, както стои в журнала: „В сегашния хелп са дадени добре **при задържане на мишката — така се прави, старото е по-лошо**.\" (запетая, не точка · docs/10:162). А цитатът от 31.08 се снема като опора за О6: той е за трите бутона за гъстота и ширина, не за хелпа.",
+      "adres": "docs/10-kakvo-chaka.md:122 (негово, 08.09, ред 19) · docs/10-kakvo-chaka.md:160 (негово, 08.09 вечерта, ред 60) · docs/izvori/01-chist-dopiska.md:1110 (И124, точка 5, 31.08) · таблицата на трите имена: docs/23-helpat-dvete-stepeni.md:28-34",
+      "kakvo_sledva": "Името се е менило ТРИ пъти и по собственото му правило („Последните думи по тема заменят старата\") в сила е ПОСЛЕДНОТО: Начало · Експерт (docs/23:34). И втора негова поправка мени носителя: „В сегашния хелп са дадени добре при задържане на мишката — така се прави. Старото е по-лошо.\" (docs/10:162, ред 62) — тоест панелът от MasterBook (ADR-136, 171 реда) НЕ се пренася, а двете степени стават „колко казва подсказката\", не два панела (docs/23 §2б). Отметката живее в Настройки и се превключва и от екрана. Остава П7: степента „Начало\" не е построена.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/23-helpat-dvete-stepeni.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О7",
+      "vapros": "Един ли е обликът на бутоните, падащите менюта и отметките, и по чий образец?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Да е модерно и изчистено и леко за окото. На MS Project е добре изгледът.",
+      "adres": "docs/10-kakvo-chaka.md (§5) · docs/29-devette-otgovora-09-09.md §10",
+      "kakvo_sledva": "един облик за целия продукт · образецът е MS Project · цветът носи смисъл, не настроение",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О8",
+      "vapros": "Прозорците от падащото меню Настройки отварят ли се ВЪРХУ екрана и махат ли се, без да губят работа — и това девети прозорец ли е?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "— цитатът от 08.09 е дословен. Цитатът от 31.08 се снема като отговор и остава само като образец: „Ако е много информацията да може да ги скриваш менюто от ляво и хелпа от дясно и да ги разширяваш и стесняваш и по височина и по ширина и да ги скриваш както в Клод става.\"",
+      "adres": "docs/10-kakvo-chaka.md:124 (негово, 08.09, ред 21) · docs/izvori/01-chist-dopiska.md:1110 (И124, точка 5, 31.08) · разчитането: zadanie/12-dopalneniya-08-09.md:83",
+      "kakvo_sledva": "Това е НАЧИН НА ПОКАЗВАНЕ (наслагване), не девети прозорец — осемте остават осем (К1). И механизмът ВЕЧЕ СЪЩЕСТВУВА: `otvoriProzorets` в `app/reshetka/prozorets.ts:27` е един дом за фона, картата, Escape, клика отстрани, бутона „Затвори\" и връщането на фокуса — пренесен от MasterBook. Но има ЕДИН викащ (`app/prozorets/deystviya.ts:83`, историята), тоест е на крачка от „построено и невикано\" по правило 30, и НЕ е закачен за падащо меню на Настройки — такова меню изобщо няма (`grep -no \"<select\" app/` → 4, нито едно в Настройки). ⚠ ВНИМАНИЕ ЗА БЕЛЕГА: доклад 02:341 ползва „О8\" за СЪВСЕМ ДРУГ въпрос — седемте мълчащи бутона в Сметки (app/prozorets/smetki.ts:542). Две различни семейства О1–О8 живеят в хранилището (обликът от zadanie/12 и въпросите на доклад 02) и се сблъскват по номер.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "О9",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md"
+      ]
+    },
+    {
+      "beleg": "П1",
+      "vapros": "Обявеното „После почвам с Т27–Т30\" (Наблюдателят, който пише пари) започна ли, и какво го отпушва?",
+      "sastoyanie": "otpadnal",
+      "negovite_dumi": "",
+      "adres": "docs/14-dalgat.md:70 (редът на П1) срещу docs/14-dalgat.md:41 (Т27 ✔ ЗАТВОРЕН 09.09) · :42 (Т29 ✔) · :46 (Т28 ✔) · :47 (Т30 ✔)",
+      "kakvo_sledva": "Няма предмет: и ЧЕТИРИТЕ дълга, за които П1 чакаше — Т27 · Т28 · Т29 · Т30 — са затворени на 09.09 със свои тестове (`tests/pravo.test.ts` „Т27 · НАБЛЮДАТЕЛ не пише пари · нито кеш, нито ДДС\" · `tests/smetki.test.ts` „Т29 · преименувана секция се БРОИ като липсваща\" · тестът с „Кеш\"·„Фактури\"·„Хедъри\" за Т28 · тестът с `''`·`'   '`·`',,'` за Т30). Тоест редът П1 в docs/14 §1.0а е ОСТАРЯЛ и трябва да слезе в §3 „ЗАТВОРЕНИ\" със записа как е затворен (правило 1 важи и за този регистър). Оставен както е, той брои чакащо, което вече го няма — крива карта.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П10",
+      "vapros": "Има ли коефициентите · петте бранша · свой коефициент ред в единствения дом на чакащото (docs/14-dalgat.md)?",
+      "sastoyanie": "otkrit",
+      "negovite_dumi": "",
+      "adres": "броено днес: `grep -c \"коефициент\" docs/14-dalgat.md` → 1, и това единствено попадение е ВЪТРЕ в реда на П5 (docs/14-dalgat.md:74) · находката: docs/dokladi/06-propuskite-ot-arhiva.md:1025 и :1038 · двата дома днес: docs/21-nepopitanoto.md:100-110 и docs/dokladi/02-umeniya-otcheti-sastoyaniya.md:288",
+      "kakvo_sledva": "БЛОКИРА: най-големият известен непостроен отдел (1 558 реда готов код — коефициенти 948 · ориентири 167 · свой коефициент 297 · modeli-po-bransh 146) живее в ДВА дома и в нито един ред на регистъра на дълга. Правило 30 казва дословно „Домът на чакащото е ЕДИН (правило 14): docs/14-dalgat.md\" и „Ред без отпушващо условие е дефект\" — а docs/21:141 пише точно такова „после\": „1850-те реда в MasterBook се прочитат, преди да се пише нов ред по същите теми\". Работата е тривиална (един ред с място и отпушващо условие), но вътре има ЕДИН истински негов въпрос: „свой коефициент\" е ЧАКА в registar-na-prenosa.md:168 с мотив „И118 го иска; книгата мълчи; негова дума\". Другите две части НЕ чакат него — имената на петте бранша са НЕГОВИ, с дата и адрес (registar:234), а начинът на избор е отговорен в A94.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П11",
+      "vapros": "Пропуск ли е, че отделът ИЗТОЧНИЦИ (src/iztochnik/ · 12 файла · 2 809 реда) го няма в Coretovia?",
+      "sastoyanie": "otpadnal",
+      "negovite_dumi": "",
+      "adres": "docs/03-plan.md:39 („| 8 | Голямо дело · Кредити от ПДФ | линеен график → дела · КСС → Сметки · погасителен план → `dvizheniya` | наред |\") · проверено: `ls src/` не съдържа `iztochnik` · присъдата: docs/dokladi/06-propuskite-ot-arhiva.md:1029 и :1043",
+      "kakvo_sledva": "Няма предмет като ПРОПУСК: пропуск е нещо, което няма ред — това има ред и състояние. Резен 8 е „наред\" в плана, а материалът му (pdf.ts 514 · xlsb.ts 246 · xlsx.ts 207 · snimka.ts 103 · csv.ts 95 · zip.ts 85 · tablitsa.ts 85 · chetetsat.ts 80 — плюс lineen-grafik.ts 310 · kss.ts 209 · pogasitelen-plan-ot-pdf.ts 309 · kredit-matematika.ts 296) е с присъда ПРЕНОС и се пренася ЗАЕДНО с резена си — правило 30 забранява да се вади напред, преди назад да е чисто. Единственото, което днес няма дом и заслужава ред, е ЗАКОНЪТ на източниците (VintexStroy/docs/07-iztochnitsi.md:48 „ред, който не се разчита, НЕ СЕ ПРЕГЛЪЩА\" · :132 „разпознава се ХЕДЪРЪТ, не името на файла\" · :179 CSV като UTF-8, при невалидни байтове CP1251) — и той също върви със своя резен. Забележка към доказателството: твърдението „grep -ri CP1251 → НУЛА\" е оборено — знанието е в Coretovia под другото име на същата кодова таблица (docs/12-doklad-za-predavane.md:317, „windows-1251\").",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П2",
+      "vapros": "Трите му въпросителни от собствената му Книга (K73 · A91 · K91) върнати ли са му като въпрос?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Реално идеята, както имаш номенклатура за наем… ако вкараш с знак − отива в Разходи, ако вкараш с знак + отива в Приходи… Една номенклатура и различен знак определя.",
+      "adres": "docs/10-kakvo-chaka.md (§5 · ред 74) · docs/28-chetirite-otgovora-09-09.md:1",
+      "kakvo_sledva": "ЗАТВОРЕН: трите му въпросителни в K73 · A91 · K91 се решават с ДВУСТРАННА секция — едно име, знакът решава лентата.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П3",
+      "vapros": "Преносът от MasterBook на „Настройки и Табове\" започна ли, и какво става с присъдата ОТПАДА над temi-nastroyki.ts?",
+      "sastoyanie": "otkrit",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "ТВЪРДЯН ОТГОВОР БЕЗ ОПОРА · агентът посочи цитат, който машината НЕ намери на адреса му (сверено 09.09.2026). Предишното твърдение: — няма поправка на цитата; бележка към docs/22:131-132, което цитира О1 в поправен правопис вътре в кавичките | — няма поправка: docs/10-kakvo-chaka.md:173 · docs/14-dalgat.md:72 · docs/22-litseto-trezorat-i-dvata-rezhima.md:124-138 · docs/registar-na-prenosa.md:254 — всички отворени и верни — трябва точен адрес и дословен цитат, преди да се брои за отговорен.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/08-finalnoto-zadanie.md",
+        "docs/pazar/02-produktov-model.md",
+        "zadanie/FINALNO/02-dvigatelyat.md"
+      ]
+    },
+    {
+      "beleg": "П4",
+      "vapros": "Изпълнена ли е заповедта му от 05.09 „Проучи конкуренцията за сигурността\"?",
+      "sastoyanie": "otkrit",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "ТВЪРДЯН ОТГОВОР БЕЗ ОПОРА · агентът посочи цитат, който машината НЕ намери на адреса му (сверено 09.09.2026). Предишното твърдение: — няма поправка, цитатът е дословен | — няма поправка: zadanie/04-smetki.md:376 (клетка A94) · docs/14-dalgat.md:73. Допълнително: същата клетка е цитирана и на docs/dokladi/02-umeniya-otcheti-sastoyaniya.md:339 под чужд белег „О6\" — трябва точен адрес и дословен цитат, преди да се брои за отговорен.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П5",
+      "vapros": "Кога се четат 1850-те реда готов код в MasterBook по днешните теми (коефициенти · ориентири · свой коефициент · модели по бранш · планове)?",
+      "sastoyanie": "otkrit",
+      "negovite_dumi": "",
+      "adres": "docs/14-dalgat.md:74 (редът на П5) · обявено, не изпълнено: docs/21-nepopitanoto.md:95-110 и :141 · числата: docs/registar-na-prenosa.md:166 (коефициенти 948) · :167 (ориентири 167) · :168 (свой коефициент 297) · :234 (modeli-po-bransh 146)",
+      "kakvo_sledva": "БЛОКИРА: това е МОЕ обявено задължение, не негова дума, и няма нито място, нито отпушващо условие — тоест е точно „после\", преоблечено като план (правило 30). Днес стои в ДВА дома (`docs/21` §5 и `docs/dokladi/02`) и в НИТО ЕДИН ред на дълга — това е П10. Има негови думи ЗА СЪДЪРЖАНИЕТО (A94: изборът се стеснява по такт и период; docs/10:140 ред 38: отчетите показват коефициентите „и полетата за всяка, от където се изчислява\"), но няма негова дума КОГА това се чете. Планът от 09.09 (docs/25 §3) го праща в ход 7 „ОТЧЕТИТЕ\" — но самият план още не е одобрен от него (В1–В13 стоят без отговор).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П6",
+      "vapros": "Вписано ли е шестото условие за затворен ход в docs/13 („хелпът казва за новото\")?",
+      "sastoyanie": "otpadnal",
+      "negovite_dumi": "",
+      "adres": "docs/13-redat-predi-koda.md:334 („6. **ХЕЛПЪТ казва за новото · и на двете степени** (правило 31)…\") и :340-343 (защо е условие, а не дълг) — срещу docs/14-dalgat.md:75, който още твърди „НЕ Е ВПИСАНО\"",
+      "kakvo_sledva": "Няма предмет: условието Е вписано. `docs/13-redat-predi-koda.md` вече изброява ШЕСТ условия за „изрично затворен етап\", шестото е дословно „ХЕЛПЪТ казва за новото · и на двете степени (правило 31). Ново поле, бутон или глава има подсказка при задържане, която казва формулата — на Начало и на Експерт\", с обосновката отдолу: „хелп, който изостава от кода, лъже за програмата… затова е условие за ЗАТВАРЯНЕ, не отделна задача\". Тоест редът П6 в docs/14:75 е ЛЪЖЛИВ ред — регистърът на дълга брои чакащо, което е свършено. Слиза в §3 „ЗАТВОРЕНИ\" със записа как. Това е СЪЩИЯТ клас дефект, който тази сверка закрива: два документа не са сверени един срещу друг.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П7",
+      "vapros": "Построена ли е степента „Начало\" на подсказките, и има ли превключвател между двете степени?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "цитатът за носителя се поправя по журнала: „В сегашния хелп са дадени добре **при задържане на мишката — така се прави, старото е по-лошо**.\" (запетая, не точка · docs/10:162). Останалите два цитата са дословни.",
+      "adres": "docs/10-kakvo-chaka.md:160 (негово, 08.09 вечерта, ред 60) · docs/10-kakvo-chaka.md:162 (ред 62) · docs/izvori/01-chist-dopiska.md:1110 (И124, точка 5, 31.08) · дефиницията на двете степени: docs/23-helpat-dvete-stepeni.md:70-78 · обявено като прекъснато: docs/14-dalgat.md:76 · мястото в плана: docs/25-planat-i-vaprosite.md:224 (ход 6)",
+      "kakvo_sledva": "Думата му е пълна и не чака нищо — чака КОД. Броено днес: `grep -ro 'title=\"' app/ | wc -l` → 21 подсказки, всичките на ЕКСПЕРТНО ниво („площ × база по вид\" · „очакван наем ÷ доходност\" · „земя + строителна − овехтяване\"), нула на степен „Начало\", и нула превключвател — `grep` за степен на хелпа в app/ и src/ връща само `Nahodka.stepen` (грешка/бележка) и `Komanda.stepen` (чете/пише), тоест думата „степен\" в кода значи нещо друго. Липсва: (1) думите на степен Начало за всяко от 21-те места („защо съществува полето\" + формулата с думи); (2) отметката в Настройки и превключването от екрана (негово: „и оттам, освен в настройки\"); (3) обходът от docs/23 §5, който пада, ако секция няма думи за двете степени. И ⚠ на телефон `title=` не се задейства при задържане с пръст (доклад 09, РИСК 7) — при 21 `title=` срещу 4 `aria-` това е втора, неназована част от П7.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П8",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "П9",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "С1",
+      "vapros": "Тикчето за правото по секции ДВОИЧНО ли е (дадено/недадено), или носи трите нива на правото — Редактира · Вижда · Скрито? Препоръката в docs/17 е вариант В: ДВЕ колони тикчета — „вижда\" и „пише\".",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Винаги е вижда, а се дава скрито и редактира.",
+      "adres": "docs/10-kakvo-chaka.md (§5) · docs/29-devette-otgovora-09-09.md:1",
+      "kakvo_sledva": "тикчето НЕ е двоично · подразбирането за поканения е Вижда",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/00-CHETI-PARVO.md",
+        "docs/10-kakvo-chaka.md",
+        "docs/13-redat-predi-koda.md",
+        "docs/14-dalgat.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "С13",
+      "vapros": "Как се разграничава серията въпроси „С\" в docs/13 (С1 Гантът · С2 КСС · С3 кредитите · С4 имената в публичния код · С5 празното хранилище) от серията „С\" в docs/17? Днес един и същ белег значи две различни неща и никой пазач не го брои.",
+      "sastoyanie": "otkrit",
+      "negovite_dumi": "",
+      "adres": "docs/dokladi/06-propuskite-ot-arhiva.md:615 (находка 13, присъда „пасва без промяна\") · сблъскващите се домове: docs/13-redat-predi-koda.md:257-261 срещу docs/17-pravoto-po-sektsii.md:45-178",
+      "kakvo_sledva": "БЛОКИРА четенето, не кода: „Днес „С3\" значи и „кредитите\", и „нова секция след раздаването\"\" (docs/dokladi/06:615). Това не е негов въпрос — той е наш, по правило 14 (един факт, един дом) и по прецедента на CLAUDE.md, който вече е платил същата цена с номерата на правилата. Предложеният лек е ЕДИН от два: таблица „коя буква в кой документ\", или префикс по дома (С13-1 · С17-1); заместване НЕ се прави, защото номерата се сблъскват. Докато не е избран, всяка препратка „С3\" е двусмислена — а докладът вече брои ЧЕТИРИ различни диапазона за серията С в живи документи (docs/dokladi/01:642).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "С17",
+      "vapros": "Огледалната половина на същия сблъсък: серията „С\" в docs/17 (С1 тикчето · С2 Приход/Разход · С3 нова секция · С4 къде живее правото · С5 обликът · С6 личният изглед) носи ли префикс С17-n, за да не се бърка с С от docs/13 — и кой документ става ЕДИНСТВЕНИЯТ дом на съответствието?",
+      "sastoyanie": "otkrit",
+      "negovite_dumi": "",
+      "adres": "docs/dokladi/06-propuskite-ot-arhiva.md:615 · и броенето на разнобоя: docs/dokladi/01-pravoto-po-sektsii.md:642 и :1416",
+      "kakvo_sledva": "БЛОКИРА и е по-остро от С13, защото ТУК числото на въпросите се цитира с четири различни диапазона в четири дома: docs/17 има ШЕСТ (:45 :72 :97 :125 :152 :178), docs/00:18 казва „С1–С6\", docs/10:128 казва „С1–С5\", docs/13:425 казва „С1–С5\", docs/14 казва на едно място „С1–С3\" (:71) и на друго „С1–С4\" (:99). Правило 14 е нарушено вътре в документите за собствения си резен. Преди да се пипне ред код по правото по секции, броят и белезите се свеждат до ЕДИН дом — инак „отпушва С1–С4\" в дълга сочи различно множество според това кой го чете.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "С2",
+      "vapros": "Правото по секции се дава по СТРАНА (Приход/Разход), по всяка ОТДЕЛНА секция, или и двете — страната дава всичко, а тикче маха отделни?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Има право на секции от редове: Приход, Разход и другите секции да са дадени. Всички и ти да избираш с тикчета най добре или падащи менюта. Най удобния и функционален да е дизайна. Както колоните иат тикчета за секциите да са показани в редовете с тикчета.\" [негова грешка, отбелязана в самия документ: = „имат тикчета\"]",
+      "adres": "docs/10-kakvo-chaka.md:128 (запис №25, раздел „1г · Негово, 08.09.2026 · ДОСЛОВНО\", docs/10:114) · същият низ и в docs/17-pravoto-po-sektsii.md:5 и docs/14-dalgat.md:153",
+      "kakvo_sledva": "Изречението назовава И двете нива наведнъж — „Приход, Разход\" (страната) И „другите секции\" И „Всички\" — тоест вариант В от docs/17:93, а не „само по страна\" и не „само по секция\". Кодът добавя едно задължително уточнение, което не е негово, а факт: секция „Бизнес\" съществува И в Приход (`src/model/osnova.ts:225`), И в Разход (`:239`), значи правото трябва да носи СТРАНАТА заедно с името, инак „Редактира секции: …, Бизнес\" е двусмислено (docs/18:222).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/13-redat-predi-koda.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "С3",
+      "vapros": "НОВА секция, създадена от Настройки СЛЕД като правата вече са раздадени (напр. „Ремонти\") — кой я вижда? Никой без изрично тикче (затворена по подразбиране), всеки с обхват „всичко\" (отворена), или онзи, който я е създал?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Всеки, чието право казва „всичко\".",
+      "adres": "docs/10-kakvo-chaka.md:(§5 · ред 64)",
+      "kakvo_sledva": "Днешното поведение на кода е ВЯРНО · нова секция се вижда от всеки с обхват „всичко\". Пази се с тест, за да не се обърне мълчаливо.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/13-redat-predi-koda.md",
+        "docs/14-dalgat.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "С4",
+      "vapros": "Къде ЖИВЕЕ правото по секции — остава свободно изречение в клетка на лист Служители, става ново поле със списък, или изречението остава домът, а тикчетата го пишат?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Достъп на Длъжности за Служител — тези колони са падащи менюта за различните хедъри. Да има падащо меню с имената на всички хедъри и когато избереш, да има и падащи менюта, за да е функционално раздаването и сменянето…\" · и за оста СЕКЦИИ, отделно: „Както колоните иат тикчета за секциите да са показани в редовете с тикчета.\"",
+      "adres": "docs/10-kakvo-chaka.md:168 (запис №54) за оста хедъри · docs/10-kakvo-chaka.md:128 (запис №25) за оста секции · сведено в docs/22-litseto-trezorat-i-dvata-rezhima.md:146",
+      "kakvo_sledva": "Входът става ЗАТВОРЕН, не свободен текст: четирите оси на достъпа днес са `tekst()` без номенклатура (`src/model/osnova.ts:1068-1071`), докато съседната колона „Длъжност\" вече е `izbor` — това е дълг Т24 и негов отговор го затваря. Клетката пак носи изречение (Книгата остава четима в Ексел), но менюто го пише вместо ръката, тъй че правописна грешка спира да разширява правото тихо.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/13-redat-predi-koda.md",
+        "docs/14-dalgat.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "С5",
+      "vapros": "ОБЛИКЪТ на раздаването — списък с тикчета, падащо меню с тикчета вътре, или ТАБЛИЦА (секции по редове, „вижда\" и „пише\" като колони)?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Всички и ти да избираш с тикчета най добре или падащи менюта. Най удобния и функционален да е дизайна. Както колоните иат тикчета за секциите да са показани в редовете с тикчета.\" — това е ЦЯЛАТА му дума за облика на оста СЕКЦИИ; тя ДЕЛЕГИРА избора, не го прави.",
+      "adres": "docs/10-kakvo-chaka.md:128 (запис №25) · неговата делегация е вече цитирана и на docs/17-pravoto-po-sektsii.md:154 · отметнатата ни препоръка стои на docs/17-pravoto-po-sektsii.md:176 · цитатът от запис №58 (docs/10:172) се отнася за оста ХЕДЪРИ и не важи тук",
+      "kakvo_sledva": "Контролата е ДВЕ падащи менюта (хедър · служител) плюс отметки по хедър — тоест не чист списък и не чиста таблица, а комбинация; изборът на детайла е изрично делегиран („Най удобния и функционален да е дизайна\"). Кодът поставя две твърди граници: Книгата не може да носи тикче в клетка — `VidKolona` няма вид „отметка\" (docs/18:223), значи тикчетата живеят САМО на екрана; и днес трите отметки в `app/` са писани по два образеца с нула CSS (дълг Т26), тъй че първо трябва ЕДИН дом на отметката, както `poleSIzbor` е дом на менюто.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/13-redat-predi-koda.md",
+        "docs/14-dalgat.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "С6",
+      "vapros": "Правото по секции и ЛИЧНИЯТ ИЗГЛЕД (човек си скрива колони, zadanie/01:19) — един списък с две употреби, или два отделни списъка?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Личен Изглед (Твои Изгледи,Менюто) Тук изгледа иска да направи общо за всички от стопанина, но с падащи менюта за вкараните хедъри за всеки таб, където от тези хедъри за всеки таб може само някой колони от хедъри да скриеш за останалите или за ролите от тук, само за Стопанина. За служителите от избора на хедърите които вижда може да размести колони или да ги скрие., само за личния профил за десктоп и телефон заедно.\"",
+      "adres": "zadanie/01-profil.md:19 (клетка B5, Книгата — К1) · подкрепящо, но НЕ отговарящо на С6: docs/10-kakvo-chaka.md:172 (запис №58, два режима: редакция на хедър · раздаване на правомощие) · нашата препоръка А стои на docs/17-pravoto-po-sektsii.md:198",
+      "kakvo_sledva": "ДВА, не един — режимът „редакция на хедър\" (удобство, човекът сам) и режимът „раздаване на правомощие\" (сигурност, Длъжността) са отделени от самия него, което съвпада с препоръка А на docs/17:198 и пази правило 18 (правото само СТЕСНЯВА): човек не може да си пипне правото през своя изглед.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/00-CHETI-PARVO.md",
+        "docs/10-kakvo-chaka.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "С7",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/03-firmata-i-nepopitanoto.md"
+      ]
+    },
+    {
+      "beleg": "Т1",
+      "vapros": "Спряна секция изяжда ли пари от сбора и от изнесената Книга?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "src/smetach/smetki.ts:143-150 · коментарът в самия код: „ВСИЧКИ стойности, не само живите · поправка 08.09.2026. Дотук се вървеше по `zhivite(n)`.\" · записът за затварянето: docs/14-dalgat.md:183",
+      "kakvo_sledva": "ЗАТВОРЕН · `sektsiiteNa` вече върви по всички стойности на номенклатурата, не по `zhivite(n)`, и два теста доказано падат при старото поведение — нищо не чака негова дума.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т10",
+      "vapros": "Може ли `ts` да тръгне назад, без Вратата да се обади?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "src/yadro/vrata.ts:414-440 · `#zapishi` няма нито една проверка на `ts` (проверени са дедупликация по `opId`, откриващото събитие, `expectedRev`, append) · единственият пазач е src/porta/izpalnitel.ts:209 (`naprediChasovnika`), който стои НАД Вратата",
+      "kakvo_sledva": "ОТВОРЕН · пазачът не важи за `vazstanovi` и за бъдещ втори писач; чака Т5, защото двете се закачат на едно и също място в `#zapishi`.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т11",
+      "vapros": "Печатът на запечатания HTML `Symbol` ли е, или обикновена стойност?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "app/reshetka/shablon.ts:47-49 · `export interface Zapechatan { readonly __zapechatanHTML: string; }` — обикновено поле, проверката е структурна",
+      "kakvo_sledva": "ОТВОРЕН · всеки обект, дошъл като ДАННИ (JSON от Книга, от Драйв, от импорт), може да носи това поле и да влезе неекраниран; лекът е `Symbol` и тест с обект от `JSON.parse`.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т12",
+      "vapros": "Има ли ред Т12 в дълга — и какво стои под този номер?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "docs/dokladi/00b-oditat-46-agenta.md:5815 · „Т12 · СРЕДНА · „Построено и невикано\" · за пети път, и то в рамките на 48 часа\" · в docs/14-dalgat.md номерът НЕ съществува: съдържанието му е раздел §2 „ПОСТРОЕНО И НЕВИКАНО\" (docs/14-dalgat.md:158-170), без номер",
+      "kakvo_sledva": "ОТВОРЕН · проверено днес с grep през src/ app/ tests/: `sabiri` (src/yadro/pari.ts:36), `verigaLichna` (src/yadro/samolichnost.ts:156) и `PoSvoyataVeriga` (src/yadro/pravata.ts:134) продължават да имат САМО тестови викащи, а `vazstanovi` няма нито един (app/main.ts:87 сам го признава) — при това два от тези редове вече имат ИЗПЪЛНЕНО отпушващо условие (А0 и Т2), тоест са просрочени по смисъла на docs/14:170; и отделно: номер, който съществува в доклада и липсва в дълга, е дупка в правило 14 (един факт, един дом).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т13",
+      "vapros": "Прозата има ли порта — сверява ли се твърдение в docs/ срещу изхода на командата?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "листингът на tests/ (58 файла) не съдържа нито един тест за прозата — има `tests/rezenite.test.ts` само за docs/03-plan.md; docs/15-arhitekturata.md:113 сам записва инварианта „един факт, един дом\" с пазач „прозата няма порта · ✘ Т13\"",
+      "kakvo_sledva": "ОТВОРЕН · условието му (А0) е ИЗПЪЛНЕНО от 08.09, тоест редът е просрочен; иска се тест по образеца на `rezenite`, който сверява всяко число, обявено за БРОЕНО, срещу изхода на самата команда.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т14",
+      "vapros": "Помощник Управител не пише редове, а Заданието му дава трите кеш таблици — базовият ред ли е грешен, или входът минава по друг път?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Това са променливи ако не си разбрал в менюта и става индивидуална настройка. Не ме занимавай с глупости, а си прочети домашното.",
+      "adres": "docs/10-kakvo-chaka.md (ред 102 · 09.09.2026) · docs/29-devette-otgovora-09-09.md §2.3 и §10.1",
+      "kakvo_sledva": "ВЪПРОСЪТ БЕШЕ ДЕФЕКТ. Полето negovite_dumi по-рано носеше думите му за ПЪЛНОМОЩИЯТА (друг въпрос, docs/29 §3) — тоест регистърът твърдеше отговорен въпрос с чужд отговор, и точно това ме пусна да го попитам втори път. Вярното: правото се дава с падащо меню на ВСЕКИ ХЕДЪР в профила на ВСЕКИ ЧОВЕК, значи редът в Книгата (E19 · D19) е ПОДРАЗБИРАНЕТО на Длъжността, а действителното право е индивидуална настройка. Помощник Управителят получава писане в трите кеш таблици по този път, без базовият ред да се пипа. Оста „хедъри“ обаче не се пита от никого (Т15) — тя е единственото място, където това право може да живее.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т15",
+      "vapros": "Оста „хедъри\" (`mozheDaRedaktira`) пита ли се от някого — от екрана или от Портата?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "app/prozorets/smetki.ts:44 (внос) и :169 (`v.sektsii.every((sek) => mozheDaRedaktira(o, k.aktor(), sek.tekst))`) · срещу нула попадения на `mozheDaRedaktira` в целия src/komandi/",
+      "kakvo_sledva": "Записът в docs/14:115 („не се пита от никого — нито от екрана, нито от Портата\") е ЧАСТИЧНО ОСТАРЯЛ: екранът вече пита след поправката по Т29; живият остатък е точно Т20 (Портата не пита) — редът трябва да се пренапише или слее с Т20, за да не пази невярно твърдение в единствения дом на дълга.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т16",
+      "vapros": "Ходът „вкарай от десен бутон\" не е построен — чака М1, М2 и М3.",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "М3, негово, 08.09, дословно: „МОже да е на няколко неща като придобива нови състояния Които всеки един имот може да придобие, но точно това е интересното, че те се развиват по различен начин както е нормално да бъде.\" — това е отговор за НАТРУПВАНЕТО, не за ВРЪЩАНЕТО назад. Заданието, B5, дословно: „Да може тук да се ползва десния бутон и да се дава опция за Всеки Имот или Обект да се избира и добавят тези 3 функции за добавяне, а за Имота да има 4, но 4тия изабор Голямо дело да е неактивно, а само да се показва с по затъмнен текст и да се отключва за избор след като се даде Състояние на Имота : Строителство…\"",
+      "adres": "М1: docs/10-kakvo-chaka.md:131 (вярно) · М2: docs/10-kakvo-chaka.md:133 (вярно) · М3: docs/10-kakvo-chaka.md:174 (вярно като адрес, но НЕ отговаря на въпроса) · въпросът М3 такъв, какъвто е зададен: docs/16-dvizhenieto-i-sastoyanieto.md:144-151 · присъдата, че М3 остава отворен: docs/dokladi/02-umeniya-otcheti-sastoyaniya.md:1242 и docs/25:134 (В5) · „А4 частично\": docs/18-otgovorite-i-nahodkite-08-09.md:244 · zadanie/03-upravlenie-dela-prepiski.md:22 (вярно) · кодът: src/komandi/prozortsi/obshto.ts:33 и src/komandi/prozortsi/red.ts:578 (НЕ :575)",
+      "kakvo_sledva": "И ТРИТЕ отпушващи условия имат негова дума от 08.09, значи Т16 вече не чака него, а код (десният бутон днес има само сторно и „Изключи реда\" — src/komandi/prozortsi/obshto.ts:33 · red.ts:575); ВНИМАНИЕ: docs/25:134 задава В5 („М3 · връщането назад · още няма отговор\") и собственият му вариант В там е буквалният прочит на думите му отгоре — питане втори път е дефект по правило 25, а новите В3 (коя е думата на пазача: „Строеж\" или „Строителство\") и В4 (къде живее „Голямо дело\") са ОТДЕЛНИ въпроси, не част от Т16.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т17",
+      "vapros": "Родителското Състояние се чете ЖИВО — задача отпреди година показва днешното състояние на Имота. Живо, замразено, или и двете?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Не се иска поправка. Дословно, както стои: „в Сметки таблицата която е същата от Управление ще има бутон да вртща в изходните живи данни, а а там може да правиш сценарии за период напред и да смяташ и да сравняваш вакраните и запаметени модели чрез Отчетите в Сметки от коефициентите и диаграмите и граафиките там.\"",
+      "adres": "docs/10-kakvo-chaka.md:131 (ред 28 · негово, 08.09 · вписано като „М1 = В · ЗАМРАЗЕНО И ЖИВО, двете\") · потвърждение: docs/18-otgovorite-i-nahodkite-08-09.md:55-57 и :243 („Затворени с негова дума: М1 (= В)\")",
+      "kakvo_sledva": "Изборът е вариант В от docs/16:82 — поставянето ЗАПИСВА състоянието на родителя в мига на поставянето И остава жива колона до него, плюс бутон „към живите данни\"; това е ~80-110 реда СЕГА и е НЕВЪЗСТАНОВИМО, ако се отложи (незаписаното вчера не се изчислява днес), затова docs/25:218 го слага в ход 0 при схемата — а docs/14:154 продължава да го държи в раздел „ЧАКА НЕГОВА ДУМА\", което е точно дефектът, който тази сверка закрива.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т18",
+      "vapros": "Обхватът на оста „редове\" е записан в Модела и никой не го чете — по какво се дава правото над редовете?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Не се иска поправка на неговите думи. Дословно: „Има право на секции от редове: Приход, Разход и другите секции да са дадени. Всички и ти да избираш с тикчета най добре или падащи менюта. Най удобния и функционален да е дизайна. Както колоните иат тикчета за секциите да са показани в редовете с тикчета.\" · ред 54: „Достъп на Длъжности за Служител — тези колони са падащи менюта за различните хедъри. Да има падащо меню с имената на всички хедъри и когато избереш, да има и падащи менюта, за да е функционално раздаването и сменянето.\"",
+      "adres": "docs/10-kakvo-chaka.md:128 (ред 25) и docs/10-kakvo-chaka.md:168 (ред 54) · същият цитат е и главата на docs/17-pravoto-po-sektsii.md:5-7 · дефектът: src/model/osnova.ts:1039 срещу src/smetach/pravo.ts:184",
+      "kakvo_sledva": "`zashtoNeRedaktiraRedove` трябва да чете обхвата с `obhvatOtDumite` (машината вече върти оста „хедъри\"), а раздаването да става с тикчета/падащи менюта, които ПИШАТ същото изречение в клетката — тоест С2, С4 и С5 от docs/17 имат негова дума и само С1 (двоично тикче или три нива) е делегиран на мен с „Най удобния и функционален да е дизайна\", което по правило 26 е обявено предположение и не спира код; главата на самата ос вече се казва „достъп до Секци Редове\" с неговата ръка (src/model/osnova.ts:1070 · zadanie/05:60).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/17-pravoto-po-sektsii.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т19",
+      "vapros": "Пазят ли нещо осите „табове\" и „Журнал\" — има ли `pravotoNaImeyla` викащ в производствен код?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "src/smetach/pravo.ts:274 (`export function pravotoNaImeyla`) · проверено с grep през src/ app/ tests/: извън самия pravo.ts всички викащи са в tests/pravo.test.ts — НУЛА в app/ и НУЛА в src/komandi/",
+      "kakvo_sledva": "ОТВОРЕН и потвърден днес: „Вижда само таб Служители\" не скрива нито един таб, „Таб Журнал\" не пази Журнала, а Профилът ги РИСУВА (docs/18:156), тоест екранът обещава правило, което кодът не пази — docs/25:240 го дава като ~80 реда с тестове, заедно с Т20, и не чака нищо.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т2",
+      "vapros": "Правото се пита само от екрана — служител „Вижда само\" записва през Портата?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "src/komandi/prozortsi/red.ts:465 · `koyMozhe: vratataNaRedovete()` върху `red.popraviKletka` · записът за затварянето: docs/14-dalgat.md:182",
+      "kakvo_sledva": "ЗАТВОРЕН · `zashtoNeRedaktiraRedove` е ЕДИН дом за проверката и за думите, а `vratataNaRedovete` го закача и на двете фабрики; остава образецът, по който трябва да се затвори Т20 за оста „хедъри\".",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т20",
+      "vapros": "Пита ли се оста „хедъри\" от Портата, или само от екрана?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "src/smetach/pravo.ts:316 (`export function mozheDaRedaktira`) · единственият производствен викащ е app/prozorets/smetki.ts:169 · НУЛА попадения в целия src/komandi/ (проверено с grep днес)",
+      "kakvo_sledva": "ОТВОРЕН · същата дупка, която Т2 затвори за оста „редове\", още стои за оста „хедъри\"; образецът е готов (`vratataNaRedovete` в src/komandi/prozortsi/red.ts:465) и не чака негова дума.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т21",
+      "vapros": "Гейтът за „Вкарване\" всичко-или-нищо ли е — дава ли право върху две от три секции нула?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "app/prozorets/smetki.ts:167-169 · `const mozhePriVkarvane = v.lipsvashti.length === 0 && v.sektsii.length > 0 && v.sektsii.every((sek) => mozheDaRedaktira(o, k.aktor(), sek.tekst));`",
+      "kakvo_sledva": "ОТВОРЕН · поправката по Т29 затвори празния списък, но `.every` остана: право върху две от три секции още дава НУЛА — обратното на неговото „Приход, Разход и другите секции да са дадени\" (docs/10:128); лекът е гейт ПО СЕКЦИЯ, не общ, и той е част от същия ход като Т14 · Т18.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т22",
+      "vapros": "Колко от 25-те команди нямат проверка на правото?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "броено днес с grep -c \"koyMozhe:\" през src/komandi/prozortsi/: nastroyki.ts=3 · red.ts=3 · sluzhiteli.ts=3 · smetki.ts=1 · и НУЛА в imoti.ts · kniga.ts · modeli.ts · obshto.ts · prodazhbi.ts · stopanin.ts · upravlenie.ts",
+      "kakvo_sledva": "ЧАСТИЧНО ЗАКЪРПЕН, но ОТВОРЕН: записът „12 от 25 команди\" в docs/14:126 е остарял — Т23 и Т27 добавиха `koyMozhe` в nastroyki.ts и smetki.ts, тоест днес пазените са десет; седем файла с команди (включително `kniga.iznesi`/`kniga.vnesi`, `obshto.storno` и целият Управление) още нямат нито една проверка, а числото трябва да се БРОИ от командата, не да се преписва (правило 14).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т23",
+      "vapros": "Кой създава, преименува и спира номенклатурите (а с тях и секциите) — всеки, или само Стопанинът?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Има Състояние за Имот и може да се добавят и редактират и прехват от секция Номенклатура при Настройки на Стопанина",
+      "adres": "zadanie/02-imoti-obekti-biznesi.md:16 (B2) · същото и на :48 (B13) и :158 (B51)",
+      "kakvo_sledva": "ЗАТВОРЕН 09.09: четирите команди на Настройки вече питат zashtoNePipaNastroykite (src/smetach/pravo.ts:85), а tests/pravo.test.ts:515 доказва, че НАБЛЮДАТЕЛ не пипа номенклатурите — и това затвори задния вход към правото, защото номенклатурите раждат секциите.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т24",
+      "vapros": "И четирите оси на достъпа са СВОБОДЕН ТЕКСТ (osnova.ts:1068-1071), значи правописна грешка тихо разширява правото. Затвореният вход съществува и се ползва за колоната „Длъжност\" (osnova.ts:1060-1063). Трябва ли и четирите да станат затворен вход?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Достъп на Длъжности за Служител — тези колони са падащи менюта за различните хедъри. Да има падащо меню с имената на всички хедъри и когато избереш, да има и падащи менюта, за да е функционално раздаването и сменянето.",
+      "adres": "docs/10-kakvo-chaka.md:168 (негов ред 54) · срещу src/model/osnova.ts:1068-1071 (tekst('tabove'…), tekst('hedari'…), tekst('redove'…), tekst('zhurnal'…)) и :1060-1063 (vid: 'izbor')",
+      "kakvo_sledva": "Четирите tekst(...) полета стават затворен вход (vid: 'izbor' срещу списък), невалиден обхват се ОТКАЗВА с думи (правило 12), а не се приема мълчаливо — това е и вариант В на С4 в docs/17:125, който тук получава негова дума.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т25",
+      "vapros": "Профилът („dostapaMi\") и вратата дават ли един и същ отговор за един и същ човек, когато носи ДВЕ Длъжности?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "НЯМА негов цитат по този въпрос. Опората е правило 18 („Правото само СТЕСНЯВА… най-тясното печели\", CLAUDE.md) и кодът: „// няколко Длъжности · печели НАЙ-ТЯСНОТО (правило 18), както при записа\" — const pravo = dostapi.map((d) => d.pravo[os]).reduce((a, b) => poTyasnoto(a, b));",
+      "adres": "src/smetach/pravo.ts:504-506 (не :472, което е само сигнатурата) · tests/pravo.test.ts:681. Цитатът на :156 остава верен за Т32, не за Т25. Отделен дефект за поправка: zadanie/FINALNO/07-ekranat.md:464",
+      "kakvo_sledva": "ЗАТВОРЕН 09.09 заедно с Т32: dostapaMi повтаря същите три правила като вратата (Стопанинът е над Длъжностите · човек без Длъжност е СКРИТ · при няколко печели най-тясното), а тестът сверява ОС ПО ОС.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т26",
+      "vapros": "Обликът е разнобой — три отметки, два образеца, нула функция, нула CSS (app/prozorets/ii.ts:133 · imoti.ts:41 · smetki.ts:310). Коя е ЕДНАТА контрола и къде е нейният единствен дом?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Искам ммодерен и изчистен дизайн на бутони, падащи менюта и отметки. Следдвах дизайна на Клод. · и (ред 25): „Има право на секции от редове: Приход, Разход и другите секции да са дадени. Всички и ти да избираш с тикчета най добре или падащи менюта. Най удобния и функционален да е дизайна. Както колоните иат тикчета за секциите да са показани в редовете с тикчета.\"",
+      "adres": "docs/10-kakvo-chaka.md:123 (ред 20) · docs/10-kakvo-chaka.md:128 (ред 25). Трите отметки: app/prozorets/ii.ts:133 · app/prozorets/imoti.ts:41 · app/prozorets/smetki.ts:325 (НЕ :310)",
+      "kakvo_sledva": "Отметката получава ЕДИН дом, както poleSIzbor е дом за падащото меню (правило 29 „равни значи еднакви по форма през целия продукт\"); изборът на конкретната контрола е ИЗРИЧНО делегиран на мен („ти да избираш\"), тоест С5 от docs/17:152 не спира код, а иска записан довод.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т27",
+      "vapros": "Може ли НАБЛЮДАТЕЛ да пише пари — кеш и ДДС — през командите за месец?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "tests/pravo.test.ts:479 („Т27 · НАБЛЮДАТЕЛ не пише пари · нито кеш, нито ДДС\") · коментарът на :472 казва, че дупката е доказана С ИЗПЪЛНЕНИЕ на 08.09",
+      "kakvo_sledva": "ЗАТВОРЕН 09.09: фабриката komandaZaMesets (ражда zapishiKesh И zapishiDds) получи koyMozhe по оста „редове\" — същата врата и същите думи на отказа като всеки друг ред с пари (правило 14).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/21-nepopitanoto.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т28",
+      "vapros": "Как се сравнява обхватът на правото с хедъра — по подниз или по цяло име? Секция „Кеш\" отваряше „Фактури Кеш\", „Заплати Кеш\" и всичко със сричката вътре.",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "src/smetach/pravo.ts:438 (obhvatatPokriva) · викана от :326, :365, :369 · tests/pravo.test.ts:199 („Т28 · секция „Кеш\" НЕ отваря право · подниз не е дума\"), коментар на :192: „ПРЕИМЕНУВАНЕТО РАЗДАВАШЕ ПРАВО · доказано с изпълнение на 08.09\"",
+      "kakvo_sledva": "ЗАТВОРЕН 09.09: сравнява се по ЦЯЛО ИМЕ от списъка — думите на някое име от обхвата трябва да се поберат ЦЕЛИ в хедъра, тъй че неговият стенопис „Заплати\" → „Заплати Кеш\" оцелява, а „Кеш\" не отваря нищо. ВНИМАНИЕ: адресът в docs/14:46 (pravo.ts:230) е остарял.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т29",
+      "vapros": "Преименувана секция изпадаше МЪЛЧАЛИВО от Вкарването и с това отваряше гарда — брои ли се като липсваща?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "tests/smetki.test.ts:324 („Т29 · преименувана секция се БРОИ като липсваща, не изпада мълчаливо\") · коментар на :315",
+      "kakvo_sledva": "ЗАТВОРЕН 09.09 от ДВЕ страни: Vkarvane вече носи lipsvashti (кои от трите не са намерени), гардът иска ПЪЛЕН списък, а екранът КАЗВА коя секция липсва и къде се връща (правило 12) — празният списък вече отказва.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т3",
+      "vapros": "Правило 3 обещава „всеки сбор има ВТОРИ независим път (BigInt)\" — правилото ли става вярно, или казва истината?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Правилото да КАЗВА ИСТИНАТА · двата пътя са банка и въведено",
+      "adres": "docs/10-kakvo-chaka.md (§5 · ред 97) · CLAUDE.md правило 3",
+      "kakvo_sledva": "Конституцията вече не обещава BigInt път без викащ. Сборът се пази от преграда за цели числа; вторият независим път е сверката банка ↔ въведено (docs/28 §3).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "zadanie/12-dopalneniya-08-09.md"
+      ]
+    },
+    {
+      "beleg": "Т30",
+      "vapros": "`[].every(...)` връща `true` — празният хедър отваряше право. Празната истина отказ ли е, или разрешение?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "tests/pravo.test.ts:213 („Т30 · празният хедър НЕ отваря · празната истина е отказ\") · коментар на :212",
+      "kakvo_sledva": "ЗАТВОРЕН 09.09: `if (tozi.length === 0) return false` стои преди всяко `.every`; тестът пада с '', '   ' и ',,' върху старото поведение.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т31",
+      "vapros": "При ДВА живи реда за една Длъжност кой печели — първият или последният? Стеснение, записано с нов ред (правило 1), не влизаше в сила.",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "src/smetach/pravo.ts:194 (dostapaNaDlazhnostta) · tests/pravo.test.ts:646 („Т31 · ДВА живи реда за една Длъжност → печели ПОСЛЕДНИЯТ, не най-старият\")",
+      "kakvo_sledva": "ЗАТВОРЕН 09.09: взима се ПОСЛЕДНИЯТ жив ред — дупката беше в посоката, в която боли, защото поправката по правило 1 (ново събитие, не редакция) просто не се четеше.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т32",
+      "vapros": "„Кой е Стопанинът\" се пазеше на ТРИ места (osnova.ts:246 · :988 · chettsi.ts:33) — кое от трите е домът, и вижда ли Стопанинът без ред в Достъп „Редактира\"?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Стопанин и Служител не се сливат, но просто всички са Служители, а стопанина се подразбира при избора на длъжността.",
+      "adres": "docs/10-kakvo-chaka.md:156 (негов ред 53) · затворен в код: tests/pravo.test.ts:669 („Т32 · СТОПАНИНЪТ без ред в Достъп вижда в Профила „Редактира\", не „Скрито\"\")",
+      "kakvo_sledva": "ДЛЪЖНОСТТА БИЕ — нищо не се слива, нова същност няма, двете ленти остават (К1); ЗАТВОРЕН 09.09 заедно с Т25.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т33",
+      "vapros": "Може ли белег за редакция („кам\") да се напише на екрана без пазач наблизо?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "tests/pravo.test.ts:717 (describe „Т33 · нито един белег за редакция без пазач · обход по екрана\")",
+      "kakvo_sledva": "ЗАТВОРЕН 09.09 и то СТРУКТУРНО: не само клетката „кам\" гледа флага — обход брои, че нито едно място в екрана не пише белега за редакция без пазач, с доказана мярка върху нарочно счупен откъс.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т34",
+      "vapros": "Какво точно спира при уволнение и работи ли спирането в ВЯРНАТА посока?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Когато уволниш човек му спираш служебния достъп, но му оставяш личния ако иска да го ползва. Това е важно пак за сигурността а симите клиенти(разводи, уволнения). · и (ред 54): „Да има спиране на работа като бутон… бутон, който си променя текста с една дума писание, и тогава да се натиска — не през падащо меню, а в комбинация.\"",
+      "adres": "docs/10-kakvo-chaka.md:133 (ред 30, М2) · docs/10-kakvo-chaka.md:168 (ред 54)",
+      "kakvo_sledva": "ЗАТВОРЕН 09.09 заедно с Т41 — уволнението спря да работи наопаки; остава дължимото по думата му: спирането е БУТОН (не падащо меню), който сменя текста си, а личният достъп ОЦЕЛЯВА след уволнението.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т35",
+      "vapros": "Съществуват ли наистина ДВА пакета — онлайн и локален? docs/pazar/06:97 изписва двата connect-src като код, а `find . -name index.html` дава само app/ и dist/, тоест „Локалният пакет е ПО-СИГУРЕН\" (pazar/06:187) НЕ МОЖЕ да се провери.",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "просто продаваме без частта в кода, която го свързва с интернет. · и (И17): „Офлайн продуктът не може ли да е кодът за онлайн, но кодът за това да го няма в продукта? Напрактика онлайн акаунтите пак трябва да могат да работят офлайн — ако си сваля приложение, с което работя с колеги като служител на фирмата, и нямам обхват, аз пак трябва да имам достъп да вкарвам, и когато имам — да се ъпдейтне в системата.\"",
+      "adres": "docs/izvori/01-chist-dopiska.md:187 (И18) · И17 е на :179-183 (НЕ :180-183). Подкрепа: docs/pazar/06-osemte-kletki-i-dvata-paketa.md:97-98 и :187 · docs/10-kakvo-chaka.md:38",
+      "kakvo_sledva": "Вторият пакет е негово изискване, не наша идея: същият код МИНУС свързващата с интернет част — значи `npm run build` трябва да дава ДВА изхода и обход да ги брои, иначе изречението пред клиента остава непроверимо обещание (docs/10:38 го води блок 14 на 0 %).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т36",
+      "vapros": "ADR-023:200 се позовава на „ADR-064\" за поканата в календара — съществува ли този ADR?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "docs/ADR-023-pette-resheniya-06-09-vecherta.md:200 („същият закон като поканата в календара · ADR-064\") срещу `ls docs/ADR-*`, който спира на docs/ADR-024-chetirite-neobratimi.md · и docs/registar-na-prenosa.md:213: „domein/kalendar.ts | 149 | ЧАКА (Google Calendar → OAuth) | — | — | ADR-064\"",
+      "kakvo_sledva": "ADR-064 е ADR на MasterBook, НЕ на Coretovia, и не е пренасян — значи опората на решението в ADR-023 е висяща препратка навън: или се пренася, или цитатът се маха (правило 13). Не чака негова дума.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т37",
+      "vapros": "К3 в конституцията цитира само половината от неговото изречение за агента — къде е втората половина?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Никога не променя без да даде доклад и отчет на промяната, освен ако не е автоматизирана от текущите задачи.",
+      "adres": "zadanie/07-ii.md:20 (B5) · вписан в CLAUDE.md:27-28, с признанието на :34-35",
+      "kakvo_sledva": "ВЕЧЕ ИЗПЪЛНЕН, а docs/14:54 още го води отворен: CLAUDE.md:27-28 носи цитата дословно и цял, а :34-35 признава, че дотам е стояла половината — тоест редът в дълга трябва да слезе в §3 „ЗАТВОРЕНИ\", инак регистърът лъже за себе си.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/21-nepopitanoto.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т38",
+      "vapros": "ДДС се смята като ЕДНО число за цялото Огледало (dds.ts:114-115 сборува dalzhimo и plateno по ВСИЧКИ живи редове; таблицата `dds` в osnova.ts:706 няма колона за фирма). Две фирми = две регистрации по ЗДДС = две справки-декларации — сливат ли се?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Не може да се усчетоводяват фактури и Приходи и Разходи от фактури на различни фирми. · и (ред 36): „Сметките в Секция бизнес да не се включват в отделения за бизнеса таб. Фактурите конкретно за Бизнеса(Проекта) и ако фирмата е същата а не различна само тогава влизат в основния таб на Сметки, ако фирмата е разлина, трябнва да се попълни н е се вклюва и си остава сама в свой малк СМетки.\"",
+      "adres": "docs/10-kakvo-chaka.md:143 (негов ред 41, Ф1) · и docs/10:138 (ред 36): „ако фирмата е разлина, трябнва да се попълни н е се вклюва и си остава сама в свой малк СМетки\" · кодът: src/smetach/dds.ts:79 (ddsat) и :114-115 (двата reduce) · src/model/osnova.ts:706",
+      "kakvo_sledva": "ДДС се смята ПО ФИРМА — таблицата `dds` получава ос „фирма\", а сбор през две фирми става ОТКАЗ С ДУМИ, не тихо число; това е ДАНЪЧЕН дефект, не козметика, и стои преди Т40.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т39",
+      "vapros": "`naematel` носи ТРИ различни смисъла и никой не е избран: „tenant_id — изолация на наемател\" (sabitie.ts:52), „номерът на писача (ключът на веригата)\" (takt.ts:20) и отпечатък на УСТРОЙСТВО (samolichnost.ts:156). Днес побеждава „писач\". Кой е ЕДИНСТВЕНИЯТ смисъл, след като фирмата става ос на продукта?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Може ли и двете: 1 · три отделни полета · 4 · една фирма = една Книга.",
+      "adres": "docs/10-kakvo-chaka.md (§5 · ред 68) · docs/27-proektite-i-valutata.md:1",
+      "kakvo_sledva": "ЗАТВОРЕН с негова дума: naematel се разделя на proekt · pisach · ustroystvo. Трите полета правят режим „една Книга = един проект\" възможен, без да го заключват. Реже се в ход 0, докато Журналът е празен.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т4",
+      "vapros": "Сверката на сгъването тавтология ли е — `ochakvani` равно ли е винаги на `potok.length`?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "src/ogledalo/sgavane.ts:88 (`const ochakvani = rezyumeta.reduce((sbor, r) => sbor + r.broy, 0)`) срещу :110 (`const obshto = redici.reduce((sbor, r) => sbor + r.length, 0)`) и :111 (цикълът бута точно `obshto` елемента)",
+      "kakvo_sledva": "ОТВОРЕН и проверен днес: двете страни се смятат по един и същ начин, значи сверката е нула по построение и изпуснато звено не я чупи — иска тест, който доказва, че се чупи, и нищо негово.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т40",
+      "vapros": "Сверката по правило 7 няма ос „фирма\" (sverka.ts:11-15 носи само kakvo · vhod · izhod) — сверка, която затваря ОБЩО, крие две противоположни разлики, компенсиращи се между две фирми. Трябва ли сверка по фирма?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Трябва сигнал и проверка и за таквиа в извлеченита по Банка. и вкарание Кеш.",
+      "adres": "docs/10-kakvo-chaka.md:143 (ред 41, Ф1 — изречението е в същия ред, веднага след „Не може да се усчетоводяват фактури…\"). Кодът (наш извод, не негова дума): src/yadro/sverka.ts:11-18",
+      "kakvo_sledva": "Той иска СИГНАЛ И ПРОВЕРКА за смесени фирми и в банката, и в кеша — значи Sverka получава ос „фирма\" и тест с две компенсиращи се разлики трябва да ПАДА; редът стъпва на Т38, а Т38 стъпва на Т39.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т41",
+      "vapros": "Какво е правото на човек БЕЗ Длъжност — „Вижда\" или „Скрито\"? Кодът правеше едното на едно място и другото на друго (pravotoNaImeyla връщаше 'vizhda', а mozheDaRedaktira връщаше false за същия човек).",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Тогава заплахата е от Лица, които искат да влязат и да атакуват по всякакъв начин. Лицата са заплаха, ако не са поканени с длъжност.",
+      "adres": "docs/10-kakvo-chaka.md:158 (ред 53в). Кодът: src/smetach/pravo.ts:274-277 (не :160, както още пише docs/14:44) · tests/pravo.test.ts:170-182",
+      "kakvo_sledva": "ПОДРАЗБИРАНЕТО Е ОТКАЗ: лице без Длъжност не е „гост\", а заплаха — ЗАТВОРЕН 09.09 и затвори Т34 наведнъж. ВНИМАНИЕ: адресът в docs/14:44 (pravo.ts:160) е остарял, функцията е на :274.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т42",
+      "vapros": "Кой може да смени Длъжността на първия Стопанин — и може ли да го заобиколи, като ИЗКЛЮЧИ реда му?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Длъжността на първия стопанин не се променя никога от никого. · и веднага след това: „Неприкосновена е.\"",
+      "adres": "docs/10-kakvo-chaka.md:159 (ред 53г) · src/smetach/pravo.ts:115 · src/komandi/prozortsi/red.ts:491-493 · tests/pravo.test.ts:555",
+      "kakvo_sledva": "ИНВАРИАНТ, не екран: ЗАТВОРЕН 09.09 на ДВЕ места в red.ts — при поправка на клетка И при изключване на ред, защото изключен ред не е жив и Длъжността изчезваше по втори път за същия резултат.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т43",
+      "vapros": "Агент от проверка ПИША В ДЪРВОТО на проекта: броят тест-файлове скочи от 58 на 59 и обратно, а в единствения пробег с 59-ия tests/chestnost.test.ts ПАДНА, макар самостоятелно да минава. Кой пази, че агентите в проверка пишат САМО в работната папка на сесията?",
+      "sastoyanie": "otkrit",
+      "negovite_dumi": "",
+      "adres": "docs/14-dalgat.md:85 (§1.0б) · единствената съседна норма е CLAUDE.md:93: „Библиотека за еднократно разследване живее в работната папка на сесията, ИЗВЪН хранилището\" — но тя е за БИБЛИОТЕКИ, не за файлове, писани от агент",
+      "kakvo_sledva": "БЛОКИРА доверието към всяка следваща проверка: това е точно обход И („проверка, която пише в дървото на проекта\"), но приложен към АГЕНТИТЕ, не към тестовете, и днес се крепи на дисциплина вместо на машина. Няма негова дума никъде в шестте дома — правилото е вътрешно и се пише от мен, но иска обявено предположение по правило 26, преди да се строи върху него.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т44",
+      "vapros": "Неговото D19 дава на Помощник Управителя „хедъри: Заплати\", а разходните секции са ОСЕМ и ДВЕ започват със „Заплати\" — „Заплати Кеш\" (osnova.ts:232) и „Заплати Банка\" (osnova.ts:238). Новото сравнение по цяло име (Т28) отваря И ДВЕТЕ. Коя е имал предвид?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "Стопанина, когато се раздават пълномощия, го няма в списъка. Това е много важна сигурност.",
+      "adres": "docs/10-kakvo-chaka.md (§5) · docs/29-devette-otgovora-09-09.md:1",
+      "kakvo_sledva": "Стопанинът не се ПОКАЗВА в списъка · липсващ избор, не отказ",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т45",
+      "vapros": "Живият Модел трие мълчаливо замразената история: ogledalo.ts:103 вика proveriTovar със СЕГАШНИЯ Модел върху ВЧЕРАШНО събитие, а :105 е `if (zashto.length > 0) continue;` — изхвърля се ЦЯЛОТО събитие, не сгрешената клетка. Три редакции на Модела (затваряне на колона · преименуване на ключ · смяна на `vid`) трият история със задна дата, и то НЯМО.",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "src/ogledalo/ogledalo.ts:103 (`const zashto = proveriTovar(s.type, s.payload, model);`) и :105 (`if (zashto.length > 0) continue;`) · внасянето е на :27 · описан за пръв път в docs/dokladi/07-redat-na-kodirane.md:571 · `grep -rn \"neprocheteni\" app/` дава 0 (в src/ дава 10, в tests/ — 8)",
+      "kakvo_sledva": "Байтовете в Журнала стоят, но истината, сметната от тях, се мени — правило 1 е спазено по буква и заобиколено по смисъл; и понеже правило 29 плюс неговото Ф4 („заключени полета\") ПЛАНИРАТ затваряне на колони, това е тригерът, който предстои. ВНИМАНИЕ: Т45 е единственият белег от този списък, който НЕ съществува в docs/14-dalgat.md — живее само в доклад 07, тоест днес е дълг без дом (правило 30).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т46",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т47",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т48",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т49",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т5",
+      "vapros": "Кранът (правило 8) важи ли за операция, минала проверката и заспала на опашката?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "src/yadro/vrata.ts:160 (`#akoEDrapnatKranat`) · единствените викащи са :189 и :300 · самият запис е в `#zapishi` на :414, а между :300 и :414 стоят опашката на наемателя и `#podKlyuch` (:317)",
+      "kakvo_sledva": "ОТВОРЕН · проверката е на входа, не при записа; лекът е питане вътре в `#zapishi` плюс тест с две паралелни `dobavi` и дръпнат кран между тях.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т50",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т51",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т52",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т53",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т54",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т55",
+      "vapros": "",
+      "sastoyanie": "nepoznat",
+      "negovite_dumi": "",
+      "adres": "",
+      "kakvo_sledva": "",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+      ]
+    },
+    {
+      "beleg": "Т6",
+      "vapros": "Четирите забрани на К2 в dependency-cruiser броят ли по-малко от собствените си коментари?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": ".dependency-cruiser.cjs:59 (`ogledalo-samo-chete`) · :71 (`komandi-ne-pishat-sami`) · :83 (`knigata-e-adapter`) · :102 (`app-ne-drazhi-vratata`) срещу src/yadro/index.ts:15 — `export * from './vrata.js';`",
+      "kakvo_sledva": "ОТВОРЕН · барелът дава Вратата на всеки прозорец покрай забраната, тоест К2 днес се държи от дисциплина; лекът е пробни файлове, които ПАДАТ, преди забраните да се броят за живи.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т7",
+      "vapros": "К3 обещава „основните команди са замразен низ с контролна сума\" — има ли го?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "tests/katalog.test.ts:14 (`expect(KATALOG).toHaveLength(25)`) и :30 (`expect(KATALOG.length).toBeGreaterThan(20)` — твърдение, което не може да падне); нито `opisanie`, нито `ime` на командите се пази никъде",
+      "kakvo_sledva": "ОТВОРЕН · описанието, което агентът ЧЕТЕ, се сменя без нито един червен тест; образецът съществува (`PINAT` в tests/stena.test.ts) — но формата на замразяването се допира до В7 от docs/25:152 („основното умение · замразен низ или файл\"), който още чака негова дума.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/00-CHETI-PARVO.md",
+        "docs/10-kakvo-chaka.md",
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т8",
+      "vapros": "Правило 4 (`actor` в подписа) и правило 11 (NFC) имат ли тест?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "tests/inv-1-veriga.test.ts · думата `actor` се среща 0 пъти (броено с grep -c) · tests/vrata.test.ts · `NFC`/`normalize` се срещат 0 пъти",
+      "kakvo_sledva": "ОТВОРЕН и потвърден с броене днес: и двата конституционни инварианта преживяват мутация, тоест се спазват по дисциплина — искат се два теста (подменен `actor` → счупено звено; NFD на входа → NFC на изхода).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/15-arhitekturata.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Т9",
+      "vapros": "Обход 4 на `chistota` носи ли структурно мъртъв израз?",
+      "sastoyanie": "reshen_ot_koda",
+      "negovite_dumi": "",
+      "adres": "stroezh/chistota.mjs:534 · `[/Number\\(\\s*[^)]*\\?\\?\\s*''\\s*\\)/g, \"Number(… ?? '') · празното става НУЛА мълчаливо\"]` — търси литерала `''` в текст, от който `golKod` вече е изтрил низовете; живият случай стои в src/kniga/chetene.ts:1088",
+      "kakvo_sledva": "ОТВОРЕН · изразът не може да сработи никога, а има какво да хване; лекът е обходът да намери живия случай И всеки негов израз да носи доказан случай, не само обходът като цяло.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/14-dalgat.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/00b-oditat-46-agenta.md",
+        "docs/dokladi/01-pravoto-po-sektsii.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "У1",
+      "vapros": "Думата „модел\" значи повече от едно нещо — кое име носи Сценарият и кое Бизнес Моделът?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Ако Модел е поглед, тогава има и Модел на Сценарии и има Бизнес Модел при активирането на акаунта и създаването на работещия бизнес. Да има необходим файл с най важните колони коит искат инсформация за да работят, там се предлага таблица за задължително попълване за да раборти системата и отделно такава само за информация и детайли. Така ще може да се създадат всякакви Бизнес МОдели за да се направят за различните бизнес проекти готови. Това е финалната права с видовете лан цени и маркетинг. Те ще участват в маркетинга. и ще имат символични цени, като добавки и улеснение.\"",
+      "adres": "docs/10-kakvo-chaka.md:135 (ред 33) · въпросът е формулиран в docs/18-otgovorite-i-nahodkite-08-09.md:250 · разчитането в docs/19-umeniyata-firmata-i-nepopitanoto.md:208-220",
+      "kakvo_sledva": "Моделите са ТРИ, не един — Модел (поглед · ADR-014 · единственият построен днес, `src/komandi/prozortsi/modeli.ts:42` · `ekran.zapaziModel`), Модел на Сценарии (вариант на ДАННИТЕ напред, който трябва да се СМЯТА) и Бизнес Модел (шаблон при активиране, с два реда колони — задължителни и само за информация, продаваем като добавка), а днешният механизъм е непрозрачен за домейна (ADR-014:36) и затова Сценарият не може да го ползва дори да искаме; отделният въпрос У1а („три отделни думи в кода или едно поле „вид\"\") стои ОТВОРЕН с препоръка А в docs/20:145.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/25-planat-i-vaprosite.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "У2",
+      "vapros": "Къде живее умението — в Журнала (само за добавяне) или като файл?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Живее и в файла и в книгата. Дай сравнение за всяко и за заедно.\"",
+      "adres": "docs/10-kakvo-chaka.md:136 (ред 34) · въпросът е формулиран в docs/18-otgovorite-i-nahodkite-08-09.md:251 · сравнението, което той поръча, е дадено в docs/19-umeniyata-firmata-i-nepopitanoto.md:179-198",
+      "kakvo_sledva": "Умението живее на ДВА дома едновременно (файл и Книга), тъй че не се пише нова машина, а се вика съществуващата — Сверчикът (`src/kniga/sverchik.ts`), който сверява две копия на една истина; остатъчният въпрос У2а („при разминаване файл ↔ Книга кой печели\") стои ОТВОРЕН с препоръка В („казва се и ТИ решаваш\") в docs/20:117.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "У3",
+      "vapros": "„Основните умения в кода\" — по образеца на `PINAT` (замразен низ с контролна сума)? И решението за уменията в дълга да се преразгледа ли?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Провери обстойно и виж най добрите водещи практитки.\" — дословно, но това е МАНДАТ ЗА ПРОУЧВАНЕ, не отговор на въпроса „по образеца на PINAT ли\". Негова дума, която да избира между замразен низ и файл, НЯМА в нито един от шестте дома.",
+      "adres": "docs/10-kakvo-chaka.md:137 (ред 35) · ПОТВЪРДЕН като цитат · docs/18-otgovorite-i-nahodkite-08-09.md:252 · ПОТВЪРДЕН · docs/19-umeniyata-firmata-i-nepopitanoto.md:58-70 · ПОТВЪРДЕН · ОТВОРЕНОТО стои на docs/25-planat-i-vaprosite.md:152-157 (В7 · трите варианта, ВСИЧКИ с празно ☐) · заглавието на В7 е на ред 152, не на 155 · състоянието да се смени от `otgovoren` на `otkrit`",
+      "kakvo_sledva": "Думата му е мандат за проучване, не избор, и проучването е направено: три готови образеца ВЪТРЕ в проекта стават за умение (`tests/stena.test.ts:36` · `PINAT` — най-близкият, липсва само хешът; `tests/biblioteki.test.ts:14` · `POZVOLENI`; `tests/zadanieto.test.ts:40`), а най-приличащият механизъм `src/model/nomenklatura.ts:9` е ОГЛЕДАЛНО ОБРАТЕН и копирането му наум би дало грешен продукт; самият избор между тях стои като В7 в docs/25-planat-i-vaprosite.md:155 и още чака негова дума.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/18-otgovorite-i-nahodkite-08-09.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/dokladi/02-umeniya-otcheti-sastoyaniya.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md"
+      ]
+    },
+    {
+      "beleg": "Ф1",
+      "vapros": "Фирмата — нова ВЕРИГА, или колона? (А · свой наемател със свой Журнал и Огледало · Б · колона на реда с филтър при четене · В · трето)",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Фирмата или Стопанина е една основна верига и може да се добави фирма с ЕИК номер по дддс или не и да се прави плащания за абонамент и покупка на други продукти. Отделно Фирмата е в фактурите. Не може да се усчетоводяват фактури и Приходи и Разходи от фактури на различни фирми. Трябва сигнал и проверка и за таквиа в извлеченита по Банка. и вкарание Кеш. Да може да се вкарва през терлефона с снимка на фактура и да я зарежда в програмата. от всеки служител и фактурата да се разпределя по бизнеси които са вкарани с данни за фирмите и техните табове. Има един основен всеки следващ е в собствен табс данни за фирмата и подтабовете които ги има вече.\"",
+      "adres": "docs/10-kakvo-chaka.md:143 (ред 41 от таблицата с неговите думи) · и СЪЩИЯТ отговор стои от 05.09 в Книгата: zadanie/04-smetki.md:22 (клетка B6) — „Разходите минават като фактури и не се показват тук освен ако не са на друга фирма, която управлява бизнеса на нашия имот. Има такива случаи и то при нас. Тогава се изолира мини счетоводство в самия таб на бизнеса но не в този бизнес на ВИнтекс Строй, а се отваря и създава нова фирма с абсолютно нов проекет със собствен модел и таблици.\"",
+      "kakvo_sledva": "Вариант А: втора фирма е ВТОРА основна верига (свой модел и свои таблици), не колона — а понятие „фирма\" днес няма никъде в кода (grep -rniE \"firm|eik|bulstat|yuridich|company\" в src/ app/ tests/ → 0), тъй че преди този ход трябва да се реши какво носи веригата, защото `naematel` вече е претоварен с три смисъла (Т39, docs/14-dalgat.md:50).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/21-nepopitanoto.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/04-finansite-i-otchetite.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Ф2",
+      "vapros": "Кой НОСИ фирмата — Имотът, Бизнесът, или Движението? (А · Бизнесът (проектът) носи фирма, Имотът не · Б · Имотът носи фирма и всичко под него я наследява · В · всяко Движение носи фирма)",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„За всеки бизнес има отделни подобни полета. Това е нов екселска таблица с всички табове и функции. Реално трябва да може да се създават нови и да са по фирми с своите основни ибизнеси и допълнителни бизнес проекти вътре по фирма. Да иска да си плащаш още абонаменти за всяка фирма. Сега правим на ВИнтекс, но имам и други и те ще имат нужда от същата подобна структора изменена според бизнеса. Това цялото с другите бизнеси ще бъде на финала. ако фирмата има друг бизнес се добавя като таб. Основния бизнес също има таб за задание и от там се активира всичко, при втори таб се допълва и се вклюва в останбалите общи табове за управлени и сметки.\"",
+      "adres": "docs/10-kakvo-chaka.md:144 (ред 42) · разчетено в docs/20-firmata-invariantat-i-dvata-vaprosa.md:56",
+      "kakvo_sledva": "Нито А, нито Б, нито В: фирмата не е поле върху съществуващ ред, а НОВА КНИГА (всички табове и функции) за всяка фирма, а всеки допълнителен бизнес е ТАБ (подтаб, не девети прозорец — потвърдено с zadanie/10-dopalneniya-05-09.md:13, тъй че К1 остава непокътнат), който се влива в общите Управление и Сметки; абонаментът се премества от човек на ФИРМА и това пипа docs/pazar/.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/21-nepopitanoto.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/04-finansite-i-otchetite.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Ф3",
+      "vapros": "„Преразпредели приходите и разходите\" — по какъв ключ? (А · по процент от човек · Б · по площ · В · по оборот · Г · ръчно, ред по ред)",
+      "sastoyanie": "otpadnal",
+      "negovite_dumi": "„Приходи и раходи са пари и не са площ, не са процент, а те са пари и се събиртат в обороти и други счетоводни имена. Провери за финанси и отчети, няма аз да те уча.\"",
+      "adres": "docs/10-kakvo-chaka.md:145 (ред 43) · четенето, че въпросът е бил сгрешен, стои в docs/20-firmata-invariantat-i-dvata-vaprosa.md:57",
+      "kakvo_sledva": "Въпросът няма предмет — неговата дума отрича самата премиса („ключ за преразпределяне\" няма, има СЪБИРАНЕ в стандартни счетоводни величини), а поръчаното проучване вече отговори на остатъка: приходът се ОТНАСЯ към сегмента, който го е породил, и по обявена база (площ · оборот · часове) се разпределя САМО общото — административното и режийното (docs/dokladi/04-finansite-i-otchetite.md:830).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/04-finansite-i-otchetite.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Ф4",
+      "vapros": "Обобщението горе (печалба/загуба) — за коя фирма? (А · по избраната фирма · Б · за всички заедно, с разбивка · В · и двете, с превключвател)",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Всички заедно горе общов показаните заключени полета за бутони, информация и за вкарване на данни. Да има превключвател за разбивките обаче на всяка таблица и да има избор от отметки да се виждат по избор или всички заедно от Настройки.\" · и по-рано същия ден, ред 36: „…и да има обобщенеи специално за Бизнеса горе в полетата за инфорация където виждаш дали си на печалба или на загуба и сколко. Така и с наемите, продажбите и разходите. Който каквото си избере.\"",
+      "adres": "docs/10-kakvo-chaka.md:146 (ред 44) · разчетено в docs/20-firmata-invariantat-i-dvata-vaprosa.md:58",
+      "kakvo_sledva": "Горе е СБОР на всички фирми заедно, в заключените полета (правило 29 · затворената колона от ADR-010), а разбивката живее ПРИ таблицата с превключвател, като изборът кои разбивки се виждат се прави с отметки от Настройки — същият механизъм като С5, за който днес има три отметки, два образеца и нула обща функция (Т26, docs/14-dalgat.md).",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/19-umeniyata-firmata-i-nepopitanoto.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md",
+        "docs/dokladi/00-spisak.md",
+        "docs/dokladi/03-firmata-i-nepopitanoto.md",
+        "docs/dokladi/04-finansite-i-otchetite.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md",
+        "docs/dokladi/07-redat-na-kodirane.md"
+      ]
+    },
+    {
+      "beleg": "Ф5",
+      "vapros": "Как машинно се различава НАШАТА фирма от КОНТРАГЕНТА, щом и двете носят ЕИК?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„И двете имат ЕИК. Проучи, защото това е все едно дете ме пита. Няма да обяснявам финансите как се водят. Нашите данни при стартирането на проекта. Контрагентите се взимат от извлеченията и може да се прави справка, както в банковите акаунти. Искам да може да имаш детайли за всеки ИМот, Обект или Задача, където събираш цялата информация на едно и от там също да се редактира за тези с правата за това.\" · и по-късно същия ден: „Всек и е Юридичеко или Физическо лице чак когато влезе с длъжност става лицето с длъжност. Всички сме лица и после другото се избира.\"",
+      "adres": "docs/10-kakvo-chaka.md:148 (ред 46) · допълващият цитат е на docs/10-kakvo-chaka.md:157 (ред 53б) · разчетено в docs/22-litseto-trezorat-i-dvata-rezhima.md:42-52",
+      "kakvo_sledva": "Не се различават по ЕИК, а по ДЛЪЖНОСТ — нашата фирма е юридическо лице С длъжност в нашия свят, контрагентът е юридическо лице БЕЗ длъжност и идва от извлечението, тъй че под днешните пет длъжности застава един слой ЛИЦЕ (юридическо или физическо) и се ражда нов екран ДЕТАЙЛИ на всяка същност с редакция по право.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/22-litseto-trezorat-i-dvata-rezhima.md",
+        "docs/dokladi/05-zakonat-na-ii-i-umeniyata.md",
+        "docs/dokladi/06-propuskite-ot-arhiva.md"
+      ]
+    },
+    {
+      "beleg": "Ф6",
+      "vapros": "Как се води имот със съсобственост — идеални части и различни собственици (фирми или физически лица)?",
+      "sastoyanie": "otpadnal",
+      "negovite_dumi": "„Има такива имоти, които са с идеални части и различни собственици (фирми или физически лица), но това не ни интересува в нашия проект, а и в другите не е тема на програмата.\"",
+      "adres": "docs/10-kakvo-chaka.md:149 (ред 47 · отбелязан от него самия като НЕПРАВИЛЕН ВЪПРОС)",
+      "kakvo_sledva": "Въпросът няма предмет — съсобствеността е извън обхвата по негова дума, тъй че връзката Имот→фирма остава проста (един имот, едно юридическо лице) и в модела не влиза нито дял, нито идеална част.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md"
+      ]
+    },
+    {
+      "beleg": "Ф7",
+      "vapros": "Номерът на състоянието уникален ли е глобално, или само в рамките на фирмата?",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„Само във фирмата и начина на разделяне на състоянията. Колкото повече цифри, толкова повече операция за всяко състояние и съответен номер в цифрите само в програмата.\"",
+      "adres": "docs/10-kakvo-chaka.md:150 (ред 48 · отбелязан от него като НЕПРАВИЛЕН ВЪПРОС, но с даден отговор) · последицата за номерацията е записана в docs/20-firmata-invariantat-i-dvata-vaprosa.md, раздел „Номерацията\"",
+      "kakvo_sledva": "Уникалността е САМО в рамките на фирмата и цифрите носят разделянето по състояния, а днес `src/smetach/nomeratsiya.ts:47` брои по ПОЗИЦИЯ в таблицата (`nomer.push(pozitsiya + 1)`), тъй че две фирми, които делят `imoti`, ще си преплетат номерата — а неговата Книга иска `3.1.1.27` да значи „Студентски Град\" завинаги.",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/10-kakvo-chaka.md",
+        "docs/20-firmata-invariantat-i-dvata-vaprosa.md"
+      ]
+    }
+  ]
+}

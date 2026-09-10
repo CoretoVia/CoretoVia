@@ -12,6 +12,7 @@
 import { slotNaKolonata } from '../model/kolona.js';
 import type { Model } from '../model/model.js';
 import { eKletka, slotNaKletka } from '../model/kletka.js';
+import { DEYSTVIYA, type PromyanaNaStrukturata, zashtoNeMozhe } from '../model/struktura.js';
 
 export const TIP = Object.freeze({
   stopaninZapisan: 'СтопанинЗаписан',
@@ -23,6 +24,15 @@ export const TIP = Object.freeze({
   knigaIznesena: 'КнигаИзнесена',
   knigaVnesena: 'КнигаВнесена',
   storno: 'Сторно',
+  /**
+   * ДЕСЕТИЯТ ТИП · негово, 09.09: „Веднага десетият тип събитие."
+   *
+   * Всяка промяна на СТРУКТУРАТА влиза в Журнала: нова колона · преименувана
+   * глава · затворена колона · нова таблица · сменен ред на колоните. Дотук
+   * структурата беше замразена в кода и вчерашното събитие МЪЛЧАЛИВО отпадаше,
+   * щом днешният Модел не го признае. Сега тя има история като всичко друго.
+   */
+  strukturaPromenena: 'СтруктураПроменена',
 } as const);
 
 export type TipSabitie = (typeof TIP)[keyof typeof TIP];
@@ -168,11 +178,11 @@ export const SABITIYA: Readonly<Record<TipSabitie, Proverka>> = Object.freeze({
     else {
       const kur = k as Tovar;
       if (
-        !eNeprazenTekst(kur['naematel']) ||
+        !eNeprazenTekst(kur['veriga']) ||
         !eTsyalo(kur['seq']) ||
         typeof kur['hash'] !== 'string'
       ) {
-        n.push('Курсорът носи naematel · seq · hash.');
+        n.push('Курсорът носи veriga · seq · hash.');
       }
     }
     const redove = p['redove'];
@@ -200,6 +210,29 @@ export const SABITIYA: Readonly<Record<TipSabitie, Proverka>> = Object.freeze({
     }
     if (!eNeprazenTekst(p['vnesenoNa'])) n.push('Липсва кога е внесена.');
     return n;
+  },
+
+  /**
+   * ДЕСЕТИЯТ ТИП · формата се проверява ТУК, а смисълът — от `struktura.ts`.
+   *
+   * Двете са различни въпроси и се питат поотделно: „това товар ли е изобщо"
+   * и „може ли тази промяна върху ТОЗИ Модел". Второто зависи от мига в
+   * потока (вчерашната структура не е днешната), затова живее в чиста функция
+   * и се вика от сгъването с Модела КЪМ ТОЗИ МОМЕНТ.
+   */
+  [TIP.strukturaPromenena]: (p, model) => {
+    const n: string[] = [];
+    if (!eNeprazenTekst(p['deystvie'])) {
+      n.push('Промяната на структурата иска действие.');
+      return n;
+    }
+    if (!(DEYSTVIYA as readonly string[]).includes(p['deystvie'])) {
+      n.push(`Непознато действие „${p['deystvie']}" · познатите са ${DEYSTVIYA.join(' · ')}.`);
+      return n;
+    }
+    if (!eNeprazenTekst(p['tablitsa'])) n.push('Промяната иска таблица.');
+    if (n.length > 0) return n;
+    return zashtoNeMozhe(model, p as unknown as PromyanaNaStrukturata);
   },
 
   [TIP.storno]: (p) => {

@@ -16,6 +16,7 @@ import {
   kolkoMyasto,
   osiguriHranilishte,
 } from '../src/nositel/hranilishte.js';
+import { neprochetenotoKazva } from '../src/ogledalo/neprochetenoto.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import { TIP } from '../src/sabitiya/registar.js';
 import {
@@ -23,6 +24,7 @@ import {
   kotvataKazva,
   LichnoESamoTvoe,
   NASTAVKA_LICHNO,
+  PISACH_NA_KNIGATA,
   proveriVerigata,
   Vrata,
 } from '../src/yadro/index.js';
@@ -33,6 +35,14 @@ import { h, nashSkript, sloji } from './reshetka/shablon.js';
 import { chetiEkranno, zapomniEkranno } from './reshetka/pamet-ekran.js';
 
 const KNIGA = 'coretovia';
+/**
+ * ВАЛУТАТА на тази Книга · негово, 09.09: избира се ЕДНА при регистрация.
+ *
+ * Стои тук като начална стойност, докато екранът за регистрация го няма.
+ * Влиза в подписа на всяко събитие, тъй че смяната ѝ после не е настройка,
+ * а видимо ново събитие — точно затова полето се реже СЕГА.
+ */
+const VALUTA_NA_KNIGATA = 'EUR';
 /** имейлът на този, който пише · научава се при откриването · удобство на устройството */
 const PAMET_AKTOR = 'aktor';
 
@@ -75,7 +85,14 @@ async function main(): Promise<void> {
     vrata,
     dnevnik,
     model: MODEL,
-    veriga: KNIGA,
+    // ТРИТЕ ФАКТА вместо един низ с три смисъла (Т39 · негово: „Това даже не
+    // са проекти, а втори файл"). Писачите са един, затова веригата е на
+    // самата Книга; устройството обаче е СВОЙ факт и се записва отделно —
+    // втората машина на същия човек вече ще личи, вместо да се слее.
+    kniga: KNIGA,
+    pisach: PISACH_NA_KNIGATA,
+    ustroystvo: samolichnostta.otpechatak,
+    valuta: VALUTA_NA_KNIGATA,
     aktor: () => aktor,
     sega: () => new Date().toISOString(),
   });
@@ -94,6 +111,21 @@ async function main(): Promise<void> {
     <header class="glava">
       <h1>Coretovia</h1>
       <p class="vest" data-vest></p>
+      <!--
+        ПАЗАЧЪТ НА ИСТОРИЯТА · стои В ГЛАВАТА, не в панел.
+        Правило 31 вече отсъди веднъж: „предупреждение в панел, който човек не е
+        отворил, не предупреждава никого" (ADR-136, отказан). Затова редът е
+        тук, до броя на събитията, и се вижда без нито едно натискане.
+      -->
+      <div
+        class="neprocheteno"
+        data-neprocheteno
+        hidden
+        title="Събития, които СТОЯТ в Журнала, но днешният Модел не може да ги приложи — например колона, която вече я няма. Формулата: прочетени = всички − непрочетени. Журналът е цял; щом причината отпадне, те се четат сами."
+      >
+        <p data-neprocheteno-dumi></p>
+        <ul data-neprocheteno-redove></ul>
+      </div>
     </header>
     <nav class="lenta-prozortsi" data-prozortsi>
       ${PROZORTSI.map(
@@ -104,6 +136,9 @@ async function main(): Promise<void> {
   );
 
   const vest = ekran.querySelector<HTMLElement>('[data-vest]')!;
+  const neprocheteno = ekran.querySelector<HTMLElement>('[data-neprocheteno]')!;
+  const neprochetenoDumi = ekran.querySelector<HTMLElement>('[data-neprocheteno-dumi]')!;
+  const neprochetenoRedove = ekran.querySelector<HTMLElement>('[data-neprocheteno-redove]')!;
   const glavnoTyalo = ekran.querySelector<HTMLElement>('[data-prozorets-tyalo]')!;
   // Всяко рисуване получава НОВ възел: слушателите, закачени на стария, си отиват с
   // него, вместо да се трупат и да отварят по две полета на един двоен клик.
@@ -172,6 +207,23 @@ async function main(): Promise<void> {
       o.broySabitiya === 0
         ? 'Книгата е празна · 0 събития'
         : `${o.broySabitiya} събития в Журнала · ${o.stopanin}`;
+
+    /*
+     * ПАЗАЧЪТ НА ИСТОРИЯТА · вчерашната истина не изчезва мълчаливо.
+     *
+     * Дотук лентата казваше „сто събития", а данните можеха да са от
+     * деветдесет и седем: сгъването знаеше кои три е пропуснало и защо, но
+     * никой не го питаше. Тиха загуба е най-скъпата — няма как да се забележи.
+     *
+     * Думите идват от ЕДНО място (`neprochetenotoKazva`), тъй че се проверяват
+     * с тест, без браузър, и не се разминават между прозорците (правило 14).
+     */
+    const nepr = neprochetenotoKazva(o);
+    neprocheteno.hidden = nepr.nared;
+    if (!nepr.nared) {
+      neprochetenoDumi.textContent = nepr.dumi;
+      sloji(neprochetenoRedove, h`${nepr.redove.map((r) => h`<li translate="no">${r}</li>`)}`);
+    }
     const klyuch = klyuchOtHasha();
     for (const a of ekran!.querySelectorAll<HTMLElement>('[data-prozorets]')) {
       a.classList.toggle('tekusht', a.dataset['prozorets'] === klyuch);

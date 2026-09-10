@@ -57,12 +57,12 @@ export async function osiguriHranilishte(): Promise<SastoyanieNaHranilishteto> {
  * връща undefined — Вратата тогава разчита на повторението при сблъсък.
  */
 export function klyuchalkaMezhduRazdeli():
-  | (<T>(naematel: string, rabota: () => Promise<T>) => Promise<T>)
+  | (<T>(veriga: string, rabota: () => Promise<T>) => Promise<T>)
   | undefined {
   const locks = (navigator as { locks?: LockManager }).locks;
   if (!locks) return undefined;
-  return <T>(naematel: string, rabota: () => Promise<T>): Promise<T> =>
-    locks.request(`coretovia:vrata:${naematel}`, rabota) as Promise<T>;
+  return <T>(veriga: string, rabota: () => Promise<T>): Promise<T> =>
+    locks.request(`coretovia:vrata:${veriga}`, rabota) as Promise<T>;
 }
 
 /** За човешки очи: 3 481 600 → „3,3 МБ". */

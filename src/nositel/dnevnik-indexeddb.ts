@@ -12,8 +12,18 @@
 import type { Dnevnik } from '../yadro/dnevnik.js';
 import { GreshkaDnevnik } from '../yadro/dnevnik.js';
 import type { Sabitie, Sashtnost } from '../yadro/sabitie.js';
+import { koyPishe, PREDI_RAZREZA, SHEMA_PREDI_RAZREZA, veriga } from '../yadro/sabitie.js';
 
 const HRANILISHTE = 'sabitiya';
+/**
+ * ВЕРСИЯТА НА БАЗАТА · беше 1, стана 2 с разреза (Т39).
+ *
+ * Числото не е украса: то е стъпалото, по което браузър със стара база се
+ * вдига. Всяка следваща смяна на ключ или индекс иска НОВО число и НОВ клон
+ * в `onupgradeneeded` — инак стара база мълчаливо остава с чужд ключ.
+ */
+const VERSIYA = 2;
+
 const INDEKS_OPID = 'po-opId';
 const INDEKS_SASHTNOST = 'po-sashtnost';
 
@@ -24,17 +34,68 @@ const INDEKS_SASHTNOST = 'po-sashtnost';
  */
 export function otvoriDnevnik(ime: string): Promise<DnevnikVIndexedDB> {
   return new Promise((resolve, reject) => {
-    const zayavka = indexedDB.open(ime, 1);
+    const zayavka = indexedDB.open(ime, VERSIYA);
 
-    zayavka.onupgradeneeded = () => {
+    zayavka.onupgradeneeded = (sabitie) => {
       const db = zayavka.result;
-      if (!db.objectStoreNames.contains(HRANILISHTE)) {
-        const hranilishte = db.createObjectStore(HRANILISHTE, {
-          keyPath: ['naematel', 'seq'],
-        });
-        hranilishte.createIndex(INDEKS_OPID, ['naematel', 'opId'], { unique: true });
-        hranilishte.createIndex(INDEKS_SASHTNOST, ['naematel', 'sashtnost.vid', 'sashtnost.id']);
+      const staro = (sabitie as IDBVersionChangeEvent).oldVersion;
+      const transaktsiya = zayavka.transaction;
+
+      /*
+       * СТЪПАЛО 1 → 2 · РАЗРЕЗЪТ (Т39) · ПРЕНАСЯ, не трие.
+       *
+       * Ключът беше `['veriga', 'seq']` — по полето, което носеше ТРИ смисъла
+       * наведнъж. Сега е `['kniga', 'pisach', 'seq']`. Ключ на съществуващо
+       * хранилище НЕ се мени в IndexedDB, тъй че хранилището се прави наново —
+       * но записите СЕ ПРЕНАСЯТ в него, до един.
+       *
+       * ═══ ЦЕНАТА, платена на 10.09.2026 ═══
+       *
+       * Дотук тук стоеше `deleteObjectStore` и оправданието беше негова дума:
+       * „само проби, които може да се изтрият". Неговата поправка:
+       * **„Това важи за СМЕТКИ, но не и за УПРАВЛЕНИЕ."**
+       *
+       * И той е прав. Сметки е пясъчникът, Управление е ИСТИНАТА (правило 20),
+       * а изтриването на хранилището не прави разлика между двете — то отнася
+       * целия Журнал. Тоест едно стъпало на базата щеше да изяде истината,
+       * прикрито зад цитат, който не важи за нея.
+       *
+       * ═══ КАК СЕ ПРЕНАСЯ, без да се пипне нито един байт от подписа ═══
+       *
+       *   · `kniga` и `pisach` се ИЗВЕЖДАТ от стария низ (`koyPishe`) · това е
+       *     обратимо и се доказва с тест
+       *   · `shema: 0` казва „подписан по стария ред" — и `hash.ts` го проверява
+       *     точно с онази форма, тъй че веригата остава ЦЯЛА
+       *   · `ustroystvo` и `valuta` НЕ се измислят: получават `PREDI_RAZREZA`.
+       *     Да сложиш „EUR" на запис, писан преди валутата да съществува, е да
+       *     съчиниш факт за пари
+       *   · старото поле `veriga` ПАДА · то вече се извежда (правило 14)
+       *   · СВЕРКА вход↔изход (правило 7): прочетени срещу записани. Не
+       *     съвпаднат ли — транзакцията се ОТМЕНЯ и старата база остава цяла.
+       */
+      // Нова база · или стара без хранилище (няма какво да се пренася). Второто
+      // не бива да хвърля: то би зазидало приложението заради състояние, в
+      // което НЯМА какво да се загуби.
+      if (staro === 0 || transaktsiya === null || !db.objectStoreNames.contains(HRANILISHTE)) {
+        if (!db.objectStoreNames.contains(HRANILISHTE)) napraviHranilishte(db);
+        return;
       }
+
+      const staroto = transaktsiya.objectStore(HRANILISHTE);
+      const chetene = staroto.getAll();
+      chetene.onsuccess = () => {
+        const zapisi = chetene.result as StarZapis[];
+        db.deleteObjectStore(HRANILISHTE);
+        const novo = napraviHranilishte(db);
+        for (const z of zapisi) novo.add(prenesi(z));
+        // сверката е върху ПРОЧЕТЕНОТО срещу ЗАПИСАНОТО, не върху намерението
+        const broene = novo.count();
+        broene.onsuccess = () => {
+          if (broene.result !== zapisi.length) {
+            transaktsiya.abort();
+          }
+        };
+      };
     };
 
     zayavka.onsuccess = () => {
@@ -46,6 +107,39 @@ export function otvoriDnevnik(ime: string): Promise<DnevnikVIndexedDB> {
     };
     zayavka.onerror = () => reject(zayavka.error);
   });
+}
+
+/** Хранилището и двата му индекса · ЕДИН дом на формата им (правило 14). */
+function napraviHranilishte(db: IDBDatabase): IDBObjectStore {
+  const hranilishte = db.createObjectStore(HRANILISHTE, {
+    keyPath: ['kniga', 'pisach', 'seq'],
+  });
+  hranilishte.createIndex(INDEKS_OPID, ['kniga', 'pisach', 'opId'], { unique: true });
+  hranilishte.createIndex(INDEKS_SASHTNOST, ['kniga', 'pisach', 'sashtnost.vid', 'sashtnost.id']);
+  return hranilishte;
+}
+
+/** Записът, както е лежал ПРЕДИ разреза · едното поле с трите смисъла. */
+type StarZapis = Omit<Sabitie, 'kniga' | 'pisach' | 'ustroystvo' | 'valuta' | 'shema'> & {
+  readonly veriga: string;
+};
+
+/**
+ * Стар запис → нов, БЕЗ да се пипа подписът му.
+ *
+ * Изведеното (`kniga` · `pisach`) идва от стария низ; онова, което не е
+ * съществувало, се КАЗВА, а не се измисля; версията става нула, за да го
+ * провери `hash.ts` със собствената му форма.
+ */
+function prenesi(z: StarZapis): Sabitie {
+  const { veriga: star, ...ostanalo } = z;
+  return {
+    ...ostanalo,
+    ...koyPishe(star),
+    shema: SHEMA_PREDI_RAZREZA,
+    ustroystvo: PREDI_RAZREZA,
+    valuta: PREDI_RAZREZA,
+  };
 }
 
 export class DnevnikVIndexedDB implements Dnevnik {
@@ -69,27 +163,29 @@ export class DnevnikVIndexedDB implements Dnevnik {
     }
   }
 
-  async posledno(naematel: string): Promise<Sabitie | undefined> {
+  async posledno(veriga: string): Promise<Sabitie | undefined> {
     const hranilishte = this.#chete();
-    const kursor = await naiPurviyat(hranilishte.openCursor(obhvat(naematel), 'prev'));
+    const kursor = await naiPurviyat(hranilishte.openCursor(obhvat(veriga), 'prev'));
     return kursor?.value as Sabitie | undefined;
   }
 
   /** ПЪРВОТО · същият обхват, но напред. Оттам се чете Стопанинът (ADR-043). */
-  async parvo(naematel: string): Promise<Sabitie | undefined> {
+  async parvo(veriga: string): Promise<Sabitie | undefined> {
     const hranilishte = this.#chete();
-    const kursor = await naiPurviyat(hranilishte.openCursor(obhvat(naematel), 'next'));
+    const kursor = await naiPurviyat(hranilishte.openCursor(obhvat(veriga), 'next'));
     return kursor?.value as Sabitie | undefined;
   }
 
-  async poOpId(naematel: string, opId: string): Promise<Sabitie | undefined> {
+  async poOpId(veriga: string, opId: string): Promise<Sabitie | undefined> {
     const indeks = this.#chete().index(INDEKS_OPID);
-    return (await obeshtay(indeks.get([naematel, opId]))) as Sabitie | undefined;
+    const { kniga, pisach } = koyPishe(veriga);
+    return (await obeshtay(indeks.get([kniga, pisach, opId]))) as Sabitie | undefined;
   }
 
-  async tekushtRev(naematel: string, sashtnost: Sashtnost): Promise<number> {
+  async tekushtRev(veriga: string, sashtnost: Sashtnost): Promise<number> {
     const indeks = this.#chete().index(INDEKS_SASHTNOST);
-    const klyuch = [naematel, sashtnost.vid, sashtnost.id];
+    const { kniga, pisach } = koyPishe(veriga);
+    const klyuch = [kniga, pisach, sashtnost.vid, sashtnost.id];
     const kursor = await naiPurviyat(indeks.openCursor(IDBKeyRange.only(klyuch), 'prev'));
     return kursor ? (kursor.value as Sabitie).seq : 0;
   }
@@ -104,7 +200,7 @@ export class DnevnikVIndexedDB implements Dnevnik {
     const hranilishte = transaktsiya.objectStore(HRANILISHTE);
 
     // Проверката и записът са в ЕДНА транзакция — тя е единичният писач.
-    const posledno = await naiPurviyat(hranilishte.openCursor(obhvat(s.naematel), 'prev'));
+    const posledno = await naiPurviyat(hranilishte.openCursor(obhvat(veriga(s)), 'prev'));
     const ochakvanSeq = ((posledno?.value as Sabitie | undefined)?.seq ?? 0) + 1;
     if (s.seq !== ochakvanSeq) {
       transaktsiya.abort();
@@ -125,13 +221,14 @@ export class DnevnikVIndexedDB implements Dnevnik {
     await zavursheno(transaktsiya);
   }
 
-  async chetiVsichki(naematel: string): Promise<Sabitie[]> {
-    return (await obeshtay(this.#chete().getAll(obhvat(naematel)))) as Sabitie[];
+  async chetiVsichki(veriga: string): Promise<Sabitie[]> {
+    return (await obeshtay(this.#chete().getAll(obhvat(veriga)))) as Sabitie[];
   }
 
-  async chetiZaSashtnost(naematel: string, sashtnost: Sashtnost): Promise<Sabitie[]> {
+  async chetiZaSashtnost(veriga: string, sashtnost: Sashtnost): Promise<Sabitie[]> {
     const indeks = this.#chete().index(INDEKS_SASHTNOST);
-    const klyuch = [naematel, sashtnost.vid, sashtnost.id];
+    const { kniga, pisach } = koyPishe(veriga);
+    const klyuch = [kniga, pisach, sashtnost.vid, sashtnost.id];
     const redove = (await obeshtay(indeks.getAll(IDBKeyRange.only(klyuch)))) as Sabitie[];
     return redove.sort((a, b) => a.seq - b.seq);
   }
@@ -157,9 +254,9 @@ export class DnevnikVIndexedDB implements Dnevnik {
           resolve();
           return;
         }
-        const ime = (kursor.key as [string, number])[0];
-        naideni.push(ime);
-        kursor.continue([ime, []]);
+        const [kniga, pisach] = kursor.key as [string, string, number];
+        naideni.push(veriga({ kniga, pisach }));
+        kursor.continue([kniga, pisach, []]);
       };
     });
     return naideni.sort();
@@ -183,12 +280,18 @@ function obhvatNaPrefiks(prefiks: string): IDBKeyRange {
 }
 
 /**
- * Всички събития на един наемател.
- * `[naematel]` е по-малко от `[naematel, 0]` (по-късият масив е по-малък),
- * а `[naematel, []]` е по-голямо от всяко число (числата се нареждат преди масиви).
+ * Всички събития на една верига · вече по ДВЕТЕ полета.
+ *
+ * `[kniga, pisach]` е по-малко от `[kniga, pisach, 0]` (по-късият масив е
+ * по-малък), а `[kniga, pisach, []]` е по-голямо от всяко число (числата се
+ * нареждат преди масиви).
+ *
+ * Низът се разлага през `koyPishe` — единствения дом на композицията
+ * (правило 14). Складът не реже низове сам.
  */
-function obhvat(naematel: string): IDBKeyRange {
-  return IDBKeyRange.bound([naematel], [naematel, []]);
+function obhvat(v: string): IDBKeyRange {
+  const { kniga, pisach } = koyPishe(v);
+  return IDBKeyRange.bound([kniga, pisach], [kniga, pisach, []]);
 }
 
 function obeshtay<T>(zayavka: IDBRequest<T>): Promise<T> {

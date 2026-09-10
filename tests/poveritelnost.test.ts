@@ -11,6 +11,7 @@
  */
 
 import { describe, expect, it } from 'vitest';
+import { execFileSync } from 'node:child_process';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -23,10 +24,35 @@ const POZVOLENI_IMEYLI =
   /@(gmail\.com|example\.(bg|com)|x\.bg|anthropic\.com|users\.noreply\.github\.com)$/;
 const POZVOLENI_TOCHNO = new Set(['vintexstroy@gmail.com']);
 
+/**
+ * ГИТ-ИГНОРИРАНОТО НЕ Е В ХРАНИЛИЩЕТО · и затова не е публично.
+ *
+ * Обходът тръгва от диска, а не от гита, за да хване и файл, който още не е
+ * добавен — точно там става изтичането. Но игнорираното НИКОГА не напуска
+ * машината, а средството за разработка сваля свои неща вътре в дървото: на
+ * 09.09.2026 разширението за Java сложи ЦЯЛ Oracle JDK (373 MB) в `.vscode/`, и
+ * лицензните файлове на чужди библиотеки вътре в него дадоха тринайсет находки
+ * с чужди имейли. Това е шум, не изтичане: `.gitignore` не пуска нищо от там.
+ *
+ * `--directory` свива цяла игнорирана папка до един ред, вместо да изброява
+ * хилядите ѝ файлове.
+ */
+const IGNORIRANI = new Set(
+  execFileSync('git', ['ls-files', '--others', '--ignored', '--exclude-standard', '--directory'], {
+    encoding: 'utf8',
+    maxBuffer: 64 * 1024 * 1024,
+  })
+    .split('\n')
+    .map((r) => r.trim().replace(/\/$/, ''))
+    .filter((r) => r.length > 0),
+);
+
 function faylove(papka: string, sabrani: string[] = []): string[] {
   for (const ime of readdirSync(papka)) {
     if (PROPUSKANI.has(ime)) continue;
     const pat = join(papka, ime);
+    const otnositelen = pat.replace(/\\/g, '/').replace(/^\.\//, '');
+    if (IGNORIRANI.has(otnositelen)) continue;
     if (statSync(pat).isDirectory()) faylove(pat, sabrani);
     else sabrani.push(pat.replace(/\\/g, '/'));
   }

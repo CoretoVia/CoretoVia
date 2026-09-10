@@ -5,6 +5,6 @@
  * колона, не цифрата в клетката (правило 3). Тук е само изборът от пет; какво
  * значи всеки за слота в събитието и за сбора, казва `kolona.ts`.
  */
-const VIDOVE_STOYNOST = ['evro', 'protsent', 'chislo', 'tekst', 'data'] as const;
+export const VIDOVE_STOYNOST = ['evro', 'protsent', 'chislo', 'tekst', 'data'] as const;
 
 export type VidStoynost = (typeof VIDOVE_STOYNOST)[number];

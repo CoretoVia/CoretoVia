@@ -15,7 +15,7 @@
  */
 
 import { tablitsata } from '../model/model.js';
-import { podravni } from '../model/nomenklatura.js';
+import { podravni, zhivite } from '../model/nomenklatura.js';
 import {
   DOSTAP_PO_PODRAZBIRANE,
   MODEL,
@@ -25,6 +25,7 @@ import {
 import type { Ogledalo } from '../ogledalo/ogledalo.js';
 import { kletkaNa, zhiviteRedove } from '../ogledalo/tablitsa.js';
 import { tekstNaIzbora } from './kletki.js';
+import { NOMENKLATURA_NA_STRANATA } from './smetki.js';
 
 export type { OsNaDostapa } from '../model/osnova.js';
 
@@ -176,10 +177,24 @@ function ottsenka(dumi: Record<OsNaDostapa, string>): Record<OsNaDostapa, Pravo>
  *
  * Длъжност без ред и без базов ред получава НАЙ-ТЯСНОТО: непозната длъжност не
  * отваря врати (правило 15: изключено ≠ липсващо, но липсващото не е позволено).
+ *
+ * ═══ ДВА ЖИВИ РЕДА ЗА ЕДНА ДЛЪЖНОСТ · ПЕЧЕЛИ ПОСЛЕДНИЯТ (Т31) ═══
+ *
+ * Журналът е само за добавяне (правило 1): поправката НЕ мени стария ред, а
+ * добавя нов. Значи в таблицата може да стоят два живи реда за една и съща
+ * Длъжност, и по-новият е поправката.
+ *
+ * Дотук тук се връщаше ПЪРВИЯТ намерен, тоест печелеше НАЙ-СТАРИЯТ — и стеснено
+ * право, записано с нов ред, не влизаше в сила. Дупката е точно в посоката, в
+ * която боли: отнемане на достъп, което не се случва.
+ *
+ * `zhiviteRedove` върви по реда на записване, затова последното съвпадение е
+ * най-новото.
  */
 export function dostapaNaDlazhnostta(o: Ogledalo, dlazhnost: string): DostapNaDlazhnost {
   const tv = o.tablitsi.get(TABLITSA);
   if (tv !== undefined) {
+    let posleden: Record<OsNaDostapa, string> | null = null;
     for (const i of zhiviteRedove(tv)) {
       const kl = kletkaNa(tv, i, 'dlazhnost');
       const tekst = kl === null ? '' : tekstNaIzbora(o, TABLITSA, 'dlazhnost', kl);
@@ -189,7 +204,10 @@ export function dostapaNaDlazhnostta(o: Ogledalo, dlazhnost: string): DostapNaDl
         const k = kletkaNa(tv, i, os);
         dumi[os] = k !== null && 'tekst' in k ? k.tekst : '';
       }
-      return { dlazhnost, dumi, pravo: ottsenka(dumi), zapisan: true };
+      posleden = dumi;
+    }
+    if (posleden !== null) {
+      return { dlazhnost, dumi: posleden, pravo: ottsenka(posleden), zapisan: true };
     }
   }
   const bazov = DOSTAP_PO_PODRAZBIRANE.find((d) => svedeno(d.dlazhnost) === svedeno(dlazhnost));
@@ -305,8 +323,77 @@ export function mozheDaRedaktira(o: Ogledalo, imeyl: string, hedar: string): boo
     if (d.pravo.hedari !== 'redaktira') return false;
     const obhvat = svedeno(obhvatOtDumite(d.dumi.hedari));
     if (obhvat === '' || obhvat.startsWith('всичко')) return true;
-    return obhvatatPokriva(obhvat, hedar);
+    if (!obhvatatPokriva(obhvat, hedar)) return false;
+    // късото име не бива да отваря ДВЕ секции · Т44
+    return !imetoEDvusmisleno(o, obhvat, hedar);
   });
+}
+
+/**
+ * ДВУСМИСЛЕНОТО КЪСО ИМЕ · Т44 · и защо не се пита човекът за него.
+ *
+ * Неговият D19 пише „Заплати", а секциите Разходи са осем и ДВЕ започват със
+ * „Заплати": **Заплати Кеш** и **Заплати Банка**. Сравнението по цяло име отваря
+ * и двете — тоест едно късо име раздава повече, отколкото стои в изречението.
+ *
+ * ═══ КОЯ Е ИМАЛ ПРЕДВИД · отговорът е в НЕГОВИТЕ думи, не в предположение ═══
+ *
+ * Трите имена в D19 са ТОЧНО трите секции на блока „Вкарване": Заплати Кеш ·
+ * Фактури Кеш · Фактури Карта. Същата тройка я казва и другаде: „Всичко освен
+ * Кредит, а именно: Заплати, Фактури Кеш и Фактури Карта" — онова, което се
+ * пише НА РЪКА. Банковото изобщо не се въвежда: „При Фактури банка няма да се
+ * въвеждат ръчно, а ще се обобщават от извлеченията."
+ *
+ * Значи „Заплати" в неговото изречение е **Заплати Кеш**.
+ *
+ * ═══ КАКВО ПРАВИ КОДЪТ ═══
+ *
+ * Изречението му НЕ се пипа (правило 17 · К1). Стеснява се СРАВНЯВАНЕТО: късо
+ * име, което сочи повече от една жива секция, отваря САМО онази, която стои
+ * заедно с останалите имена от същия обхват — тоест кешовата, когато обхватът
+ * говори за кеш. Няма ли такава опора, не отваря НИТО ЕДНА (подразбирането е
+ * отказ) и това се вижда в отказа на екрана.
+ */
+function imetoEDvusmisleno(o: Ogledalo, obhvat: string, hedar: string): boolean {
+  const imena = obhvat
+    .replace(/^[^:]*:\s*/, '')
+    .split(',')
+    .map((x) => x.trim())
+    .filter((x) => x !== '');
+
+  // кое от имената покрива този хедър · то е „късото име"
+  const kratkoto = imena.find((ime) => obhvatatPokriva(ime, hedar));
+  if (kratkoto === undefined) return false;
+
+  const vsichki = zhivitéSektsii(o);
+  const pokriti = vsichki.filter((s) => obhvatatPokriva(kratkoto, s));
+  if (pokriti.length <= 1) return false;
+
+  // ДВЕ или повече · печели онази, чиято допълваща дума се среща и в останалите
+  // имена от същия обхват („Кеш" стои във „Фактури Кеш")
+  const drugite = new Set(imena.filter((x) => x !== kratkoto).flatMap((x) => dumite(x)));
+  const kratkite = new Set(dumite(kratkoto));
+  const podkrepeni = pokriti.filter((s) =>
+    dumite(s)
+      .filter((d) => !kratkite.has(d))
+      .some((d) => drugite.has(d)),
+  );
+
+  // подкрепена е точно една → тя минава, другите са двусмислени
+  if (podkrepeni.length === 1) return podkrepeni[0] !== svedeno(hedar) && podkrepeni[0] !== hedar;
+  // няма опора или има повече от една → никоя не се отваря
+  return true;
+}
+
+/** Живите секции · и двете страни, по имената им от номенклатурата. */
+function zhivitéSektsii(o: Ogledalo): string[] {
+  const imena: string[] = [];
+  for (const klyuch of Object.values(NOMENKLATURA_NA_STRANATA)) {
+    const n = o.nomenklaturi.get(klyuch);
+    if (n === undefined) continue;
+    for (const s of zhivite(n)) imena.push(s.tekst);
+  }
+  return imena;
 }
 
 /** Думите на едно име · без празните · сведени. */
@@ -366,21 +453,63 @@ export function obhvatatPokriva(obhvat: string, hedar: string): boolean {
  *
  * Живее тук, при смятането, а не при екрана: Профилът и Служители го четат
  * еднакво, а екран, който вика друг екран, прави кръг (`sloeve`).
+ *
+ * ═══ ПОКАЗАНОТО И ДЕЙСТВАЩОТО СА ЕДНО (Т32 · Т25) ═══
+ *
+ * Дотук тази функция четеше ПЪРВАТА намерена Длъжност и връщаше нейните думи —
+ * а записът се пита от `pravotoNaImeyla`, което прави ДРУГИ три неща: знае за
+ * Стопанина, отказва на човек без Длъжност, и взима НАЙ-ТЯСНОТО от всичките му
+ * Длъжности.
+ *
+ * Тоест Профилът лъжеше в двете посоки наведнъж: Стопанин без ред в Достъп
+ * четеше „Скрито" по четирите оси, докато реално редактира; а човек с две
+ * Длъжности виждаше по-широката, докато го пази по-тясната.
+ *
+ * Екран, който казва различно от вратата, е по-опасен от екран, който мълчи:
+ * човекът си вярва и се оплаква за нещо, което работи, или разчита на право,
+ * което го няма. Затова тук се повтарят СЪЩИТЕ три правила, в същия ред.
  */
 export function dostapaMi(
   o: Ogledalo,
   imeyl: string,
 ): { dlazhnost: string; osi: readonly { os: string; dumi: string; pravo: string }[] } {
-  const dlazhnost = dlazhnosttaNaImeyla(o, imeyl);
-  const d = dostapaNaDlazhnostta(o, dlazhnost);
+  const dlazhnosti = dlazhnostiteNaImeyla(o, imeyl);
+  const dlazhnost = dlazhnosti[0] ?? '';
   const koloni = tablitsata(MODEL, TABLITSA).koloni;
+  const stopanin = eStopaninat(o, imeyl);
+
   return {
     dlazhnost,
-    osi: OSI_NA_DOSTAPA.map((os) => ({
-      os: koloni.find((c) => c.klyuch === os)?.ime ?? os,
-      dumi: d.dumi[os],
-      pravo: DUMI_NA_PRAVOTO[d.pravo[os]],
-    })),
+    osi: OSI_NA_DOSTAPA.map((os) => {
+      const ime = koloni.find((c) => c.klyuch === os)?.ime ?? os;
+
+      // Стопанинът е над Длъжностите · същото заобикаляне като в `pravotoNaImeyla`
+      if (stopanin) {
+        const dumi = dlazhnosti
+          .map((dl) => dostapaNaDlazhnostta(o, dl).dumi[os])
+          .filter((d) => d !== '')
+          .join(' · ');
+        return {
+          os: ime,
+          dumi: dumi === '' ? 'Стопанин на Книгата · над Длъжностите' : dumi,
+          pravo: DUMI_NA_PRAVOTO['redaktira'],
+        };
+      }
+
+      // човек без Длъжност е СКРИТ · подразбирането е ОТКАЗ (Т41)
+      if (dlazhnosti.length === 0) {
+        return { os: ime, dumi: '', pravo: DUMI_NA_PRAVOTO['skrito'] };
+      }
+
+      // няколко Длъжности · печели НАЙ-ТЯСНОТО (правило 18), както при записа
+      const dostapi = dlazhnosti.map((dl) => dostapaNaDlazhnostta(o, dl));
+      const pravo = dostapi.map((d) => d.pravo[os]).reduce((a, b) => poTyasnoto(a, b));
+      const dumi = dostapi
+        .map((d) => d.dumi[os])
+        .filter((d) => d !== '')
+        .join(' · ');
+      return { os: ime, dumi, pravo: DUMI_NA_PRAVOTO[pravo] };
+    }),
   };
 }
 
