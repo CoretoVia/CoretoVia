@@ -176,14 +176,24 @@ describe('Журналът върху IndexedDB · същият договор',
  * веригата е ЦЯЛА, и нищо не е измислено на мястото на липсващото.
  */
 describe('стъпалото 1 → 2 · пренася, не трие', () => {
-  /** Базата, както е изглеждала преди разреза · ключ `['veriga', 'seq']`. */
+  /**
+   * Базата, както е изглеждала преди разреза · ключ `['naematel', 'seq']`.
+   *
+   * ИМЕТО Е `naematel`, НЕ `veriga`. Първата версия на този тест строеше базата
+   * с ключ `['veriga', 'seq']` — форма, която никога не е лежала в жива база
+   * (полето се преименува само в кода, вечерта преди разреза). Тестът беше
+   * зелен, а стъпалото падаше върху ВСЯКА истинска база: 10.09.2026, 23:02,
+   * собственикът видя „Version change transaction was aborted". Старата форма
+   * се взима от историята (`git show 25fbe89^:src/nositel/dnevnik-indexeddb.ts`),
+   * не от паметта.
+   */
   function bazaNaVersiya1(ime: string, zapisi: readonly unknown[]): Promise<void> {
     return new Promise((gotovo, provali) => {
       const z = indexedDB.open(ime, 1);
       z.onupgradeneeded = () => {
-        const h = z.result.createObjectStore('sabitiya', { keyPath: ['veriga', 'seq'] });
-        h.createIndex('po-opId', ['veriga', 'opId'], { unique: true });
-        h.createIndex('po-sashtnost', ['veriga', 'sashtnost.vid', 'sashtnost.id']);
+        const h = z.result.createObjectStore('sabitiya', { keyPath: ['naematel', 'seq'] });
+        h.createIndex('po-opId', ['naematel', 'opId'], { unique: true });
+        h.createIndex('po-sashtnost', ['naematel', 'sashtnost.vid', 'sashtnost.id']);
       };
       z.onsuccess = () => {
         const db = z.result;
@@ -205,7 +215,7 @@ describe('стъпалото 1 → 2 · пренася, не трие', () => {
       seq,
       opId: `op-${seq}`,
       ts: `2026-09-0${seq}T09:00:00.000Z`,
-      veriga: NAEMATEL,
+      naematel: NAEMATEL,
       actor: 'stopanin@x.bg',
       type: 'ЗаписЗаписан',
       sashtnost: { vid: 'zapis', id: `Z-${seq}` },
@@ -219,7 +229,7 @@ describe('стъпалото 1 → 2 · пренася, не трие', () => {
         bez.seq,
         bez.opId,
         bez.ts,
-        bez.veriga,
+        bez.naematel,
         bez.actor,
         bez.type,
         bez.sashtnost.vid,
@@ -309,5 +319,46 @@ describe('стъпалото 1 → 2 · пренася, не трие', () => {
     const dnevnik = await otvaryane;
     expect((await dnevnik.chetiVsichki(NAEMATEL)).map((s) => s.seq)).toEqual([1]);
     dnevnik.zatvori();
+  });
+
+  /**
+   * СТЪПАЛО, КОЕТО НЕ МИНАВА, КАЗВА КОЙ ЗАПИС И ЗАЩО · и не пипа старата база.
+   *
+   * Платено на 10.09.2026, 23:02: „Version change transaction was aborted in
+   * upgradeneeded event handler" — вярно и безполезно. Тук се доказва, че при
+   * запис без стария низ (нито `naematel`, нито `veriga`) отказът назовава
+   * записа, и че базата ОСТАВА на версия 1 с всичките си записи.
+   */
+  it('запис без стар низ → отказ С ДУМИ кой е · базата остава на версия 1, непокътната', async () => {
+    const ime = 'stapalo-1-2-bez-niz';
+    const a = await staroZveno(1, '');
+    const { naematel: _bez, ...sakat } = await staroZveno(2, a['hash'] as string);
+    await bazaNaVersiya1(ime, [a, { ...sakat, naematel: '' }]);
+
+    const dumite = await otvoriDnevnik(ime).then(
+      () => 'мина, а не биваше',
+      (e: unknown) => (e instanceof Error ? e.message : String(e)),
+    );
+    // редът в getAll е по ключ · празният низ се подрежда ПЪРВИ, затова № 1;
+    // сигурното име на записа е seq, не мястото му
+    expect(dumite).toContain('(seq 2) няма нито');
+    expect(dumite).toContain('НЕПОКЪТНАТ');
+
+    // старата база стои: версия 1, два записа, старото поле на мястото си
+    const star = await new Promise<{ versiya: number; nizove: unknown[] }>((r) => {
+      const z = indexedDB.open(ime);
+      z.onsuccess = () => {
+        const db = z.result;
+        const t = db.transaction('sabitiya', 'readonly').objectStore('sabitiya').getAll();
+        t.onsuccess = () => {
+          r({
+            versiya: db.version,
+            nizove: (t.result as { naematel: string }[]).map((x) => x.naematel).sort(),
+          });
+          db.close();
+        };
+      };
+    });
+    expect(star).toEqual({ versiya: 1, nizove: ['', NAEMATEL] });
   });
 });
