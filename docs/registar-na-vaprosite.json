@@ -2483,14 +2483,15 @@
     },
     {
       "beleg": "Т49",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Новата версия мълчи: джобът (кеш-първо, без skipWaiting) не казва на човека, че има нова версия, а раздел от старата версия държи и базата. Кога и как се известява?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/14-dalgat.md",
+      "kakvo_sledva": "ход 8 · ред в главата при registration.waiting · проходът го вижда при нарочно втора версия",
       "otpushva": [],
       "zhivee_v": [
-        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+        "docs/14-dalgat.md",
+        "docs/dnevnik/2026-09-10.md"
       ]
     },
     {

@@ -716,6 +716,11 @@ function kray() {
   const chas = new Date().toTimeString().slice(0, 5);
   const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 
+  // картата ПРЕДИ портите: тя е производна (регистър · документи) и `proverka`
+  // я сверява — регенерирана след нея, портата пада за нещо, което `kray` сам
+  // щеше да оправи миг по-късно (платено 10.09: EXIT 1 заради един нов ред в регистъра)
+  if (ima('stroezh/karta.mjs')) pusni(process.execPath, ['stroezh/karta.mjs', '--pishi']);
+
   if (bezPorti) {
     zamestiRazdel5(den, [`портите: НЕ са пускани от тази сесия (${chas}) · чака CI`]);
     console.log('§5: „чака CI" · портите ще ги пусне CI при push');
@@ -752,9 +757,6 @@ function kray() {
       if (nov !== t) writeFileSync(pat('README.md'), nov, 'utf8');
     }
   }
-
-  // картата · производен документ → генерира се
-  if (ima('stroezh/karta.mjs')) pusni(process.execPath, ['stroezh/karta.mjs', '--pishi']);
 
   process.exit(pechatayProverkata(proveri()));
 }

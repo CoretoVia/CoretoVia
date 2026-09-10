@@ -276,4 +276,38 @@ describe('стъпалото 1 → 2 · пренася, не трие', () => {
     expect((await proveriVerigata(vsichki, SHA)).tsyala).toBe(true);
     dnevnik.zatvori();
   });
+
+  /**
+   * БЛОКИРАНО · друг раздел държи базата на СТАРА версия.
+   *
+   * Платено на 10.09.2026: след пускането собственикът видя празен екран —
+   * „Нищо не виждам." Възпроизведено в истински Chromium: раздел, отворен преди
+   * пускането, държи версия 1; `open(…, 2)` чака безкрайно и МЪЛЧАЛИВО. Чакането е
+   * правилно, мълчанието — не (правило 12). Тук се доказва и двете: думите идват,
+   * и щом държачът се пусне, отварянето продължава САМО, без нищо изгубено.
+   */
+  it('друг раздел държи версия 1 → казва се С ДУМИ · пусне ли се, отварянето продължава само', async () => {
+    const ime = 'stapalo-1-2-blokirano';
+    await bazaNaVersiya1(ime, [await staroZveno(1, '')]);
+    // „старият раздел" · връзка на версия 1, която НЕ се затваря при versionchange
+    const darzhach = await new Promise<IDBDatabase>((gotovo, provali) => {
+      const z = indexedDB.open(ime, 1);
+      z.onsuccess = () => gotovo(z.result);
+      z.onerror = () => provali(z.error);
+    });
+
+    let kazhi: (d: string) => void = () => {};
+    const dumite = new Promise<string>((r) => {
+      kazhi = r;
+    });
+    const otvaryane = otvoriDnevnik(ime, (d) => kazhi(d));
+
+    // първо думите · без нито един изминал тик „на око"
+    expect(await dumite).toMatch(/друг раздел/);
+
+    darzhach.close();
+    const dnevnik = await otvaryane;
+    expect((await dnevnik.chetiVsichki(NAEMATEL)).map((s) => s.seq)).toEqual([1]);
+    dnevnik.zatvori();
+  });
 });

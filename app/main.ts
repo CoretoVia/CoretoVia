@@ -46,11 +46,41 @@ const VALUTA_NA_KNIGATA = 'EUR';
 /** имейлът на този, който пише · научава се при откриването · удобство на устройството */
 const PAMET_AKTOR = 'aktor';
 
+/**
+ * ЕКРАНЪТ, ДОКАТО ПРИЛОЖЕНИЕТО ОЩЕ НЕ Е ТРЪГНАЛО · и ако не тръгне.
+ *
+ * Дотук `main()` нямаше нито един `catch`: всяко хвърляне при отварянето на
+ * Журнала, при сгъването или при самоличността оставяше `#ekran` ПРАЗЕН —
+ * кремав екран без нито една дума. Негово, 10.09: „Нищо не виждам." Правило 12:
+ * отказът се КАЗВА. Журналът при това не е пипнат и това също се казва.
+ */
+function kazhiNaEkrana(ekran: HTMLElement, zaglavie: string, dumi: string): void {
+  sloji(
+    ekran,
+    h`
+    <header class="glava"><h1>Coretovia</h1><p class="vest">${zaglavie}</p></header>
+    <main class="prozorets"><div class="prozorets-tyalo"><p class="greshka" data-sastoyanie>${dumi}</p></div></main>`,
+  );
+}
+
 async function main(): Promise<void> {
   const ekran = document.getElementById('ekran');
   if (!ekran) return;
+  try {
+    await tragni(ekran);
+  } catch (e) {
+    kazhiNaEkrana(
+      ekran,
+      'Приложението не можа да тръгне',
+      `${e instanceof Error ? e.message : String(e)} · Журналът не е пипнат. Затвори другите раздели на Coretovia и презареди; ако остане така, това е дефект и се записва.`,
+    );
+  }
+}
 
-  const dnevnik = await otvoriDnevnik(KNIGA);
+async function tragni(ekran: HTMLElement): Promise<void> {
+  const dnevnik = await otvoriDnevnik(KNIGA, (dumi) =>
+    kazhiNaEkrana(ekran, 'Журналът е зает от друг раздел · чакам', dumi),
+  );
   // Ключалката между разделите я има само където браузърът дава Web Locks;
   // без нея Вратата пак върви — с опашка в рамките на този раздел.
   const klyuchalka = klyuchalkaMezhduRazdeli();
