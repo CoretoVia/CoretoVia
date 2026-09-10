@@ -177,12 +177,18 @@ export const SABITIYA: Readonly<Record<TipSabitie, Proverka>> = Object.freeze({
     if (typeof k !== 'object' || k === null) n.push('Липсва курсорът.');
     else {
       const kur = k as Tovar;
-      if (
-        !eNeprazenTekst(kur['veriga']) ||
-        !eTsyalo(kur['seq']) ||
-        typeof kur['hash'] !== 'string'
-      ) {
-        n.push('Курсорът носи veriga · seq · hash.');
+      /*
+       * ВЧЕРАШНОТО СЕ ЧЕТЕ С ВЧЕРАШНАТА ФОРМА (`docs/28` §2.2 · ход 2).
+       *
+       * До 09.09 курсорът носеше низа под името `naematel`; разрезът го
+       * преименува на `veriga`. Записаните преди това износи НЕ се пренаписват
+       * (правило 1) — тоест те носят старото име завинаги, и четецът трябва да
+       * го познава. Платено на 10.09.2026, 23:38: пет от шест събития в
+       * истинския му Журнал стояха „непрочетени" точно заради това име.
+       */
+      const niz = kur['veriga'] ?? kur['naematel'];
+      if (!eNeprazenTekst(niz) || !eTsyalo(kur['seq']) || typeof kur['hash'] !== 'string') {
+        n.push('Курсорът носи veriga (до 09.09: naematel) · seq · hash.');
       }
     }
     const redove = p['redove'];
