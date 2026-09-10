@@ -132,6 +132,7 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | [`29-devette-otgovora-09-09.md`](../docs/29-devette-otgovora-09-09.md) | 29 · ДЕВЕТТЕ ОТГОВОРА · 09.09.2026 · нощта |
 | [`30-faktura-ot-telefon.md`](../docs/30-faktura-ot-telefon.md) | 30 · ФАКТУРАТА ОТ ТЕЛЕФОН · папката, сканирането и всеки участник |
 | [`33-koefitsientite-i-orientirat.md`](../docs/33-koefitsientite-i-orientirat.md) | 33 · КОЕФИЦИЕНТИТЕ · ОРИЕНТИРЪТ · и СВОЯТА ФОРМУЛА |
+| [`34-desetiyat-tip-strukturata.md`](../docs/34-desetiyat-tip-strukturata.md) | 34 · ДЕСЕТИЯТ ТИП · структурата има история като всичко друго |
 | [`ADR-001-nasledstvoto-i-granitsite.md`](../docs/ADR-001-nasledstvoto-i-granitsite.md) | ADR-001 · Наследството от MasterBook · границите на слоевете · регистърът на преноса |
 | [`ADR-002-exceljs.md`](../docs/ADR-002-exceljs.md) | ADR-002 · Първата библиотека · ExcelJS · Книгата се отваря в Excel като неговата |
 | [`ADR-003-modelat-kato-danni.md`](../docs/ADR-003-modelat-kato-danni.md) | ADR-003 · Моделът като данни · номенклатурите · каталогът и Портата · колонното Огледало · Книгата на изход |
@@ -194,5 +195,5 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | `npm run karta` | тази карта да остарее · нов или изтрит документ, който не се вижда тук |
 | `npm run proba` | построеното да не работи в истински браузър · пуска се ДВА пъти |
 
-**Броено при последното писане на картата:** 91 документа в 6 папки.
+**Броено при последното писане на картата:** 92 документа в 6 папки.
 

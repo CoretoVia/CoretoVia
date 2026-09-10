@@ -23,6 +23,7 @@
  */
 
 import type { Model } from '../model/model.js';
+import { prilozhi, type PromyanaNaStrukturata } from '../model/struktura.js';
 import type { ZhivaNomenklatura } from '../model/nomenklatura.js';
 import { proveriTovar, TIP } from '../sabitiya/registar.js';
 import type {
@@ -93,7 +94,22 @@ const klyuchNaRed = (p: { readonly tablitsa: string; readonly id: string }): str
 const NYAMA_RED = 'Редът не съществува — изключването няма какво да изключи.';
 
 export function fold(sabitiya: readonly Sabitie[], model: Model, kogato: string): Ogledalo {
-  // ═══ ПЪРВИ ПРОХОД · проверката и маската ═══
+  /*
+   * ═══ ПЪРВИ ПРОХОД · проверката, маската И СТРУКТУРАТА ═══
+   *
+   * Моделът вече НЕ Е замразен за целия поток. Той тръгва от подадения и се
+   * мени с всяко събитие от десетия тип — а всяко следващо събитие се
+   * проверява срещу Модела, който е важал В НЕГОВИЯ МИГ.
+   *
+   * Точно това иска негово изискване (`docs/28` §2.2): „Вчерашната истина
+   * остава ЧЕТИМА. Събитие, писано по стара структура, не се изхвърля и не се
+   * преправя — то се чете с онази структура, която е важала тогава."
+   *
+   * Дотук беше обратното: жив Модел мълчаливо изхвърляше вчерашно събитие,
+   * щом днешната структура не го признае. Ход 1 направи изхвърлянето ВИДИМО;
+   * този проход прави така, че да не се случва.
+   */
+  let tekusht = model;
   const proverki = new Map<string, readonly string[]>();
   const pogaseniZvena = new Set<string>();
   const gasiGo = new Map<string, Sabitie>();
@@ -102,9 +118,14 @@ export function fold(sabitiya: readonly Sabitie[], model: Model, kogato: string)
 
   for (const s of sabitiya) {
     const zveno = klyuchNaZveno(s);
-    const zashto = proveriTovar(s.type, s.payload, model);
+    const zashto = proveriTovar(s.type, s.payload, tekusht);
     proverki.set(zveno, zashto);
     if (zashto.length > 0) continue;
+    if (s.type === TIP.strukturaPromenena) {
+      // проверката вече каза, че промяната минава ВЪРХУ ТОЗИ Модел
+      tekusht = prilozhi(tekusht, s.payload as unknown as PromyanaNaStrukturata);
+      continue;
+    }
     if (s.type === TIP.storno) {
       storna += 1;
       const p = s.payload as unknown as PayloadStorno;
@@ -126,8 +147,15 @@ export function fold(sabitiya: readonly Sabitie[], model: Model, kogato: string)
     if (pogaseniZvena.has(zveno)) martviRedove.set(red, zveno);
   }
 
-  // ═══ ВТОРИ ПРОХОД · прилагането ═══
-  const st = new StroezhNaOgledaloto(model);
+  /*
+   * ═══ ВТОРИ ПРОХОД · прилагането ═══
+   *
+   * Строи се с КРАЙНИЯ Модел, не с началния: екранът показва днешната
+   * структура. Проверката обаче вече е минала срещу Модела на всеки миг
+   * поотделно — тъй че вчерашният ред влиза, дори колоната му днес да е
+   * затворена (правило 18: скритото пак се смята).
+   */
+  const st = new StroezhNaOgledaloto(tekusht);
   const pogaseni: PogasenZapis[] = [];
   const neprocheteni: Neprocheteno[] = [];
   const kursori = new Map<string, Kursor>();
@@ -202,7 +230,7 @@ export function fold(sabitiya: readonly Sabitie[], model: Model, kogato: string)
   for (const [klyuch, t] of st.tablitsi) tablitsi.set(klyuch, t.zavarshi());
 
   return Object.freeze({
-    model,
+    model: tekusht,
     stopanin: st.stopanin,
     tablitsi,
     nomenklaturi: new Map(st.nomenklaturi),

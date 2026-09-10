@@ -35,11 +35,23 @@ export interface ShemaJSON {
 }
 
 /** Строг обект · всички ключове задължителни · нищо непознато. */
-export function strogObekt(properties: Readonly<Record<string, ShemaJSON>>): ShemaJSON {
+/**
+ * СТРОГ ОБЕКТ · всички полета са задължителни, освен ако не се каже друго.
+ *
+ * Вторият вход (`zadalzhitelni`) е за случая, в който едно поле има смисъл
+ * САМО при определена стойност на друго — колона от вид „избор" иска
+ * номенклатура, а колона от вид „текст" не бива да носи такава. Списъкът се
+ * пише ЯВНО, вместо да се извежда: избираемо поле, промъкнало се по
+ * невнимание, е дупка в схемата, а явният списък се вижда в диф.
+ */
+export function strogObekt(
+  properties: Readonly<Record<string, ShemaJSON>>,
+  zadalzhitelni?: readonly string[],
+): ShemaJSON {
   return {
     type: 'object',
     properties,
-    required: Object.keys(properties),
+    required: [...(zadalzhitelni ?? Object.keys(properties))],
     additionalProperties: false,
   };
 }

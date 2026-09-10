@@ -24,6 +24,13 @@ import {
   nastroykiSpriStoynost,
   nastroykiVarniStoynost,
 } from './prozortsi/nastroyki.js';
+import {
+  nastroykiNovaKolona,
+  nastroykiNovaTablitsa,
+  nastroykiPodrediKoloni,
+  nastroykiPreimenuvayGlava,
+  nastroykiZatvoriKolona,
+} from './prozortsi/struktura.js';
 import { obshtoStorno } from './prozortsi/obshto.js';
 import { stopaninOtkriy } from './prozortsi/stopanin.js';
 
@@ -39,6 +46,12 @@ export const KATALOG: readonly KoyaDaE[] = Object.freeze([
   nastroykiPreimenuvayStoynost,
   nastroykiSpriStoynost,
   nastroykiVarniStoynost,
+  // ДЕСЕТИЯТ ТИП · структурата като събитие · петте пътя, по един на действие
+  nastroykiNovaKolona,
+  nastroykiPreimenuvayGlava,
+  nastroykiZatvoriKolona,
+  nastroykiNovaTablitsa,
+  nastroykiPodrediKoloni,
   imotiSazdayImot,
   imotiDobaviObekt,
   imotiDobaviBiznes,

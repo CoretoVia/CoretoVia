@@ -9,7 +9,7 @@
  * долу — складът може да се смени, без да ги пипа.
  */
 
-import { slotNaKolonata } from '../model/kolona.js';
+import { slotPoVida } from '../model/kolona.js';
 import type { Tablitsa } from '../model/tablitsa.js';
 import type { Kletka, Kletki } from '../model/kletka.js';
 import { kletkaOtStalb, type Stalb, StroitelNaStalb } from './stalb.js';
@@ -75,8 +75,19 @@ export class StroitelNaTablitsa {
 
   constructor(t: Tablitsa) {
     this.#t = t;
+    /*
+     * СТЪЛБ СЕ ПРАВИ И ЗА ЗАТВОРЕНАТА КОЛОНА · правило 18.
+     *
+     * „Колона се СКРИВА… скритото пак се смята." Дотук тук се питаше
+     * `slotNaKolonata`, а той връща `undefined` за затворените — тоест
+     * затворената оставаше БЕЗ стълб, и вчерашният ред, който има стойност в
+     * нея, чупеше сгъването с „няма стълб".
+     *
+     * Кой може да ПИШЕ решават Вратата и регистърът, не строителят на
+     * Огледалото: неговата работа е да ПОМНИ.
+     */
     for (const k of t.koloni) {
-      const slot = slotNaKolonata(k);
+      const slot = slotPoVida(k);
       if (slot !== undefined) this.#koloni.set(k.klyuch, new StroitelNaStalb(slot));
     }
   }
