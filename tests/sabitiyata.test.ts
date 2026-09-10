@@ -128,6 +128,28 @@ describe('останалите товари', () => {
       proveriTovar(TIP.knigaIznesena, { otpechatak: 'x', redove: {}, iznesenoNa: 't' }, MODEL),
     ).toEqual(['Липсва курсорът.']);
   });
+
+  /**
+   * ВЧЕРАШНОТО СЕ ЧЕТЕ С ВЧЕРАШНАТА ФОРМА · курсорът под старото си име.
+   *
+   * Платено на 10.09.2026, 23:38: пет от шест събития в истинския му Журнал
+   * стояха „непрочетени", защото износите от 05–09.09 носят курсор с `naematel`,
+   * а четецът искаше `veriga`. Записаното не се пренаписва (правило 1) — значи
+   * четецът познава и двете имена, а курсор без нито едно пада с думи.
+   */
+  it('износ отпреди разреза · курсорът с `naematel` се чете · без нито едно име — пада с думи', () => {
+    const star = { otpechatak: 'x', redove: { imoti: 2 }, iznesenoNa: 't' };
+    expect(
+      proveriTovar(
+        TIP.knigaIznesena,
+        { ...star, kursor: { naematel: 'k', seq: 3, hash: 'h' } },
+        MODEL,
+      ),
+    ).toEqual([]);
+    expect(
+      proveriTovar(TIP.knigaIznesena, { ...star, kursor: { seq: 3, hash: 'h' } }, MODEL),
+    ).toEqual(['Курсорът носи veriga (до 09.09: naematel) · seq · hash.']);
+  });
 });
 
 describe('клетката', () => {
