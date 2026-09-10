@@ -38,6 +38,8 @@ export function otvoriDnevnik(
 ): Promise<DnevnikVIndexedDB> {
   return new Promise((resolve, reject) => {
     const zayavka = indexedDB.open(ime, VERSIYA);
+    /** Защо стъпалото е отменено · думите за човека, не кодът на грешката. */
+    let prichina: string | null = null;
 
     /*
      * БЛОКИРАНО · друг раздел държи базата на СТАРА версия.
@@ -66,7 +68,7 @@ export function otvoriDnevnik(
       /*
        * СТЪПАЛО 1 → 2 · РАЗРЕЗЪТ (Т39) · ПРЕНАСЯ, не трие.
        *
-       * Ключът беше `['veriga', 'seq']` — по полето, което носеше ТРИ смисъла
+       * Ключът беше `['naematel', 'seq']` — по полето, което носеше ТРИ смисъла
        * наведнъж. Сега е `['kniga', 'pisach', 'seq']`. Ключ на съществуващо
        * хранилище НЕ се мени в IndexedDB, тъй че хранилището се прави наново —
        * но записите СЕ ПРЕНАСЯТ в него, до един.
@@ -91,7 +93,7 @@ export function otvoriDnevnik(
        *   · `ustroystvo` и `valuta` НЕ се измислят: получават `PREDI_RAZREZA`.
        *     Да сложиш „EUR" на запис, писан преди валутата да съществува, е да
        *     съчиниш факт за пари
-       *   · старото поле `veriga` ПАДА · то вече се извежда (правило 14)
+       *   · старото поле `naematel` ПАДА · то вече се извежда (правило 14)
        *   · СВЕРКА вход↔изход (правило 7): прочетени срещу записани. Не
        *     съвпаднат ли — транзакцията се ОТМЕНЯ и старата база остава цяла.
        */
@@ -107,16 +109,38 @@ export function otvoriDnevnik(
       const chetene = staroto.getAll();
       chetene.onsuccess = () => {
         const zapisi = chetene.result as StarZapis[];
-        db.deleteObjectStore(HRANILISHTE);
-        const novo = napraviHranilishte(db);
-        for (const z of zapisi) novo.add(prenesi(z));
-        // сверката е върху ПРОЧЕТЕНОТО срещу ЗАПИСАНОТО, не върху намерението
-        const broene = novo.count();
-        broene.onsuccess = () => {
-          if (broene.result !== zapisi.length) {
-            transaktsiya.abort();
-          }
-        };
+        /*
+         * ВСЯКА ПРИЧИНА ЗА ОТМЯНА СЕ КАЗВА С ДУМИ (правило 12).
+         *
+         * Платено на 10.09.2026, 23:02: собственикът видя „Version change
+         * transaction was aborted in upgradeneeded event handler" — вярно и
+         * безполезно. Причината беше, че старият запис носи полето `naematel`,
+         * а пренасянето търсеше `veriga` (виж `prenesi`). Оттук нататък
+         * отмяната носи и КОЙ запис, и ЗАЩО.
+         */
+        try {
+          db.deleteObjectStore(HRANILISHTE);
+          const novo = napraviHranilishte(db);
+          zapisi.forEach((z, i) => {
+            const dobavyane = novo.add(prenesi(z, i));
+            dobavyane.onerror = (e) => {
+              e.preventDefault();
+              prichina ??= `записът № ${i + 1} (seq ${z.seq}) не влезе: ${dobavyane.error?.name ?? 'грешка'} · ${dobavyane.error?.message ?? ''}`;
+              transaktsiya.abort();
+            };
+          });
+          // сверката е върху ПРОЧЕТЕНОТО срещу ЗАПИСАНОТО, не върху намерението
+          const broene = novo.count();
+          broene.onsuccess = () => {
+            if (broene.result !== zapisi.length) {
+              prichina ??= `сверката не затвори: прочетени ${zapisi.length} · записани ${broene.result}`;
+              transaktsiya.abort();
+            }
+          };
+        } catch (e) {
+          prichina ??= e instanceof Error ? e.message : String(e);
+          transaktsiya.abort();
+        }
       };
     };
 
@@ -127,7 +151,17 @@ export function otvoriDnevnik(
       db.onversionchange = () => db.close();
       resolve(new DnevnikVIndexedDB(db));
     };
-    zayavka.onerror = () => reject(zayavka.error);
+    zayavka.onerror = () => {
+      if (prichina !== null) {
+        reject(
+          new GreshkaDnevnik(
+            `Стъпалото на Журнала от версия ${VERSIYA - 1} към ${VERSIYA} не мина: ${prichina}. Журналът е НЕПОКЪТНАТ на старата версия — нищо не е изтрито и нищо не е записано.`,
+          ),
+        );
+        return;
+      }
+      reject(zayavka.error);
+    };
   });
 }
 
@@ -141,9 +175,21 @@ function napraviHranilishte(db: IDBDatabase): IDBObjectStore {
   return hranilishte;
 }
 
-/** Записът, както е лежал ПРЕДИ разреза · едното поле с трите смисъла. */
+/**
+ * Записът, както е лежал ПРЕДИ разреза · едното поле с трите смисъла.
+ *
+ * ИМЕТО МУ Е `naematel` — така е стоял в базата от 05.09 до 09.09
+ * (`git show 25fbe89^:src/nositel/dnevnik-indexeddb.ts` · `keyPath:
+ * ['naematel', 'seq']`). Полето се преименува на `veriga` САМО в кода, вечерта
+ * преди разреза, и никога не е лежало под това име в жива база. Първата версия
+ * на стъпалото търсеше `veriga`, тестът ѝ беше писан срещу същата измислена
+ * форма — и пренасянето падаше върху всяка ИСТИНСКА база (10.09.2026, 23:02:
+ * „Version change transaction was aborted"). Приемат се и двете имена: старото,
+ * защото е истината на диска, и новото, защото струва един ред.
+ */
 type StarZapis = Omit<Sabitie, 'kniga' | 'pisach' | 'ustroystvo' | 'valuta' | 'shema'> & {
-  readonly veriga: string;
+  readonly naematel?: string;
+  readonly veriga?: string;
 };
 
 /**
@@ -151,10 +197,17 @@ type StarZapis = Omit<Sabitie, 'kniga' | 'pisach' | 'ustroystvo' | 'valuta' | 's
  *
  * Изведеното (`kniga` · `pisach`) идва от стария низ; онова, което не е
  * съществувало, се КАЗВА, а не се измисля; версията става нула, за да го
- * провери `hash.ts` със собствената му форма.
+ * провери `hash.ts` със собствената му форма. Запис без стария низ не се
+ * „поправя" с измислен — стъпалото се отменя с думи кой е записът.
  */
-function prenesi(z: StarZapis): Sabitie {
-  const { veriga: star, ...ostanalo } = z;
+function prenesi(z: StarZapis, i: number): Sabitie {
+  const { naematel, veriga: vKoda, ...ostanalo } = z;
+  const star = naematel ?? vKoda;
+  if (typeof star !== 'string' || star === '') {
+    throw new GreshkaDnevnik(
+      `записът № ${i + 1} (seq ${z.seq}) няма нито \`naematel\`, нито \`veriga\` — не може да се каже чия верига е`,
+    );
+  }
   return {
     ...ostanalo,
     ...koyPishe(star),
