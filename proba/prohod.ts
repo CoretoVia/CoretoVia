@@ -20,6 +20,7 @@ import * as prodazhbi from './razdeli/prodazhbi.ts';
 import * as skelet from './razdeli/skelet.ts';
 import * as sluzhiteli from './razdeli/sluzhiteli.ts';
 import * as smetki from './razdeli/smetki.ts';
+import * as struktura from './razdeli/struktura.ts';
 import * as upravlenie from './razdeli/upravlenie.ts';
 
 async function main(): Promise<void> {
@@ -47,6 +48,8 @@ async function main(): Promise<void> {
     await nap.blok1(ctx);
     await sluzhiteli.blok1(ctx);
     await prodazhbi.blok1(ctx);
+    // СТРУКТУРАТА мени формата на Книгата · затова е СЛЕД всичко, което я чете
+    await struktura.blok1(ctx);
     // НАКРАЯ: котвата иска записан Журнал и ново зареждане, а счупването, с
     // което се доказва, оставя Журнала по-къс — след него няма какво да върви.
     await skelet.blok2(ctx);

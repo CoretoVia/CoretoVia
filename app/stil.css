@@ -720,3 +720,19 @@ label.malak.buton-grupa .pole.malak {
   font-weight: 400;
   color: var(--sivo);
 }
+
+/* ═══ СТРУКТУРАТА · петте промени в Настройки ═══
+   Същата решетка като Номенклатурите: едно и също нещо изглежда едно и също
+   (правило 29). Затворената колона е сива като спряна стойност — тя не е
+   грешка, а скрита; скритото пак се смята (правило 18). */
+.siv {
+  color: var(--sivo);
+  font-size: 0.85em;
+}
+.reshetka.struktura td.kletka {
+  vertical-align: middle;
+}
+.reshetka.struktura .malak {
+  padding: 0.1rem 0.35rem;
+  font-size: 0.8rem;
+}
