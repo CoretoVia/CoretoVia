@@ -123,6 +123,61 @@ describe('регистърът на въпросите · десетата по�
     expect(r.stdout).toMatch(/непознат белег/);
     expect(r.stdout).toContain('Т1');
   });
+
+  /**
+   * ПРОВЕРКА 5 (Етап 1.2): думите му имат ЕДИН дом. Отговорен въпрос, чийто адрес
+   * сочи само решение или доклад, е опора върху преразказ — находка.
+   */
+  it('МЯРКАТА ЛОВИ · отговорен въпрос с адрес извън дома на думите му → находка', () => {
+    const koren = mkdtempSync(join(tmpdir(), 'registar-'));
+    mkdirSync(join(koren, 'docs', 'izvori', 'dni'), { recursive: true });
+    const dumi = '„Вход с Имейл без длъжност няма. Това е важна сигурност."';
+    writeFileSync(join(koren, 'docs', 'ADR-099-proba.md'), `# ADR-099\n\n${dumi}\n`, 'utf8');
+    writeFileSync(
+      join(koren, 'docs', 'izvori', 'dni', '2026-09-08.md'),
+      `# ден\n\n${dumi}\n`,
+      'utf8',
+    );
+    const zapis = (adres: string) =>
+      JSON.stringify({
+        vaprosi: [
+          {
+            beleg: 'А3',
+            vapros: 'Може ли вход без длъжност?',
+            sastoyanie: 'otgovoren',
+            negovite_dumi: dumi,
+            adres,
+            kakvo_sledva: '',
+            otpushva: [],
+            zhivee_v: ['docs/ADR-099-proba.md'],
+          },
+        ],
+      });
+    const pusni = () =>
+      spawnSync(process.execPath, [resolve('stroezh/registar.mjs'), '--proveri'], {
+        encoding: 'utf8',
+        timeout: 120_000,
+        env: { ...process.env, REGISTAR_KOREN: koren },
+      });
+
+    writeFileSync(
+      join(koren, 'docs', 'registar-na-vaprosite.json'),
+      zapis('docs/ADR-099-proba.md:3'),
+      'utf8',
+    );
+    const r = pusni();
+    expect(r.status).not.toBe(0);
+    expect(r.stdout).toContain('5 · думите на „А3" нямат дом');
+
+    // положителна контрола: същите думи, адресът сочи в дома им
+    writeFileSync(
+      join(koren, 'docs', 'registar-na-vaprosite.json'),
+      zapis('docs/izvori/dni/2026-09-08.md:3 · docs/ADR-099-proba.md:3'),
+      'utf8',
+    );
+    const ok = pusni();
+    expect(ok.status, ok.stdout).toBe(0);
+  });
 });
 
 /**

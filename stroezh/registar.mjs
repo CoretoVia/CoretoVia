@@ -333,6 +333,28 @@ for (const v of reg.vaprosi) {
   }
 }
 
+// 5 · думите му имат ЕДИН дом · адресът на отговорен въпрос сочи в изворите или в Книгата
+/*
+ * Етап 1.2 (11.09.2026 · решение 1.2 от плана на 10.09). Дотук думите му живееха
+ * на девет места и отговорите сочеха към `docs/10` и към записи 16–30; 10.09 и
+ * 11.09 ги свалиха по дни в `docs/izvori/dni/`. Отсега опората на всеки отговорен
+ * въпрос е поне един файл в ДОМА НА ДУМИТЕ МУ: `docs/izvori/**` (изворите и дните)
+ * или `zadanie/00–12` (Книгата и допълненията към нея — негови клетки и думи).
+ * Адрес само към решение, доклад или код не е опора: там думите му са преразказ.
+ */
+const DOMAT_NA_DUMITE = /^(?:docs\/izvori\/|zadanie\/(?:0\d|1[0-2])-)/u;
+for (const v of reg.vaprosi) {
+  if (v.sastoyanie !== 'otgovoren' || v.adres.trim() === '') continue;
+  const faylove = [...v.adres.matchAll(/[\w./\\-]+\.(?:md|ts|mjs|json|cjs)/gu)].map((m) =>
+    m[0].replace(/\\/g, '/').replace(/^.*Coretovia\//u, ''),
+  );
+  if (faylove.length > 0 && !faylove.some((f) => DOMAT_NA_DUMITE.test(f))) {
+    nahodki.push(
+      `5 · думите на „${v.beleg}" нямат дом: адресът сочи само ${faylove.join(' · ')} · домът им е docs/izvori/** или zadanie/00–12`,
+    );
+  }
+}
+
 // 3 · никой не пита отговореното · само в ЖИВИТЕ документи
 for (const f of faylove.filter(sesadi)) {
   for (const [i, red] of readFileSync(f, 'utf8').split('\n').entries()) {
