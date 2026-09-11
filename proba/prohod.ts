@@ -16,6 +16,7 @@ import { tishina } from './yadro/tishina.ts';
 import * as imoti from './razdeli/imoti.ts';
 import * as kniga from './razdeli/kniga.ts';
 import * as nap from './razdeli/nap.ts';
+import * as pomosht from './razdeli/pomosht.ts';
 import * as prodazhbi from './razdeli/prodazhbi.ts';
 import * as skelet from './razdeli/skelet.ts';
 import * as sluzhiteli from './razdeli/sluzhiteli.ts';
@@ -46,6 +47,8 @@ async function main(): Promise<void> {
 
   try {
     await skelet.blok1(ctx);
+    // ХЕЛПЪТ е преди откриването · сивият бутон от каталога трябва да е още сив
+    await pomosht.blok1(ctx);
     await imoti.blok1(ctx);
     await kniga.blok1(ctx);
     await upravlenie.blok1(ctx);

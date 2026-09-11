@@ -9,6 +9,7 @@
 
 import { sashtnost } from '../../model/klyuchove.js';
 import { otpechatakNaModela } from '../../model/otpechatak.js';
+import { pomosht } from '../../model/pomosht.js';
 import { strogObekt } from '../../model/shema.js';
 import { zhiviteRedove } from '../../ogledalo/tablitsa.js';
 import { TIP } from '../../sabitiya/registar.js';
@@ -40,8 +41,11 @@ function zhiviRedovePoTablitsa(k: Kontekst): Record<string, number> {
 const iznesi: Komanda<TovarIznesi> = {
   klyuch: 'kniga.iznesi',
   ime: 'Запази книгата',
-  opisanie:
-    'Записва разписката за изнесена Книга: отпечатък на Модела, курсор и живи редове по таблица.',
+  pomosht: pomosht(
+    'Записва разписка, че Книгата е свалена като файл: с кой Модел, от кое състояние на Журнала ' +
+      'и с колко живи реда по таблица. Разписка за състояние, което не е текущото, се отказва.',
+    'отпечатък на Модела · курсор на Журнала · живи редове по таблица',
+  ),
   prozortsi: ['imoti', 'nastroyki', 'upravlenie'],
   stepen: 'pishe',
   myasto: 'sluzhebna',
@@ -138,7 +142,11 @@ const TSYALO = { type: 'integer', minimum: 0 } as const;
 const vnesi: Komanda<TovarVnesi> = {
   klyuch: 'kniga.vnesi',
   ime: 'Внеси Книгата',
-  opisanie: 'Записва разписката за внесена Книга: отпечатък на файла, предложени, приети, находки.',
+  pomosht: pomosht(
+    'Записва разписка за внесена Книга, след като човекът е приел каквото е приел: кой файл, ' +
+      'колко е предложено, избрано, прието и отказано, и колко находки. Пише се и при нула.',
+    'избрани ≤ предложени · приети + отказани ≤ избрани',
+  ),
   prozortsi: ['ii'],
   stepen: 'pishe',
   myasto: 'sluzhebna',

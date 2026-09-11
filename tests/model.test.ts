@@ -11,6 +11,7 @@ import { DUMI_OT_KNIGATA } from '../src/model/dumi-ot-knigata.js';
 import { slotNaKolonata, vlizaVSbor } from '../src/model/kolona.js';
 import { type Model, proveriModela, tablitsata } from '../src/model/model.js';
 import type { Nomenklatura } from '../src/model/nomenklatura.js';
+import { pomosht } from '../src/model/pomosht.js';
 import {
   MODEL,
   NOMENKLATURA,
@@ -370,6 +371,8 @@ describe('схемата на реда се ИЗВЕЖДА от Модела', (
 describe('проверката на Модела хваща счупена основа', () => {
   const sChupka = (popravi: (m: Model) => Model): readonly string[] =>
     proveriModela(popravi(MODEL));
+  /** счупените колони на теста пак носят помощ · без нея не се компилират, нарочно */
+  const POMOSHT = pomosht('колона само за теста', 'нищо не се смята');
 
   it('избор без номенклатура · връзка към непозната таблица · номерация без родител', () => {
     const imoti = tablitsata(MODEL, 'imoti');
@@ -377,12 +380,20 @@ describe('проверката на Модела хваща счупена ос�
       ...imoti,
       koloni: [
         ...imoti.koloni,
-        { klyuch: 'x', ime: 'x', vid: 'izbor' as const, zadalzhitelna: false, zatvorena: false },
+        {
+          klyuch: 'x',
+          ime: 'x',
+          vid: 'izbor' as const,
+          pomosht: POMOSHT,
+          zadalzhitelna: false,
+          zatvorena: false,
+        },
         {
           klyuch: 'y',
           ime: 'y',
           vid: 'vrazka' as const,
           vrazka: ['nyama'],
+          pomosht: POMOSHT,
           zadalzhitelna: false,
           zatvorena: false,
         },
@@ -407,7 +418,14 @@ describe('проверката на Модела хваща счупена ос�
       ...imoti,
       koloni: [
         ...imoti.koloni,
-        { klyuch: 'x', ime: 'x', vid: 'izbor' as const, zadalzhitelna: false, zatvorena: false },
+        {
+          klyuch: 'x',
+          ime: 'x',
+          vid: 'izbor' as const,
+          pomosht: POMOSHT,
+          zadalzhitelna: false,
+          zatvorena: false,
+        },
       ],
     };
     const nahodki = sChupka((m) => ({
@@ -430,7 +448,10 @@ describe('проверката на Модела хваща счупена ос�
   it('девети прозорец · и таблица към непознат прозорец', () => {
     const nahodki = sChupka((m) => ({
       ...m,
-      prozortsi: [...m.prozortsi, { klyuch: 'profil', list: 'Девети', lenti: [] }],
+      prozortsi: [
+        ...m.prozortsi,
+        { klyuch: 'profil', list: 'Девети', lenti: [], pomosht: POMOSHT },
+      ],
     }));
     expect(nahodki).toEqual(['Прозорците са 9, а трябва да са 8.']);
   });

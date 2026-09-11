@@ -7,6 +7,7 @@
  */
 
 import { TIP } from '../../sabitiya/registar.js';
+import { pomosht } from '../../model/pomosht.js';
 import { poIzbor, strogObekt } from '../../model/shema.js';
 import { redKato } from '../../ogledalo/tablitsa.js';
 import {
@@ -32,8 +33,12 @@ function verigata(v: TovarStorno, k: Kontekst): string {
 const storno: Komanda<TovarStorno> = {
   klyuch: 'obshto.storno',
   ime: 'Сторно на последната промяна',
-  opisanie:
-    'Погасява едно записано събитие с причина. Журналът не се пипа; Огледалото се пресгъва.',
+  pomosht: pomosht(
+    'Отменя едно записано събитие, като записва ново срещу него с причина — Журналът не се трие, ' +
+      'а таблиците се пресмятат без отмененото. Откриването, друго сторно и отменено събитие ' +
+      'не се отменят.',
+    'верига и номер на събитието · причина · записва се погасяване, нищо не се трие',
+  ),
   prozortsi: ['imoti', 'nastroyki', 'upravlenie'],
   stepen: 'pishe',
   myasto: 'desen-buton',

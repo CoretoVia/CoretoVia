@@ -170,7 +170,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'след „Приеми" бутонът е сив и КАЗВА защо (правило 12)',
     await p.$eval(
       '[data-priemi]',
-      (e) => `${(e as HTMLButtonElement).disabled} · ${e.getAttribute('title')}`,
+      (e) => `${(e as HTMLButtonElement).disabled} · ${e.getAttribute('data-podskazka')}`,
     ),
     'true · Приетото е записано — за останалите предложения прочети Книгата пак.',
   );
@@ -178,7 +178,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'неотметнатото № 4 не се отмята след приключен прочит · и казва защо',
     await p.$eval(
       '[data-otmetka="3"]',
-      (e) => `${(e as HTMLInputElement).disabled} · ${e.getAttribute('title')}`,
+      (e) => `${(e as HTMLInputElement).disabled} · ${e.getAttribute('data-podskazka')}`,
     ),
     'true · Приетото е записано — за останалите предложения прочети Книгата пак.',
   );
@@ -258,7 +258,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'нищо за приемане · бутонът е сив и го казва · разписка за чужда Книга не се пише',
     await p.$eval(
       '[data-priemi]',
-      (e) => `${(e as HTMLButtonElement).disabled} · ${e.getAttribute('title')}`,
+      (e) => `${(e as HTMLButtonElement).disabled} · ${e.getAttribute('data-podskazka')}`,
     ),
     'true · нищо за приемане — Книгата не е на този Стопанин или Модел',
   );

@@ -49,6 +49,7 @@ import { tekstNaNomera } from '../../src/smetach/nomeratsiya.js';
 import { nomerNaSpeshnoto, poletataNaUpravlenie } from '../../src/smetach/polata.js';
 import {
   IMENA_NA_SMETKITE,
+  POMOSHT_NA_SMETKITE,
   type Smetka,
   smetkataPoPodrazbirane,
   smetkiteNaKolonata,
@@ -67,6 +68,7 @@ import { otvoriChernova } from '../reshetka/chernova.js';
 import { gantSVG, type RedNaGanta } from '../reshetka/gant-svg.js';
 import { pokazhiMenyu } from '../reshetka/menyu.js';
 import { otvoriModel, zapaziModela } from '../reshetka/modeli.js';
+import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
 import { chetiEkranno, zapomniEkranno } from '../reshetka/pamet-ekran.js';
 import { pokazhiGreshka } from '../reshetka/redaktsiya.js';
@@ -337,15 +339,16 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
       (s) =>
         h`<option value="${s}" ${s === smetka ? 'selected' : ''}>${IMENA_NA_SMETKITE[s]}</option>`,
     );
+    // помощта на избраната сметка казва и дали влиза в по-горен сбор · спанът няма своя
     sborKletki.push(
-      h`<td class="sbor-kletka ${zs.kol.vid}" colspan="${broy}" data-sbor="${j}"><select class="pole malak" data-smetka="${j}" title="${`сметката под „${g.glava}"`}">${izbor}</select><span class="sbor-stoynost" data-sbor-stoynost="${j}" title="${rez.vlizaVSbor ? 'влиза в сбор' : 'не влиза в сбор (правило 3)'}" translate="no">${dumi}</span></td>`,
+      h`<td class="sbor-kletka ${zs.kol.vid}" colspan="${broy}" data-sbor="${j}"><select class="pole malak" data-smetka="${j}" aria-label="${`сметката под „${g.glava}"`}"${podskazka(POMOSHT_NA_SMETKITE[smetka])}>${izbor}</select><span class="sbor-stoynost" data-sbor-stoynost="${j}" translate="no">${dumi}</span></td>`,
     );
   }
 
   // ═══ главите · подглавите · редът „филтър" ═══
   const glavi = oblik.map(
     (g) =>
-      h`<th colspan="${Math.max(1, koloniPodGlavata(g).length)}" data-glava="${g.kolona ?? 'nomeratsiya'}">${g.glava}</th>`,
+      h`<th colspan="${Math.max(1, koloniPodGlavata(g).length)}" data-glava="${g.kolona ?? 'nomeratsiya'}"${podskazka(g.pomosht)}>${g.glava}</th>`,
   );
   const podglavi = oblik.map(
     (g) =>
@@ -361,12 +364,12 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   const poleta = poletataNaUpravlenie(o, dnes, kogato);
   const poletaHTML = poleta.poleta.map(
     (pl) =>
-      h`<div class="pole-s-tsifra" data-pole="${pl.klyuch}"><span class="tsifra" data-tsifra="${pl.klyuch}" translate="no">${pl.vid === 'evro' ? pishi(pl.stoynost) : pl.stoynost}</span><span class="ime">${pl.ime}</span></div>`,
+      h`<div class="pole-s-tsifra" data-pole="${pl.klyuch}"${podskazka(pl.pomosht)}><span class="tsifra" data-tsifra="${pl.klyuch}" translate="no">${pl.vid === 'evro' ? pishi(pl.stoynost) : pl.stoynost}</span><span class="ime">${pl.ime}</span></div>`,
   );
   const butonHTML = (b: ButonNaProzoretsa): Zapechatan => {
     const d = b.deystvie;
     if (d.vid === 'idva')
-      return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}" disabled title="${d.dumi ?? `идва с ход ${d.hod}`}">${litse(b)}</button>`;
+      return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}" disabled${podskazkaSDumi(d.dumi ?? `идва с ход ${d.hod}`)}>${litse(b)}</button>`;
     if (b.klyuch === 'takt') {
       const izbor = (b.izbor ?? []).map((duma) => {
         const t = TAKTOVE.find((x) => IMENA_NA_TAKTOVETE[x].toLowerCase() === duma.toLowerCase());
@@ -374,15 +377,15 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
           ? ''
           : h`<option value="${t}" ${t === takt ? 'selected' : ''}>${duma}</option>`;
       });
-      return h`<label class="malak buton-grupa" data-buton-ekran="${b.klyuch}">${litse(b)} <select class="pole malak" data-takt>${takt === 'svoy' ? '<option value="svoy" selected>свой</option>' : ''}${izbor}</select></label>`;
+      return h`<label class="malak buton-grupa" data-buton-ekran="${b.klyuch}"${podskazka(b.pomosht)}>${litse(b)} <select class="pole malak" data-takt>${takt === 'svoy' ? '<option value="svoy" selected>свой</option>' : ''}${izbor}</select></label>`;
     }
     if (b.klyuch === 'period')
-      return h`<label class="malak buton-grupa" data-buton-ekran="${b.klyuch}">${litse(b)} <input type="date" class="pole malak" data-period-ot value="${period?.ot ?? ''}" title="${b.izbor?.[0] ?? ''}"><input type="date" class="pole malak" data-period-do value="${period?.do ?? ''}" title="${b.izbor?.[1] ?? ''}"></label>`;
+      return h`<label class="malak buton-grupa" data-buton-ekran="${b.klyuch}"${podskazka(b.pomosht)}>${litse(b)} <input type="date" class="pole malak" data-period-ot value="${period?.ot ?? ''}"${podskazkaSDumi(b.izbor?.[0] ?? '')}><input type="date" class="pole malak" data-period-do value="${period?.do ?? ''}"${podskazkaSDumi(b.izbor?.[1] ?? '')}></label>`;
     let duma = litse(b);
     if (b.klyuch === 'skriy-tablitsa') duma = dumataNaButona(vizhda, 'tablitsa');
     if (b.klyuch === 'skriy-diagrama') duma = dumataNaButona(vizhda, 'diagrama');
     if (b.klyuch === 'skriy-dela') duma = skriyDela ? 'Покажи Дела' : 'Скрий Дела';
-    return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}" title="${b.ime}">${duma}</button>`;
+    return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}"${podskazka(b.pomosht)}>${duma}</button>`;
   };
 
   sloji(

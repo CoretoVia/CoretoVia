@@ -23,6 +23,7 @@ import {
   spri,
   type ZhivaNomenklatura,
 } from '../../model/nomenklatura.js';
+import { pomosht } from '../../model/pomosht.js';
 import type { Predlozhenie } from '../../model/predlozhenie.js';
 import { strogObekt } from '../../model/shema.js';
 import { TIP } from '../../sabitiya/registar.js';
@@ -101,7 +102,11 @@ interface TovarDobaviStoynost {
 const dobaviStoynost: Komanda<TovarDobaviStoynost> = {
   klyuch: 'nastroyki.dobaviStoynost',
   ime: 'Нова стойност',
-  opisanie: 'Добавя стойност в номенклатура със следващия замразен номер.',
+  pomosht: pomosht(
+    'Добавя нов текст в избраната номенклатура — например ново състояние на имот. Номерът му ' +
+      'се дава от програмата и не се сменя, затова редовете го помнят и след преименуване.',
+    'текст · номерът е следващият свободен в номенклатурата',
+  ),
   prozortsi: ['nastroyki'],
   stepen: 'pishe',
   myasto: 'kletka',
@@ -164,7 +169,11 @@ interface TovarPreimenuvayStoynost extends SNomer {
 const preimenuvayStoynost: Komanda<TovarPreimenuvayStoynost> = {
   klyuch: 'nastroyki.preimenuvayStoynost',
   ime: 'Преименувай',
-  opisanie: 'Сменя текста на стойност; номерът остава — редовете, които я ползват, я следват.',
+  pomosht: pomosht(
+    'Сменя думата на стойност, без да сменя номера ѝ. Всеки ред, който я е избрал, показва ' +
+      'новата дума — нищо не се преписва по редовете.',
+    'нов текст под същия номер · текст, зает от друга стойност, е отказ',
+  ),
   prozortsi: ['nastroyki'],
   stepen: 'pishe',
   myasto: 'kletka',
@@ -209,12 +218,21 @@ export const nastroykiPreimenuvayStoynost = Object.freeze(preimenuvayStoynost);
 
 function komandaZaSpirane(spryana: boolean): Komanda<SNomer> {
   const klyuch = spryana ? 'nastroyki.spriStoynost' : 'nastroyki.varniStoynost';
+  const pomoshtta = spryana
+    ? pomosht(
+        'Изважда стойността от избора за нови редове. Редовете, които я носят, я пазят и се ' +
+          'смятат както преди; триене няма, затова спряното се връща.',
+        'спиране под същия номер · връща се с Върни',
+      )
+    : pomosht(
+        'Връща спряна стойност в избора за нови редове, под същия номер. Редовете, които са я ' +
+          'носили през спирането, не се променят.',
+        'връщане под същия номер · само за спряна стойност',
+      );
   const komanda: Komanda<SNomer> = {
     klyuch,
     ime: spryana ? 'Спри' : 'Върни',
-    opisanie: spryana
-      ? 'Спира стойност: не се предлага повече, старите редове я пазят. Триене няма.'
-      : 'Връща спряна стойност в употреба, със същия номер.',
+    pomosht: pomoshtta,
     prozortsi: ['nastroyki'],
     stepen: 'pishe',
     myasto: 'kletka',

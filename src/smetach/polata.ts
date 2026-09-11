@@ -14,6 +14,7 @@
 
 import { podravni, poTekst } from '../model/nomenklatura.js';
 import { NOMENKLATURA } from '../model/osnova.js';
+import { type Pomosht, pomosht } from '../model/pomosht.js';
 import type { Ogledalo } from '../ogledalo/ogledalo.js';
 import { kletkaNa, zhiviteRedove } from '../ogledalo/tablitsa.js';
 import { sverka, type Sverka } from '../yadro/sverka.js';
@@ -30,7 +31,45 @@ export interface Pole {
   readonly stoynost: number;
   /** брой или цели центове */
   readonly vid: 'broy' | 'evro';
+  /** обяснението при задържане · как е сметнато числото · от формулата долу, не от предположение */
+  readonly pomosht: Pomosht;
 }
+
+/**
+ * ПОМОЩТА НА ОСЕМТЕ · всяка казва точно онова, което цикълът долу прави.
+ *
+ * Просрочената задача излиза от цикъла ПРЕДИ броенето на спешните и на бюджета
+ * — затова и двете полета са „върху отворените", и текстът го казва, вместо
+ * човек да го открива при сверка със сбора под главата.
+ */
+const POMOSHT = Object.freeze({
+  speshni: pomosht(
+    'Колко отворени задачи носят оценка Спешно и Важно — по думата в номенклатурата, не по мястото ѝ. Просрочените не се броят тук.',
+    'брой отворени задачи с оценка Спешно и Важно',
+  ),
+  prosrocheni: pomosht(
+    'Колко задачи имат край преди днешния ден. Задача без край не е просрочена; нечетима дата се брои за отворена, докато не се поправи.',
+    'брой задачи с край преди днешния ден',
+  ),
+  taziSedmitsa: pomosht(
+    'Колко отворени задачи свършват до седем дни напред, включително днешния ден. Просрочените не влизат.',
+    'брой отворени задачи с край в следващите 7 дни, броено от днешния ден',
+  ),
+  otvoreni: pomosht(
+    'Колко задачи са отворени: без край, или с край, който не е минал. Сверка: отворени + просрочени = всички задачи, и се записва и при нула.',
+    'брой задачи без край или с край от днешния ден нататък · отворени + просрочени = всички',
+  ),
+  byudzhet: pomosht(
+    'Сборът на бюджета на отворените задачи в цели центове. Просрочените не се броят; сборът под главата в дървото е върху видимите редове и може да е друг.',
+    'сбор на Бюджет върху отворените задачи · без просрочените',
+  ),
+  imoti: pomosht('Колко живи Имота има — изключените не се броят.', 'брой живи редове в Имоти'),
+  obekti: pomosht('Колко живи Обекта има — изключените не се броят.', 'брой живи редове в Обекти'),
+  biznesi: pomosht(
+    'Колко живи Бизнеса има — изключените не се броят.',
+    'брой живи редове в Бизнеси',
+  ),
+});
 
 export interface Poleta {
   readonly poleta: readonly Pole[];
@@ -85,14 +124,56 @@ export function poletataNaUpravlenie(o: Ogledalo, dnes: string, kogato: string):
     return tv === undefined ? 0 : zhiviteRedove(tv).length;
   };
   const poleta: Pole[] = [
-    { klyuch: 'speshni', ime: SPESHNO_I_VAZHNO, stoynost: speshni, vid: 'broy' },
-    { klyuch: 'prosrocheni', ime: 'просрочени', stoynost: prosrocheni, vid: 'broy' },
-    { klyuch: 'tazi-sedmitsa', ime: 'тази седмица', stoynost: taziSedmitsa, vid: 'broy' },
-    { klyuch: 'otvoreni', ime: 'отворени задачи', stoynost: otvoreni, vid: 'broy' },
-    { klyuch: 'byudzhet', ime: 'Бюджет Дела', stoynost: byudzhet, vid: 'evro' },
-    { klyuch: 'imoti', ime: 'Имоти', stoynost: broy('imoti'), vid: 'broy' },
-    { klyuch: 'obekti', ime: 'Обекти', stoynost: broy('obekti'), vid: 'broy' },
-    { klyuch: 'biznesi', ime: 'Бизнеси', stoynost: broy('biznesi'), vid: 'broy' },
+    {
+      klyuch: 'speshni',
+      ime: SPESHNO_I_VAZHNO,
+      stoynost: speshni,
+      vid: 'broy',
+      pomosht: POMOSHT.speshni,
+    },
+    {
+      klyuch: 'prosrocheni',
+      ime: 'просрочени',
+      stoynost: prosrocheni,
+      vid: 'broy',
+      pomosht: POMOSHT.prosrocheni,
+    },
+    {
+      klyuch: 'tazi-sedmitsa',
+      ime: 'тази седмица',
+      stoynost: taziSedmitsa,
+      vid: 'broy',
+      pomosht: POMOSHT.taziSedmitsa,
+    },
+    {
+      klyuch: 'otvoreni',
+      ime: 'отворени задачи',
+      stoynost: otvoreni,
+      vid: 'broy',
+      pomosht: POMOSHT.otvoreni,
+    },
+    {
+      klyuch: 'byudzhet',
+      ime: 'Бюджет Дела',
+      stoynost: byudzhet,
+      vid: 'evro',
+      pomosht: POMOSHT.byudzhet,
+    },
+    { klyuch: 'imoti', ime: 'Имоти', stoynost: broy('imoti'), vid: 'broy', pomosht: POMOSHT.imoti },
+    {
+      klyuch: 'obekti',
+      ime: 'Обекти',
+      stoynost: broy('obekti'),
+      vid: 'broy',
+      pomosht: POMOSHT.obekti,
+    },
+    {
+      klyuch: 'biznesi',
+      ime: 'Бизнеси',
+      stoynost: broy('biznesi'),
+      vid: 'broy',
+      pomosht: POMOSHT.biznesi,
+    },
   ];
   return {
     poleta,

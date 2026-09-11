@@ -32,11 +32,11 @@
  * · **правило 10** · ключът е на латиница, името — както е в Книгата.
  */
 
-import type { Kolona, VidKolona } from './kolona.js';
+import { type Kolona, pomoshtNaKolonaPoVida, type VidKolona } from './kolona.js';
 import type { KlyuchNaProzorets } from './klyuchove.js';
 import { VIDOVE_STOYNOST } from './vid-stoynost.js';
 import type { Model } from './model.js';
-import type { Tablitsa } from './tablitsa.js';
+import { pomoshtNaNovaTablitsa, type Tablitsa } from './tablitsa.js';
 
 /** Петте промени · дословно по `docs/28` §2.1. */
 export type PromyanaNaStrukturata =
@@ -204,6 +204,8 @@ export function prilozhi(m: Model, p: PromyanaNaStrukturata): Model {
     const nova: Tablitsa = Object.freeze({
       klyuch: p.tablitsa,
       ime: p.ime,
+      // никой автор не е писал текст за нея · помощта идва от това, което е сигурно
+      pomosht: pomoshtNaNovaTablitsa(p.ime),
       prozorets: p.prozorets as KlyuchNaProzorets,
       sashtnost: p.sashtnost as Tablitsa['sashtnost'],
       koloni: Object.freeze([] as Kolona[]),
@@ -229,6 +231,8 @@ export function prilozhi(m: Model, p: PromyanaNaStrukturata): Model {
           klyuch: p.kolona,
           ime: p.ime,
           vid: p.vid,
+          // текст по вида · човекът, който добавя колона, не пише обяснение за нея
+          pomosht: pomoshtNaKolonaPoVida(p.vid, p.ime),
           zatvorena: false,
           ...(p.nomenklatura ? { nomenklatura: p.nomenklatura } : {}),
         } as Kolona),

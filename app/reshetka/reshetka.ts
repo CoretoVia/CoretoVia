@@ -24,6 +24,7 @@ import {
   tekstNaNomera,
 } from '../../src/smetach/nomeratsiya.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
+import { podskazka, podskazkaSDumi } from './podskazka.js';
 import { h, type Zapechatan } from './shablon.js';
 import { fokusiraySled, zakachiRedaktsiya } from './redaktsiya.js';
 import { zakachiZebrata } from './zebra.js';
@@ -53,8 +54,10 @@ export function kletkaHTML(
     k.zatvorena || bezRedaktsiya
       ? ''
       : h` data-redakt="${tablitsa}·${r.id}·${k.klyuch}" tabindex="0"`;
-  const podskazka = spryana ? h` title="спряна от Настройки · старите редове я пазят"` : '';
-  return h`<td class="kletka ${k.vid}${spryana ? ' spryana' : ''}" data-kolona="${k.klyuch}" data-surovo="${surovo}"${st}${redakt}${podskazka} translate="no">${dumi}</td>`;
+  const zaSpryanata = spryana
+    ? podskazkaSDumi('спряна от Настройки · старите редове я пазят и тя пак се смята')
+    : '';
+  return h`<td class="kletka ${k.vid}${spryana ? ' spryana' : ''}" data-kolona="${k.klyuch}" data-surovo="${surovo}"${st}${redakt}${zaSpryanata} translate="no">${dumi}</td>`;
 }
 
 /** Таблицата като HTML · с групите, живите редове и (по избор) изключените. */
@@ -68,7 +71,7 @@ export function reshetkaHTML(
   if (tv === undefined) return h``;
   const koloni = koloniNaReda(t);
   const glava = h`<thead><tr>${koloni.map(
-    (k) => h`<th data-kolona="${k.klyuch}" class="${k.vid}">${k.ime}</th>`,
+    (k) => h`<th data-kolona="${k.klyuch}" class="${k.vid}"${podskazka(k.pomosht)}>${k.ime}</th>`,
   )}</tr></thead>`;
   const redHTML = (i: number): Zapechatan => {
     const r = redKato(tv, i);

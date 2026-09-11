@@ -30,6 +30,7 @@
 
 import { sashtnost } from '../../model/klyuchove.js';
 import type { Model } from '../../model/model.js';
+import { pomosht } from '../../model/pomosht.js';
 import { strogObekt } from '../../model/shema.js';
 import {
   type PromyanaNaStrukturata,
@@ -113,8 +114,12 @@ interface TovarNovaKolona {
 const novaKolona: Komanda<TovarNovaKolona> = {
   klyuch: 'nastroyki.novaKolona',
   ime: 'Нова колона',
-  opisanie:
-    'Добавя колона в таблица. Оттук се натрупват състоянията: втора колона „Състояние" със своя номенклатура.',
+  pomosht: pomosht(
+    'Добавя колона към таблица без нов код: глава, вид и — за колона от вид избор — ' +
+      'номенклатура. Така се натрупват състоянията: второ състояние е втора колона със своя ' +
+      'номенклатура.',
+    'ключ на латиница · глава · вид · номенклатура само за вид избор',
+  ),
   ...OBSHTOTO,
   /*
    * ВСИЧКО Е ЗАДЪЛЖИТЕЛНО · и празната номенклатура значи „няма".
@@ -161,7 +166,11 @@ const katoPreimenuvane = (v: object): PromyanaNaStrukturata =>
 const preimenuvayGlava: Komanda<TovarPreimenuvayGlava> = {
   klyuch: 'nastroyki.preimenuvayGlava',
   ime: 'Преименувай глава',
-  opisanie: 'Сменя главата на колона. Ключът остава — преименуването не мени нито един ред.',
+  pomosht: pomosht(
+    'Сменя думата над колоната. Ключът ѝ и стойностите по редовете остават същите — сменя се ' +
+      'само какво чете човекът.',
+    'нова глава над същия ключ · нито един ред не се променя',
+  ),
   ...OBSHTOTO,
   shema: strogObekt({ tablitsa: KLYUCH, kolona: KLYUCH, ime: IME }),
   predusloviya: [{ ...mozheLi, proveri: (v, k) => mozheLi.proveri(katoPreimenuvane(v), k) }],
@@ -193,8 +202,11 @@ const katoZatvaryane = (v: object): PromyanaNaStrukturata =>
 const zatvoriKolona: Komanda<TovarZatvoriKolona> = {
   klyuch: 'nastroyki.zatvoriKolona',
   ime: 'Затвори колона',
-  opisanie:
-    'Затваря колона: никой не я пише занапред. Старите ѝ стойности ОСТАВАТ и пак се смятат (правило 18).',
+  pomosht: pomosht(
+    'Спира писането в колона, без да я трие: записаното в нея остава и влиза в сборовете както ' +
+      'преди. Колона, която държи родителя или номера на реда, не се затваря.',
+    'затваряне · старите стойности остават и се смятат',
+  ),
   ...OBSHTOTO,
   shema: strogObekt({ tablitsa: KLYUCH, kolona: KLYUCH }),
   predusloviya: [{ ...mozheLi, proveri: (v, k) => mozheLi.proveri(katoZatvaryane(v), k) }],
@@ -228,7 +240,11 @@ const katoNovaTablitsa = (v: object): PromyanaNaStrukturata =>
 const novaTablitsa: Komanda<TovarNovaTablitsa> = {
   klyuch: 'nastroyki.novaTablitsa',
   ime: 'Нова таблица',
-  opisanie: 'Добавя таблица в СЪЩЕСТВУВАЩ прозорец. Прозорците са осем и не се добавят (К1).',
+  pomosht: pomosht(
+    'Създава празна таблица в някой от осемте прозореца — нов прозорец не се създава. ' +
+      'Колоните ѝ се добавят после една по една с Нова колона.',
+    'ключ на латиница · име · прозорец · вид на същността за Журнала',
+  ),
   ...OBSHTOTO,
   shema: strogObekt({ tablitsa: KLYUCH, ime: IME, prozorets: KLYUCH, sashtnost: KLYUCH }),
   predusloviya: [{ ...mozheLi, proveri: (v, k) => mozheLi.proveri(katoNovaTablitsa(v), k) }],
@@ -255,7 +271,11 @@ const katoPodredba = (v: object): PromyanaNaStrukturata =>
 const podrediKoloni: Komanda<TovarPodredi> = {
   klyuch: 'nastroyki.podrediKoloni',
   ime: 'Подреди колоните',
-  opisanie: 'Сменя реда на колоните. Същите колони, друг ред — нито една в повече или по-малко.',
+  pomosht: pomosht(
+    'Сменя реда, в който колоните на таблица стоят на екрана и в Книгата. Списъкът трябва да ' +
+      'съдържа същите колони — нито една в повече или по-малко.',
+    'пълен списък от ключовете на колоните в новия ред',
+  ),
   ...OBSHTOTO,
   shema: strogObekt({
     tablitsa: KLYUCH,

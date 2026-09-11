@@ -82,8 +82,8 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'Добави Задача · Изключи реда · Върни реда · Сторно на последната промяна · Голямо дело',
   );
   proveri(
-    'Голямото дело казва кога идва',
-    await p.$eval('[data-tochka="golyamo-delo"]', (e) => e.getAttribute('title')),
+    'Голямото дело казва кога идва · видимо в самия пункт',
+    await p.$eval('[data-tochka="golyamo-delo"] .zashto', (e) => e.textContent?.trim()),
     'идва с ход 11б · само при Строеж (негово B4)',
   );
   await p.click('[data-tochka="upravlenie.dobaviZadacha"]');

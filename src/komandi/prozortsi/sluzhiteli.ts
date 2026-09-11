@@ -10,6 +10,7 @@
  * (`red.popraviKletka` · `red.izklyuchi` · `red.varni`), както навсякъде.
  */
 
+import { pomosht } from '../../model/pomosht.js';
 import { mozheDaRazdavaDlazhnosti, zashtoNeRazdava } from '../../smetach/pravo.js';
 import type { Kontekst } from '../komanda.js';
 import { komandaZaNovRed } from './red.js';
@@ -23,11 +24,18 @@ import { komandaZaNovRed } from './red.js';
 const RAZDAVA = (k: Kontekst): string | null =>
   mozheDaRazdavaDlazhnosti(k.ogledalo, k.aktor) ? null : zashtoNeRazdava(k.ogledalo, k.aktor);
 
+/** Двете таблици с хора имат едни и същи колони · и една дума за какво се пише. */
+const KAKVO_SE_PISHE_ZA_CHOVEK = 'име · телефон · имейл · адрес · длъжност от номенклатурата';
+
 export const sluzhiteliDobaviStopan = komandaZaNovRed(
   'stopani',
   'sluzhiteli.dobaviStopan',
   'Добави Стопанин',
-  'Добавя ред в „Стопани свързани с Coretovia" · име, телефон, имейл, адрес, длъжност.',
+  pomosht(
+    'Добавя човек в списъка на стопаните с неговата длъжност. Длъжността дава правата, затова ' +
+      'бутонът е отворен за Стопанина, управителя и помощник управителя.',
+    KAKVO_SE_PISHE_ZA_CHOVEK,
+  ),
   { koyMozhe: RAZDAVA },
 );
 
@@ -35,7 +43,11 @@ export const sluzhiteliDobaviSluzhitel = komandaZaNovRed(
   'sluzhiteli',
   'sluzhiteli.dobaviSluzhitel',
   'Добави Служител',
-  'Добавя ред в „Служители свързани с Coretovia" · имейлът му го свързва с Длъжността.',
+  pomosht(
+    'Добавя служител с длъжност. Имейлът му е ключът: с него влиза в програмата, а ' +
+      'длъжността казва какво вижда и какво пише.',
+    KAKVO_SE_PISHE_ZA_CHOVEK,
+  ),
   { koyMozhe: RAZDAVA },
 );
 
@@ -43,6 +55,10 @@ export const sluzhiteliDobaviDlazhnost = komandaZaNovRed(
   'dostap',
   'sluzhiteli.dobaviDlazhnost',
   'Създаване на Длъжност с достъп',
-  'Добавя ред в „Достъп на Длъжности за Служител" · четирите оси, с неговите думи.',
+  pomosht(
+    'Създава длъжност и описва правата ѝ по четирите оси: табове, хедъри, редове и Журнал. ' +
+      'Правото само стеснява — първата дума на всяка ос казва Редактира или Вижда.',
+    'длъжност · табове · хедъри · редове · Журнал · всяка ос започва с Редактира или Вижда',
+  ),
   { koyMozhe: RAZDAVA },
 );

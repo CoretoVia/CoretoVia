@@ -20,9 +20,11 @@ import type { Kletka, Kletki } from '../../src/model/kletka.js';
 import { type Kolona, slotNaKolonata } from '../../src/model/kolona.js';
 import { tablitsata } from '../../src/model/model.js';
 import { MODEL } from '../../src/model/osnova.js';
+import { tekstNaPomoshtta } from '../../src/model/pomosht.js';
 import { dumiZaGreshka } from '../../src/yadro/dumi.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { otgovoratNaPortata } from '../prozorets/deystviya.js';
+import { stepenNaPomoshtta } from './podskazka.js';
 import { kletkaOtPoleto, pokazhiGreshka, poleZaKolona } from './redaktsiya.js';
 
 export interface OblikNaChernovata {
@@ -119,7 +121,8 @@ export function otvoriChernova(
       const td = j === undefined ? undefined : tds[j];
       if (td === undefined) continue;
       const pole = poleZaKolona(o, kol, null, tekushti);
-      pole.title = kol.kratko ?? kol.ime;
+      // главата на дървото е негова, полето под нея казва коя колона на Модела пълни
+      pole.dataset['podskazka'] = tekstNaPomoshtta(kol.pomosht, stepenNaPomoshtta());
       poleta.set(kol.klyuch, pole);
       td.append(pole);
     }

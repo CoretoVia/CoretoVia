@@ -32,8 +32,11 @@ export const TABLITSI_NA_PRODAZHBITE = ['prodazhbi', 'prodazhbi2'] as const;
 /** Страните на плащането · в реда, в който стоят главите му. */
 export const STRANI_NA_PLASHTANETO: readonly StranaNaPlashtane[] = Object.freeze(['banka', 'kesh']);
 
-export const IMENA_NA_STRANITE_NA_PLASHTANE: Readonly<Record<StranaNaPlashtane, string>> =
-  Object.freeze({ banka: 'банка', kesh: 'кеш' });
+/**
+ * Думите на страните живеят до типа си в Модела (`kolona.ts`), защото и помощта
+ * на колоните с пари ги иска; тук се преизнасят за екрана, който ги чете оттук.
+ */
+export { IMENA_NA_STRANITE_NA_PLASHTANE } from '../model/kolona.js';
 
 export interface StranaNaProdazhba {
   readonly strana: StranaNaPlashtane;

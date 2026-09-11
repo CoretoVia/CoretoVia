@@ -114,6 +114,14 @@ describe('полетата с цифри', () => {
       'Обекти',
       'Бизнеси',
     ]);
+    // всяко поле носи помощ с две части · формулата казва онова, което цикълът прави:
+    // просрочената задача излиза преди спешните и бюджета, затова двете са „върху отворените"
+    for (const x of p.poleta) {
+      expect(x.pomosht.zashto.length).toBeGreaterThan(0);
+      expect(x.pomosht.kratko.length).toBeGreaterThan(0);
+    }
+    expect(p.poleta.find((x) => x.klyuch === 'byudzhet')!.pomosht.kratko).toMatch(/отворените/);
+    expect(p.poleta.find((x) => x.klyuch === 'speshni')!.pomosht.kratko).toMatch(/отворени/);
   });
 
   it('сверката · отворени + просрочени = всички · и при празно Огледало', async () => {
