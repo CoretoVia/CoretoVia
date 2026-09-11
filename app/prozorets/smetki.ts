@@ -56,6 +56,7 @@ import { kalendarHTML } from '../reshetka/kalendar-tablitsa.js';
 import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
 import { chetiEkranno, zapomniEkranno } from '../reshetka/pamet-ekran.js';
+import { lentaNaDeystviyata, zakachiTemite } from '../reshetka/lenta-deystviya.js';
 import { podtaboveHTML, tekushtPodtab, zakachiPodtabove } from '../reshetka/podtabove.js';
 import { pokazhiGreshka } from '../reshetka/redaktsiya.js';
 import { kletkaHTML, zakachiReshetkata } from '../reshetka/reshetka.js';
@@ -438,10 +439,11 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
           .map((sv) => `${sv.kakvo}: ${sv.nared ? 'затваря' : `разлика ${pishi(sv.razlika)}`}`)
           .join(' · ')}</span>
       </form>
-      <div class="deystviya butoni-malki" data-butoni>
-        ${BUTONI_NA_UPRAVLENIE.map(butonHTML)}
-        <button type="button" class="malak" data-dobavi-dvizhenie${podskazkaSDumi('отваря чернова под главата · Enter записва реда през Портата · знакът решава страната')}>Добави ред с пари</button>
-      </div>
+      ${lentaNaDeystviyata(
+        BUTONI_NA_UPRAVLENIE,
+        butonHTML,
+        h`<button type="button" class="malak" data-dobavi-dvizhenie${podskazkaSDumi('отваря чернова под главата · Enter записва реда през Портата · знакът решава страната')}>Добави ред с пари</button>`,
+      )}
     </div>
     ${podtaboveHTML(PODTABOVE, podtab)}
     <p class="greshka" data-greshka></p>
@@ -487,6 +489,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   );
 
   zakachiReshetkata(k);
+  zakachiTemite(k.tyalo);
   zakachiPodtabove(k.tyalo, PAMET.podtab, k.prerisuvay);
   if (podtab === 'smetki') narisuvayKalendara(k, [...s.prihod, ...s.razhod], mesets, skritiZadachi);
   k.tyalo.querySelector<HTMLFormElement>('[data-dds-forma]')?.addEventListener('submit', (e) => {

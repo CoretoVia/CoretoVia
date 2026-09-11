@@ -1335,6 +1335,49 @@ export interface ButonNaProzoretsa {
   readonly deystvie: DeystvieNaButon;
 }
 
+/**
+ * ТЕМИТЕ НА БУТОНИТЕ · четвъртият ред на всеки прозорец.
+ *
+ * Негово, `zadanie/12-dopalneniya-08-09.md` (О1), ДОСЛОВНО: „Всички бутони се
+ * разделят на теми с падащи менюта, колкото са темите в таба." И 09.09: „В
+ * началния главен хедър на всеки таб да има също падащи менюта по теми за
+ * бутоните." И 11.09 (запис 193): „Създаването е отделно падащо меню
+ * навсякъде. Тук се събират и такта и датата."
+ *
+ * Темата е ДАННИ за бутона, както са и лицето и помощта му — затова живее тук,
+ * до каталога, а не в екрана, който я рисува. Така я четат и екранът, и
+ * проходът, без да пипат нито един възел на страницата.
+ */
+export interface TemaNaButonite {
+  readonly klyuch: string;
+  /** лицето на менюто · негова дума, където я има */
+  readonly ime: string;
+  /** ключовете на бутоните в темата · в реда, в който стоят в менюто */
+  readonly klyuchove: readonly string[];
+}
+
+export const TEMI_NA_BUTONITE: readonly TemaNaButonite[] = Object.freeze([
+  { klyuch: 'sazdavane', ime: 'Създаване', klyuchove: ['dobavyane', 'dobavyane-na-sastoyanie'] },
+  {
+    klyuch: 'izgled',
+    ime: 'Изглед',
+    klyuchove: ['skriy-tablitsa', 'skriy-diagrama', 'skriy-dela', 'skriy-prihodi', 'skriy-razhodi'],
+  },
+  { klyuch: 'model', ime: 'Модел', klyuchove: ['otvori', 'zapazi', 'obnovi'] },
+  { klyuch: 'fayl', ime: 'Файл', klyuchove: ['svali-fayl'] },
+]);
+
+/** Ключовете, които стоят ОТКРИТИ на реда · такта и датата (запис 193). */
+export const OTKRITITE: readonly string[] = Object.freeze(['takt', 'period', 'nachalo-sega']);
+
+/** Бутон без тема и без открито място · празен списък значи, че редът е цял. */
+export function butoniBezTema(butoni: readonly ButonNaProzoretsa[]): readonly string[] {
+  const vTema = new Set(TEMI_NA_BUTONITE.flatMap((t) => t.klyuchove));
+  return butoni
+    .map((b) => b.klyuch)
+    .filter((klyuch) => !vTema.has(klyuch) && !OTKRITITE.includes(klyuch));
+}
+
 export const BUTONI_NA_UPRAVLENIE: readonly ButonNaProzoretsa[] = [
   {
     klyuch: 'otvori',

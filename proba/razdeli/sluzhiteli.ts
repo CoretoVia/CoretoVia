@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { prochetiKniga } from '../../src/kniga/ooxml.ts';
 import type { KonteksNaProhoda } from '../yadro/kontekst.ts';
-import { tekstNa, tekstoveNa } from '../yadro/pomoshtni.ts';
+import { natisniButon, tekstNa, tekstoveNa } from '../yadro/pomoshtni.ts';
 import { ADRES } from '../yadro/server.ts';
 
 const LIST = 'Служители';
@@ -202,10 +202,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
 
   // ══ 6е · Книгата носи листа · и се чете обратно без предложения ══════
   razdel = '6е · Книгата';
-  const [svalyane] = await Promise.all([
-    p.waitForEvent('download'),
-    p.click('[data-buton-ekran="svali-fayl"]'),
-  ]);
+  const [svalyane] = await Promise.all([p.waitForEvent('download'), natisniButon(p, 'svali-fayl')]);
   const pat = (await svalyane.path()) ?? '';
   await p.waitForFunction(() =>
     (document.querySelector('[data-iznos-vest]')?.textContent ?? '').startsWith(

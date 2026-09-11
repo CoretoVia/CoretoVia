@@ -1,7 +1,14 @@
 import { readFileSync } from 'node:fs';
 import { prochetiKniga } from '../../src/kniga/ooxml.ts';
 import type { KonteksNaProhoda } from '../yadro/kontekst.ts';
-import { poletaBezIme, tekstNa, tekstoveNa } from '../yadro/pomoshtni.ts';
+import {
+  litseNaButona,
+  natisniButon,
+  natisniVMenyu,
+  poletaBezIme,
+  tekstNa,
+  tekstoveNa,
+} from '../yadro/pomoshtni.ts';
 import { mesetsatNaProhoda } from '../yadro/kalendar.ts';
 import { ADRES } from '../yadro/server.ts';
 
@@ -56,7 +63,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   // Скриването пипа ЕКРАНА и нищо друго (правило 23: скритото ПАК се смята).
   // Затова тук се гледа блокът, а не сборът — и накрая всичко се връща, за да
   // не пренесе разделът състояние на следващия (памет на екрана е `ui.v1.`).
-  await p.click('[data-buton-ekran="skriy-prihodi"]');
+  await natisniButon(p, 'skriy-prihodi');
   await p.waitForFunction(() => document.querySelector('[data-blok="prihod"]') === null);
   proveri(
     'Скрий Приходи маха блока · и Разходите остават',
@@ -65,11 +72,11 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
   proveri(
     'бутонът вече казва ПОКАЖИ · лицето му е действието, не миналото',
-    await tekstNa(p, '[data-buton-ekran="skriy-prihodi"]'),
+    await litseNaButona(p, 'skriy-prihodi'),
     'Покажи ПРИХОД',
   );
   // ПОСЛЕДНАТА видима страна не се скрива · и отказът се КАЗВА (правило 12)
-  await p.click('[data-buton-ekran="skriy-razhodi"]');
+  await natisniButon(p, 'skriy-razhodi');
   await p.waitForFunction(() =>
     /Последната видима страна/.test(document.querySelector('[data-greshka]')?.textContent ?? ''),
   );
@@ -78,7 +85,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     await p.$$eval('[data-blok="prihod"], [data-blok="razhod"]', (es) => es.length),
     1,
   );
-  await p.click('[data-buton-ekran="skriy-prihodi"]');
+  await natisniButon(p, 'skriy-prihodi');
   await p.waitForSelector('[data-blok="prihod"]');
   proveri(
     'Покажи Приходи връща блока · двете страни са пак на екрана',
@@ -95,7 +102,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
 
   // ══ 4б · движение · знакът решава страната ═══════════════════════════
   razdel = '4б · движение';
-  await p.click('[data-dobavi-dvizhenie]');
+  await natisniVMenyu(p, '[data-dobavi-dvizhenie]');
   await p.waitForSelector('tr.chernova[data-chernova="dvizheniya"]');
   const ch = 'tr.chernova[data-chernova="dvizheniya"]';
   // родителят · първият Имот в списъка · оттук редът се вижда и в Управление (запис 193)
@@ -121,7 +128,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
 
   // разход в ПРИХОДНА секция · отказът е с думи (правило 20)
-  await p.click('[data-dobavi-dvizhenie]');
+  await natisniVMenyu(p, '[data-dobavi-dvizhenie]');
   await p.waitForSelector(ch);
   await p.selectOption(`${ch} select[data-kolona="sektsiya"]`, '1');
   await p.selectOption(`${ch} select[data-kolona="funktsiya"]`, '3');
@@ -181,10 +188,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
 
   // ══ 4г · Книгата · листът Сметки ═════════════════════════════════════
   razdel = '4г · Книгата';
-  const [svalyane] = await Promise.all([
-    p.waitForEvent('download'),
-    p.click('[data-buton-ekran="svali-fayl"]'),
-  ]);
+  const [svalyane] = await Promise.all([p.waitForEvent('download'), natisniButon(p, 'svali-fayl')]);
   const pat = (await svalyane.path()) ?? '';
   await p.waitForFunction(() =>
     (document.querySelector('[data-iznos-vest]')?.textContent ?? '').startsWith(
@@ -243,7 +247,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   await p.waitForSelector('[data-zalepeno="upravlenie"]');
   proveri(
     'движението стои в дървото · под своя Имот',
-    (await tekstoveNa(p, 'tr.red.dvizhenie td[data-kolona="byudzhet"]')).join(' · '),
+    (await tekstoveNa(p, 'tr.red.dvizhenie td[data-kolona="suma"]')).join(' · '),
     EVRO_1200,
   );
   proveri(
@@ -253,16 +257,16 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
   proveri(
     'бутонът казва „Скрий Сметки", не „Скрий Дела"',
-    await tekstNa(p, '[data-buton-ekran="skriy-dela"]'),
+    await litseNaButona(p, 'skriy-dela'),
     'Скрий Сметки',
   );
-  await p.click('[data-buton-ekran="skriy-dela"]');
+  await natisniButon(p, 'skriy-dela');
   await p.waitForFunction(() => document.querySelectorAll('tr.red.dvizhenie').length === 0);
   proveri(
     'натиснат · редовете ги няма и сверката го КАЗВА',
-    `${await tekstNa(p, '[data-sverka="smetki"]')} · ${await tekstNa(p, '[data-buton-ekran="skriy-dela"]')}`,
+    `${await tekstNa(p, '[data-sverka="smetki"]')} · ${await litseNaButona(p, 'skriy-dela')}`,
     'сметки 0 от 2 · без родител 1 · скрити · Покажи Сметки',
   );
-  await p.click('[data-buton-ekran="skriy-dela"]');
+  await natisniButon(p, 'skriy-dela');
   await p.waitForSelector('tr.red.dvizhenie');
 }

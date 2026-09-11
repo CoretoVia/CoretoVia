@@ -31,6 +31,8 @@ export interface DvizhenieVDarvoto {
   readonly id: string;
   /** идентификаторът на Имота, Обекта или Бизнеса · празен е „без родител" */
   readonly roditelId: string;
+  /** името на реда · кой служител, коя фирма, кой кредит · може да е празно */
+  readonly ime: string;
   /** секцията с думи · „Наем Банка" · „Заплати Кеш" */
   readonly sektsiya: string;
   /** функцията и състоянието, слети с наклонена черта, както в Книгата */
@@ -80,6 +82,7 @@ export function smetkiteVUpravlenie(o: Ogledalo): SmetkiteVUpravlenie {
     const red: DvizhenieVDarvoto = {
       i,
       id: r.id,
+      ime: tekstNaKletka(o, TABLITSA, i, 'ime'),
       roditelId: tekstNaKletka(o, TABLITSA, i, 'kam'),
       sektsiya,
       funktsiya,

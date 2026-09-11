@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { prochetiKniga } from '../../src/kniga/ooxml.ts';
 import type { KonteksNaProhoda } from '../yadro/kontekst.ts';
-import { tekstNa, tekstoveNa } from '../yadro/pomoshtni.ts';
+import { natisniButon, tekstNa, tekstoveNa } from '../yadro/pomoshtni.ts';
 import { mesetsatNaProhoda } from '../yadro/kalendar.ts';
 import { ADRES } from '../yadro/server.ts';
 
@@ -99,10 +99,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
 
   // ══ 5г · Книгата носи блока ДДС · и се чете обратно ══════════════════
   razdel = '5г · Книгата';
-  const [svalyane] = await Promise.all([
-    p.waitForEvent('download'),
-    p.click('[data-buton-ekran="svali-fayl"]'),
-  ]);
+  const [svalyane] = await Promise.all([p.waitForEvent('download'), natisniButon(p, 'svali-fayl')]);
   const pat = (await svalyane.path()) ?? '';
   await p.waitForFunction(() =>
     (document.querySelector('[data-iznos-vest]')?.textContent ?? '').startsWith(

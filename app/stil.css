@@ -30,7 +30,7 @@ body {
 .ekran {
   max-width: 80rem;
   margin: 0 auto;
-  padding: 1rem 1rem 4rem;
+  padding: 0.5rem 1rem 0;
 }
 
 .glava {
@@ -71,12 +71,12 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem;
-  margin: 0.75rem 0 1rem;
+  margin: 0.3rem 0 0;
   border-bottom: 1px solid var(--linija);
 }
 
 .lenta-prozortsi a {
-  padding: 0.4rem 0.7rem;
+  padding: 0.25rem 0.7rem;
   color: var(--sivo);
   text-decoration: none;
   border-bottom: 2px solid transparent;
@@ -448,7 +448,7 @@ details.sverki summary {
   top: 0;
   z-index: 5;
   background: var(--fon);
-  padding: 0.35rem 0 0.4rem;
+  padding: 0.25rem 0 0.3rem;
   border-bottom: 1px solid var(--linija);
 }
 
@@ -456,7 +456,7 @@ details.sverki summary {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.25rem;
 }
 
 .pole-s-tsifra {
@@ -961,9 +961,18 @@ main.prozorets {
     background: #ffffff;
     font-size: 11px;
   }
+  /* на хартия няма прозорец, който да държи височина · листът расте надолу */
   .ekran {
     max-width: none;
     padding: 0;
+    height: auto;
+    display: block;
+  }
+  .ekran > .prozorets {
+    overflow: visible;
+  }
+  .zalepeno {
+    position: static;
   }
   .lenta-prozortsi,
   .buton-grupa,
@@ -1151,4 +1160,104 @@ body.vlacha-shirina {
   font-size: 0.7rem;
   color: var(--sivo);
   line-height: 1.2;
+}
+
+/* ═══ ЧЕТИРИТЕ СТАЦИОНАРНИ РЕДА · негово, 11.09 (запис 193) ═══
+
+   „Щом не става заради залепения хедър, да го направим не залепен хедър а като
+   3 ленти както говорихме. 1ви ред да показва информацията както сега. 2ри ред
+   да е по близко до 1ви ред, 3ти ред да се доближи също до 2ри. 4ти ред се
+   правят падащи менюта с бутони… Всички тези 4 реда да са стационарни без
+   хедъри. Така вкарваш хоризонталния скрол."
+
+   Страницата НЕ се движи: екранът е висок колкото прозореца на браузъра, а
+   единственото, което се движи, е ТЯЛОТО на таба. Оттам следва всичко останало —
+   четирите реда горе стоят, без да ги „лепим", и хоризонталният скрол на
+   таблицата и календара работи, защото никой не го надбягва.
+
+   Редовете са: 1 · главата с името и вестта · 2 · осемте таба · 3 · полетата с
+   цифри · 4 · менютата по теми, такта и датата. */
+.ekran {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ekran > .glava,
+.ekran > .lenta-prozortsi {
+  flex: 0 0 auto;
+}
+
+.ekran > .prozorets {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding-bottom: 2rem;
+}
+
+/* ЧЕТВЪРТИЯТ РЕД · „Всички бутони се разделят на теми с падащи менюта, колкото
+   са темите в таба" (негово, zadanie/12 · О1). Менюто е <details>: отваря се без
+   нито един ред скрипт, а кутията виси НАД съдържанието, вместо да го бута. */
+.ekran .deystviya .tema {
+  position: relative;
+}
+
+.ekran .deystviya .tema > summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  min-height: 1.8rem;
+  font-size: 0.8rem;
+  border: 1px solid var(--linija);
+  border-radius: 6px;
+  background: var(--hartiya);
+  color: var(--mastilo);
+  user-select: none;
+}
+
+.ekran .deystviya .tema > summary::-webkit-details-marker {
+  display: none;
+}
+
+.ekran .deystviya .tema > summary::after {
+  content: "▾";
+  color: var(--sivo);
+  font-size: 0.7rem;
+}
+
+.ekran .deystviya .tema[open] > summary {
+  border-color: var(--zeleno);
+  color: var(--zeleno);
+}
+
+.ekran .deystviya .tema > .tochki {
+  position: absolute;
+  top: calc(100% + 0.2rem);
+  left: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.2rem;
+  min-width: 13rem;
+  padding: 0.3rem;
+  background: var(--hartiya);
+  border: 1px solid var(--linija);
+  border-radius: 6px;
+  box-shadow: 0 3px 10px rgb(31 42 37 / 12%);
+}
+
+.ekran .deystviya .tema > .tochki > button {
+  max-width: none;
+  text-align: left;
+}
+
+.ekran .deystviya .otkriti {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
 }

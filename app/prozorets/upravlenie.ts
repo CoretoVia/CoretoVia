@@ -27,6 +27,7 @@ import {
   type ButonNaProzoretsa,
   type GlavaNaOblika,
   MODEL,
+  OBLIK_NA_SMETKI,
   OBLIK_NA_UPRAVLENIE,
   PROZORTSI,
 } from '../../src/model/osnova.js';
@@ -70,6 +71,7 @@ import {
 import { pishi } from '../../src/yadro/pari.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { otvoriChernova } from '../reshetka/chernova.js';
+import { lentaNaDeystviyata, zakachiTemite } from '../reshetka/lenta-deystviya.js';
 import { pokazhiMenyu } from '../reshetka/menyu.js';
 import { otvoriModel, zapaziModela } from '../reshetka/modeli.js';
 import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
@@ -352,42 +354,59 @@ function fizicheskiKletki(oblik: readonly GlavaNaOblika[]): {
  * Редът е ПОГЛЕД, не вход: пише се в Сметки, тук само се вижда (запис 163 ·
  * „в Управление и да скриеш Сметките не се променят там").
  */
+/**
+ * КЪДЕ ПАДА КЛЕТКАТА НА ЕДНО ДВИЖЕНИЕ под неговите глави.
+ *
+ * Картата е НЕГОВА и живее на едно място — листът Сметки (`OBLIK_NA_SMETKI`,
+ * полето `dvizhenie`): името на реда под „Състояние", функцията под „Задачи",
+ * месецът под „Дата", сумата под „Бюджет Дела/ Бюджет Сметки".
+ *
+ * Тук тя се ДЕРИВИРА, а не се преписва (правило 14): двата облика носят едни и
+ * същи глави с едни и същи `ot` и `kolona`, тъй че сдвояването по тях е точно.
+ * Преписана карта би се разминала при първата му промяна в единия лист.
+ */
+const KAM_DVIZHENIETO: ReadonlyMap<string, string> = new Map(
+  OBLIK_NA_SMETKI.filter((g) => g.dvizhenie !== undefined).map((g) => [
+    `${g.ot}·${g.kolona ?? ''}`,
+    g.dvizhenie as string,
+  ]),
+);
+
 function redNaDvizhenie(d: DvizhenieVDarvoto, oblik: readonly GlavaNaOblika[]): RedNaEkrana {
   const dumi: string[] = [];
   const kletki: (Kletka | null)[] = [];
   const tds: Zapechatan[] = [];
   const parite = pishi(d.suma_st);
+  // НЕГОВАТА КАРТА · вж. KAM_DVIZHENIETO
+  const podGlavata: Readonly<Record<string, { dumi: string; kletka: Kletka | null }>> = {
+    ime: {
+      dumi: d.ime === '' ? d.sektsiya : d.ime,
+      kletka: { tekst: d.ime === '' ? d.sektsiya : d.ime },
+    },
+    funktsiya: { dumi: d.funktsiya, kletka: d.funktsiya === '' ? null : { tekst: d.funktsiya } },
+    mesets: { dumi: d.mesets, kletka: d.mesets === '' ? null : { tekst: d.mesets } },
+    suma: { dumi: parite, kletka: { stoynost_st: d.suma_st } },
+  };
   for (const g of oblik) {
     const broy = Math.max(1, koloniPodGlavata(g).length);
-    if (g.kolona === 'vid') {
-      dumi.push(`${d.sektsiya} / ${d.funktsiya}`.trim());
-      kletki.push({ tekst: d.sektsiya });
-      tds.push(
-        h`<td class="kletka tekst" data-kolona="sektsiya" translate="no">${d.sektsiya}</td>`,
-      );
-      tds.push(
-        h`<td class="kletka tekst" data-kolona="funktsiya" translate="no">${d.funktsiya}</td>`,
-      );
+    const klyuch = KAM_DVIZHENIETO.get(`${g.ot}·${g.kolona ?? ''}`);
+    const pod = klyuch === undefined ? undefined : podGlavata[klyuch];
+    if (pod === undefined) {
+      dumi.push('');
+      kletki.push(null);
+      tds.push(h`<td class="kletka prazna" colspan="${broy}"></td>`);
       continue;
     }
-    if (g.kolona === 'ot') {
-      dumi.push(d.mesets);
-      kletki.push({ tekst: d.mesets });
-      tds.push(h`<td class="kletka tekst" data-kolona="mesets" translate="no">${d.mesets}</td>`);
-      tds.push(h`<td class="kletka prazna"></td>`);
-      continue;
-    }
-    if (g.kolona === 'byudzhet') {
-      dumi.push(parite);
-      kletki.push({ stoynost_st: d.suma_st });
+    dumi.push(pod.dumi);
+    kletki.push(pod.kletka);
+    if (klyuch === 'suma')
       tds.push(
-        h`<td class="kletka evro ${d.suma_st < 0 ? 'razhod' : 'prihod'}" data-kolona="byudzhet" data-st="${d.suma_st}" translate="no">${parite}</td>`,
+        h`<td class="kletka evro ${d.suma_st < 0 ? 'razhod' : 'prihod'}" colspan="${broy}" data-kolona="${klyuch}" data-st="${d.suma_st}" translate="no">${parite}</td>`,
       );
-      continue;
-    }
-    dumi.push('');
-    kletki.push(null);
-    tds.push(h`<td class="kletka prazna" colspan="${broy}"></td>`);
+    else
+      tds.push(
+        h`<td class="kletka tekst" colspan="${broy}" data-kolona="${klyuch}" translate="no">${pod.dumi}</td>`,
+      );
   }
   return {
     vid: 'dvizhenie',
@@ -581,7 +600,7 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
     h`
     <div class="zalepeno" data-zalepeno="upravlenie">
       <div class="poleta-s-tsifri" data-poleta>${poletaHTML}</div>
-      <div class="deystviya butoni-malki" data-butoni>${BUTONI_NA_UPRAVLENIE.map(butonHTML)}</div>
+      ${lentaNaDeystviyata(BUTONI_NA_UPRAVLENIE, butonHTML)}
     </div>
     <p class="greshka" data-greshka></p>
     <section class="upravlenie-tyalo" data-upravlenie>
@@ -616,6 +635,7 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
       ${dumiteIIznosHTML(DUMI_OT_KNIGATA.upravlenie)}`,
   );
 
+  zakachiTemite(k.tyalo);
   zakachiReshetkata(k);
 
   // ═══ филтърът · сметките · памет на екрана ═══

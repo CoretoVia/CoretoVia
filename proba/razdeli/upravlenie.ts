@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { napishiKniga, prochetiKniga } from '../../src/kniga/ooxml.ts';
 import { opisOtProcheten } from '../yadro/kniga.ts';
 import type { KonteksNaProhoda } from '../yadro/kontekst.ts';
-import { tekstNa, tekstoveNa } from '../yadro/pomoshtni.ts';
+import { litseNaButona, natisniButon, tekstNa, tekstoveNa } from '../yadro/pomoshtni.ts';
 import { denOtMesetsa } from '../yadro/kalendar.ts';
 import { ADRES } from '../yadro/server.ts';
 
@@ -191,27 +191,23 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     ),
     '72',
   );
-  await p.click('[data-buton-ekran="skriy-diagrama"]');
+  await natisniButon(p, 'skriy-diagrama');
   await p.waitForSelector('[data-reshetka="zadachi"].bez-taktove');
   proveri(
     'Скрий Диаграма · бутонът вече казва „Покажи Диаграма"',
-    await tekstNa(p, '[data-buton-ekran="skriy-diagrama"]'),
+    await litseNaButona(p, 'skriy-diagrama'),
     'Покажи Диаграма',
   );
-  await p.click('[data-buton-ekran="skriy-tablitsa"]');
+  await natisniButon(p, 'skriy-tablitsa');
   await p.waitForFunction((s) => (document.querySelector(s)?.textContent ?? '') !== '', GRESHKA);
   proveri(
     'последният изглед не се скрива · и отказът се казва',
     await tekstNa(p, GRESHKA),
     'Последният изглед не се скрива — иначе секцията остава празна.',
   );
-  await p.click('[data-buton-ekran="skriy-diagrama"]');
+  await natisniButon(p, 'skriy-diagrama');
   await p.waitForSelector('[data-reshetka="zadachi"]:not(.bez-taktove)');
-  proveri(
-    'Покажи Диаграма я връща',
-    await tekstNa(p, '[data-buton-ekran="skriy-diagrama"]'),
-    'Скрий Диаграма',
-  );
+  proveri('Покажи Диаграма я връща', await litseNaButona(p, 'skriy-diagrama'), 'Скрий Диаграма');
 
   // ══ 3г · „Свалифайл" = Книгата · листът Управление ═══════════════════
   // ══ 3в2 · неговите Отвори и Запази · моделът е ИМЕНУВАН поглед ══════
@@ -226,7 +222,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     (globalThis as unknown as { prompt: (a?: string, b?: string) => string }).prompt = () =>
       'Годишен преглед';
   });
-  await p.click('[data-buton-ekran="zapazi"]');
+  await natisniButon(p, 'zapazi');
   await p.waitForFunction(() =>
     (document.querySelector('[data-greshka]')?.textContent ?? '').includes('е записан'),
   );
@@ -237,7 +233,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
   // погледът се разваля · после моделът го връща
   await p.selectOption('[data-takt]', 'den');
-  await p.click('[data-buton-ekran="otvori"]');
+  await natisniButon(p, 'otvori');
   await p.waitForSelector('[data-menyu]');
   const punktove = await tekstoveNa(p, '[data-menyu] button');
   proveri(
@@ -254,7 +250,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     await p.$eval('[data-takt]', (e) => (e as HTMLSelectElement).value),
     'godina',
   );
-  await p.click('[data-buton-ekran="otvori"]');
+  await natisniButon(p, 'otvori');
   await p.waitForSelector('[data-menyu]');
   await p.click('[data-menyu] [data-tochka=""]');
   await p.waitForFunction(() =>
@@ -267,10 +263,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
 
   razdel = '3г · Книгата';
-  const [svalyane] = await Promise.all([
-    p.waitForEvent('download'),
-    p.click('[data-buton-ekran="svali-fayl"]'),
-  ]);
+  const [svalyane] = await Promise.all([p.waitForEvent('download'), natisniButon(p, 'svali-fayl')]);
   const pat = (await svalyane.path()) ?? '';
   await p.waitForFunction(() =>
     (document.querySelector('[data-iznos-vest]')?.textContent ?? '').startsWith(
