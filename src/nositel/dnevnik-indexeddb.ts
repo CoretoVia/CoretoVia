@@ -106,41 +106,72 @@ export function otvoriDnevnik(
       }
 
       const staroto = transaktsiya.objectStore(HRANILISHTE);
-      const chetene = staroto.getAll();
-      chetene.onsuccess = () => {
-        const zapisi = chetene.result as StarZapis[];
-        /*
-         * ВСЯКА ПРИЧИНА ЗА ОТМЯНА СЕ КАЗВА С ДУМИ (правило 12).
-         *
-         * Платено на 10.09.2026, 23:02: собственикът видя „Version change
-         * transaction was aborted in upgradeneeded event handler" — вярно и
-         * безполезно. Причината беше, че старият запис носи полето `naematel`,
-         * а пренасянето търсеше `veriga` (виж `prenesi`). Оттук нататък
-         * отмяната носи и КОЙ запис, и ЗАЩО.
-         */
-        try {
-          db.deleteObjectStore(HRANILISHTE);
-          const novo = napraviHranilishte(db);
-          zapisi.forEach((z, i) => {
+      /*
+       * ВСЯКА ПРИЧИНА ЗА ОТМЯНА СЕ КАЗВА С ДУМИ (правило 12).
+       *
+       * Платено на 10.09.2026, 23:02: собственикът видя „Version change
+       * transaction was aborted in upgradeneeded event handler" — вярно и
+       * безполезно. Причината беше, че старият запис носи полето `naematel`,
+       * а пренасянето търсеше `veriga` (виж `prenesi`). Оттук нататък
+       * отмяната носи и КОЙ запис, и ЗАЩО.
+       *
+       * С КУРСОР, не с `getAll` (Т48, 11.09.2026): старото се чете звено по
+       * звено и всяко веднага влиза в НОВОТО хранилище под временно име — в
+       * паметта стои едно звено, не целият Журнал. Накрая сверка вход↔изход
+       * (правило 7), старото пада, новото получава истинското име (`name` се
+       * сменя само вътре в стъпалото — IndexedDB 2.0).
+       */
+      let novo: IDBObjectStore;
+      try {
+        novo = napraviHranilishte(db, HRANILISHTE_PRENOS);
+      } catch (e) {
+        prichina ??= e instanceof Error ? e.message : String(e);
+        transaktsiya.abort();
+        return;
+      }
+      let procheteni = 0;
+      const hod = staroto.openCursor();
+      hod.onerror = (e) => {
+        e.preventDefault();
+        prichina ??= `четенето на старото хранилище спря: ${hod.error?.name ?? 'грешка'} · ${hod.error?.message ?? ''}`;
+        transaktsiya.abort();
+      };
+      hod.onsuccess = () => {
+        const kursor = hod.result;
+        if (kursor) {
+          const z = kursor.value as StarZapis;
+          const i = procheteni++;
+          try {
             const dobavyane = novo.add(prenesi(z, i));
             dobavyane.onerror = (e) => {
               e.preventDefault();
               prichina ??= `записът № ${i + 1} (seq ${z.seq}) не влезе: ${dobavyane.error?.name ?? 'грешка'} · ${dobavyane.error?.message ?? ''}`;
               transaktsiya.abort();
             };
-          });
-          // сверката е върху ПРОЧЕТЕНОТО срещу ЗАПИСАНОТО, не върху намерението
-          const broene = novo.count();
-          broene.onsuccess = () => {
-            if (broene.result !== zapisi.length) {
-              prichina ??= `сверката не затвори: прочетени ${zapisi.length} · записани ${broene.result}`;
-              transaktsiya.abort();
-            }
-          };
-        } catch (e) {
-          prichina ??= e instanceof Error ? e.message : String(e);
-          transaktsiya.abort();
+          } catch (e) {
+            prichina ??= e instanceof Error ? e.message : String(e);
+            transaktsiya.abort();
+            return;
+          }
+          kursor.continue();
+          return;
         }
+        // курсорът свърши · сверката е върху ПРОЧЕТЕНОТО срещу ЗАПИСАНОТО, не върху намерението
+        const broene = novo.count();
+        broene.onsuccess = () => {
+          if (broene.result !== procheteni) {
+            prichina ??= `сверката не затвори: прочетени ${procheteni} · записани ${broene.result}`;
+            transaktsiya.abort();
+            return;
+          }
+          try {
+            db.deleteObjectStore(HRANILISHTE);
+            novo.name = HRANILISHTE;
+          } catch (e) {
+            prichina ??= e instanceof Error ? e.message : String(e);
+            transaktsiya.abort();
+          }
+        };
       };
     };
 
@@ -165,9 +196,12 @@ export function otvoriDnevnik(
   });
 }
 
+/** Временното име на новото хранилище, докато стъпалото пренася · после става `HRANILISHTE`. */
+const HRANILISHTE_PRENOS = `${HRANILISHTE}-prenos`;
+
 /** Хранилището и двата му индекса · ЕДИН дом на формата им (правило 14). */
-function napraviHranilishte(db: IDBDatabase): IDBObjectStore {
-  const hranilishte = db.createObjectStore(HRANILISHTE, {
+function napraviHranilishte(db: IDBDatabase, ime: string = HRANILISHTE): IDBObjectStore {
+  const hranilishte = db.createObjectStore(ime, {
     keyPath: ['kniga', 'pisach', 'seq'],
   });
   hranilishte.createIndex(INDEKS_OPID, ['kniga', 'pisach', 'opId'], { unique: true });

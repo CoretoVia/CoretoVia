@@ -361,4 +361,42 @@ describe('стъпалото 1 → 2 · пренася, не трие', () => {
     });
     expect(star).toEqual({ versiya: 1, nizove: ['', NAEMATEL] });
   });
+
+  /**
+   * Т48 · стъпалото четеше с `getAll` и държеше целия Журнал в паметта. Сега
+   * върви с курсор: едно звено наведнъж. Доказва се двойно — триста стари звена
+   * минават цели, и `getAll` НЕ е викан нито веднъж, докато стъпалото тече
+   * (после четенето го ползва свободно — броенето е само около отварянето).
+   */
+  it('Т48 · стъпалото върви с КУРСОР · триста стари звена минават, без `getAll` да е викан', async () => {
+    const ime = 'stapalo-1-2-trista';
+    const zvena: Record<string, unknown>[] = [];
+    let predishen = '';
+    for (let seq = 1; seq <= 300; seq++) {
+      const z = await staroZveno(seq, predishen);
+      predishen = z['hash'] as string;
+      zvena.push(z);
+    }
+    await bazaNaVersiya1(ime, zvena);
+
+    const istinskiyat = IDBObjectStore.prototype.getAll;
+    let vikaniya = 0;
+    IDBObjectStore.prototype.getAll = function (this: IDBObjectStore, ...args: unknown[]) {
+      vikaniya++;
+      return istinskiyat.apply(this, args as Parameters<typeof istinskiyat>);
+    } as typeof istinskiyat;
+    let nov: Awaited<ReturnType<typeof otvoriDnevnik>>;
+    try {
+      nov = await otvoriDnevnik(ime);
+    } finally {
+      IDBObjectStore.prototype.getAll = istinskiyat;
+    }
+    expect(vikaniya, 'стъпалото не бива да вика getAll').toBe(0);
+
+    const vsichki = await nov.chetiVsichki(NAEMATEL);
+    expect(vsichki).toHaveLength(300);
+    expect(vsichki.at(-1)?.seq).toBe(300);
+    expect(await proveriVerigata(vsichki, SHA)).toEqual({ tsyala: true, proverni: 300 });
+    nov.zatvori();
+  });
 });

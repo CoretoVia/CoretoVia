@@ -2279,14 +2279,15 @@
       "sastoyanie": "reshen_ot_koda",
       "negovite_dumi": "",
       "adres": "docs/ADR-023-pette-resheniya-06-09-vecherta.md:200 („същият закон като поканата в календара · ADR-064\") срещу `ls docs/ADR-*`, който спира на docs/ADR-024-chetirite-neobratimi.md · и docs/registar-na-prenosa.md:213: „domein/kalendar.ts | 149 | ЧАКА (Google Calendar → OAuth) | — | — | ADR-064\"",
-      "kakvo_sledva": "ADR-064 е ADR на MasterBook, НЕ на Coretovia, и не е пренасян — значи опората на решението в ADR-023 е висяща препратка навън: или се пренася, или цитатът се маха (правило 13). Не чака негова дума.",
+      "kakvo_sledva": "затворен 11.09.2026: препратката в docs/ADR-023:200 и редът в docs/registar-na-prenosa.md:213 са квалифицирани „ADR-064 на MasterBook, непренесен\" (правило 13); календарът идва с адаптера на 1.1 · docs/14 §3.2",
       "otpushva": [],
       "zhivee_v": [
         "docs/14-dalgat.md",
         "docs/25-planat-i-vaprosite.md",
         "docs/dokladi/03-firmata-i-nepopitanoto.md",
         "docs/dokladi/06-propuskite-ot-arhiva.md",
-        "docs/dokladi/07-redat-na-kodirane.md"
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {
@@ -2471,14 +2472,16 @@
     },
     {
       "beleg": "Т48",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Стъпалото на Журнала 1 → 2 вдига ли целия Журнал в паметта (getAll)? При десетки хиляди звена на телефон това е таван.",
+      "sastoyanie": "reshen_ot_koda",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "src/nositel/dnevnik-indexeddb.ts",
+      "kakvo_sledva": "затворен 11.09.2026: пренасянето върви с курсор, всяко звено влиза веднага в новото хранилище под временно име, сверка вход↔изход, после старото пада и новото получава името си · тест с 300 звена и нула повиквания на getAll (tests/nositel-indexeddb.test.ts) · docs/14 §3.2",
       "otpushva": [],
       "zhivee_v": [
-        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+        "docs/14-dalgat.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {
@@ -2528,62 +2531,72 @@
     },
     {
       "beleg": "Т51",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Колони Начало и Край в Управление и колона Дата в Сметки, взета от Журнала и извлеченията (негово, 11.09, запис 162). Кога влизат в Модела и в Книгата?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/14-dalgat.md",
+      "kakvo_sledva": "ход 8.1 · преди него 8.0 · как се познава: колоните са в Управление, Сметки и в регенерираната Книга; Датата в Сметки идва от събитието/извлечението, не на ръка; задача без Начало/Край не влиза в календара и го казва с думи",
       "otpushva": [],
       "zhivee_v": [
-        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+        "docs/14-dalgat.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {
       "beleg": "Т52",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Само задачите С БЮДЖЕТ се пренасят от Управление в Сметки; отметката в Сметки ги изключва от сметката, отметката в Управление не променя нищо там (негово, 11.09, запис 163). Кога?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/14-dalgat.md",
+      "kakvo_sledva": "ход 8.1 · преди него Т51 · как се познава: тест — скрита в Сметки задача → Σ пада с бюджета ѝ; скрити редове на Сметки в Управление → Σ на Управление без промяна; задача без бюджет не се появява в Сметки",
       "otpushva": [],
       "zhivee_v": [
-        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+        "docs/14-dalgat.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {
       "beleg": "Т53",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "В Сметки се трие без следа в Журнала от всеки с право „редактира“ там; Сметки е моментна минала картина и история с коефициентите; „модел“ със свое име за сравнение, който не влияе на нищо (негово, 11.09, запис 164). Къде живее моделът и кога се строи?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/14-dalgat.md",
+      "kakvo_sledva": "ход 8.x · преди него Т52 · обявено предположение: моделът е свой вид събитие в Журнала, което четците на истината подминават · как се познава: триене в Сметки → Огледалото на Управление без промяна; моделът се отваря по име и не влиза в нито един сбор извън себе си",
       "otpushva": [],
       "zhivee_v": [
-        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+        "docs/14-dalgat.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {
       "beleg": "Т54",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "В Сметки се добавя всичко, което може да се добави в Управление — „с това става уникална“ (негово, 11.09, запис 165). Кога?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/14-dalgat.md",
+      "kakvo_sledva": "ход 8.x · преди него Т53 · как се познава: тест — множеството команди „добави“ на Управление има огледало в Сметки и нито едно огледало не пише в истината",
       "otpushva": [],
       "zhivee_v": [
-        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+        "docs/14-dalgat.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {
       "beleg": "Т55",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Епъл и Майкрософт като платформи — вход, поща/календар, техният драйв — както Гугъл (негово, 11.09, запис 166; 08.09, запис 30). Кога?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/14-dalgat.md",
+      "kakvo_sledva": "2.0 · преди него: адаптерът Гугъл жив (1.1) и портът на 10г доказан с два адаптера · как се познава: трети и четвърти адаптер зад същия порт, без ред в ядрото",
       "otpushva": [],
       "zhivee_v": [
-        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+        "docs/14-dalgat.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {

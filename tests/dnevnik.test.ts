@@ -84,7 +84,11 @@ describe('дневникът · тринайсетата порта', () => {
 
   it('МЯРКАТА ЛОВИ · заготовката не минава за запис → Д3 · зачеркнат ред в „ОТВОРЕНИ" → Д4', () => {
     const koren = darvo(mkdtempSync(join(tmpdir(), 'dnevnik-')));
-    expect(pusni(koren, ['--nachalo']).status).toBe(0);
+    const n = pusni(koren, ['--nachalo']);
+    expect(n.status).toBe(0);
+    // таблото на тресчотките (0.12) се печата и в най-малкото дърво
+    expect(n.stdout).toContain('ТАБЛОТО НА ТРЕСЧОТКИТЕ');
+    expect(n.stdout).toMatch(/непознати: \d+/);
     // `nachalo` е създал двата файла за деня · но те са ЗАГОТОВКИ
     expect(readFileSync(join(koren, 'docs/dnevnik', `${DEN}.md`), 'utf8')).toContain('## 5 ·');
     writeFileSync(
