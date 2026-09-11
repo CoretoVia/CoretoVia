@@ -27,6 +27,7 @@ import {
   dayPravoNadRedove,
   KNIGA,
   knigaZaTest,
+  nomerNaSektsiya,
   STOPANIN,
   VERIGA_NA_SLUZHITEL,
   USTROYSTVO,
@@ -145,6 +146,27 @@ describe('неподвижната точка', () => {
     expect(otchet.sverki.length).toBeGreaterThan(0);
     for (const s of otchet.sverki) expect(s.nared, s.kakvo).toBe(true);
     expect(otchet.sluzhebno?.kursor?.seq).toBe(6);
+  });
+
+  it('движение ПОД Имот се връща само на себе си · родителят не пише в чужда колона', async () => {
+    const { iz, zapishi } = await nashata();
+    // неговата глава за състоянието на Имота е СЪЩАТА колона като името на
+    // движението. Докато движенията бяха без родител, сблъсъкът мълчеше.
+    await zapishi('d1', 'smetki.dobaviDvizhenie', {
+      kletki: {
+        kam: { tekst: 'imot:i1' },
+        ime: null,
+        sektsiya: { nomer: nomerNaSektsiya(iz.ogledalo(), 'prihod', 'Наем Банка') },
+        sektsiyaR: null,
+        funktsiya: { nomer: 3 },
+        sastoyanie: null,
+        mesets: { tekst: '2026-09' },
+        suma: { stoynost_st: 120000 },
+      },
+    });
+    const otchet = await sveriListove(iz, listove(iz));
+    expect(otchet.predlozheniya).toEqual([]);
+    expect(otchet.nahodki).toEqual([]);
   });
 
   it('NFD „й" от друга клавиатура не е промяна · NFC още при четенето', async () => {

@@ -1095,6 +1095,14 @@ body.vlacha-shirina {
 .ekran .darvo-blok .reshetka.darvo td.takt.dnes {
   background: var(--zhalto);
 }
+/* СМЕТКИТЕ В КАЛЕНДАРА НА УПРАВЛЕНИЕ · движението не е лента, а една сума в
+   един месец: клетката му е числова и дясно подравнена, за да се чете в колона. */
+.ekran .darvo-blok .reshetka.darvo td.takt.dvizhenie {
+  background: var(--zeleno-svetlo);
+  text-align: right;
+  padding-right: 0.2rem;
+  font-variant-numeric: tabular-nums;
+}
 .ekran .darvo-blok .reshetka.darvo td.takt.lenta {
   background: var(--zeleno);
   color: var(--hartiya);
@@ -1113,6 +1121,21 @@ body.vlacha-shirina {
 .ekran .darvo-blok .reshetka.darvo.bez-taktove td.takt,
 .ekran .darvo-blok .reshetka.darvo.bez-taktove th.takt {
   display: none;
+}
+/* РЕДЪТ НА ЕДНО ДВИЖЕНИЕ · негово, 11.09 (запис 193): Сметките стоят под своя
+   Имот, Обект или Бизнес и се крият с ЕДИН бутон. Редът е поглед, не вход —
+   затова е в курсив и по-блед, а само парите носят цвета на страната си. */
+.ekran .darvo-blok .reshetka.darvo tbody tr.red.dvizhenie td.kletka {
+  font-style: italic;
+  color: var(--sivo);
+}
+.ekran .darvo-blok .reshetka.darvo tbody tr.red.dvizhenie td.kletka.prihod {
+  color: var(--zeleno);
+  font-style: normal;
+}
+.ekran .darvo-blok .reshetka.darvo tbody tr.red.dvizhenie td.kletka.razhod {
+  color: var(--cherveno);
+  font-style: normal;
 }
 .ekran .darvo-blok .reshetka.darvo tfoot td.takt .pokrivashti {
   display: block;

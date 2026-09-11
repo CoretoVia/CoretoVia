@@ -98,6 +98,8 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   await p.click('[data-dobavi-dvizhenie]');
   await p.waitForSelector('tr.chernova[data-chernova="dvizheniya"]');
   const ch = 'tr.chernova[data-chernova="dvizheniya"]';
+  // родителят · първият Имот в списъка · оттук редът се вижда и в Управление (запис 193)
+  await p.selectOption(`${ch} select[data-kolona="kam"]`, { index: 1 });
   await p.selectOption(`${ch} select[data-kolona="sektsiya"]`, '1');
   await p.selectOption(`${ch} select[data-kolona="funktsiya"]`, '3');
   await p.fill(`${ch} input[data-kolona="mesets"]`, MESETS);
@@ -232,4 +234,35 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     await tekstNa(p, '[data-otchet-vest]'),
     '0 предложения · 0 находки · 0 бележки',
   );
+
+  // ══ 4е · СМЕТКИТЕ В УПРАВЛЕНИЕ · и ЕДИН бутон, който ги крие ══════════
+  // Негово, 11.09 (запис 193): „В Управление има същия бутон който обаче крие
+  // само редовете на сметки /скрий Сметки/."
+  razdel = '4е · сметките в Управление';
+  await p.goto(`${ADRES}#/upravlenie`);
+  await p.waitForSelector('[data-zalepeno="upravlenie"]');
+  proveri(
+    'движението стои в дървото · под своя Имот',
+    (await tekstoveNa(p, 'tr.red.dvizhenie td[data-kolona="byudzhet"]')).join(' · '),
+    EVRO_1200,
+  );
+  proveri(
+    'сверката го брои и казва колко са без родител',
+    await tekstNa(p, '[data-sverka="smetki"]'),
+    'сметки 1 от 2 · без родител 1',
+  );
+  proveri(
+    'бутонът казва „Скрий Сметки", не „Скрий Дела"',
+    await tekstNa(p, '[data-buton-ekran="skriy-dela"]'),
+    'Скрий Сметки',
+  );
+  await p.click('[data-buton-ekran="skriy-dela"]');
+  await p.waitForFunction(() => document.querySelectorAll('tr.red.dvizhenie').length === 0);
+  proveri(
+    'натиснат · редовете ги няма и сверката го КАЗВА',
+    `${await tekstNa(p, '[data-sverka="smetki"]')} · ${await tekstNa(p, '[data-buton-ekran="skriy-dela"]')}`,
+    'сметки 0 от 2 · без родител 1 · скрити · Покажи Сметки',
+  );
+  await p.click('[data-buton-ekran="skriy-dela"]');
+  await p.waitForSelector('tr.red.dvizhenie');
 }

@@ -355,13 +355,26 @@ export async function napalniSMostra(
    * Мостра, в която всичко пада в една секция, не показва нито сбор по секции,
    * нито филтър — затова тук секцията се подава, вместо да е закована.
    */
+  /**
+   * РОДИТЕЛЯТ на движението · негова дума за кои редове го НЯМА: „към Имот,
+   * Обект, Бизнес или без родител, когато са заплати, кредит или банкова такса"
+   * (главата „име Имот" на Сметки). Затова заплатите, вноската и таксите тук
+   * стоят без родител, а наемите, токът и материалите са под своя ред — инак
+   * Управление щеше да показва дърво без пари и бутонът „Скрий Сметки" да няма
+   * какво да крие.
+   */
+  const obekt = (i: number): string =>
+    idNaRed(porta.ogledalo(), 'obekti', broyRedove(porta.ogledalo(), 'obekti') - 1 - i);
+  const biznes = (): string => idNaRed(porta.ogledalo(), 'biznesi', 0);
   const dvizhenie = (
     ime: string,
     mesets: string,
     suma: number,
     sektsiyata: number,
+    kam = '',
   ): { readonly kletki: Kletki } => ({
     kletki: {
+      ...(kam === '' ? {} : { kam: tekst(kam) }),
       ime: tekst(ime),
       ...(suma >= 0 ? { sektsiya: nomer(sektsiyata) } : { sektsiyaR: nomer(sektsiyata) }),
       funktsiya: nomer(3),
@@ -382,16 +395,16 @@ export async function napalniSMostra(
     const m = mesetsPredi(dnes, n);
     const stapkata = 11 - n;
     dvizheniya.push(
-      dvizhenie('Наем · Слънчева поляна', m, 1_200, 1),
-      dvizhenie('Наем · Бяла къща · в брой', m, 850 + stapkata * 10, 2),
+      dvizhenie('Наем · Слънчева поляна', m, 1_200, 1, obekt(0)),
+      dvizhenie('Наем · Бяла къща · в брой', m, 850 + stapkata * 10, 2, imot(1)),
       dvizhenie('Заплати по банка', m, -3_600, 7),
-      dvizhenie('Ток и вода', m, -280 - stapkata * 5, 4),
+      dvizhenie('Ток и вода', m, -280 - stapkata * 5, 4, imot(0)),
       dvizhenie('Такси по сметката', m, -18, 6),
       dvizhenie('Вноска по кредита', m, -1_450, 5),
     );
     // едрите разходи не са всеки месец · инак календарът изглежда нарисуван
-    if (n % 3 === 0) dvizheniya.push(dvizhenie('Строителни материали', m, -2_400, 2));
-    if (n % 4 === 1) dvizheniya.push(dvizhenie('Кафене на партера', m, 600, 3));
+    if (n % 3 === 0) dvizheniya.push(dvizhenie('Строителни материали', m, -2_400, 2, imot(2)));
+    if (n % 4 === 1) dvizheniya.push(dvizhenie('Кафене на партера', m, 600, 3, biznes()));
     if (n % 6 === 2) dvizheniya.push(dvizhenie('Гориво и командировки', m, -320, 3));
   }
   await stapka('Движения по Сметки', 'dvizheniya', 'smetki.dobaviDvizhenie', dvizheniya);

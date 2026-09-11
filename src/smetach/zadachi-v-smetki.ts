@@ -20,6 +20,7 @@
 
 import type { Ogledalo } from '../ogledalo/ogledalo.js';
 import { redKato, zhiviteRedove } from '../ogledalo/tablitsa.js';
+import { tekstNaKletka } from './kletki.js';
 
 const TABLITSA = 'zadachi';
 
@@ -40,13 +41,6 @@ export interface ZadachiteVSmetki {
   readonly ogledani: number;
 }
 
-function tekstNa(o: Ogledalo, i: number, kolona: string): string {
-  const tv = o.tablitsi.get(TABLITSA);
-  if (tv === undefined) return '';
-  const k = redKato(tv, i).kletki[kolona] ?? null;
-  return k !== null && 'tekst' in k ? k.tekst : '';
-}
-
 export function zadachiteSByudzhet(o: Ogledalo): ZadachiteVSmetki {
   const tv = o.tablitsi.get(TABLITSA);
   if (tv === undefined) return { redove: [], bezData: [], ogledani: 0 };
@@ -60,9 +54,9 @@ export function zadachiteSByudzhet(o: Ogledalo): ZadachiteVSmetki {
     const r = redKato(tv, i);
     const b = r.kletki['byudzhet'] ?? null;
     if (b === null || !('stoynost_st' in b) || b.stoynost_st === 0) continue;
-    const ime = tekstNa(o, i, 'ime');
-    const ot = tekstNa(o, i, 'ot');
-    const doo = tekstNa(o, i, 'do');
+    const ime = tekstNaKletka(o, TABLITSA, i, 'ime');
+    const ot = tekstNaKletka(o, TABLITSA, i, 'ot');
+    const doo = tekstNaKletka(o, TABLITSA, i, 'do');
     const data = ot !== '' ? ot : doo;
     if (data === '') {
       bezData.push(ime === '' ? r.id : ime);

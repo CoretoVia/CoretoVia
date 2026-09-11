@@ -48,6 +48,10 @@ import { dumiNaKletka, imeNaReda, tekstNaIzbora } from '../../src/smetach/kletki
 import { tekstNaNomera } from '../../src/smetach/nomeratsiya.js';
 import { nomerNaSpeshnoto, poletataNaUpravlenie } from '../../src/smetach/polata.js';
 import {
+  type DvizhenieVDarvoto,
+  smetkiteVUpravlenie,
+} from '../../src/smetach/smetki-v-upravlenie.js';
+import {
   IMENA_NA_SMETKITE,
   POMOSHT_NA_SMETKITE,
   type Smetka,
@@ -86,7 +90,7 @@ const PAMET = Object.freeze({
   takt: 'upravlenie.takt',
   period: 'upravlenie.period',
   vizhda: 'upravlenie.vizhda',
-  skriyDela: 'upravlenie.skriyDela',
+  skriySmetki: 'upravlenie.skriySmetki',
   dnes: 'upravlenie.dnes',
 });
 const TABLITSA = 'zadachi';
@@ -149,6 +153,14 @@ function taktKletkiHTML(
   koloni: readonly KolonaNaTakta[],
   dnes: string,
 ): readonly Zapechatan[] {
+  // движението не е ЛЕНТА · то е една сума в един месец и пада в неговата колона
+  if (r.vid === 'dvizhenie')
+    return koloni.map((kol) => {
+      const tuk = r.ot >= kol.ot && r.ot <= kol.do;
+      return h`<td class="takt evro${kol.dnes ? ' dnes' : ''}${tuk ? ' dvizhenie' : ''}" translate="no">${
+        tuk ? r.ime : ''
+      }</td>`;
+    });
   const lenta = r.vid === 'zadacha' ? lentaNa({ id: r.id, ot: r.ot, do: r.do }, koloni) : null;
   const svetofar = r.vid === 'zadacha' && r.do !== '' ? svetofarNaSroka(r.do, dnes) : null;
   return koloni.map((kol, i) => {
@@ -160,7 +172,7 @@ function taktKletkiHTML(
 }
 
 interface RedNaEkrana {
-  readonly vid: 'roditel' | 'zadacha';
+  readonly vid: 'roditel' | 'zadacha' | 'dvizhenie';
   readonly nivo: 0 | 1 | 2;
   readonly tablitsa: string;
   readonly id: string;
@@ -329,6 +341,72 @@ function fizicheskiKletki(oblik: readonly GlavaNaOblika[]): {
   return { broy, naKolonata };
 }
 
+/**
+ * РЕДЪТ НА ЕДНО ДВИЖЕНИЕ · Сметки, застанали под своя Имот, Обект или Бизнес.
+ *
+ * Негово, 11.09 (запис 193): „**В Управление има същия бутон който обаче крие
+ * само редовете на сметки /скрий Сметки/.**" Редът стои под неговите СЪЩИ глави:
+ * секцията пада под „Задачи", месецът — под „Дата", сумата — под неговата глава
+ * „Бюджет Дела/ Бюджет Сметки", която сама назовава двете.
+ *
+ * Редът е ПОГЛЕД, не вход: пише се в Сметки, тук само се вижда (запис 163 ·
+ * „в Управление и да скриеш Сметките не се променят там").
+ */
+function redNaDvizhenie(d: DvizhenieVDarvoto, oblik: readonly GlavaNaOblika[]): RedNaEkrana {
+  const dumi: string[] = [];
+  const kletki: (Kletka | null)[] = [];
+  const tds: Zapechatan[] = [];
+  const parite = pishi(d.suma_st);
+  for (const g of oblik) {
+    const broy = Math.max(1, koloniPodGlavata(g).length);
+    if (g.kolona === 'vid') {
+      dumi.push(`${d.sektsiya} / ${d.funktsiya}`.trim());
+      kletki.push({ tekst: d.sektsiya });
+      tds.push(
+        h`<td class="kletka tekst" data-kolona="sektsiya" translate="no">${d.sektsiya}</td>`,
+      );
+      tds.push(
+        h`<td class="kletka tekst" data-kolona="funktsiya" translate="no">${d.funktsiya}</td>`,
+      );
+      continue;
+    }
+    if (g.kolona === 'ot') {
+      dumi.push(d.mesets);
+      kletki.push({ tekst: d.mesets });
+      tds.push(h`<td class="kletka tekst" data-kolona="mesets" translate="no">${d.mesets}</td>`);
+      tds.push(h`<td class="kletka prazna"></td>`);
+      continue;
+    }
+    if (g.kolona === 'byudzhet') {
+      dumi.push(parite);
+      kletki.push({ stoynost_st: d.suma_st });
+      tds.push(
+        h`<td class="kletka evro ${d.suma_st < 0 ? 'razhod' : 'prihod'}" data-kolona="byudzhet" data-st="${d.suma_st}" translate="no">${parite}</td>`,
+      );
+      continue;
+    }
+    dumi.push('');
+    kletki.push(null);
+    tds.push(h`<td class="kletka prazna" colspan="${broy}"></td>`);
+  }
+  return {
+    vid: 'dvizhenie',
+    nivo: 2,
+    tablitsa: 'dvizheniya',
+    id: d.id,
+    dumi,
+    kletki,
+    ime: parite,
+    ot: `${d.mesets}-01`,
+    do: '',
+    speshno: false,
+    tds,
+    klas: 'red dvizhenie nivo-2',
+    seq: d.i,
+    roditelId: d.roditelId,
+  };
+}
+
 export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   const o = k.porta.ogledalo();
   const p = PROZORTSI.find((x) => x.klyuch === 'upravlenie')!;
@@ -338,7 +416,7 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   const takt = chetiEkranno<Takt>(PAMET.takt, 'mesets');
   const period = chetiEkranno<SvoyPeriod | null>(PAMET.period, null);
   const vizhda = chetiEkranno<KoeSeVizhda>(PAMET.vizhda, { tablitsa: true, diagrama: true });
-  const skriyDela = chetiEkranno<boolean>(PAMET.skriyDela, false);
+  const skriySmetki = chetiEkranno<boolean>(PAMET.skriySmetki, false);
   const filtar = chetiEkranno<(string | null)[]>(PAMET.filtar, []).map((f) => f ?? '');
   const smetki = chetiEkranno<Record<string, Smetka>>(PAMET.smetki, {});
   const kogato = new Date().toISOString();
@@ -347,12 +425,30 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   const darvo = darvoto(o);
   const tvZ = o.tablitsi.get(TABLITSA);
   const speshnoNomer = nomerNaSpeshnoto(o);
+  const smetkite = smetkiteVUpravlenie(o);
   const redove: RedNaEkrana[] = [];
+  /**
+   * Движенията на един родител идват СЛЕД задачите му и ПРЕДИ следващия родител
+   * — там, където е мястото им в дървото. Изсипват се при смяна на родителя, а
+   * последният се изсипва накрая: иначе последният Имот би останал без парите си.
+   */
+  let tekushtRoditel = '';
+  const izsipi = (): void => {
+    if (tekushtRoditel === '' || skriySmetki) return;
+    for (const d of smetkite.poRoditel.get(tekushtRoditel) ?? [])
+      redove.push(redNaDvizhenie(d, oblik));
+  };
   for (const r of darvo.redove) {
-    if (r.vid === 'roditel') redove.push(redNaRoditel(o, r, oblik));
-    else if (!skriyDela && tvZ !== undefined)
+    if (r.vid === 'roditel') {
+      izsipi();
+      tekushtRoditel = r.id;
+      redove.push(redNaRoditel(o, r, oblik));
+    } else if (tvZ !== undefined)
       redove.push(redNaZadacha(o, redKato(tvZ, r.i), r.roditelId, oblik, speshnoNomer));
   }
+  izsipi();
+  /** колко движения стоят в дървото · скритото се брои като нула, защото не е там */
+  const broySmetki = redove.filter((r) => r.vid === 'dvizhenie').length;
   const zaFiltar: RedZaFiltar[] = redove.map((r) => ({ nivo: r.nivo, dumi: r.dumi }));
   const f = filtrirayDarvoto(zaFiltar, filtar);
   const vidimi = f.vidimi.map((i) => redove[i]!);
@@ -475,7 +571,8 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
     let duma = litse(b);
     if (b.klyuch === 'skriy-tablitsa') duma = dumataNaButona(vizhda, 'tablitsa');
     if (b.klyuch === 'skriy-diagrama') duma = dumataNaButona(vizhda, 'diagrama');
-    if (b.klyuch === 'skriy-dela') duma = skriyDela ? 'Покажи Дела' : 'Скрий Дела';
+    // ЕДИН бутон на прозорец (запис 193) · тук крие редовете на Сметки, не задачите
+    if (b.klyuch === 'skriy-dela') duma = skriySmetki ? 'Покажи Сметки' : 'Скрий Сметки';
     return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}"${podskazka(b.pomosht)}>${duma}</button>`;
   };
 
@@ -510,6 +607,11 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
           koloniNaTaktove.length,
         )}</p>
         <p class="pod-tablitsata" data-sverka="darvo">видими ${f.broyVidimi} от ${redove.length} · родители ${darvo.broyRoditeli} · задачи ${darvo.broyZadachi} · сираци ${darvo.siratsi.length}${eFiltarPrazen(filtar) ? '' : ' · филтърът е включен'}</p>
+        <p class="pod-tablitsata" data-sverka="smetki">сметки ${String(broySmetki)} от ${String(smetkite.ogledani)}${
+          smetkite.bezRoditel.length === 0
+            ? ''
+            : ` · без родител ${String(smetkite.bezRoditel.length)}`
+        }${skriySmetki ? ' · скрити' : ''}</p>
       </div>
       ${dumiteIIznosHTML(DUMI_OT_KNIGATA.upravlenie)}`,
   );
@@ -558,7 +660,7 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   for (const b of k.tyalo.querySelectorAll<HTMLButtonElement>('button[data-buton-ekran]')) {
     const opis = BUTONI_NA_UPRAVLENIE.find((x) => x.klyuch === b.dataset['butonEkran']);
     if (opis === undefined) continue;
-    b.addEventListener('click', () => deystvieNaButona(k, opis, b, vizhda, skriyDela, takt));
+    b.addEventListener('click', () => deystvieNaButona(k, opis, b, vizhda, skriySmetki, takt));
   }
 
   // ═══ дясното меню · задача под родител · изключи · върни · сторно ═══
@@ -600,7 +702,7 @@ function deystvieNaButona(
   b: ButonNaProzoretsa,
   el: HTMLButtonElement,
   vizhda: KoeSeVizhda,
-  skriyDela: boolean,
+  skriySmetki: boolean,
   takt: Takt,
 ): void {
   const d = b.deystvie;
@@ -636,7 +738,7 @@ function deystvieNaButona(
       k.prerisuvay();
       return;
     case 'skriy-dela':
-      zapomniEkranno(PAMET.skriyDela, !skriyDela);
+      zapomniEkranno(PAMET.skriySmetki, !skriySmetki);
       k.prerisuvay();
       return;
     case 'skriy-tablitsa':
