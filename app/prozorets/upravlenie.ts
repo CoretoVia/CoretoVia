@@ -366,7 +366,7 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   const butonHTML = (b: ButonNaProzoretsa): Zapechatan => {
     const d = b.deystvie;
     if (d.vid === 'idva')
-      return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}" disabled title="${d.dumi ?? `идва с резен ${d.rezen}`}">${litse(b)}</button>`;
+      return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}" disabled title="${d.dumi ?? `идва с ход ${d.hod}`}">${litse(b)}</button>`;
     if (b.klyuch === 'takt') {
       const izbor = (b.izbor ?? []).map((duma) => {
         const t = TAKTOVE.find((x) => IMENA_NA_TAKTOVETE[x].toLowerCase() === duma.toLowerCase());
@@ -485,7 +485,7 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
               klyuch: 'golyamo-delo',
               ime: 'Голямо дело',
               razreshena: false,
-              zashto: 'идва с резен 8 · само при Строеж (негово B4)',
+              zashto: 'идва с ход 11б · само при Строеж (негово B4)',
               deystvie: () => {},
             },
           ],
@@ -645,7 +645,7 @@ function deystvieNaButona(
           klyuch: 'kredit',
           ime: 'Кредит',
           razreshena: false,
-          zashto: 'идва с резен 8',
+          zashto: 'идва с ход 11б',
           deystvie: () => {},
         },
         {

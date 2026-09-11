@@ -240,7 +240,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const butonHTML = (b: ButonNaProzoretsa): Zapechatan => {
     const d = b.deystvie;
     if (d.vid === 'idva')
-      return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}" disabled title="${d.dumi ?? `идва с резен ${d.rezen}`}">${litse(b)}</button>`;
+      return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}" disabled title="${d.dumi ?? `идва с ход ${d.hod}`}">${litse(b)}</button>`;
     // СКРИЙ ↔ ПОКАЖИ · бутонът казва какво ще СТАНЕ, не какво е било. Неговата
     // дума остава в `title`; на лицето стои действието.
     const strana = STRANATA_NA_BUTONA[b.klyuch];
