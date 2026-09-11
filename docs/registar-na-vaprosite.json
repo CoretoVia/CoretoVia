@@ -2528,62 +2528,72 @@
     },
     {
       "beleg": "Т51",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Колони Начало и Край в Управление и колона Дата в Сметки, взета от Журнала и извлеченията (негово, 11.09, запис 162). Кога влизат в Модела и в Книгата?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/14-dalgat.md",
+      "kakvo_sledva": "ход 8.1 · преди него 8.0 · как се познава: колоните са в Управление, Сметки и в регенерираната Книга; Датата в Сметки идва от събитието/извлечението, не на ръка; задача без Начало/Край не влиза в календара и го казва с думи",
       "otpushva": [],
       "zhivee_v": [
-        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+        "docs/14-dalgat.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {
       "beleg": "Т52",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Само задачите С БЮДЖЕТ се пренасят от Управление в Сметки; отметката в Сметки ги изключва от сметката, отметката в Управление не променя нищо там (негово, 11.09, запис 163). Кога?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/14-dalgat.md",
+      "kakvo_sledva": "ход 8.1 · преди него Т51 · как се познава: тест — скрита в Сметки задача → Σ пада с бюджета ѝ; скрити редове на Сметки в Управление → Σ на Управление без промяна; задача без бюджет не се появява в Сметки",
       "otpushva": [],
       "zhivee_v": [
-        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+        "docs/14-dalgat.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {
       "beleg": "Т53",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "В Сметки се трие без следа в Журнала от всеки с право „редактира“ там; Сметки е моментна минала картина и история с коефициентите; „модел“ със свое име за сравнение, който не влияе на нищо (негово, 11.09, запис 164). Къде живее моделът и кога се строи?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/14-dalgat.md",
+      "kakvo_sledva": "ход 8.x · преди него Т52 · обявено предположение: моделът е свой вид събитие в Журнала, което четците на истината подминават · как се познава: триене в Сметки → Огледалото на Управление без промяна; моделът се отваря по име и не влиза в нито един сбор извън себе си",
       "otpushva": [],
       "zhivee_v": [
-        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+        "docs/14-dalgat.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {
       "beleg": "Т54",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "В Сметки се добавя всичко, което може да се добави в Управление — „с това става уникална“ (негово, 11.09, запис 165). Кога?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/14-dalgat.md",
+      "kakvo_sledva": "ход 8.x · преди него Т53 · как се познава: тест — множеството команди „добави“ на Управление има огледало в Сметки и нито едно огледало не пише в истината",
       "otpushva": [],
       "zhivee_v": [
-        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+        "docs/14-dalgat.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {
       "beleg": "Т55",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Епъл и Майкрософт като платформи — вход, поща/календар, техният драйв — както Гугъл (негово, 11.09, запис 166; 08.09, запис 30). Кога?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/14-dalgat.md",
+      "kakvo_sledva": "2.0 · преди него: адаптерът Гугъл жив (1.1) и портът на 10г доказан с два адаптера · как се познава: трети и четвърти адаптер зад същия порт, без ред в ядрото",
       "otpushva": [],
       "zhivee_v": [
-        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+        "docs/14-dalgat.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {
