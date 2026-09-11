@@ -785,3 +785,193 @@ label.malak.buton-grupa .pole.malak {
   padding: 0.1rem 0.35rem;
   font-size: 0.8rem;
 }
+
+/* ═══ Б1 · КОЖАТА · класовете, които кодът пишеше, а стилът не познаваше ═══
+
+   Измерено на 11.09.2026: четиринайсет класа стояха в HTML без нито едно
+   правило. Следствията се виждаха с просто око — календарът беше безцветен,
+   таблицата на Продажби (20 колони) излизаше извън страницата, а редът с
+   цифрите там беше гол текст, докато същият ред в Управление е в рамки.
+
+   ЗАЩО СЕЛЕКТОРИТЕ СА ДЪЛГИ: правилата по-горе са писани преди тези и някои
+   от тях са по-специфични (`.reshetka.smetki tr.grupata.sektsiya td` е
+   0·4·2). Стил, добавен накрая с по-нисък тегловен ред, се подрежда наопаки
+   и `biome` го вали (`noDescendingSpecificity`) — затова всяко правило тук
+   стига до същата тежест, вместо да се надява на реда на редовете. */
+
+/* ПРЕГЛЕДЪТ · широка таблица се плъзга настрани, а не чупи страницата.
+   Негово, 08.09 (запис 64⑦): „и за таблицата, и за диаграмата хоризонталния
+   скрол. Важно е това." */
+.ekran .pregled {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.ekran .pregled .reshetka.prodazhbi tbody td,
+.ekran .pregled .reshetka.prodazhbi thead th {
+  white-space: nowrap;
+}
+.ekran .pregled .reshetka.prodazhbi tfoot .sbor td,
+.ekran .sektsiya .reshetka.kalkulator tfoot .sbor td {
+  font-weight: 600;
+  border-top: 2px solid var(--linija);
+  background: var(--zeleno-svetlo);
+}
+.ekran .sektsiya .reshetka.kalkulator {
+  margin-bottom: 1rem;
+}
+
+/* СЪСТОЯНИЕТО НА ПРОДАЖБАТА се вижда · платеното е зелено, сметнатото е сиво */
+.ekran .pregled .reshetka tbody td.platena,
+.ekran .pregled .reshetka tbody td.zavarshena {
+  color: var(--zeleno);
+  font-weight: 600;
+}
+.ekran .pregled .reshetka tbody td.smetnata {
+  color: var(--sivo);
+  background: var(--zebra);
+}
+
+/* КАЛЕНДАРЪТ С ЦИФРИТЕ · негово, 11.09 (запис 145): „да се показва цифрата с
+   занака - или +". Знакът има и ЦВЯТ: приходът е зелен, разходът червен,
+   нулата изобщо не се пише. */
+.ekran .gant-skrol .reshetka.kalendar {
+  font-variant-numeric: tabular-nums;
+}
+.ekran .gant-skrol .reshetka.kalendar thead th.ime,
+.ekran .gant-skrol .reshetka.kalendar tbody th.ime {
+  text-align: left;
+  white-space: nowrap;
+  position: sticky;
+  left: 0;
+  background: var(--hartiya);
+  z-index: 1;
+}
+.ekran .gant-skrol .reshetka.kalendar tbody td.evro,
+.ekran .gant-skrol .reshetka.kalendar thead th.evro {
+  text-align: right;
+  white-space: nowrap;
+}
+.ekran .gant-skrol .reshetka.kalendar tbody td.prihod {
+  color: var(--zeleno);
+}
+.ekran .gant-skrol .reshetka.kalendar tbody td.razhod {
+  color: var(--cherveno);
+}
+.ekran .gant-skrol .reshetka.kalendar tbody td.nula {
+  color: var(--sivo);
+}
+.ekran .gant-skrol .reshetka.kalendar tbody td.period,
+.ekran .gant-skrol .reshetka.kalendar tfoot td.period {
+  font-weight: 600;
+  border-right: 2px solid var(--linija);
+  background: var(--zeleno-svetlo);
+}
+.ekran .gant-skrol .reshetka.kalendar thead th.dnes,
+.ekran .gant-skrol .reshetka.kalendar tbody td.dnes {
+  background: var(--zhalto);
+}
+.ekran .gant-skrol .reshetka.kalendar tfoot .sbor td {
+  font-weight: 600;
+  border-top: 2px solid var(--linija);
+}
+
+/* ГЛАВАТА НЕ БЯГА · при дълга таблица заглавията стоят.
+   НЕ се слага в дървото на Управление: там Гантът мери височината на главата
+   и лентите биха се разминали с редовете си. */
+.ekran .pregled .reshetka.prodazhbi thead tr th,
+.ekran .smetki-blokove .reshetka.smetki thead tr th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+/* КЛЕТКИТЕ ПО ВИД · текстът и връзката вляво, празната се вижда, че е празна */
+.ekran .smetki-blokove .reshetka tbody td.kletka.tekst,
+.ekran .smetki-blokove .reshetka tbody td.kletka.vrazka {
+  text-align: left;
+}
+.ekran .smetki-blokove .reshetka tbody td.kletka.prazna {
+  background: var(--zebra);
+}
+
+/* ПРАЗНИЯТ РЕД · таблица, която чака чернова, КАЗВА какво чака, вместо да зее
+   с глави над нищо (Б2 · 11.09.2026). Отвори ли се черновата, редът се скрива. */
+.ekran .tablitsa-blok .reshetka.smetki tbody tr.prazen-red td {
+  color: var(--sivo);
+  font-style: italic;
+  text-align: left;
+}
+.ekran .tablitsa-blok .reshetka.smetki tbody:has(tr.chernova) tr.prazen-red {
+  display: none;
+}
+
+/* БАЗОВИЯТ РЕД · картина от Книгата, не записан ред · личи, че не е негов запис */
+.ekran .tablitsa-blok .reshetka.redove tbody tr.red.bazov td {
+  color: var(--sivo);
+  font-style: italic;
+  background: var(--zebra);
+}
+
+/* ГЛАВИТЕ НА ДЪРВОТО · двата реда заглавия и третото ниво */
+.ekran .darvo-blok .reshetka.darvo thead tr.glavi th {
+  font-weight: 600;
+}
+.ekran .darvo-blok .reshetka.darvo thead tr.podglavi th {
+  font-weight: 400;
+  font-size: 0.85em;
+  color: var(--sivo);
+}
+.ekran .darvo-blok .reshetka.darvo tbody tr.zadacha.nivo-2 td:first-child {
+  padding-left: 2.5rem;
+}
+
+/* ПРОЗОРЕЦЪТ ВЪРХУ ЕКРАНА · негово, 08.09 (запис 21): „да се отварят
+   прозорците… като прозорец върху екрана както в Клод" */
+main.prozorets {
+  display: block;
+}
+.prozorets-tyalo {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* ═══ Б3 · ПЕЧАТЪТ · на среща „разпечатай ми това" не бива да получава отказ.
+   Бутонът му обещава ПДФ (`osnova.ts`); печатът през браузъра го затваря без
+   нито една нова библиотека (правило 9 остава непокътнато). ═══ */
+@media print {
+  body {
+    background: #ffffff;
+    font-size: 11px;
+  }
+  .ekran {
+    max-width: none;
+    padding: 0;
+  }
+  .lenta-prozortsi,
+  .buton-grupa,
+  .podtabove,
+  .podskazka,
+  button {
+    display: none;
+  }
+  .ekran .pregled,
+  .ekran .smetki-blokove,
+  .ekran .darvo-blok {
+    overflow: visible;
+  }
+  .ekran .pregled .reshetka.prodazhbi thead tr th,
+  .ekran .smetki-blokove .reshetka.smetki thead tr th {
+    position: static;
+  }
+  .ekran .gant-skrol .reshetka.kalendar thead th.ime,
+  .ekran .gant-skrol .reshetka.kalendar tbody th.ime {
+    position: static;
+  }
+  .reshetka tr,
+  .tablitsa-blok,
+  .sektsiya {
+    page-break-inside: avoid;
+  }
+}

@@ -9,7 +9,7 @@
 import type { KlyuchNaProzorets } from '../src/model/klyuchove.js';
 import { proveriModela } from '../src/model/model.js';
 import { MODEL, PROZORTSI } from '../src/model/osnova.js';
-import { tekstNaPomoshtta } from '../src/model/pomosht.js';
+import { pomosht, tekstNaPomoshtta } from '../src/model/pomosht.js';
 import { otvoriDnevnik } from '../src/nositel/dnevnik-indexeddb.js';
 import { sha256NaBaytove, sha256Web } from '../src/nositel/hash-web.js';
 import { samolichnosttaKazva } from '../src/nositel/samolichnost-web.js';
@@ -36,6 +36,7 @@ import { narisuvayProzorets } from './prozorets/prozortsite.js';
 import { zatvoriMenyuto } from './reshetka/menyu.js';
 import {
   izborNaStepenHTML,
+  podskazka,
   podskazkaSDumi,
   skriyPodskazkata,
   stepenNaPomoshtta,
@@ -55,6 +56,12 @@ const KNIGA = 'coretovia';
  */
 const VALUTA_NA_KNIGATA = 'EUR';
 /** имейлът на този, който пише · научава се при откриването · удобство на устройството */
+/** Помощта на бутона за печат · защо съществува и какво прави (правило 31). */
+const POMOSHT_NA_PECHATA = pomosht(
+  'Хартията е единственото, което остава на масата след среща · екранът се печата такъв, какъвто се вижда, без лентата с прозорците и без бутоните.',
+  'печата текущия прозорец · таблиците не се режат по средата на ред',
+);
+
 const PAMET_AKTOR = 'aktor';
 
 /**
@@ -186,6 +193,13 @@ async function tragni(ekran: HTMLElement): Promise<void> {
       <h1 data-ime tabindex="0">Coretovia</h1>
       <p class="vest" data-vest></p>
       ${izborNaStepenHTML()}
+      <!--
+        ПЕЧАТЪТ · негово, лист Управление: бутонът „Свалифайл" обещава „различни
+        таблици в ПДФ и в Ексел". Excel-ът го дава „Запази книгата"; ПДФ-ът го
+        дава браузърът, без нито една нова библиотека (правило 9). Стилът за
+        хартия е в app/stil.css под media print.
+      -->
+      <button type="button" class="vtorichen" data-pechat${podskazka(POMOSHT_NA_PECHATA)}>Печат</button>
       <!--
         ПАЗАЧЪТ НА ИСТОРИЯТА · стои В ГЛАВАТА, не в панел.
         Правило 31 вече отсъди веднъж: „предупреждение в панел, който човек не е
@@ -327,6 +341,9 @@ async function tragni(ekran: HTMLElement): Promise<void> {
   window.addEventListener('hashchange', narisuvay);
   porta.abonirai(narisuvay);
   // подсказките и изборът на степен · веднъж, върху корена; тялото се сменя при всяко рисуване
+  ekran.querySelector<HTMLButtonElement>('[data-pechat]')?.addEventListener('click', () => {
+    window.print();
+  });
   zakachiPodskazkite(ekran);
   zakachiIzboraNaStepen(ekran, narisuvay);
   narisuvay();

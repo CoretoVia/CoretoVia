@@ -418,7 +418,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
           (kol) =>
             h`<th data-kolona="${kol.klyuch}" class="${kol.vid}"${podskazka(kol.pomosht)}>${kol.kratko ?? kol.ime}</th>`,
         )}</tr></thead>
-        <tbody class="tablitsa"></tbody>
+        <tbody class="tablitsa"><tr class="prazen-red"><td colspan="${String(vsichkiKoloni.length)}">Тук се отваря черновата. Натисни „Добави ред с пари" горе и редът се пише в тази таблица; записаният ред застава в секцията си долу.</td></tr></tbody>
       </table>
       <p class="pod-tablitsata">Знакът решава страната: приходът е +, разходът е − (правило 16).</p>
     </section>

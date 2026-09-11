@@ -179,6 +179,7 @@ export function narisuvayStruktura(k: KonteksNaEkrana, kade: HTMLElement): void 
     <h3 class="lenta">Нова таблица</h3>
     <p class="vest">Таблицата влиза в СЪЩЕСТВУВАЩ прозорец. Прозорците са осем и не се добавят (К1).</p>
     <table class="reshetka struktura" data-reshetka="nova-tablitsa">
+      <thead><tr><th>ключ</th><th>име</th><th>прозорец</th><th>вид на същността</th></tr></thead>
       <tbody class="tablitsa">
         <tr class="nov" data-nova-tablitsa>
           <td><input class="pole" data-nt-klyuch placeholder="ключ · латиница"></td>
