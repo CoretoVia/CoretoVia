@@ -1318,3 +1318,12 @@ body.vlacha-shirina {
 .ekran .darvo-blok .reshetka.darvo .zalepena-kolona.posledna-zalepena {
   border-right: 2px solid var(--linija);
 }
+
+/* ТРЕЗОРЪТ · Заданието (M06-10) иска ПОЛЕ, което сглобява числата между
+   банката, ръката и счетоводството. Стои в реда на кеша, до сверките му,
+   защото от същите три числа се смята и се чете заедно с тях. */
+.ekran .red-kesh .trezor {
+  font-weight: 600;
+  color: var(--zeleno);
+  white-space: nowrap;
+}

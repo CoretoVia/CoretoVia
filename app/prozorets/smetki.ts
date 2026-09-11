@@ -31,6 +31,7 @@ import { kolonaNa } from '../../src/model/tablitsa.js';
 import { redKato } from '../../src/ogledalo/tablitsa.js';
 import { denNaMeseca, dvanaysetMeseca, kalendar } from '../../src/smetach/kalendar.js';
 import { type Pokazatel, pokazatelite } from '../../src/smetach/pokazateli.js';
+import { trezorat } from '../../src/smetach/trezor.js';
 import { zadachiteSByudzhet } from '../../src/smetach/zadachi-v-smetki.js';
 import { imeNaVrazkata } from '../../src/smetach/kletki.js';
 import {
@@ -220,6 +221,11 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const skritite = chetiEkranno<readonly Strana[]>(PAMET.skriti, []);
   /** един бутон крие задачите с бюджет · негово, запис 193 */
   const skritiZadachi = chetiEkranno<boolean>(PAMET.skriyZadachi, false);
+  /**
+   * ТРЕЗОРЪТ · Заданието го иска (M06-10) и той пита за него (запис 195 т.5).
+   * Смята се от кеша на месеца; нищо не се въвежда (M06-P3).
+   */
+  const trezor = trezorat(kesh);
   const takt = chetiEkranno<Takt>(PAMET.takt, 'godina');
   const period = chetiEkranno<SvoyPeriod | null>(PAMET.period, null);
   /** колко месеца стоят на екрана · средното на месец се дели точно на тях */
@@ -470,6 +476,9 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         <label class="malak">изтеглено по извлечение <input class="pole malak" name="kesh-izvlechenie" data-kesh-izvlechenie value="${kesh.izvlechenie === 0 ? '' : pishiVPole(kesh.izvlechenie)}" inputmode="decimal"></label>
         <button type="submit" class="malak" data-kesh-zapishi>Запиши кеша</button>
         <label class="otmetka malak"><input type="checkbox" name="samo-meseca" data-samo-meseca ${samoMeseca ? 'checked' : ''}> само този месец</label>
+        <span class="trezor" data-trezor${podskazkaSDumi(
+          `Трезорът се СМЯТА, не се въвежда. В каса: ${trezor.formulaNaKasata}. В ръце: ${trezor.formulaNaRatsete}.`,
+        )} translate="no">Трезор · в каса ${pishi(trezor.vKasa_st)} · в ръце ${pishi(trezor.vRatse_st)}</span>
         <span class="vest" data-kesh-sverki${podskazka(POMOSHT_NA_SVERKATA)} translate="no">${kesh.sverki
           .map((sv) => `${sv.kakvo}: ${sv.nared ? 'затваря' : `разлика ${pishi(sv.razlika)}`}`)
           .join(' · ')}</span>
