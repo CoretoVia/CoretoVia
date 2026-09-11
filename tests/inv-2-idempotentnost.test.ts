@@ -4,14 +4,8 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import {
-  DnevnikVPametta,
-  GreshkaReplay,
-  proveriVerigata,
-  Vrata,
-  VsichkoRazresheno,
-} from '../src/yadro/index.js';
-import { operatsiya, SHA } from './pomoshtni.js';
+import { GreshkaReplay, proveriVerigata, Vrata } from '../src/yadro/index.js';
+import { DnevnikVPametta, operatsiya, SHA, VsichkoRazresheno } from './pomoshtni.js';
 
 function novaVrata() {
   const dnevnik = new DnevnikVPametta();

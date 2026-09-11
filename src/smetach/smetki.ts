@@ -18,10 +18,11 @@
  */
 
 import type { Strana } from '../model/kolona.js';
-import { podravni, poTekst } from '../model/nomenklatura.js';
+import { podravni } from '../model/nomenklatura.js';
 import { NOMENKLATURA } from '../model/osnova.js';
 import type { Ogledalo } from '../ogledalo/ogledalo.js';
 import { kletkaNa, zhiviteRedove } from '../ogledalo/tablitsa.js';
+import { sabiri, tsentove } from '../yadro/pari.js';
 import { sverka, type Sverka } from '../yadro/sverka.js';
 
 const TABLITSA_NA_DVIZHENIYATA = 'dvizheniya';
@@ -101,7 +102,7 @@ function tekstNa(o: Ogledalo, tablitsa: string, i: number, kolona: string): stri
   return k !== null && 'tekst' in k ? k.tekst : '';
 }
 
-function tsentove(o: Ogledalo, tablitsa: string, i: number, kolona: string): number | null {
+function tsentoveNa(o: Ogledalo, tablitsa: string, i: number, kolona: string): number | null {
   const tv = o.tablitsi.get(tablitsa);
   const k = tv === undefined ? null : kletkaNa(tv, i, kolona);
   return k !== null && 'stoynost_st' in k ? k.stoynost_st : null;
@@ -127,7 +128,7 @@ export function smetkite(
       const mesets = tekstNa(o, TABLITSA_NA_DVIZHENIYATA, i, 'mesets');
       if (prezMeseca !== undefined && !prezMeseca(mesets)) continue;
       broyDvizheniya += 1;
-      const suma_st = tsentove(o, TABLITSA_NA_DVIZHENIYATA, i, 'suma') ?? 0;
+      const suma_st = tsentoveNa(o, TABLITSA_NA_DVIZHENIYATA, i, 'suma') ?? 0;
       const red: RedVSektsiya = { i, id: tv.id[i] ?? '', suma_st, mesets };
       let namerena = false;
       for (const strana of ['prihod', 'razhod'] as const) {
@@ -164,7 +165,8 @@ export function smetkite(
           nomer: s.nomer,
           tekst: s.tekst,
           redove,
-          sbor: redove.reduce((a, r) => a + r.suma_st, 0),
+          // сборът минава през преградата за цели центове (правило 3): число извън тях е отказ
+          sbor: sabiri(...redove.map((r) => tsentove(r.suma_st))),
           spryana: s.spryana === true,
         };
       })
@@ -172,15 +174,15 @@ export function smetkite(
   };
   const prihod = sektsiiteNa('prihod');
   const razhod = sektsiiteNa('razhod');
-  const sborPrihod = prihod.reduce((a, s) => a + s.sbor, 0);
-  const sborRazhod = razhod.reduce((a, s) => a + s.sbor, 0);
+  const sborPrihod = sabiri(...prihod.map((s) => tsentove(s.sbor)));
+  const sborRazhod = sabiri(...razhod.map((s) => tsentove(s.sbor)));
   const vSektsii = [...prihod, ...razhod].reduce((a, s) => a + s.redove.length, 0);
   return {
     prihod,
     razhod,
     sborPrihod,
     sborRazhod,
-    rezultat: sborPrihod + sborRazhod,
+    rezultat: sabiri(sborPrihod, sborRazhod),
     bezSektsiya,
     broyDvizheniya,
     sverka: sverka(
@@ -190,14 +192,6 @@ export function smetkite(
       kogato,
     ),
   };
-}
-
-/** Номерът на секция по думата ѝ · за сверката на кеша и за секцията „Вкарване". */
-export function nomerNaSektsiya(o: Ogledalo, strana: Strana, tekst: string): number | null {
-  const n = o.nomenklaturi.get(NOMENKLATURA_NA_STRANATA[strana]);
-  if (n === undefined) return null;
-  const s = poTekst(n, podravni(tekst));
-  return s === undefined ? null : s.nomer;
 }
 
 export interface Vkarvane {
@@ -239,7 +233,7 @@ export function vkarvaneto(
   const sektsii = namereni.map((x) => x.sek).filter((x): x is Sektsiya => x !== undefined);
   const lipsvashti = namereni.filter((x) => x.sek === undefined).map((x) => x.tekst);
   const redove = sektsii.flatMap((x) => x.redove);
-  return { sektsii, redove, sbor: redove.reduce((a, r) => a + r.suma_st, 0), lipsvashti };
+  return { sektsii, redove, sbor: sabiri(...redove.map((r) => tsentove(r.suma_st))), lipsvashti };
 }
 
 export interface Kesh {
@@ -272,7 +266,7 @@ export function keshatNaMeseca(o: Ogledalo, mesets: string, kogato: string): Kes
     }
   }
   const pole = (kolona: string): number =>
-    i === undefined ? 0 : (tsentove(o, TABLITSA_NA_KESHA, i, kolona) ?? 0);
+    i === undefined ? 0 : (tsentoveNa(o, TABLITSA_NA_KESHA, i, kolona) ?? 0);
   const zaplati = pole('zaplati');
   const fakturi = pole('fakturi');
   const izvlechenie = pole('izvlechenie');

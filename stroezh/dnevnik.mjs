@@ -46,6 +46,7 @@ const KOREN = process.env['DNEVNIK_KOREN'] ?? '.';
 const DNEVNIK = 'docs/dnevnik';
 const DNI = 'docs/izvori/dni';
 const DALG = 'docs/14-dalgat.md';
+const REGISTAR_DALG = 'docs/registar-na-dalga.json';
 const REGISTAR = 'docs/registar-na-vaprosite.json';
 const PROTOKOL = 'docs/00-PROTOKOL.md';
 const RABOTNI = '.rabotni';
@@ -238,6 +239,26 @@ function predishniteTreschotki(den) {
 
 /** Отворените редове на дълга · §1 на `docs/14`, незачеркнати, с белег. */
 function otvoreniteRedove() {
+  // от 2.1 (11.09) домът е регистърът на дълга · md-то е генериран изглед
+  if (ima(REGISTAR_DALG)) {
+    try {
+      return (JSON.parse(cheti(REGISTAR_DALG)).redove ?? [])
+        .filter((r) => r.sastoyanie === 'otvoren')
+        .map((r) => ({
+          beleg: `ДЛ-${r.beleg}`,
+          kakvo: (r.kakvo ?? '').slice(0, 80),
+          predi: [
+            ...(r.predi ?? []).map((b) => `ДЛ-${b}`),
+            ...(r.chaka ? [r.chaka] : []),
+            ...(r.otpushva ?? []).map((u) => u.vid),
+            ...(r.uslovia ?? []).map((u) => u.vid),
+          ].join(' · '),
+          kak: r.kak ?? '',
+        }));
+    } catch {
+      return [];
+    }
+  }
   if (!ima(DALG)) return [];
   const tekst = cheti(DALG);
   const nachalo = tekst.indexOf('\n## 1 ');
@@ -441,7 +462,13 @@ function proveri() {
         continue;
       }
       const chist = beleg.replace(/[*~]/g, '');
-      const ok = patishta.some((p) => ima(p) && cheti(p).includes(chist));
+      // белегът може да носи вида си отпред (ДЛ-Т4) · доказателството може да го пише голо („Т4 · …“ в името на тест)
+      const golo = chist.replace(/^(?:ВП|ДЛ|ИН)-/u, '');
+      const ok = patishta.some((p) => {
+        if (!ima(p)) return false;
+        const t = cheti(p);
+        return t.includes(chist) || t.includes(golo);
+      });
       if (!ok)
         nahodki.push(`Д4б · ${beleg} · нито един от пътищата не съществува и съдържа белега`);
     }
@@ -452,8 +479,11 @@ function proveri() {
     for (const k of redoveNaTablitsa(r.get('4') ?? [])) {
       const beleg = (k[0] ?? '').replace(/[*~]/g, '');
       if (!beleg) continue;
-      const vRegistara = reg.belezi.has(beleg);
-      const vDalga = dalgTekst.includes(`**${beleg}**`);
+      // белегът носи вида си отпред от 2.0б (ВП-В14 · ДЛ-Т50) · регистърът пази голия ключ,
+      // редът на дълга е `| **ДЛ-Т45** |` (до 11.09 · `| **Т45** |`)
+      const golo = beleg.replace(/^(?:ВП|ДЛ)-/u, '');
+      const vRegistara = reg.belezi.has(golo);
+      const vDalga = dalgTekst.includes(`**${golo}**`) || dalgTekst.includes(`**ДЛ-${golo}**`);
       if (!vRegistara && !vDalga)
         nahodki.push(`Д5 · роден белег „${beleg}" не е вписан нито в регистъра, нито в дълга`);
     }

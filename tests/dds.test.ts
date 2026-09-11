@@ -14,8 +14,8 @@ import { MODEL } from '../src/model/osnova.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import { ddsat, stranaNaDdsa } from '../src/smetach/dds.js';
 import { nahodkiteNaNap, NIVA, PROVERKI } from '../src/smetach/nahodki-nap.js';
-import { nomerNaSektsiya, SEKTSIYA_ZAPLATI_KESH } from '../src/smetach/smetki.js';
-import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
+import { SEKTSIYA_ZAPLATI_KESH } from '../src/smetach/smetki.js';
+import { KNIGA, knigaZaTest, nomerNaSektsiya, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T13:00:00.000Z';
 const DNES = '2026-09-05';

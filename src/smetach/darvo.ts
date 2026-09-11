@@ -12,7 +12,7 @@
  */
 
 import { tablitsata } from '../model/model.js';
-import type { Ogledalo } from '../ogledalo/ogledalo.js';
+import { type Ogledalo, tablitsaVOgledaloto } from '../ogledalo/ogledalo.js';
 import { kletkaNa, zhiviteRedove } from '../ogledalo/tablitsa.js';
 import { type Nomer, nomerNaRed, podrediPoNomer, sravniNomer } from './nomeratsiya.js';
 
@@ -91,7 +91,7 @@ export function darvoto(o: Ogledalo): Darvo {
     }
   };
   const roditel = (tablitsa: string, i: number, nivo: 0 | 1): void => {
-    const tv = o.tablitsi.get(tablitsa)!;
+    const tv = tablitsaVOgledaloto(o, tablitsa);
     const id = tv.id[i] ?? '';
     broyRoditeli += 1;
     redove.push({ vid: 'roditel', tablitsa, i, id, nivo, nomer: nomerNaRed(o, tablitsa, i) });
@@ -110,7 +110,7 @@ export function darvoto(o: Ogledalo): Darvo {
     }
   }
   for (const r of podrediPoNomer(o, 'imoti')) {
-    const tv = o.tablitsi.get('imoti')!;
+    const tv = tablitsaVOgledaloto(o, 'imoti');
     const id = tv.id[r.i] ?? '';
     roditel('imoti', r.i, 0);
     for (const d of (podImota.get(id) ?? []).sort((a, b) => sravniNomer(a.nomer, b.nomer))) {

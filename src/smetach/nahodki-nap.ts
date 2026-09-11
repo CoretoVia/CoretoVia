@@ -15,7 +15,7 @@
  */
 
 import { podravni } from '../model/nomenklatura.js';
-import type { Ogledalo } from '../ogledalo/ogledalo.js';
+import { type Ogledalo, tablitsaVOgledaloto } from '../ogledalo/ogledalo.js';
 import { kletkaNa, zhiviteRedove } from '../ogledalo/tablitsa.js';
 import { ddsat } from './dds.js';
 import { imeNaVrazkata } from './kletki.js';
@@ -107,7 +107,7 @@ function mesetsiteNaDvizheniyata(o: Ogledalo): string[] {
 
 /** Един ред с пари · думите му, за да се познае в находката. */
 function dumiteNaReda(o: Ogledalo, i: number): string {
-  const tv = o.tablitsi.get('dvizheniya')!;
+  const tv = tablitsaVOgledaloto(o, 'dvizheniya');
   const t = tablitsata(o.model, 'dvizheniya');
   const ime = kletkaNa(tv, i, 'ime');
   if (ime !== null && 'tekst' in ime && ime.tekst !== '') return ime.tekst;

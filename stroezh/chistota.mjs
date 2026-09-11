@@ -13,7 +13,7 @@
  * БРОЯТ, не се оценяват (правило 17) — затова тук е обход, който се пуска
  * (`npm run chistota`) и връща ЧЕРВЕНО, когато прагът се пробие.
  *
- * ═══ ДВАНАЙСЕТТЕ ОБХОДА ═══
+ * ═══ ТРИНАЙСЕТТЕ ОБХОДА ═══
  *
  *   1 · МЪРТВО · име, което не се среща никъде освен в декларацията си;
  *   2 · ИЗЛИШЕН `export` · ползва се, но само ВЪТРЕ в своя файл;
@@ -27,6 +27,9 @@
  *   5 · ИЗЛИШНИ РЕДОВЕ · глътнат отказ (празен `catch`), закоментиран код,
  *       условие, което винаги е вярно, три празни реда подред;
  *   6 · СВЪРЗАНОСТ · всеки файл в `src/` и `app/` има ли поне един внасящ;
+ *   6б · САМО ПРЕЗ БАРЕЛА · файл, който производственият код внася САМО през
+ *       барел, без нито едно негово име да стига до код — или който внасят САМО
+ *       тестовете. Дългът по правило 30, поименно · точен пин (ход 9 · 11.09.2026);
  *   7 · БЕЗ ТЕСТ · файл от домейна, който никой тест не докосва;
  *   8 · ДУБЛИРАНО · еднакви блокове от по няколко реда на две места;
  *   9 · ПЪТ ДО HTML ИЗВЪН ВРАТАТА · `innerHTML` · `insertAdjacentHTML` · `eval`
@@ -52,10 +55,11 @@
  *
  * ═══ ПРАГОВЕТЕ ═══
  *
- * Нула за 1, 2, 4, 5, 6 — те са дефекти. Останалите се БРОЯТ и се показват:
- * „само тест", „изнесено за теста" и „без тест" са СЪСТОЯНИЯ, които се обясняват
- * (една възможност чака резен), а не дефекти, които се крият. Праг, вдигнат
- * наслуки, е по-лош от липсващ.
+ * Нула за 1, 2, 4, 5, 6 — те са дефекти. „Само тест", „само през барела" и „без
+ * тест" са ТОЧНИ ПИНОВЕ (ход 9 · 11.09.2026): състояния, които се обясняват (една
+ * възможност чака ход), но не се трупат мълчаливо — нагоре е невикано без ред в
+ * дълга, надолу е пин за сваляне с ръка. „Изнесено за теста" се брои и се показва.
+ * Праг, вдигнат наслуки, е по-лош от липсващ.
  *
  * ═══ ЧЕТИРИТЕ ПОПРАВКИ НА САМИЯ ОБХОД ═══
  *
@@ -531,7 +535,23 @@ vidyal('3б · изнесено за теста', imenata.size, 'имена');
  *     така „undefined" мина за пари и нарисува „NaN €" (`pari.ts`).
  */
 const PRAZNI = [
-  [/Number\(\s*[^)]*\?\?\s*''\s*\)/g, "Number(… ?? '') · празното става НУЛА мълчаливо"],
+  /**
+   * ДЛ-Т9 · ТЪРСИ СЕ ИЗЧИСТЕНАТА ФОРМА (ход 9 · 11.09.2026).
+   *
+   * Дотук изразът искаше `?? ''`, а `chist` е текстът, от който `golKod` е скрил
+   * всеки низ заедно с кавичките му — тоест `''` там никога не съществува и
+   * изразът беше СТРУКТУРНО МЪРТЪВ: живият случай `Number(klyuch.split('#')[2] ?? '')`
+   * в `src/kniga/chetene.ts` минаваше зелен. Първата поправка (четене на текста
+   * с низовете) също не хващаше: и там отварящата кавичка се крие. Затова се
+   * търси ИЗЧИСТЕНАТА форма — `??`, после само интервали, после `)` — а тя значи
+   * точно „резервата беше НИЗ" (`''` · `""` · `'0'`), всяка от които е число от низ:
+   * тиха нула или NaN. Едно ниво вложени скоби, за да мине през `split('#')`.
+   * Обход, чийто израз не може да съвпадне, не е обход.
+   */
+  [
+    /Number\(\s*(?:[^()\n]|\([^()\n]*\))*\?\?\s*\)/g,
+    "Number(… ?? '‹низ›') · резервата е низ · празното става НУЛА мълчаливо",
+  ],
   [/\bparseFloat\s*\(/g, 'parseFloat · празното дава NaN и влиза в сбор'],
   // `parseInt` БЕЗ основа · с основа (8 · 16) той чете вече проверен низ и е
   // верен. Първото пускане обяви и двата верни случая — обход, който брани
@@ -651,9 +671,33 @@ vidyal('5 · излишен ред', kod.length);
  */
 const SPETSIFER = /(?:from|import\()\s*'([^']+)'/g;
 
-function vnesenoOt(fayl) {
+/**
+ * ВНОС В НИЗ НЕ Е ВНОС (ход 9 · 11.09.2026).
+ *
+ * Тестовете, които доказват машините върху счупено дърво (`tests/chistota.test.ts` ·
+ * `tests/sloevete.test.ts`), носят цели файлове като низове: `"import { Izpalnitel }
+ * from '../src/porta/izpalnitel.js';"`. Четен суров, такъв ред обявяваше
+ * `izpalnitel.ts` за тестван и обход 7 слизаше без причина. Специферите в кода са
+ * винаги в единични кавички (`stil` го пази), тъй че двойните и шаблонните низове
+ * се скриват, преди да се търси `from '…'`.
+ */
+function bezChuzhdiNizove(t) {
+  return t
+    .replace(/"(?:[^"\\\n]|\\.)*"/g, (m) => ' '.repeat(m.length))
+    .replace(/`(?:[^`\\]|\\.)*`/g, (m) => m.replace(/[^\n]/g, ' '));
+}
+
+/**
+ * ТИПОВИЯТ ВНОС НЕ ТЕСТВА (ход 9 · 11.09.2026). `import type { X } from '…'` изчезва при
+ * компилация и не изпълнява нито ред от файла — тест или помощник, който внася само
+ * тип, не е докоснал кода. За свързаността (обход 6) типът Е връзка; за „без тест"
+ * (обход 7) не е. Затова четенето има две лица.
+ */
+function vnesenoOt(fayl, bezTipove = false) {
   const nabor = new Set();
-  for (const [, spets] of tekstat.get(fayl).matchAll(SPETSIFER)) {
+  let tekst = bezChuzhdiNizove(tekstat.get(fayl));
+  if (bezTipove) tekst = tekst.replace(/import\s+type\s+[^;]*?from\s*'[^']+'/g, ' ');
+  for (const [, spets] of tekst.matchAll(SPETSIFER)) {
     if (!spets.startsWith('.')) continue;
     nabor.add(izravni(resolve(dirname(fayl), spets)).replace(/\.js$/, '.ts'));
   }
@@ -680,6 +724,98 @@ for (const f of kod) {
 }
 vidyal('6 · несвързан', vidyaniSvarzanost);
 
+// ── 5б · СВЪРЗАНОСТ ПРЕЗ БАРЕЛА · имена, не файлове ───────────────────────
+
+/**
+ * ОБХОД 6 ГЛЕДАШЕ ФАЙЛОВЕ, НЕ ИМЕНА (ход 9 · 11.09.2026 · планът от 10.09, 2.6).
+ *
+ * Барелът `src/yadro/index.ts` изнася наново единайсет файла, тъй че всеки от
+ * тях беше „свързан" — дори когато нито едно негово име не стига до `src/` или
+ * `app/` (`zapis.ts` · `data.ts`). И тестът броеше за внасящ: файл, който само
+ * тестовете внасят, минаваше за жив (`hash-node.ts` · `naivno.ts`).
+ *
+ * Тук файлът е находка, когато (А) производствен код го внася САМО през барел и
+ * нито едно от изнесените му имена не се ВНАСЯ от барела в друг производствен файл,
+ * или (Б) го внасят САМО тестове и проходът. Имената се четат от самите
+ * `import { … } from` (не от текста: `NIVA` е изнесено и от `nahodki-nap.ts`, и
+ * текстово съвпадение би броило чуждото име за свое). Прагът е ТОЧЕН пин (както 3
+ * и 7): това е дългът по правило 30, поименно, и той може само да пада — всеки файл
+ * тук има или викащ в следващите ходове (ред в `docs/registar-na-dalga.json`), или
+ * дом в `tests/`, или го няма. Един скок през барела, не верига (както обход 7).
+ */
+const kodNabor = new Set(kod);
+const eBarel = (f) => basename(f) === 'index.ts';
+const otnositelen = (f) => izravni(relative(KOREN, f));
+const vnasyashtiOtKod = new Map();
+const vnasyashtiOtTest = new Map();
+for (const [f, nabor] of vnasya) {
+  for (const cel of nabor) {
+    if (cel === f) continue;
+    const kade = kodNabor.has(f) ? vnasyashtiOtKod : vnasyashtiOtTest;
+    if (!kade.has(cel)) kade.set(cel, new Set());
+    kade.get(cel).add(f);
+  }
+}
+/** кои имена внася всеки производствен файл и откъде · `import { a, b as c } from '…'` */
+const IMENA_V_IMPORT = /import\s+(?:type\s+)?\{([^}]*)\}\s*from\s*'([^']+)'/g;
+const vneseniImena = new Map();
+for (const d of kod) {
+  const poIzvor = new Map();
+  for (const [, spisak, spets] of tekstat.get(d).matchAll(IMENA_V_IMPORT)) {
+    if (!spets.startsWith('.')) continue;
+    const izvor = izravni(resolve(dirname(d), spets)).replace(/\.js$/, '.ts');
+    if (!poIzvor.has(izvor)) poIzvor.set(izvor, new Set());
+    for (const chast of spisak.split(',')) {
+      const ime = chast
+        .replace(/^\s*type\s+/, '')
+        .trim()
+        .split(/\s+as\s+/)[0]
+        ?.trim();
+      if (ime) poIzvor.get(izvor).add(ime);
+    }
+  }
+  vneseniImena.set(d, poIzvor);
+}
+const imenataNa = new Map(
+  kod.map((f) => [f, [...chist.get(f).matchAll(IZNESENI)].map((m) => m[2])]),
+);
+let vidyaniPrezBarela = 0;
+for (const f of kod) {
+  if (VHODNI.has(basename(f)) || !vnesenite.has(f)) continue;
+  vidyaniPrezBarela += 1;
+  const otKod = vnasyashtiOtKod.get(f) ?? new Set();
+  if ([...otKod].some((v) => !eBarel(v))) continue; // пряк производствен внос · свързан
+  if (otKod.size === 0) {
+    const testove = [...(vnasyashtiOtTest.get(f) ?? [])].map(otnositelen).join(' · ');
+    nahodka(
+      '6б · само през барела',
+      f,
+      0,
+      `внасят го САМО тестове (${testove}) · нито един производствен файл`,
+    );
+    continue;
+  }
+  const imena = new Set(imenataNa.get(f) ?? []);
+  const stiga = kod.some((d) => {
+    if (d === f || eBarel(d)) return false;
+    const poIzvor = vneseniImena.get(d);
+    return [...otKod].some((barel) =>
+      [...(poIzvor.get(barel) ?? [])].some((ime) => imena.has(ime)),
+    );
+  });
+  if (!stiga) {
+    const spisak = [...imena];
+    const pokazani = `${spisak.slice(0, 4).join(' · ')}${spisak.length > 4 ? ' …' : ''}`;
+    nahodka(
+      '6б · само през барела',
+      f,
+      0,
+      `внася го САМО барелът (${[...otKod].map(otnositelen).join(' · ')}) · нито едно от ${spisak.length} негови имена (${pokazani}) не се внася оттам в код`,
+    );
+  }
+}
+vidyal('6б · само през барела', vidyaniPrezBarela);
+
 // ── 6 · БЕЗ ТЕСТ ──────────────────────────────────────────────────────────
 
 /**
@@ -692,7 +828,7 @@ vidyal('6 · несвързан', vidyaniSvarzanost);
  */
 const dokosnatiOtTest = new Set();
 for (const t of [...testove, ...prohod]) {
-  for (const cel of vnasya.get(t)) {
+  for (const cel of vnesenoOt(t, true)) {
     dokosnatiOtTest.add(cel);
     if (basename(cel) === 'index.ts' && vnasya.has(cel)) {
       for (const prez of vnasya.get(cel)) dokosnatiOtTest.add(prez);
@@ -877,7 +1013,7 @@ vidyal('8б · дублирано по структура', kod.length);
  * Присвояване на `innerHTML` или `outerHTML`, `insertAdjacentHTML`,
  * `document.write`, `eval` и `new Function` — навсякъде в `src/` и `app/`
  * ОСВЕН в самата врата. Прагът е НУЛА: изключение не се предвижда, защото
- * вратата приема всичко през `h` и `nashHTML`.
+ * вратата приема всичко през `h`, а адрес на скрипт — през `nashSkript`.
  */
 const IZVAN_VRATATA = [
   [/\.(?:inner|outer)HTML\s*=/, 'присвояване на HTML извън вратата'],
@@ -1003,9 +1139,9 @@ const PRAGOVE = {
    * НУЛА, и тук няма именувано изключение (резен 6м).
    *
    * Всеки друг праг в този файл има име зад себе си. Тук няма и не бива да има:
-   * вратата приема ВСИЧКО — разметка през `h`, наш готов низ през `nashHTML`,
-   * адрес на скрипт през `nashSkript`. Който има нужда от втори път, всъщност
-   * има нужда да мине през първия.
+   * вратата приема ВСИЧКО — разметка през `h`, адрес на скрипт през
+   * `nashSkript`. Който има нужда от втори път, всъщност има нужда да мине
+   * през първия.
    */
   '9 · път до HTML извън вратата': 0,
   /**
@@ -1016,6 +1152,25 @@ const PRAGOVE = {
    * тук няма какво да се чисти, има какво да се опази.
    */
   '10 · шум · диагностика извън записа': 0,
+};
+
+/**
+ * ТОЧНИТЕ ПИНОВЕ · ход 9 (11.09.2026) · обходи 3 и 7 бяха броячи без праг.
+ *
+ * Брояч без праг не пази нищо: „само тест" можеше да порасне от 32 на 50 и портата
+ * оставаше зелена — тоест непостроеното с тест се трупаше мълчаливо, а точно този
+ * списък е суровината на правило 30 (построено и невикано е дълг). Пинът е ТОЧЕН:
+ * нагоре е находка (ново невикано без ред в дълга), надолу също — за да слезе и
+ * пинът с ръка, вместо числото да стои като украса.
+ */
+const PINOVE_TOCHNI = {
+  // 11.09 · ход 9: 32 → 9 (деветте имат ред в дълга: ДЛ-Н3 · Н5 · Н6 · Н7 · Н9 · Н10 · Н11 · Н12)
+  '3 · само тест': 9,
+  // 11.09 · ход 9: 4 → 0 (hash-node.ts · naivno.ts отидоха в tests/, data.ts · zapis.ts получиха викащ)
+  '6б · само през барела': 0,
+  // 11.09 · ход 9: 47 → 49 — не защото кодът стана по-лош, а защото типовият внос спря да
+  // брои за тест (два файла бяха „докоснати" само през `import type` от помощник)
+  '7 · без тест': 49,
 };
 
 const poObhod = new Map();
@@ -1034,6 +1189,7 @@ for (const obhod of [
   '4 · празно поле',
   '5 · излишен ред',
   '6 · несвързан',
+  '6б · само през барела',
   '7 · без тест',
   '8 · дублирано',
   '8б · дублирано по структура',
@@ -1042,13 +1198,18 @@ for (const obhod of [
 ]) {
   const spisak = poObhod.get(obhod) ?? [];
   const prag = PRAGOVE[obhod];
-  const previshen = prag !== undefined && spisak.length > prag;
+  const pin = PINOVE_TOCHNI[obhod];
+  const previshen =
+    (prag !== undefined && spisak.length > prag) || (pin !== undefined && spisak.length !== pin);
   if (previshen) cherveno += 1;
   // Обхватът стои ДО броя находки: нула без обхват значи „не съм гледал".
   const obhvat = vidyani.get(obhod);
   console.log(
     `  ${previshen ? '✗' : '·'} ${obhod}: ${spisak.length}` +
       (prag === undefined ? '' : ` · праг ${prag}`) +
+      (pin === undefined
+        ? ''
+        : ` · пин ${pin}${spisak.length < pin ? ' · слязло е · свали пина с ръка' : spisak.length > pin ? ' · РАСТЕ · новото невикано иска ред в дълга' : ''}`) +
       (obhvat === undefined ? '' : ` · видени ${obhvat.broy} ${obhvat.edinitsa}`),
   );
   // По подразбиране се показват първите 40 · `--vsichki` показва всички.

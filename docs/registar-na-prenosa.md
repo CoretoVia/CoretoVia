@@ -92,7 +92,7 @@
 | :---- | ---: | :---- | :---- | :---- | :---- |
 | nositel/dnevnik-indexeddb.ts | 217 | ПРЕНОС (снимките са НОВ файл `snimki-indexeddb.ts`) | src/nositel/dnevnik-indexeddb.ts | Я | 1 |
 | nositel/drayv.ts | 232 | ЧАКА (Драйв иска OAuth) | src/nositel/drayv.ts | — | 14 |
-| nositel/hash-node.ts | 11 | ПРЕНОС | src/nositel/hash-node.ts | Я | 4 |
+| nositel/hash-node.ts | 11 | ПРЕНОС · от 11.09 помощник за тестовете | tests/pomoshtni.ts | Я | 4 |
 | nositel/hash-web.ts | 14 | ПРЕНОС | src/nositel/hash-web.ts | Я | 4 |
 | nositel/hranilishte.ts | 74 | ПРЕНОС | src/nositel/hranilishte.ts | Я | ADR-001 |
 
@@ -137,7 +137,7 @@
 | :---- | ---: | :---- | :---- | :---- | :---- |
 | kalkulator/aktivi-ot-zhurnala.ts | 198 | ПРЕНАПИСВАНЕ (Имот без Обект / Обект с Имот — дървото го носи) | src/smetach/kalkulator/aktivi.ts | П · С | 17 |
 | kalkulator/chetene.ts | 216 | ПРЕНАПИСВАНЕ (`VidObekt` остава; чете колонно) | src/smetach/kalkulator/chetene.ts | П | 3 |
-| kalkulator/matritsa.ts | 522 | ПРЕНАПИСВАНЕ (ядрата `tsenaTochno` · `saglasuvana` · `teglataZatvaryat` · `tsenaPoRazhod` дословно; кръговият внос с `nastroyki` пада) | src/smetach/kalkulator/matritsa.ts | П | 3 · matematika §2 |
+| kalkulator/matritsa.ts | 522 | ПРЕНАПИСВАНЕ (ядрата `tsenaTochno` · `saglasuvana` · `tsenaPoRazhod` дословно; `teglataZatvaryat` махната на 11.09 (ход 9); кръговият внос с `nastroyki` пада) | src/smetach/kalkulator/matritsa.ts | П | 3 · matematika §2 |
 | kalkulator/nastroyki.ts | 923 | ПРЕНАПИСВАНЕ (числата му 3 000/2 000 се пренасят; данни, не код) | src/smetach/kalkulator/nastroyki.ts | П | ADR-067 |
 | kalkulator/razbivka.ts | 569 | ПРЕНОС (одитната следа ред по ред + `sverkaNaRazbivkata`) | src/smetach/kalkulator/razbivka.ts | П | 3 · 7 |
 | kalkulator/sazdavane.ts | 127 | ПРЕНАПИСВАНЕ („Създай сграда" от площообразуване · Калкулаторът над Продажбите · резен 5) | src/smetach/kalkulator/sazdavane.ts | П | zadanie/10 |
@@ -210,7 +210,7 @@
 | domein/papki.ts | 119 | ЧАКА (Драйв) | — | — | 14 |
 | domein/dokumenti.ts | 240 | ЧАКА (Драйв) | — | — | ADR-073 |
 | domein/drazhki-na-imota.ts | 65 | ОТПАДА (меню на стария екран) | — | — | ADR-164 |
-| domein/kalendar.ts | 149 | ЧАКА (Google Calendar → OAuth) | — | — | ADR-064 (на MasterBook, непренесен · Т36) |
+| domein/kalendar.ts | 149 | ЧАКА (Google Calendar → OAuth) | — | — | ADR-064 (на MasterBook, непренесен · ДЛ-Т36) |
 | domein/pismo.ts | 98 | ЧАКА (писмо при закъснение) | — | — | 14 |
 | domein/prenos.ts | 244 | ЧАКА (личен журнал) | — | — | И98 |
 | domein/prodazhbi.ts | 676 | ПРЕНАПИСВАНЕ (20 колони; движенията остават събития; две проверки) | src/domein/prodazhbi.ts + src/smetach/prodazhbi/proverka.ts | П | ADR-078 · 3 |

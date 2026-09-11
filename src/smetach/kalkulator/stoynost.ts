@@ -15,6 +15,7 @@
  */
 
 import type { Ogledalo } from '../../ogledalo/ogledalo.js';
+import { sabiri, tsentove } from '../../yadro/pari.js';
 import { evroZaKvadrat, type Prodazhba, prodazhbite } from '../prodazhbi.js';
 import {
   ochakvanNaem_st,
@@ -136,9 +137,10 @@ export function otsenkata(
   const otpadnali = [...new Set(redove.flatMap((r) => r.saglasuvane.otpadnali))];
   return {
     redove,
-    dogovoreni_st: redove.reduce((s, r) => s + r.dogovorena_st, 0),
-    otseneni_st: redove.reduce((s, r) => s + r.saglasuvane.tochno_st, 0),
-    razlika_st: redove.reduce((s, r) => s + r.razlika_st, 0),
+    // парите минават през преградата за цели центове (правило 3); квадратурата е кв. см, не пари
+    dogovoreni_st: sabiri(...redove.map((r) => tsentove(r.dogovorena_st))),
+    otseneni_st: sabiri(...redove.map((r) => tsentove(r.saglasuvane.tochno_st))),
+    razlika_st: sabiri(...redove.map((r) => tsentove(r.razlika_st))),
     kvadratura: redove.reduce((s, r) => s + r.kvadratura, 0),
     otpadnali,
     nastroyki,

@@ -104,7 +104,7 @@ describe('чистотата на кода', () => {
     expect(IZVOR).toContain('function izravni(pat)');
   });
 
-  it('ДВАНАЙСЕТТЕ обхода ОБЯВЯВАТ обхвата си · и нито един не е нула', () => {
+  it('ТРИНАЙСЕТТЕ обхода ОБЯВЯВАТ обхвата си · и нито един не е нула', () => {
     const { kod, izhod } = pusni();
     expect(kod).toBe(0);
     const po = obhvatite(izhod);
@@ -118,6 +118,8 @@ describe('чистотата на кода', () => {
       '4 · празно поле',
       '5 · излишен ред',
       '6 · несвързан',
+      // 11.09.2026 (ход 9): 12 → 13 · влезе обход 6б — свързаност по ИМЕНА през барела
+      '6б · само през барела',
       '7 · без тест',
       '8 · дублирано',
       '8б · дублирано по структура',
@@ -138,7 +140,7 @@ describe('чистотата на кода', () => {
     expect(obhvatite(izhod).get('7 · без тест')).toBe(kod.length - vhodni);
   }, 60_000);
 
-  it('и ВСИЧКИТЕ ДВАНАЙСЕТ ловят · доказано с нарочно счупено ДЪРВО', () => {
+  it('и ВСИЧКИТЕ ТРИНАЙСЕТ ловят · доказано с нарочно счупено ДЪРВО', () => {
     /**
      * ДЪРВОТО ЖИВЕЕ ВЪВ ВРЕМЕННАТА ПАПКА. Тест, който пише в хранилището, се
      * състезава с всеки друг, който обхожда същата папка — точно дефектът, който
@@ -224,6 +226,19 @@ describe('чистотата на кода', () => {
         '}',
       ]);
 
+      // 6б · само през барела · ДВЕТЕ форми: (А) барелът го преизнася, а никой
+      // производствен файл не внася име от него през барела — `main.ts` внася от
+      // барела САМО `zhivoPrezBarela`, тоест `prez-barela.ts` е несвързан по име,
+      // макар обход 6 (по файлове) да го вижда като внесен; (Б) `samo-test.ts` го
+      // внася само тестът
+      pishi('src', 'prez-barela.ts', ['export const nikoyNeVnasyaOttuk = 1;']);
+      pishi('src', 'zhiv-prez-barela.ts', ['export const zhivoPrezBarela = 2;']);
+      pishi('src', 'index.ts', [
+        "export * from './prez-barela.js';",
+        "export * from './zhiv-prez-barela.js';",
+      ]);
+      pishi('src', 'samo-test.ts', ['export const samoTestatMeVnasya = 3;']);
+
       pishi('app', 'main.ts', [
         "import { tri } from '../src/dubel-v.js';",
         "import { zle } from './vrata-zaobikolena.js';",
@@ -231,11 +246,14 @@ describe('чистотата на кода', () => {
         "import { izlishno } from '../src/izlishno.js';",
         "import { edno } from '../src/dubel-a.js';",
         "import { dve } from '../src/dubel-b.js';",
-        'console.log(chetiri, prazno(1), izlishno(), edno(1, 2, 3), dve(1, 2, 3), zle);',
+        "import { zhivoPrezBarela } from '../src/index.js';",
+        'console.log(chetiri, prazno(1), izlishno(), edno(1, 2, 3), dve(1, 2, 3), zle, zhivoPrezBarela);',
       ]);
       pishi('tests', 'zhivo.test.ts', [
         "import { samoZaTesta, yadroto } from '../src/zhivo.js';",
-        'console.log(samoZaTesta(), yadroto());',
+        "import { nikoyNeVnasyaOttuk } from '../src/index.js';",
+        "import { samoTestatMeVnasya } from '../src/samo-test.js';",
+        'console.log(samoZaTesta(), yadroto(), nikoyNeVnasyaOttuk, samoTestatMeVnasya);',
       ]);
 
       const { kod, izhod } = pusni(koren);
@@ -255,6 +273,7 @@ describe('чистотата на кода', () => {
         '4 · празно поле',
         '5 · излишен ред',
         '6 · несвързан',
+        '6б · само през барела',
         '7 · без тест',
         '8 · дублирано',
         '8б · дублирано по структура',
@@ -264,6 +283,12 @@ describe('чистотата на кода', () => {
         '10 · шум · диагностика извън записа',
       ]);
       for (const [ime, broy] of po) expect(broy, `обход „${ime}" не лови`).toBeGreaterThan(0);
+
+      // 6б лови ДВЕТЕ форми, и НЕ обвинява внесеното по име през барела
+      const prezBarela = nahodkiteNa(izhod, '6б · само през барела').join(' ');
+      expect(prezBarela).toContain('src/prez-barela.ts');
+      expect(prezBarela).toContain('src/samo-test.ts');
+      expect(prezBarela).not.toContain('zhiv-prez-barela');
 
       // 8б лови ФОРМАТА, не буквите · сочи се `dubel-v`, чиито имена са ДРУГИ,
       // а не `dubel-b`, който е дословно копие. Търсенето е В НЕГОВИЯ обход:
@@ -276,6 +301,51 @@ describe('чистотата на кода', () => {
       // и НЕ обвинява невинното · инак „лови" би значело „лови всичко"
       expect(izhod).toContain('nikoyNeGoVika');
       expect(izhod).not.toContain('„chetiri"');
+    } finally {
+      rmSync(koren, { recursive: true, force: true });
+    }
+  }, 60_000);
+
+  it("Т9 · обход 4 лови резервата-низ · `Number(x ?? '')` · `\"\"` · `'0'` · и НЕ обвинява числото", () => {
+    /**
+     * ДЛ-Т9: изразът търсеше `?? ''` в текст, от който низовете са скрити, и не
+     * можеше да съвпадне никога — живият случай в `src/kniga/chetene.ts` минаваше
+     * зелен. Сега се търси ИЗЧИСТЕНАТА форма (`??`, интервали, `)`), която значи
+     * „резервата беше низ". Тук се доказва, че ЛОВИ и трите низа, минава през
+     * вложената скоба и не пипа `?? 0`.
+     */
+    const koren = mkdtempSync(join(tmpdir(), 'chistota-t9-'));
+    try {
+      for (const p of ['src', 'app', 'tests', 'proba']) mkdirSync(join(koren, p));
+      writeFileSync(
+        join(koren, 'src', 'rezerva.ts'),
+        [
+          'export function a(x) {',
+          "  return Number(x ?? '');",
+          '}',
+          'export function b(x) {',
+          '  return Number(x ?? "");',
+          '}',
+          'export function v(x) {',
+          "  return Number(x.split('#')[2] ?? '0');",
+          '}',
+          'export function g(x) {',
+          '  return Number(x ?? 0);',
+          '}',
+          '',
+        ].join('\n'),
+      );
+      writeFileSync(
+        join(koren, 'app', 'main.ts'),
+        "import { a, b, v, g } from '../src/rezerva.js';\nexport const s = a(1) + b(2) + v('x') + g(3);\n",
+      );
+      const { izhod } = pusni(koren);
+      const nahodki = nahodkiteNa(izhod, '4 · празно поле');
+      expect(nahodki).toHaveLength(3);
+      expect(nahodki.join(' ')).toContain('src/rezerva.ts:2');
+      expect(nahodki.join(' ')).toContain('src/rezerva.ts:5');
+      expect(nahodki.join(' ')).toContain('src/rezerva.ts:8');
+      expect(nahodki.join(' ')).not.toContain('rezerva.ts:11');
     } finally {
       rmSync(koren, { recursive: true, force: true });
     }

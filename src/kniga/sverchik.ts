@@ -45,7 +45,7 @@ import { type Belezi, podravni, poNomer, sledvashtNomer } from '../model/nomenkl
 import { otpechatakNaModela } from '../model/otpechatak.js';
 import { PREDLOZHENIE, type Predlozhenie, type Razlika } from '../model/predlozhenie.js';
 import type { Tablitsa } from '../model/tablitsa.js';
-import type { Ogledalo } from '../ogledalo/ogledalo.js';
+import { type Ogledalo, tablitsaVOgledaloto } from '../ogledalo/ogledalo.js';
 import { kletkaNa, redKato, zhiviteRedove } from '../ogledalo/tablitsa.js';
 import { dumiNaKletka, imeNaReda, imeNaVrazkata } from '../smetach/kletki.js';
 import { nomerNaRed, nomerOtKletki, tekstNaNomera } from '../smetach/nomeratsiya.js';
@@ -702,7 +702,7 @@ class Sverchik {
       return undefined;
     }
     const id = ids[0]!;
-    const i = this.o.tablitsi.get(t.klyuch)!.indeks.get(id)!;
+    const i = tablitsaVOgledaloto(this.o, t.klyuch).indeks.get(id)!;
     this.nahodka(
       list,
       r.adres,

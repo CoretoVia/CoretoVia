@@ -14,6 +14,8 @@
  * за другите машини е износът с неговия последен хеш.
  */
 
+import type { Zapisvach } from './zapis.js';
+
 interface Kotva {
   readonly seq: number;
   readonly hash: string;
@@ -29,9 +31,16 @@ export interface DrajkaNaKotva {
 
 export class KotvaVLocalStorage implements DrajkaNaKotva {
   readonly #predstavka: string;
+  readonly #zapisvach: Zapisvach | undefined;
 
-  constructor(predstavka = 'coretovia:kotva') {
+  /**
+   * `zapisvach` е по избор: подаде ли се, двата гълтащи `catch` долу ПИШАТ в
+   * лога, вместо да мълчат (ДЛ-Н2). Липсващата котва не е тревога, но се БРОИ
+   * (правило 12) — иначе частен прозорец и счупено хранилище изглеждат еднакво.
+   */
+  constructor(predstavka = 'coretovia:kotva', zapisvach?: Zapisvach) {
     this.#predstavka = predstavka;
+    this.#zapisvach = zapisvach;
   }
 
   cheti(veriga: string): Kotva | null {
@@ -41,7 +50,8 @@ export class KotvaVLocalStorage implements DrajkaNaKotva {
       const k = JSON.parse(surovo) as Kotva;
       return Number.isSafeInteger(k.seq) && typeof k.hash === 'string' ? k : null;
     } catch {
-      // Частен прозорец или забранени данни — котва просто няма.
+      // Частен прозорец или забранени данни — котва просто няма; и това се записва.
+      this.#zapisvach?.zapishi('predupezhdenie', 'kotva', 'ne_se_chete');
       return null;
     }
   }
@@ -51,20 +61,8 @@ export class KotvaVLocalStorage implements DrajkaNaKotva {
       localStorage.setItem(`${this.#predstavka}:${veriga}`, JSON.stringify(kotva));
     } catch {
       // Няма къде — записът в Журнала пак е станал; котвата е допълнителна мярка.
+      this.#zapisvach?.zapishi('predupezhdenie', 'kotva', 'ne_se_zabiva', { seq: kotva.seq });
     }
-  }
-}
-
-/** За тестове и за среди без localStorage. */
-export class KotvaVPametta implements DrajkaNaKotva {
-  readonly #po = new Map<string, Kotva>();
-
-  cheti(veriga: string): Kotva | null {
-    return this.#po.get(veriga) ?? null;
-  }
-
-  zabij(veriga: string, kotva: Kotva): void {
-    this.#po.set(veriga, kotva);
   }
 }
 

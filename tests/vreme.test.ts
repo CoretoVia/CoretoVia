@@ -19,7 +19,6 @@ import {
   NAY_MNOGO_KOLONI,
   OBEDNIYAT_CHAS,
   TAKTOVE,
-  TAKTOVE_ZA_REZHENE,
 } from '../src/smetach/vreme.js';
 
 const DNES = '2026-08-27';
@@ -32,10 +31,6 @@ describe('речникът е ЕДИН · и има шест стойности'
   it('всеки има ИМЕ · речник без дума е ключ, не такт', () => {
     expect(TAKTOVE).toHaveLength(6);
     for (const t of TAKTOVE) expect(IMENA_NA_TAKTOVETE[t], t).not.toBe('');
-  });
-
-  it('за РЯЗАНЕ на готов период „свой" отпада · няма какво да реже', () => {
-    expect([...TAKTOVE_ZA_REZHENE]).toEqual(['den', 'sedmitsa', 'mesets', 'trimesechie', 'godina']);
   });
 });
 

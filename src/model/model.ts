@@ -28,12 +28,6 @@ export function tablitsata(m: Model, klyuch: string): Tablitsa {
   return t;
 }
 
-export function nomenklaturata(m: Model, klyuch: string): Nomenklatura {
-  const n = m.nomenklaturi.get(klyuch);
-  if (n === undefined) throw new Error(`Няма номенклатура „${klyuch}" в Модела.`);
-  return n;
-}
-
 /**
  * ПРОВЕРКАТА НА МОДЕЛА · връща списък от думи; празен значи здрав.
  *

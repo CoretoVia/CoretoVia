@@ -1,25 +1,30 @@
 /**
  * Вратарят на датите. Журналът е само за добавяне — сгрешена дата влиза
- * завинаги, затова се спира на входа, както при парите.
+ * завинаги, затова се спира на входа, както при парите. Живият викащ е
+ * Вратата на редовете (`src/komandi/prozortsi/red.ts`) — от 11.09.2026 (ход 9).
  */
 
 import { describe, expect, it } from 'vitest';
-import { eData, GreshkaData, otData } from '../src/yadro/data.js';
+import { eData } from '../src/yadro/data.js';
 
 describe('датите на входа', () => {
   it('приема истински ден', () => {
-    expect(otData('2026-02-28')).toBe('2026-02-28');
-    expect(otData('2024-02-29')).toBe('2024-02-29');
-    expect(otData(' 2026-08-22 ')).toBe('2026-08-22');
+    expect(eData('2026-02-28')).toBe(true);
+    expect(eData('2024-02-29')).toBe(true);
+    expect(eData('2026-08-22')).toBe(true);
   });
 
   it('отказва ден, който не съществува', () => {
-    expect(() => otData('2026-02-31')).toThrow(GreshkaData);
-    expect(() => otData('2026-02-30')).toThrow(GreshkaData);
-    expect(() => otData('2026-04-31')).toThrow(GreshkaData);
-    expect(() => otData('2026-13-01')).toThrow(GreshkaData);
-    expect(() => otData('2026-00-10')).toThrow(GreshkaData);
-    expect(() => otData('2026-01-00')).toThrow(GreshkaData);
+    for (const d of [
+      '2026-02-31',
+      '2026-02-30',
+      '2026-04-31',
+      '2026-13-01',
+      '2026-00-10',
+      '2026-01-00',
+    ]) {
+      expect(eData(d), d).toBe(false);
+    }
   });
 
   it('невисокосната година няма 29 февруари', () => {
@@ -29,19 +34,13 @@ describe('датите на входа', () => {
     expect(eData('1900-02-29')).toBe(false);
   });
 
-  it('отказва празно и чужд вид', () => {
-    expect(() => otData('')).toThrow(GreshkaData);
-    expect(() => otData('   ')).toThrow(GreshkaData);
-    expect(() => otData('28.02.2026')).toThrow(GreshkaData);
-    expect(() => otData('2026-2-8')).toThrow(GreshkaData);
-    expect(() => otData('2026-02-28T10:00:00Z')).toThrow(GreshkaData);
+  it('отказва празно и чужд вид · и не подрязва — подрязването е работа на входа', () => {
+    for (const d of ['', '   ', '28.02.2026', '2026-2-8', '2026-02-28T10:00:00Z', ' 2026-08-22 ']) {
+      expect(eData(d), d).toBe(false);
+    }
   });
 
-  it('казва за коя дата става дума', () => {
-    expect(() => otData('няма', 'Датата на плащането')).toThrow(/Датата на плащането/);
-  });
-
-  it('eData не пука от нещо, което не е низ', () => {
+  it('не пука от нещо, което не е низ', () => {
     expect(eData(undefined)).toBe(false);
     expect(eData(20260228)).toBe(false);
     expect(eData(null)).toBe(false);

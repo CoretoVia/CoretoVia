@@ -38,7 +38,8 @@ export function klyuchNaZveno(s: KoyPishe & { readonly seq: number }): string {
  *
  * Сторното сочи ЧУЖДО звено (`pogasyavaVeriga`) и там веригата идва като низ,
  * не като събитие. Двете влизаха в един и същи израз, писан на две места —
- * `naivno.ts` държеше свое копие. Един факт, един дом (правило 14).
+ * наивният оракул (днес `tests/naivno.ts`) държеше свое копие. Един факт, един
+ * дом (правило 14).
  */
 export function zvenoNa(veriga: string, seq: number): string {
   return `${veriga}#${seq}`;

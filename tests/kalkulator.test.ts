@@ -16,7 +16,6 @@ import {
   ochakvanNaem_st,
   ostavashtiOtSgradata_bt,
   saglasuvana,
-  teglataZatvaryat,
   tsenaOtChasti,
   tsenaPazarno,
   tsenaPoRazhod,
@@ -66,7 +65,6 @@ describe('числата и чии са', () => {
 
   it('теглата затварят на 100 % · и разходният НЕ води', () => {
     expect(sboratNaTeglata(PO_PODRAZBIRANE.tegla)).toBe(EDINITSA_BT);
-    expect(teglataZatvaryat(PO_PODRAZBIRANE.tegla)).toBe(true);
     expect(PO_PODRAZBIRANE.tegla).toEqual({
       pazaren_bt: 5_000,
       dohoden_bt: 1_000,

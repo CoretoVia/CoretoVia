@@ -18,6 +18,7 @@ import { FUNKTSII, GreshkaIzraz, leksemi, razcheti } from '../src/formuli/izraz.
 import {
   adresiteV,
   bukviOtKolona,
+  type ChetetsNaKletki,
   type Drob,
   drob,
   kamTsyalo,
@@ -25,12 +26,21 @@ import {
   otChislo,
   otTsyalo,
   ravni,
-  smetniFormula,
   smetniFormulaTochno,
 } from '../src/formuli/smetach.js';
 
 /** Празният лист · всяка клетка липсва, докато не я сложим. */
 const prazen = (): ((adres: string) => Drob | undefined) => () => undefined;
+
+/**
+ * Само за теста · формулата като ЦЯЛО число · закръгляването е ЕДНО, накрая.
+ *
+ * Същият ред живееше в `smetach.ts` като `smetniFormula` и го викаше само този
+ * файл (ход 9): живият четец в `chetene.ts` закръгля сам, след като умножи по
+ * сто. Тук редът стои, за да четат твърденията долу като числа, не като дроби.
+ */
+const smetniFormula = (izraz: string, chetets: ChetetsNaKletki): number =>
+  kamTsyalo(smetniFormulaTochno(izraz, chetets));
 
 /** Четец от карта · за четимите тестове. */
 function otKarta(karta: Readonly<Record<string, number>>): (adres: string) => Drob | undefined {

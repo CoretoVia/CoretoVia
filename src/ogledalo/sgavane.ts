@@ -26,8 +26,8 @@
  * види, не да се предположи.
  */
 
-import type { Sabitie } from '../yadro/index.js';
-import { veriga } from '../yadro/sabitie.js';
+// от файла, не от барела: барелът преизнася и Вратата, а Огледалото само чете (ДЛ-Т6 · слоевете)
+import { type Sabitie, veriga } from '../yadro/sabitie.js';
 import { sravniTakt, taktNaSabitie, type Takt } from '../yadro/takt.js';
 import { sverka, type Sverka } from '../yadro/sverka.js';
 
@@ -47,7 +47,7 @@ export interface SgunatoOgledalo {
   readonly potok: readonly Sabitie[];
   /** по една за всяка подадена НЕПРАЗНА верига */
   readonly verigi: readonly RezyumeNaVeriga[];
-  /** Σ дължини ↔ дължина на потока · правило 7 */
+  /** Σ (последен seq − първи seq + 1) по верига ↔ дължина на потока · правило 7 · ДЛ-Т4 */
   readonly sverka: Sverka;
 }
 
@@ -56,7 +56,7 @@ export interface SgunatoOgledalo {
  *
  * РЕДЪТ НА ПОДАВАНЕ НЯМА ЗНАЧЕНИЕ и това е договорът, който тестът пази с
  * пермутации: разбъркаш ли веригите, потокът излиза байт за байт същият.
- * Причината е в `sravniPoTakt` — тя гледа само подписани полета и е тотална.
+ * Причината е в `sravniTakt` — тя гледа само подписани полета и е тотална.
  *
  * Празна верига се пропуска мълчаливо: тя не е събитие и няма какво да каже.
  *
@@ -86,7 +86,17 @@ export function sgani(
   rezyumeta.sort((a, b) => (a.veriga < b.veriga ? -1 : a.veriga > b.veriga ? 1 : 0));
 
   const potok = slej(neprazni);
-  const ochakvani = rezyumeta.reduce((sbor, r) => sbor + r.broy, 0);
+  /**
+   * ДЛ-Т4 · сверката НЕ е тавтология (ход 9, 11.09.2026).
+   *
+   * Дотук „очакваното" беше Σ дължини на веригите, а k-пътното сливане връща
+   * ТОЧНО толкова, колкото е получило — тоест двете страни бяха равни по
+   * конструкция и изпуснато звено не чупеше нищо. Очакваното е онова, което
+   * `seq` ОБЕЩАВА: всяка верига тръгва от първото си звено и стига до
+   * последното без дупки (правило 6), значи очаква се `последен − първи + 1`
+   * на верига. Липсва ли звено по средата, изходът е по-малък и сверката пада.
+   */
+  const ochakvani = neprazni.reduce((sbor, s) => sbor + (s[s.length - 1]!.seq - s[0]!.seq + 1), 0);
 
   return Object.freeze({
     potok: Object.freeze(potok),

@@ -30,7 +30,7 @@ import {
   PROZORTSI,
 } from '../../src/model/osnova.js';
 import { kolonaNa, slyataNa } from '../../src/model/tablitsa.js';
-import type { Ogledalo } from '../../src/ogledalo/ogledalo.js';
+import { type Ogledalo, tablitsaVOgledaloto } from '../../src/ogledalo/ogledalo.js';
 import { type Red, redKato } from '../../src/ogledalo/tablitsa.js';
 import { darvoto, type RoditelVDarvoto } from '../../src/smetach/darvo.js';
 import { eFiltarPrazen, filtrirayDarvoto, type RedZaFiltar } from '../../src/smetach/filtar.js';
@@ -142,7 +142,7 @@ function redNaRoditel(
   r: RoditelVDarvoto,
   oblik: readonly GlavaNaOblika[],
 ): RedNaEkrana {
-  const tv = o.tablitsi.get(r.tablitsa)!;
+  const tv = tablitsaVOgledaloto(o, r.tablitsa);
   const red = redKato(tv, r.i);
   const t = tablitsata(o.model, r.tablitsa);
   const dumi: string[] = [];

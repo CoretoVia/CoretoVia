@@ -18,6 +18,7 @@
 
 import type { Ogledalo } from '../ogledalo/ogledalo.js';
 import { kletkaNa, zhiviteRedove } from '../ogledalo/tablitsa.js';
+import { sabiri, tsentove } from '../yadro/pari.js';
 import { sverka, type Sverka } from '../yadro/sverka.js';
 import type { Strana } from './smetki.js';
 
@@ -56,7 +57,7 @@ export interface Ddsat {
   readonly sverka: Sverka;
 }
 
-function tsentove(o: Ogledalo, i: number, kolona: string): number {
+function tsentoveNa(o: Ogledalo, i: number, kolona: string): number {
   const tv = o.tablitsi.get(TABLITSA);
   const k = tv === undefined ? null : kletkaNa(tv, i, kolona);
   return k !== null && 'stoynost_st' in k ? k.stoynost_st : 0;
@@ -82,10 +83,10 @@ export function ddsat(o: Ogledalo, kogato: string): Ddsat {
   if (tv !== undefined) {
     for (const i of zhiviteRedove(tv)) {
       const mesets = tekst(o, i, 'mesets');
-      const nachislen = tsentove(o, i, 'nachislen');
-      const kredit = tsentove(o, i, 'kredit');
-      const deklarirano = tsentove(o, i, 'deklarirano');
-      const plateno = tsentove(o, i, 'plateno');
+      const nachislen = tsentoveNa(o, i, 'nachislen');
+      const kredit = tsentoveNa(o, i, 'kredit');
+      const deklarirano = tsentoveNa(o, i, 'deklarirano');
+      const plateno = tsentoveNa(o, i, 'plateno');
       const dalzhimo = nachislen - kredit;
       const strana = stranaNaDdsa(dalzhimo);
       mesetsi.push({
@@ -101,8 +102,8 @@ export function ddsat(o: Ogledalo, kogato: string): Ddsat {
         strana,
         // разходът влиза с минус, приходът с плюс · знакът е законът (правило 16)
         suma: -dalzhimo,
-        izdadeni: tsentove(o, i, 'izdadeni'),
-        plateni: tsentove(o, i, 'plateni'),
+        izdadeni: tsentoveNa(o, i, 'izdadeni'),
+        plateni: tsentoveNa(o, i, 'plateni'),
         sverki: [
           sverka(`ДДС ${mesets} · дължимо ↔ декларирано`, dalzhimo, deklarirano, kogato),
           sverka(`ДДС ${mesets} · декларирано ↔ платено`, deklarirano, plateno, kogato),
@@ -111,8 +112,9 @@ export function ddsat(o: Ogledalo, kogato: string): Ddsat {
     }
   }
   mesetsi.sort((a, b) => (a.mesets < b.mesets ? -1 : a.mesets > b.mesets ? 1 : 0));
-  const dalzhimo = mesetsi.reduce((s, m) => s + m.dalzhimo, 0);
-  const plateno = mesetsi.reduce((s, m) => s + m.plateno, 0);
+  // натрупването минава през преградата за цели центове (правило 3): число извън тях е отказ
+  const dalzhimo = sabiri(...mesetsi.map((m) => tsentove(m.dalzhimo)));
+  const plateno = sabiri(...mesetsi.map((m) => tsentove(m.plateno)));
   return {
     mesetsi,
     dalzhimo,
@@ -121,7 +123,7 @@ export function ddsat(o: Ogledalo, kogato: string): Ddsat {
     sverka: sverka(
       'ДДС · натрупване · дължимо − платено = остатък',
       dalzhimo - plateno,
-      mesetsi.reduce((s, m) => s + m.ostatak, 0),
+      sabiri(...mesetsi.map((m) => tsentove(m.ostatak))),
       kogato,
     ),
   };

@@ -16,6 +16,7 @@ import { KLYUCH_KOLONA_PRODAZHBI } from '../../src/kniga/dumi.js';
 import { DUMI_OT_KNIGATA } from '../../src/model/dumi-ot-knigata.js';
 import { tablitsata } from '../../src/model/model.js';
 import { MODEL } from '../../src/model/osnova.js';
+import { tablitsaVOgledaloto } from '../../src/ogledalo/ogledalo.js';
 import { redKato } from '../../src/ogledalo/tablitsa.js';
 import {
   evroZaKvadrat,
@@ -30,6 +31,7 @@ import {
   NEGOVI_PARAMETRI,
   parametaraENegov,
   razhodniyatNeVodi,
+  VIDOVE_OBEKT,
 } from '../../src/smetach/kalkulator/nastroyki.js';
 import { otsenkata } from '../../src/smetach/kalkulator/stoynost.js';
 import { pishi } from '../../src/yadro/pari.js';
@@ -53,11 +55,6 @@ const DUMI_NA_SASTOYANIETO: Readonly<Record<TablitsaNaProdazhbite['sastoyanie'],
     aktivna: 'АКТИВНА · чака плащания или Акт 16',
     prazna: 'празна · още няма продажби',
   });
-
-/** Петте вида, в реда на матрицата · за реда с базите под калкулатора. */
-const VIDOVE_OBEKT_ZA_EKRANA = Object.keys(
-  IMENA_NA_VIDOVETE_OBEKT,
-) as (keyof typeof IMENA_NA_VIDOVETE_OBEKT)[];
 
 /** Квадратурата се пише в кв. м · числото се пази в цели кв. см. */
 function kvadrati(kvsm: number): string {
@@ -93,7 +90,7 @@ export function narisuvayProdazhbi(k: KonteksNaEkrana): void {
 
   /** Един ред · сметнатите проверки стоят до записаните колони. */
   const redHTML = (t: ReturnType<typeof tablitsata>, r: Prodazhba): Zapechatan => {
-    const tv = o.tablitsi.get(t.klyuch)!;
+    const tv = tablitsaVOgledaloto(o, t.klyuch);
     const red = redKato(tv, r.i);
     const tds = t.koloni.map((kol) => {
       const pl = kol.plashtane;
@@ -135,7 +132,7 @@ export function narisuvayProdazhbi(k: KonteksNaEkrana): void {
       (r) =>
         h`<tr class="red" data-otsenka="${r.id}"><td class="kletka tekst" translate="no">${r.ime}</td><td class="kletka" data-vid="${r.id}" title="${r.poDumata === '' ? 'нито една дума не съвпадна · оценява се като „друго"' : `познат по думата „${r.poDumata}"`}">${IMENA_NA_VIDOVETE_OBEKT[r.vid]}</td><td class="kletka chislo" translate="no">${kvadrati(r.kvadratura)}</td><td class="kletka evro" translate="no">${pishi(r.pazaren_st)}</td><td class="kletka evro" translate="no">${pishi(r.dohoden_st)}</td><td class="kletka evro" translate="no">${pishi(r.razhoden_st)}</td><td class="kletka evro" data-saglasuvana="${r.id}" translate="no">${pishi(r.saglasuvane.tochno_st)}</td><td class="kletka evro" translate="no">${pishi(r.dogovorena_st)}</td><td class="kletka evro ${r.razlika_st === 0 ? '' : r.razlika_st > 0 ? 'nad' : 'pod'}" data-razlika="${r.id}" translate="no">${pishi(r.razlika_st)}</td></tr>`,
     );
-    const bazi = VIDOVE_OBEKT_ZA_EKRANA.map(
+    const bazi = VIDOVE_OBEKT.map(
       (vid) =>
         `${IMENA_NA_VIDOVETE_OBEKT[vid]} ${pishi(n.baza_st[vid])}/м² (${bazataENegova(vid) ? 'негово' : 'наше'})`,
     ).join(' · ');

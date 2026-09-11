@@ -4,15 +4,8 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import {
-  DnevnikNaSverki,
-  DnevnikVPametta,
-  GreshkaSverka,
-  sverka,
-  Vrata,
-  VsichkoRazresheno,
-} from '../src/yadro/index.js';
-import { operatsiya, SHA } from './pomoshtni.js';
+import { DnevnikNaSverki, GreshkaSverka, sverka, Vrata } from '../src/yadro/index.js';
+import { DnevnikVPametta, operatsiya, SHA, VsichkoRazresheno } from './pomoshtni.js';
 
 const KOGATO = '2026-08-22T09:00:00.000Z';
 

@@ -23,7 +23,7 @@ import { tablitsata } from '../model/model.js';
 import type { Tablitsa } from '../model/tablitsa.js';
 import type { Ogledalo } from '../ogledalo/ogledalo.js';
 import { kletkaNa, zhiviteRedove } from '../ogledalo/tablitsa.js';
-import { deliZakragleno } from '../yadro/pari.js';
+import { deliZakragleno, sabiri, tsentove } from '../yadro/pari.js';
 import { sverka, type Sverka } from '../yadro/sverka.js';
 
 /** Ключовете на двете му таблици · в реда на листа (първа сграда, после втора). */
@@ -128,15 +128,12 @@ export function koloniteNa(
 
 /** Една продажба · двете ѝ страни и остатъците им. */
 function prodazhbata(o: Ogledalo, t: Tablitsa, i: number, id: string): Prodazhba {
+  // всеки сбор на пари минава през преградата за цели центове (правило 3): число извън тях е отказ
+  const sborNa = (koloni: readonly Kolona[]) =>
+    sabiri(...koloni.map((k) => tsentove(chislo(o, t.klyuch, i, k.klyuch))));
   const strani = STRANI_NA_PLASHTANETO.map((strana) => {
-    const tsena = koloniteNa(t, 'tsena', strana).reduce(
-      (s, k) => s + chislo(o, t.klyuch, i, k.klyuch),
-      0,
-    );
-    const vneseno = koloniteNa(t, 'vnoska', strana).reduce(
-      (s, k) => s + chislo(o, t.klyuch, i, k.klyuch),
-      0,
-    );
+    const tsena = sborNa(koloniteNa(t, 'tsena', strana));
+    const vneseno = sborNa(koloniteNa(t, 'vnoska', strana));
     return { strana, tsena, vneseno, ostatak: tsena - vneseno };
   });
   const platena = strani.every((x) => x.ostatak === 0);
@@ -151,7 +148,7 @@ function prodazhbata(o: Ogledalo, t: Tablitsa, i: number, id: string): Prodazhba
     ime: tekstNa(o, t.klyuch, i, 'apartament'),
     kvadratura: chislo(o, t.klyuch, i, 'kvadratura'),
     tsena: chislo(o, t.klyuch, i, 'tsena'),
-    tsenaPoStrani: strani.reduce((s, x) => s + x.tsena, 0),
+    tsenaPoStrani: sabiri(...strani.map((x) => tsentove(x.tsena))),
     strani,
     platena,
     zavarshena: platena && chaka.length === 0,
@@ -192,19 +189,23 @@ function tablitsataNaProdazhbite(
   const obshto: Record<string, number> = {};
   for (const kol of t.koloni) {
     if (kol.vid !== 'evro' && kol.merka !== 'kvsm') continue;
-    obshto[kol.klyuch] = redove.reduce((s, r) => s + chislo(o, klyuch, r.i, kol.klyuch), 0);
+    const stoynosti = redove.map((r) => chislo(o, klyuch, r.i, kol.klyuch));
+    // парите минават през преградата за цели центове (правило 3); квадратурата е кв. см, не пари
+    obshto[kol.klyuch] =
+      kol.vid === 'evro'
+        ? sabiri(...stoynosti.map((x) => tsentove(x)))
+        : stoynosti.reduce((s, x) => s + x, 0);
   }
   for (const strana of STRANI_NA_PLASHTANETO) {
     for (const kol of koloniteNa(t, 'proverka', strana)) {
-      obshto[kol.klyuch] = redove.reduce(
-        (s, r) => s + (r.strani.find((x) => x.strana === strana)?.ostatak ?? 0),
-        0,
+      obshto[kol.klyuch] = sabiri(
+        ...redove.map((r) => tsentove(r.strani.find((x) => x.strana === strana)?.ostatak ?? 0)),
       );
     }
   }
   const platenite = redove.filter((r) => r.platena).length;
   const zavarshenite = redove.filter((r) => r.zavarshena).length;
-  const ostatak = redove.reduce((s, r) => s + r.strani.reduce((x, y) => x + y.ostatak, 0), 0);
+  const ostatak = sabiri(...redove.flatMap((r) => r.strani.map((y) => tsentove(y.ostatak))));
   const sverki: Sverka[] = [];
   // цената, записана на реда, срещу сбора на двете ѝ страни · и нулата се пише
   for (const r of redove) {
@@ -252,8 +253,8 @@ export function prodazhbite(o: Ogledalo, kogato: string): Prodazhbite {
   return {
     tablitsi,
     broy: vsichki.length,
-    tsena: vsichki.reduce((s, r) => s + r.tsenaPoStrani, 0),
-    vneseno: vsichki.reduce((s, r) => s + r.strani.reduce((x, y) => x + y.vneseno, 0), 0),
-    ostatak: vsichki.reduce((s, r) => s + r.strani.reduce((x, y) => x + y.ostatak, 0), 0),
+    tsena: sabiri(...vsichki.map((r) => tsentove(r.tsenaPoStrani))),
+    vneseno: sabiri(...vsichki.flatMap((r) => r.strani.map((y) => tsentove(y.vneseno)))),
+    ostatak: sabiri(...vsichki.flatMap((r) => r.strani.map((y) => tsentove(y.ostatak)))),
   };
 }

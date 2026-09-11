@@ -616,7 +616,7 @@ A, ключа `grupa:sektsiya:‹страна›·‹номер›`, и **сбо
 - 9-и лист — SLUZHEBEN_LIST = '_coretovia' (src/model/osnova.ts:~84)
 - 8 етикета в служебния лист — преброени от SLUZHEBNO в src/kniga/dumi.ts: versiya, otpechatak, kursor, veriga, iznesenoNa, stopanin, tablitsa, nomenklatura
 - 8 вида клетки при четене — преброени case-клаузи в Chetets.kletka (src/kniga/chetene.ts): evro, chislo, protsent, izbor, vrazka, data, tekst, nomeratsiya
-- 7 вида предложения — VIDOVE_PREDLOZHENIYA (src/model/predlozhenie.ts): nova-stoynost, preimenuvana, spryana, varnata, nov-red, popravka, izklyuchi
+- 7 вида предложения — типът `Predlozhenie['vid']` (src/model/predlozhenie.ts; пинът им е в tests/vnasyane.test.ts от 11.09): nova-stoynost, preimenuvana, spryana, varnata, nov-red, popravka, izklyuchi
 - 3 изхода на Сверчика — от обобщението в sveri() (src/kniga/sverchik.ts): предложения · находки · бележки
 - 3 изхода на сверката на формулите — sveriFormulite (src/kniga/chetene.ts): точно съвпадение · до цент (бележка) · над цент (грешка)
 - 100000 — NAY_MNOGO_REDOVE, таванът на ред в лист (src/kniga/ooxml.ts)

@@ -8,8 +8,8 @@
  *   3. форматът е чуждият, не наш · един самостоятелен JSON обект на ред
  */
 
-import { describe, expect, it } from 'vitest';
-import { NIVA, napraviZapisvach } from '../src/yadro/index.js';
+import { describe, expect, it, vi } from 'vitest';
+import { KotvaVLocalStorage, NIVA, napraviZapisvach } from '../src/yadro/index.js';
 import type { ImeNaNivo, Zapis } from '../src/yadro/zapis.js';
 
 /** Часовник, който БРОИ · всяко викане е с милисекунда напред от предишното. */
@@ -198,5 +198,67 @@ describe('всяко ниво стига до реда си', () => {
     expect(imena).toHaveLength(8);
     expect(z.broy()).toBe(8);
     expect(z.redove().map((r: Zapis) => r.nivo)).toEqual([0, 1, 2, 3, 4, 5, 6, 7]);
+  });
+});
+
+/**
+ * ЗАКАЧАНЕТО (ДЛ-Н2) · първият гълтащ `catch`, който ПИШЕ в лога, е котвата.
+ *
+ * Хранилището тук ХВЪРЛЯ нарочно (частен прозорец · забранени данни): котва
+ * просто няма, както и досега — но липсата вече се БРОИ, вместо да се преглъща.
+ */
+describe('котвата пише в лога, когато хранилището хвърля', () => {
+  const HVARLYASHTO = Object.freeze({
+    getItem(): string | null {
+      throw new Error('забранени данни');
+    },
+    setItem(): void {
+      throw new Error('забранени данни');
+    },
+  });
+
+  it('четене · един ред с ниво предупреждение · котва няма', () => {
+    const z = napraviZapisvach({ chasovnik: chasovnikOt(NULA) });
+    const kotva = new KotvaVLocalStorage('proba:kotva', z);
+    vi.stubGlobal('localStorage', HVARLYASHTO);
+    try {
+      expect(kotva.cheti('kniga')).toBeNull();
+    } finally {
+      vi.unstubAllGlobals();
+    }
+    expect(z.broy()).toBe(1);
+    expect(z.redove()[0]).toMatchObject({
+      nivo: NIVA.predupezhdenie,
+      ime: 'predupezhdenie',
+      iztochnik: 'kotva',
+      sabitie: 'ne_se_chete',
+    });
+  });
+
+  it('забиване · редът носи seq-а, който не се е забил · без лични данни', () => {
+    const z = napraviZapisvach({ chasovnik: chasovnikOt(NULA) });
+    const kotva = new KotvaVLocalStorage('proba:kotva', z);
+    vi.stubGlobal('localStorage', HVARLYASHTO);
+    try {
+      kotva.zabij('kniga', { seq: 3, hash: 'h3', kogato: '2026-09-11T00:00:00.000Z' });
+    } finally {
+      vi.unstubAllGlobals();
+    }
+    expect(z.broy()).toBe(1);
+    expect(z.redove()[0]).toMatchObject({ ime: 'predupezhdenie', sabitie: 'ne_se_zabiva' });
+    expect(z.redove()[0]?.danni).toEqual({ seq: 3 });
+  });
+
+  it('без записвач котвата мълчи както преди · нищо не хвърля', () => {
+    const kotva = new KotvaVLocalStorage('proba:kotva');
+    vi.stubGlobal('localStorage', HVARLYASHTO);
+    try {
+      expect(kotva.cheti('kniga')).toBeNull();
+      expect(() =>
+        kotva.zabij('kniga', { seq: 1, hash: 'h1', kogato: '2026-09-11T00:00:00.000Z' }),
+      ).not.toThrow();
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 });

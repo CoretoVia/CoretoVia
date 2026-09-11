@@ -29,6 +29,8 @@ import { kolonaNa, type Tablitsa } from '../../model/tablitsa.js';
 import { kletkaNa, redKato, zhiviteRedove } from '../../ogledalo/tablitsa.js';
 import { proveriTovar, TIP } from '../../sabitiya/registar.js';
 import { dumiNaKletka, imeNaReda } from '../../smetach/kletki.js';
+import { stranaNaSuma } from '../../smetach/smetki.js';
+import { eData } from '../../yadro/data.js';
 import {
   mozheDaRazdavaDlazhnosti,
   razdavaDostap,
@@ -255,7 +257,6 @@ function vsichkiKletki(t: Tablitsa, kletki: Kletki): Kletki {
   return rez;
 }
 
-/** Датите на реда · краят не е преди началото · и двете са ГГГГ-ММ-ДД (четенето ги е свело). */
 /**
  * ЗНАКЪТ решава страната (правило 16) · родово, по данните на колоните.
  *
@@ -275,7 +276,8 @@ function proveriStranata(t: Tablitsa, sled: Red): string[] {
   const pari = t.koloni.find((k) => k.vid === 'evro' && k.zadalzhitelna);
   const kl = pari === undefined ? undefined : sled[pari.klyuch];
   if (pari === undefined || kl === undefined || !('stoynost_st' in kl)) return [];
-  const strana = kl.stoynost_st > 0 ? 'prihod' : kl.stoynost_st < 0 ? 'razhod' : null;
+  // страната се смята на ЕДНО място (`smetach/smetki.ts`), не с втори тернар тук
+  const strana = stranaNaSuma(kl.stoynost_st);
   if (strana === null) return [`Нула не е движение — „${pari.ime}" иска число със знак.`];
   const izbrana = palni[0]!;
   if (izbrana.strana !== strana)
@@ -285,13 +287,18 @@ function proveriStranata(t: Tablitsa, sled: Red): string[] {
   return [];
 }
 
+/**
+ * Датите на реда · всяка е ДЕН ОТ КАЛЕНДАРА, не само вид ГГГГ-ММ-ДД · краят не е
+ * преди началото. Дотук се гледаше само видът: „2026-02-31" минаваше Вратата и
+ * влизаше в Журнала завинаги (правило 1). Календарът е един дом — `yadro/data.ts`.
+ */
 function proveriDatite(t: Tablitsa, sled: Red): string[] {
   const n: string[] = [];
   for (const kol of t.koloni) {
     if (kol.vid !== 'data') continue;
     const d = sled[kol.klyuch];
-    if (d !== undefined && 'tekst' in d && !/^\d{4}-\d{2}-\d{2}$/.test(d.tekst))
-      n.push(`„${kol.ime}" не е дата ГГГГ-ММ-ДД: „${d.tekst}".`);
+    if (d !== undefined && 'tekst' in d && !eData(d.tekst))
+      n.push(`„${kol.ime}" не е дата ГГГГ-ММ-ДД от календара: „${d.tekst}".`);
   }
   for (const sl of t.slyati ?? []) {
     const ot = sled[sl.kolona];
