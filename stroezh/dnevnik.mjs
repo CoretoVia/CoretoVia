@@ -452,8 +452,11 @@ function proveri() {
     for (const k of redoveNaTablitsa(r.get('4') ?? [])) {
       const beleg = (k[0] ?? '').replace(/[*~]/g, '');
       if (!beleg) continue;
-      const vRegistara = reg.belezi.has(beleg);
-      const vDalga = dalgTekst.includes(`**${beleg}**`);
+      // белегът носи вида си отпред от 2.0б (ВП-В14 · ДЛ-Т50) · регистърът пази голия ключ,
+      // редът на дълга е `| **ДЛ-Т45** |` (до 11.09 · `| **Т45** |`)
+      const golo = beleg.replace(/^(?:ВП|ДЛ)-/u, '');
+      const vRegistara = reg.belezi.has(golo);
+      const vDalga = dalgTekst.includes(`**${golo}**`) || dalgTekst.includes(`**ДЛ-${golo}**`);
       if (!vRegistara && !vDalga)
         nahodki.push(`Д5 · роден белег „${beleg}" не е вписан нито в регистъра, нито в дълга`);
     }

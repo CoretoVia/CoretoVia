@@ -295,6 +295,46 @@
       ]
     },
     {
+      "beleg": "В14",
+      "vapros": "Валутата — една за цялата Книга, избрана при регистрация, или повече от една? (В1 в docs/25 от 09.09 · не е В1 на регистъра, който е за таблиците на НАП)",
+      "sastoyanie": "otgovoren",
+      "negovite_dumi": "„За парите се избира една валута в началото при регистрация. Ще ми се да има в началото да може да избереш повече от една валута, но ще струва пари. Ако може да се купи и да се добавя като езици различни.\"",
+      "adres": "docs/izvori/dni/2026-09-09.md:35 (запис 69) · docs/27-faylovete-i-valutata.md §2",
+      "kakvo_sledva": "решено: полето `valuta` е в подписа, една валута при регистрация, втората е платена добавка като езиците, курс няма · пази го правило 3 (CLAUDE.md)",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/27-faylovete-i-valutata.md",
+        "zadanie/CHISTO/05-schetovodstvo-i-glavna-kniga.md"
+      ]
+    },
+    {
+      "beleg": "В15",
+      "vapros": "Тактът на сверката на кеша в ръка — седмичен или месечен? Заданието носи и двете (zadanie/12 §2.2); M06-P2 дотогава е седмична за кеша и месечна на 5-о число за картата.",
+      "sastoyanie": "otkrit",
+      "negovite_dumi": "",
+      "adres": "zadanie/12-dopalneniya-08-09.md:93",
+      "kakvo_sledva": "негова дума · пита се с ход 11.3 (проверките · извлеченията)",
+      "otpushva": [],
+      "zhivee_v": [
+        "zadanie/12-dopalneniya-08-09.md",
+        "zadanie/CHISTO/05-schetovodstvo-i-glavna-kniga.md",
+        "zadanie/CHISTO/06-plashtaniya-i-vzemaniya.md",
+        "docs/arhitektura/06-plashtaniya-i-vzemaniya.md"
+      ]
+    },
+    {
+      "beleg": "В16",
+      "vapros": "Голямото дело — къде живее: пета стойност в същата номенклатура, своя таблица като лента в Управление, или своя таблица в отделен прозорец? (В4 в docs/25 от 09.09 · не е В4 на регистъра, който е за Микроинвест)",
+      "sastoyanie": "otkrit",
+      "negovite_dumi": "",
+      "adres": "docs/25-planat-i-vaprosite.md:122 (§В4)",
+      "kakvo_sledva": "негова дума · пита се с ход 8.0 (единайсетте прозореца · решение 153 от 11.09 може вече да го е решило — проверява се преди въпроса, правило 22) · ход 11б (Голямото дело)",
+      "otpushva": [],
+      "zhivee_v": [
+        "docs/arhitektura/chasti/7-redat-na-izgrazhdane.md"
+      ]
+    },
+    {
       "beleg": "В2",
       "vapros": "Издава ли Coretovia фискален бон, или управлява продажби, за които се издава такъв? Тоест СУПТО ли сме?",
       "sastoyanie": "otgovoren",
@@ -353,11 +393,11 @@
     },
     {
       "beleg": "В5",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "М3 · връщането назад: Имот „Строеж“ с Голямо Дело и 50 подзадачи, после някой връща на „ПИ“ — преходът се отказва, позволява се и екранът казва колко реда са под старото състояние, или старото не се маха и новото се добавя до него?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/25-planat-i-vaprosite.md · §В5",
+      "kakvo_sledva": "негова дума · пита се по темата на ход 8.1 (Управление · Началото и Краят) · три варианта А · Б · В в docs/25 §В5",
       "otpushva": [],
       "zhivee_v": [
         "docs/25-planat-i-vaprosite.md"
@@ -365,11 +405,11 @@
     },
     {
       "beleg": "В6",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Триенето на умение — СПИРАНЕ (изчезва от списъка, връща се със същия номер, както номенклатурата) или НАДГРОБЕН КАМЪК (вписва се „изтрито“, ново със същото име получава нов номер)?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/25-planat-i-vaprosite.md · §В6",
+      "kakvo_sledva": "негова дума · пита се с ход 11а (ИИ · уменията) · неговото досега: „там може да триеш, но всичко остава в журнала“ (docs/25 §В6)",
       "otpushva": [],
       "zhivee_v": [
         "docs/25-planat-i-vaprosite.md"
@@ -377,11 +417,11 @@
     },
     {
       "beleg": "В7",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Основното умение — замразен низ в кода с контролна сума, файл, който се качва и трие, или и двете (основното е низ, качените са файлове)?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/25-planat-i-vaprosite.md · §В7",
+      "kakvo_sledva": "негова дума · пита се с ход 11а · К3 днес го пази типът, не файл",
       "otpushva": [],
       "zhivee_v": [
         "docs/25-planat-i-vaprosite.md"
@@ -389,11 +429,11 @@
     },
     {
       "beleg": "В8",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Контрагентът същност ли е — запис в Журнала (вечен, с подпис), производно от редовете (смята се всеки път), или номенклатура, която расте от Настройки?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/25-planat-i-vaprosite.md · §В8",
+      "kakvo_sledva": "негова дума · пита се с ход 11.3 (извлеченията) · неговото досега: „Контрагентите се взимат от извлеченията.“",
       "otpushva": [],
       "zhivee_v": [
         "docs/25-planat-i-vaprosite.md"
@@ -401,11 +441,11 @@
     },
     {
       "beleg": "В9",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Тринайсетте места в кода, които цитират „правило 20“ по номерацията на MasterBook — поправят се на „правило 16“, остават с таблицата в CLAUDE.md, или правилата се преномерират (CLAUDE.md сам го забранява)?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/25-planat-i-vaprosite.md · §В9",
+      "kakvo_sledva": "негова дума · пита се с ход 9 (хигиената) · таблицата на съответствието в CLAUDE.md е единственият дом (правило 14)",
       "otpushva": [],
       "zhivee_v": [
         "docs/25-planat-i-vaprosite.md"
@@ -1024,11 +1064,11 @@
     },
     {
       "beleg": "К4",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Записва ли се коефициент, или само се смята?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/dokladi/03-firmata-i-nepopitanoto.md:585",
+      "kakvo_sledva": "негова дума · пита се с ход 8.4 (Сметки · коефициентите) · правило 20 и ADR-107 §4 са двата довода",
       "otpushva": [],
       "zhivee_v": [
         "docs/dokladi/03-firmata-i-nepopitanoto.md",
@@ -1133,11 +1173,11 @@
     },
     {
       "beleg": "К5",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Кои са „полетата за всяка“ — само величините (име · стойност · мярка, както MasterBook) или повече?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/dokladi/03-firmata-i-nepopitanoto.md:586",
+      "kakvo_sledva": "негова дума · пита се с ход 8.4",
       "otpushva": [],
       "zhivee_v": [
         "docs/dokladi/03-firmata-i-nepopitanoto.md",
@@ -1146,11 +1186,11 @@
     },
     {
       "beleg": "К6",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Колко полета горе и кой ги ограничава — „определен брой полета горе“, а числото не е казано?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/dokladi/03-firmata-i-nepopitanoto.md:587",
+      "kakvo_sledva": "негова дума · пита се с ход 8.4",
       "otpushva": [],
       "zhivee_v": [
         "docs/dokladi/03-firmata-i-nepopitanoto.md",
@@ -1159,11 +1199,11 @@
     },
     {
       "beleg": "К7",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Изборът на полета е ПОГЛЕД (екранна настройка) или РЕШЕНИЕ (записва се)? Решава къде живее и е необратимо.",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/dokladi/03-firmata-i-nepopitanoto.md:588",
+      "kakvo_sledva": "негова дума · пита се с ход 8.4 · обявено за необратимо (ADR-024)",
       "otpushva": [],
       "zhivee_v": [
         "docs/dokladi/03-firmata-i-nepopitanoto.md",
@@ -1172,11 +1212,11 @@
     },
     {
       "beleg": "К8",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Личните настройки са на човек или на длъжност? Днес няма нито едното; правило 18 казва, че правото само стеснява.",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/dokladi/03-firmata-i-nepopitanoto.md:589",
+      "kakvo_sledva": "негова дума · пита се с ход 4 (правото докрай)",
       "otpushva": [],
       "zhivee_v": [
         "docs/dokladi/03-firmata-i-nepopitanoto.md",
@@ -1185,11 +1225,11 @@
     },
     {
       "beleg": "К9",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Къде живеят отчетите, без да се чупи К1 — трети подтаб на Сметки, или другаде в съществуващ прозорец?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/dokladi/03-firmata-i-nepopitanoto.md:590",
+      "kakvo_sledva": "негова дума · пита се с ход 8.0 (единайсетте прозореца · решение 153 от 11.09 вече отваря Отчети като прозорец) · може да е отпаднал с 153",
       "otpushva": [],
       "zhivee_v": [
         "docs/dokladi/03-firmata-i-nepopitanoto.md",
@@ -1317,11 +1357,11 @@
     },
     {
       "beleg": "О10",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Жив прозорец 4 000 реда + буфер 1 000 — числата са казани като въпрос (И91). Кои са и от какво се извеждат?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md:360",
+      "kakvo_sledva": "негова дума или обявено предположение · пита се, когато Журналът надхвърли първите хиляди звена (ход 8)",
       "otpushva": [],
       "zhivee_v": [
         "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md"
@@ -1329,11 +1369,11 @@
     },
     {
       "beleg": "О11",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Авторът при запис от ИИ — „с автор „AI““ (негово, 11.08) срещу „авторът е ЧОВЕКЪТ“ (К3, Ж87)?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md:361",
+      "kakvo_sledva": "негова дума · пита се с ход 11а (ИИ) · до нея К3 държи: agentът само предлага, actor е човекът",
       "otpushva": [],
       "zhivee_v": [
         "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md"
@@ -1451,11 +1491,11 @@
     },
     {
       "beleg": "О9",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Трети обединяващ номер при редакция през ексел — дума има (И96 т.8), механизъм няма. Какъв е номерът и кой го дава?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md:359",
+      "kakvo_sledva": "негова дума · пита се с ход 11.2/11.4 (вносът и износът на Книгата)",
       "otpushva": [],
       "zhivee_v": [
         "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md"

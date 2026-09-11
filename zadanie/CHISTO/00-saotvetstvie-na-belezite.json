@@ -2,10 +2,10 @@
   "kakvo": "Съответствие старо → ново на белезите · ГЕНЕРИРАНО от `node stroezh/belezi.mjs --sazday` · не се пише на ръка",
   "gramatika": "ИЗ-‹тема›-‹n› · ИН-‹група›‹n› · ВП-‹серия›‹n› · ДЛ-‹серия›‹n›",
   "broy": {
-    "ИЗ": 851,
+    "ИЗ": 928,
     "ИН": 263,
-    "ВП": 187,
-    "ДЛ": 32
+    "ВП": 147,
+    "ДЛ": 62
   },
   "redove": [
     {
@@ -33,21 +33,9 @@
       "vid": "ВП"
     },
     {
-      "staro": "А37",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-А37",
-      "vid": "ВП"
-    },
-    {
       "staro": "А4",
       "fayl": "docs/registar-na-vaprosite.json",
       "novo": "ВП-А4",
-      "vid": "ВП"
-    },
-    {
-      "staro": "А43",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-А43",
       "vid": "ВП"
     },
     {
@@ -120,6 +108,24 @@
       "staro": "В13",
       "fayl": "docs/registar-na-vaprosite.json",
       "novo": "ВП-В13",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В14",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В14",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В15",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В15",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В16",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В16",
       "vid": "ВП"
     },
     {
@@ -273,99 +279,9 @@
       "vid": "ВП"
     },
     {
-      "staro": "К15",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К15",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К16",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К16",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К17",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К17",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К18",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К18",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К19",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К19",
-      "vid": "ВП"
-    },
-    {
       "staro": "К2",
       "fayl": "docs/registar-na-vaprosite.json",
       "novo": "ВП-К2",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К20",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К20",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К21",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К21",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К22",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К22",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К23",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К23",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К24",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К24",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К25",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К25",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К26",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К26",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К27",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К27",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К28",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К28",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К29",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К29",
       "vid": "ВП"
     },
     {
@@ -375,117 +291,9 @@
       "vid": "ВП"
     },
     {
-      "staro": "К30",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К30",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К31",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К31",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К32",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К32",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К33",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К33",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К34",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К34",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К35",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К35",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К36",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К36",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К37",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К37",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К38",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К38",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К39",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К39",
-      "vid": "ВП"
-    },
-    {
       "staro": "К4",
       "fayl": "docs/registar-na-vaprosite.json",
       "novo": "ВП-К4",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К40",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К40",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К41",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К41",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К42",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К42",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К43",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К43",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К44",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К44",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К45",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К45",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К46",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К46",
-      "vid": "ВП"
-    },
-    {
-      "staro": "К47",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-К47",
       "vid": "ВП"
     },
     {
@@ -525,18 +333,6 @@
       "vid": "ВП"
     },
     {
-      "staro": "М11",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-М11",
-      "vid": "ВП"
-    },
-    {
-      "staro": "М12",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-М12",
-      "vid": "ВП"
-    },
-    {
       "staro": "М2",
       "fayl": "docs/registar-na-vaprosite.json",
       "novo": "ВП-М2",
@@ -546,12 +342,6 @@
       "staro": "М3",
       "fayl": "docs/registar-na-vaprosite.json",
       "novo": "ВП-М3",
-      "vid": "ВП"
-    },
-    {
-      "staro": "М6",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-М6",
       "vid": "ВП"
     },
     {
@@ -675,18 +465,6 @@
       "vid": "ВП"
     },
     {
-      "staro": "П8",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-П8",
-      "vid": "ВП"
-    },
-    {
-      "staro": "П9",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-П9",
-      "vid": "ВП"
-    },
-    {
       "staro": "С1",
       "fayl": "docs/registar-na-vaprosite.json",
       "novo": "ВП-С1",
@@ -732,12 +510,6 @@
       "staro": "С6",
       "fayl": "docs/registar-na-vaprosite.json",
       "novo": "ВП-С6",
-      "vid": "ВП"
-    },
-    {
-      "staro": "С7",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-С7",
       "vid": "ВП"
     },
     {
@@ -981,18 +753,6 @@
       "vid": "ВП"
     },
     {
-      "staro": "Т46",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-Т46",
-      "vid": "ВП"
-    },
-    {
-      "staro": "Т47",
-      "fayl": "docs/registar-na-vaprosite.json",
-      "novo": "ВП-Т47",
-      "vid": "ВП"
-    },
-    {
       "staro": "Т48",
       "fayl": "docs/registar-na-vaprosite.json",
       "novo": "ВП-Т48",
@@ -1131,6 +891,12 @@
       "vid": "ВП"
     },
     {
+      "staro": "А0",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-А0",
+      "vid": "ДЛ"
+    },
+    {
       "staro": "П1",
       "fayl": "docs/14-dalgat.md",
       "novo": "ДЛ-П1",
@@ -1173,9 +939,33 @@
       "vid": "ДЛ"
     },
     {
+      "staro": "Т1",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т1",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т10",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т10",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т11",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т11",
+      "vid": "ДЛ"
+    },
+    {
       "staro": "Т13",
       "fayl": "docs/14-dalgat.md",
       "novo": "ДЛ-Т13",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т14",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т14",
       "vid": "ДЛ"
     },
     {
@@ -1191,6 +981,12 @@
       "vid": "ДЛ"
     },
     {
+      "staro": "Т17",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т17",
+      "vid": "ДЛ"
+    },
+    {
       "staro": "Т18",
       "fayl": "docs/14-dalgat.md",
       "novo": "ДЛ-Т18",
@@ -1200,6 +996,12 @@
       "staro": "Т19",
       "fayl": "docs/14-dalgat.md",
       "novo": "ДЛ-Т19",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т2",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т2",
       "vid": "ДЛ"
     },
     {
@@ -1221,9 +1023,21 @@
       "vid": "ДЛ"
     },
     {
+      "staro": "Т23",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т23",
+      "vid": "ДЛ"
+    },
+    {
       "staro": "Т24",
       "fayl": "docs/14-dalgat.md",
       "novo": "ДЛ-Т24",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т25",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т25",
       "vid": "ДЛ"
     },
     {
@@ -1233,9 +1047,57 @@
       "vid": "ДЛ"
     },
     {
+      "staro": "Т27",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т27",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т28",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т28",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т29",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т29",
+      "vid": "ДЛ"
+    },
+    {
       "staro": "Т3",
       "fayl": "docs/14-dalgat.md",
       "novo": "ДЛ-Т3",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т30",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т30",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т31",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т31",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т32",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т32",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т33",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т33",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т34",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т34",
       "vid": "ДЛ"
     },
     {
@@ -1245,9 +1107,51 @@
       "vid": "ДЛ"
     },
     {
+      "staro": "Т36",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т36",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т37",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т37",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т38",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т38",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т39",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т39",
+      "vid": "ДЛ"
+    },
+    {
       "staro": "Т4",
       "fayl": "docs/14-dalgat.md",
       "novo": "ДЛ-Т4",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т40",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т40",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т41",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т41",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т42",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т42",
       "vid": "ДЛ"
     },
     {
@@ -1257,15 +1161,45 @@
       "vid": "ДЛ"
     },
     {
+      "staro": "Т44",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т44",
+      "vid": "ДЛ"
+    },
+    {
       "staro": "Т45",
       "fayl": "docs/14-dalgat.md",
       "novo": "ДЛ-Т45",
       "vid": "ДЛ"
     },
     {
+      "staro": "Т46",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т46",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т47",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т47",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т48",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т48",
+      "vid": "ДЛ"
+    },
+    {
       "staro": "Т49",
       "fayl": "docs/14-dalgat.md",
       "novo": "ДЛ-Т49",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т5",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т5",
       "vid": "ДЛ"
     },
     {
@@ -1314,6 +1248,12 @@
       "staro": "Т7",
       "fayl": "docs/14-dalgat.md",
       "novo": "ДЛ-Т7",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т8",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т8",
       "vid": "ДЛ"
     },
     {
@@ -3930,6 +3870,468 @@
       "staro": "И9",
       "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
       "novo": "ИЗ-10-И9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-01",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-01",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-02",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-02",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-03",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-03",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-04",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-04",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-05",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-05",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-06",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-06",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-07",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-07",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-08",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-08",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-09",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-09",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-10",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-11",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-12",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-12",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-13",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-13",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-14",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-14",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-15",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-15",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-16",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-16",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-17",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-17",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-18",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-18",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-19",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-19",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-20",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-20",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-21",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-21",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-22",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-22",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-23",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-23",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-24",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-24",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-25",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-25",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-26",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-26",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-27",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-27",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-28",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-28",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-29",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-29",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-30",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-30",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-31",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-31",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-32",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-32",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-33",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-33",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-34",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-34",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-35",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-35",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-36",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-36",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-37",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-37",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-38",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-38",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-39",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-39",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-40",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-40",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-41",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-41",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-42",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-42",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-43",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-43",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-44",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-44",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-45",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-45",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-46",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-46",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-47",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-47",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-48",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-48",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-49",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-49",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-50",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-50",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-51",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-51",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-52",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-52",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-53",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-53",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-54",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-54",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-55",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-55",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-56",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-56",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-57",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-57",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-58",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-58",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-59",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-59",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-60",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-60",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-61",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-61",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-62",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-62",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-63",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-63",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-64",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-64",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-65",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-65",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-66",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-66",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-67",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-67",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-68",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-68",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-69",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-69",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-70",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-70",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-71",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-71",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-72",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-72",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-73",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-73",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-74",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-74",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-75",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-75",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-76",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-76",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "М12-77",
+      "fayl": "zadanie/CHISTO/12-model-na-dannite.md",
+      "novo": "ИЗ-12-77",
       "vid": "ИЗ"
     },
     {

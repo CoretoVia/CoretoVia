@@ -210,7 +210,7 @@
 | domein/papki.ts | 119 | ЧАКА (Драйв) | — | — | 14 |
 | domein/dokumenti.ts | 240 | ЧАКА (Драйв) | — | — | ADR-073 |
 | domein/drazhki-na-imota.ts | 65 | ОТПАДА (меню на стария екран) | — | — | ADR-164 |
-| domein/kalendar.ts | 149 | ЧАКА (Google Calendar → OAuth) | — | — | ADR-064 (на MasterBook, непренесен · Т36) |
+| domein/kalendar.ts | 149 | ЧАКА (Google Calendar → OAuth) | — | — | ADR-064 (на MasterBook, непренесен · ДЛ-Т36) |
 | domein/pismo.ts | 98 | ЧАКА (писмо при закъснение) | — | — | 14 |
 | domein/prenos.ts | 244 | ЧАКА (личен журнал) | — | — | И98 |
 | domein/prodazhbi.ts | 676 | ПРЕНАПИСВАНЕ (20 колони; движенията остават събития; две проверки) | src/domein/prodazhbi.ts + src/smetach/prodazhbi/proverka.ts | П | ADR-078 · 3 |

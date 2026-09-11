@@ -218,6 +218,17 @@ function eNomerNaIziskvane(red, nachalo, sled) {
   return false;
 }
 
+/**
+ * НОВАТА ГРАМАТИКА НА БЕЛЕЗИТЕ (Етап 2.0 · `stroezh/belezi.mjs`): видът стои отпред.
+ * `ИН-А24` е инвариант, `ДЛ-Т45` е дълг, `ИЗ-04-К1` е изискване — нито едно не е
+ * въпрос, макар буквата и числото да съвпадат с белег на въпрос. `ВП-А3` Е въпрос и
+ * се съди като „А3". Когато старият формат в живите документи стане нула (2.0б),
+ * евристиките под `eNomerNaIziskvane` падат и остава само това (2.0в).
+ */
+function eNovBelegBezVapros(red, nachalo) {
+  return /(?:ИН|ДЛ|ИЗ-\d{2})-$/u.test(red.slice(0, nachalo));
+}
+
 /** Всеки белег, срещнат в документите · с файловете, в които стои. */
 function belezitéVDokumentite(faylove) {
   const kade = new Map();
@@ -228,6 +239,7 @@ function belezitéVDokumentite(faylove) {
         const beleg = `${m[1]}${Number(m[2])}`;
         const nachalo = m.index + m[0].length - `${m[1]}${m[2]}`.length;
         const sled = red.slice(m.index + m[0].length);
+        if (eNovBelegBezVapros(red, nachalo)) continue;
         if (eNomerNaIziskvane(red, nachalo, sled)) continue;
         if (!kade.has(beleg)) kade.set(beleg, new Set());
         kade.get(beleg).add(f);
@@ -371,6 +383,8 @@ for (const f of faylove.filter(sesadi)) {
     if (!CHAKA.test(bezTsitati)) continue;
     for (const m of red.matchAll(BELEG)) {
       const beleg = `${m[1]}${Number(m[2])}`;
+      const nachalo = m.index + m[0].length - `${m[1]}${m[2]}`.length;
+      if (eNovBelegBezVapros(red, nachalo)) continue;
       const v = po.get(beleg);
       if (v !== undefined && v.sastoyanie === 'otgovoren') {
         // един и същи белег може да стои два пъти в реда · находката е ЕДНА
