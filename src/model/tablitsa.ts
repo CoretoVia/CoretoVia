@@ -9,6 +9,7 @@
 
 import type { KlyuchNaProzorets, Vid } from './klyuchove.js';
 import type { Kolona } from './kolona.js';
+import { type Pomosht, pomosht } from './pomosht.js';
 
 /**
  * Сегмент на номерацията · откъде идва числото:
@@ -68,6 +69,11 @@ export interface Tablitsa {
   readonly klyuch: string;
   /** лентата в Книгата · дословно */
   readonly ime: string;
+  /**
+   * ОБЯСНЕНИЕТО ПРИ ЗАДЪРЖАНЕ върху лентата · какво е един ред тук и коя е
+   * главната сметка на таблицата (`pomosht.ts`). ЗАДЪЛЖИТЕЛНО — пада компилацията.
+   */
+  readonly pomosht: Pomosht;
   readonly prozorets: KlyuchNaProzorets;
   /** видът на същността на реда в Журнала */
   readonly sashtnost: Vid;
@@ -108,4 +114,19 @@ export function koloniNaReda(t: Tablitsa): readonly Kolona[] {
 /** Слятата клетка, в която колоната е ГЛАВА · `undefined`, ако стои сама. */
 export function slyataNa(t: Tablitsa, kolona: string): Slyata | undefined {
   return (t.slyati ?? []).find((s) => s.kolona === kolona);
+}
+
+/**
+ * ПОМОЩТА НА ТАБЛИЦА, РОДЕНА ОТ ЖУРНАЛА · когато никой не е писал текст.
+ *
+ * Таблица, добавена от Настройки (десетият тип събитие), тръгва без колони и
+ * без автор на обяснение. Казва се онова, което Е сигурно: наша е, не от
+ * Книгата; редовете ѝ са събития като всички други; колоните ѝ идват една по
+ * една от същото място.
+ */
+export function pomoshtNaNovaTablitsa(ime: string): Pomosht {
+  return pomosht(
+    `Таблица „${ime}", създадена от Настройки — няма я в Книгата. Редовете ѝ са събития в Журнала като на всяка друга таблица, а колоните ѝ се добавят една по една оттам.`,
+    'наша таблица · колоните се добавят от Настройки · всеки ред е събитие в Журнала',
+  );
 }

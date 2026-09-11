@@ -47,6 +47,20 @@ body {
   letter-spacing: 0.02em;
 }
 
+/* името носи подробното за текущия прозорец · с мишката и с клавиатурата */
+.glava h1[data-podskazka] {
+  cursor: help;
+}
+
+.glava h1:focus-visible {
+  outline: 2px solid var(--zeleno);
+  outline-offset: 2px;
+}
+
+.glava .buton-grupa {
+  margin-left: auto;
+}
+
 .vest {
   margin: 0.25rem 0 0;
   color: var(--sivo);
@@ -319,6 +333,41 @@ button.vtorichen {
   display: block;
   color: var(--sivo);
   font-size: 0.8rem;
+}
+
+/* ═══ подсказката (podskazka.ts) · една кутия · над менюто (20) и диалога (30) ═══
+   Позицията идва от кода през CSSOM; тук е само видът. Кутията е достижима с
+   мишката (без pointer-events: none), за да може дълъг текст да се дочете. */
+.podskazka {
+  position: fixed;
+  z-index: 40;
+  max-width: 24rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 6px;
+  background: var(--mastilo);
+  color: var(--hartiya);
+  font-size: 0.85rem;
+  line-height: 1.35;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  white-space: normal;
+}
+
+/* Начало е подробното · повече място, за да не става кула */
+.podskazka.nachalo {
+  max-width: 32rem;
+}
+
+.podskazka[hidden] {
+  display: none;
+}
+
+/* нещо с подсказка го КАЗВА · пунктирано, като в помощта на таблиците */
+th[data-podskazka],
+td[data-podskazka],
+span[data-podskazka] {
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.15em;
 }
 
 /* ═══ изскачащият прозорец (prozorets.ts) ═══ */

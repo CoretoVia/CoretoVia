@@ -16,13 +16,39 @@
  * и се сверява с дължимото. Всяка сверка се записва и когато е нула (правило 7).
  */
 
+import { pomosht } from '../model/pomosht.js';
 import type { Ogledalo } from '../ogledalo/ogledalo.js';
 import { kletkaNa, zhiviteRedove } from '../ogledalo/tablitsa.js';
 import { sabiri, tsentove } from '../yadro/pari.js';
 import { sverka, type Sverka } from '../yadro/sverka.js';
-import type { Strana } from './smetki.js';
+import type { IzvedenaKolona, Strana } from './smetki.js';
 
 const TABLITSA = 'dds';
+
+/**
+ * ДВЕТЕ ИЗВЕДЕНИ КОЛОНИ на ДДС · за главите на екрана · с помощта им.
+ *
+ * Те не са колони на Модела (никой не ги пише) и затова нямат дом в `osnova.ts`;
+ * домът им е при формулата, която ги смята — `ddsat` долу.
+ */
+export const IZVEDENITE_NA_DDSA: readonly IzvedenaKolona[] = Object.freeze([
+  {
+    klyuch: 'dalzhimo',
+    ime: 'дължимо',
+    pomosht: pomosht(
+      'Смята се, не се пише: начислен минус данъчен кредит за месеца. Плюс е за внасяне и влиза в Сметки като разход; минус е за възстановяване и влиза като приход; нула няма страна.',
+      'начислен − данъчен кредит · плюс = за внасяне · минус = за възстановяване',
+    ),
+  },
+  {
+    klyuch: 'ostatak',
+    ime: 'остатък',
+    pomosht: pomosht(
+      'Смята се: дължимо минус платено за месеца — колко остава да се внесе или да ти върнат. Натрупването е сборът на остатъците по месеци и се сверява с дължимо − платено общо.',
+      'дължимо − платено',
+    ),
+  },
+]);
 
 export interface MesetsNaDdsa {
   readonly mesets: string;

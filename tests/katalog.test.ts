@@ -6,6 +6,7 @@
 import { describe, expect, it } from 'vitest';
 import { KATALOG, komandaPoKlyuch, opisNaKataloga } from '../src/komandi/katalog.js';
 import { PROZORTSI } from '../src/model/osnova.js';
+import { tekstNaPomoshtta } from '../src/model/pomosht.js';
 import { CHETTSI } from '../src/ogledalo/chettsi.js';
 import { SABITIYA, TIP } from '../src/sabitiya/registar.js';
 
@@ -44,13 +45,18 @@ describe('каталогът', () => {
     ]);
   });
 
-  it('описанието за екрана и агента няма dryRun и предусловия', () => {
+  it('описанието за екрана и агента няма dryRun и предусловия · ИЗВЕДЕНО е от помощта', () => {
     const opis = opisNaKataloga();
     expect(opis).toHaveLength(30);
     for (const o of opis) {
       expect(o).not.toHaveProperty('dryRun');
       expect(o).not.toHaveProperty('predusloviya');
       expect(o.opisanie.length).toBeGreaterThan(10);
+      // един текст за човека и за агента (правило 14): агентът чете степента Начало
+      const komanda = komandaPoKlyuch(o.klyuch)!;
+      expect(o.pomosht).toBe(komanda.pomosht);
+      expect(o.opisanie).toBe(tekstNaPomoshtta(komanda.pomosht, 'nachalo'));
+      expect(o.opisanie.endsWith(komanda.pomosht.kratko)).toBe(true);
     }
   });
 });

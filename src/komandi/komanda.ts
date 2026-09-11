@@ -16,6 +16,7 @@
 
 import type { KlyuchNaProzorets, Vid } from '../model/klyuchove.js';
 import type { Model } from '../model/model.js';
+import type { Pomosht } from '../model/pomosht.js';
 import type { IdNaPredlozhenie, Predlozhenie, Razlika } from '../model/predlozhenie.js';
 import type { ShemaJSON } from '../model/shema.js';
 import type { Ogledalo } from '../ogledalo/ogledalo.js';
@@ -86,7 +87,13 @@ export interface Komanda<V> {
   /** `prozorets.glagol` */
   readonly klyuch: string;
   readonly ime: string;
-  readonly opisanie: string;
+  /**
+   * ЕДИН текст за човека и за агента (правило 14) · задължителен, за да пада `tsc`
+   * при липса. Екранът го чете от бутона (`Buton.pomosht`), агентът — изведен на
+   * степен Начало от `opisNaKataloga`. Дотук тук стоеше `opisanie` — втори низ за
+   * същото нещо, който подсказката нямаше как да ползва по степени.
+   */
+  readonly pomosht: Pomosht;
   readonly prozortsi: readonly KlyuchNaProzorets[];
   readonly stepen: 'chete' | 'pishe';
   readonly myasto: Myasto;

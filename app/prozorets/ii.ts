@@ -31,6 +31,7 @@ import {
 import { dumiZaGreshka } from '../../src/yadro/dumi.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
+import { podskazkaSDumi } from '../reshetka/podskazka.js';
 import { zakachiZebrata } from '../reshetka/zebra.js';
 import { dumiteHTML } from './profil.js';
 
@@ -130,7 +131,7 @@ function redNaPredlozhenieHTML(pr: Prochit, p: Predlozhenie, i: number): Zapecha
       ? DUMI_ZA_PRIKLYUCHEN
       : '';
   return h`<tr class="red${gotovo ? ' svarsheno' : ''}" data-predlozhenie="${i}" data-vid="${p.vid}">
-    <td><input type="checkbox" data-otmetka="${i}" ${otmetnato ? 'checked' : ''} ${zamlaknala ? 'disabled' : ''} title="${zashto}"></td>
+    <td><input type="checkbox" data-otmetka="${i}" ${otmetnato ? 'checked' : ''} ${zamlaknala ? 'disabled' : ''}${podskazkaSDumi(zashto)}></td>
     <td class="nomer">${i + 1}</td>
     <td translate="no">${p.list}</td>
     <td translate="no">${p.adres}</td>
@@ -186,7 +187,7 @@ function otchetHTML(pr: Prochit): Zapechatan {
       <tbody class="tablitsa">${otchet.predlozheniya.map((p, i) => redNaPredlozhenieHTML(pr, p, i))}</tbody>
     </table>
     <div class="deystviya">
-      <button type="button" data-priemi ${sivDumi === '' ? '' : h`disabled title="${sivDumi}"`}>Приеми избраните</button>
+      <button type="button" data-priemi ${sivDumi === '' ? '' : h`disabled${podskazkaSDumi(sivDumi)}`}>Приеми избраните</button>
       <span class="vest" data-izbrani>${izbraniDumi(pr)}</span>
     </div>
     <p class="vest" data-vnos-vest translate="no">${pr.vest}</p>`;
@@ -304,7 +305,9 @@ function zakachiOtcheta(k: KonteksNaEkrana): void {
         const blok = blokirano(pr, j);
         const otkazano = pr.probi[j]?.otkaz !== null && pr.probi[j]?.probvano === true;
         drug.disabled = blok || otkazano || svarsheno(pr, j);
-        drug.title = blok ? `зависи от № ${p.zavisiOt.map((z) => z + 1).join(', ')}` : '';
+        if (blok)
+          drug.dataset['podskazka'] = `зависи от № ${p.zavisiOt.map((z) => z + 1).join(', ')}`;
+        else delete drug.dataset['podskazka'];
         drug.checked = !blok && !otkazano && pr.otmetnati.has(j);
       }
       const izbrani = k.tyalo.querySelector('[data-izbrani]');

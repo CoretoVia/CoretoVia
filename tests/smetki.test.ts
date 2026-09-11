@@ -15,6 +15,7 @@ import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import { ddsat } from '../src/smetach/dds.js';
 import { GreshkaPari } from '../src/yadro/pari.js';
 import {
+  IZVEDENITE_NA_SMETKITE,
   keshatNaMeseca,
   OBRAZETS_NA_MESETSA,
   SEKTSIYA_FAKTURI_KESH,
@@ -28,6 +29,31 @@ import { KNIGA, knigaZaTest, nomerNaSektsiya, STOPANIN, USTROYSTVO, VALUTA } fro
 const KOGATO = '2026-09-05T13:00:00.000Z';
 const MESETS = '2026-09';
 const PRAZEN = { plosht: null, tsena: null, papka: null, adres: null };
+
+describe('изведените на Сметки · сборовете и кешът с помощта им', () => {
+  it('осем глави · ключовете са тези на полетата на екрана · формулите са на този файл', () => {
+    expect(IZVEDENITE_NA_SMETKITE.map((k) => k.klyuch)).toEqual([
+      'prihod',
+      'razhod',
+      'rezultat',
+      'sektsiya',
+      'vkarvane',
+      'kesh-dadeno',
+      'kesh-izvlechenie',
+      'kesh-vkarano',
+    ]);
+    const kratko = (klyuch: string): string =>
+      IZVEDENITE_NA_SMETKITE.find((k) => k.klyuch === klyuch)!.pomosht.kratko;
+    // резултатът СЪБИРА, защото разходът е с минус (правило 16)
+    expect(kratko('rezultat')).toBe('приход + разход · разходът е с минус');
+    // вкарването е точно трите секции на `vkarvaneto`
+    expect(kratko('vkarvane')).toContain(SEKTSIYA_ZAPLATI_KESH);
+    expect(kratko('vkarvane')).toContain(SEKTSIYA_FAKTURI_KESH);
+    // даденото е заплати + фактури · както `keshatNaMeseca` го смята
+    expect(kratko('kesh-dadeno')).toMatch(/^заплати \+ фактури/);
+    for (const k of IZVEDENITE_NA_SMETKITE) expect(k.ime.length).toBeGreaterThan(0);
+  });
+});
 
 function otkazat(r: unknown): Otkaz {
   if (!eOtkaz(r)) throw new Error(`очаквах отказ, а мина: ${JSON.stringify(r)}`);

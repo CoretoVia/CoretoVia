@@ -37,6 +37,7 @@ import type { Ogledalo } from '../../src/ogledalo/ogledalo.js';
 import { VIDOVE_ZA_CHOVEK } from '../../src/model/struktura.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
+import { podskazkaSDumi } from '../reshetka/podskazka.js';
 import { naEnterIEscape } from '../reshetka/redaktsiya.js';
 import { zakachiZebrata } from '../reshetka/zebra.js';
 import { chetiEkranno, zapomniEkranno } from '../reshetka/pamet-ekran.js';
@@ -99,12 +100,12 @@ function redNaKolonata(
       zatvorena
         ? h`затворена`
         : zashto !== ''
-          ? h`<span class="siv" title="${zashto} — затворена, редът губи адреса си">не се затваря · ${zashto}</span>`
-          : h`<button type="button" class="malak" data-zatvori title="Никой не я пише занапред. Старите ѝ стойности ОСТАВАТ и пак се смятат (правило 18).">затвори</button>`
+          ? h`<span class="siv"${podskazkaSDumi(`${zashto} — затворена, редът губи адреса си`)}>не се затваря · ${zashto}</span>`
+          : h`<button type="button" class="malak" data-zatvori${podskazkaSDumi('Никой не я пише занапред. Старите ѝ стойности остават и пак се смятат.')}>затвори</button>`
     }</td>
     <td class="kletka">
-      <button type="button" class="malak" data-gore ${i === 0 ? 'disabled' : ''} title="Нагоре">▲</button>
-      <button type="button" class="malak" data-dolu ${i === posledna ? 'disabled' : ''} title="Надолу">▼</button>
+      <button type="button" class="malak" data-gore ${i === 0 ? 'disabled' : ''}${podskazkaSDumi(i === 0 ? 'първата колона няма накъде нагоре' : 'мести колоната с едно място нагоре')}>▲</button>
+      <button type="button" class="malak" data-dolu ${i === posledna ? 'disabled' : ''}${podskazkaSDumi(i === posledna ? 'последната колона няма накъде надолу' : 'мести колоната с едно място надолу')}>▼</button>
     </td>
   </tr>`;
 }

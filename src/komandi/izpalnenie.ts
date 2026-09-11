@@ -6,6 +6,7 @@
  * повторен `probvay` плюс записът.
  */
 
+import type { Pomosht } from '../model/pomosht.js';
 import type { IdNaPredlozhenie, Predlozhenie } from '../model/predlozhenie.js';
 import { proveriTovar } from '../sabitiya/registar.js';
 import { KATALOG, komandaPoKlyuch } from './katalog.js';
@@ -63,6 +64,8 @@ export function probvay(klyuch: string, tovar: unknown, k: Kontekst): Predvarite
 export interface Buton {
   readonly klyuch: string;
   readonly ime: string;
+  /** обяснението на командата · екранът го показва по степента, без да внася каталога */
+  readonly pomosht: Pomosht;
   readonly myasto: Myasto;
   /** отваря чернова с товара, вместо да изпълни */
   readonly otvaryaChernova: boolean;
@@ -101,6 +104,7 @@ export function butoniZa(
       butoni.push({
         klyuch: komanda.klyuch,
         ime: komanda.ime,
+        pomosht: komanda.pomosht,
         myasto: komanda.myasto,
         otvaryaChernova: komanda.otvaryaChernova === true,
         razreshena: dumi.length === 0,
@@ -120,6 +124,7 @@ export function butoniZa(
     butoni.push({
       klyuch: komanda.klyuch,
       ime: komanda.ime,
+      pomosht: komanda.pomosht,
       myasto: komanda.myasto,
       otvaryaChernova: false,
       razreshena,

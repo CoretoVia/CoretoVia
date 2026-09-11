@@ -9,6 +9,7 @@
 import type { KlyuchNaProzorets } from '../src/model/klyuchove.js';
 import { proveriModela } from '../src/model/model.js';
 import { MODEL, PROZORTSI } from '../src/model/osnova.js';
+import { tekstNaPomoshtta } from '../src/model/pomosht.js';
 import { otvoriDnevnik } from '../src/nositel/dnevnik-indexeddb.js';
 import { sha256NaBaytove, sha256Web } from '../src/nositel/hash-web.js';
 import { samolichnosttaKazva } from '../src/nositel/samolichnost-web.js';
@@ -33,6 +34,14 @@ import { napraviZapisvach } from '../src/yadro/zapis.js';
 import type { KonteksNaEkrana } from './kontekst.js';
 import { narisuvayProzorets } from './prozorets/prozortsite.js';
 import { zatvoriMenyuto } from './reshetka/menyu.js';
+import {
+  izborNaStepenHTML,
+  podskazkaSDumi,
+  skriyPodskazkata,
+  stepenNaPomoshtta,
+  zakachiIzboraNaStepen,
+  zakachiPodskazkite,
+} from './reshetka/podskazka.js';
 import { h, nashSkript, sloji } from './reshetka/shablon.js';
 import { chetiEkranno, zapomniEkranno } from './reshetka/pamet-ekran.js';
 
@@ -169,8 +178,14 @@ async function tragni(ekran: HTMLElement): Promise<void> {
     ekran,
     h`
     <header class="glava">
-      <h1>Coretovia</h1>
+      <!--
+        ИМЕТО носи подробното за текущия прозорец (негово, 11.09, запис 151:
+        „задържайки на името да се показва подробната информация") · сменя се с
+        таба в narisuvayVednazh · с tabindex, за да идва и от клавиатурата.
+      -->
+      <h1 data-ime tabindex="0">Coretovia</h1>
       <p class="vest" data-vest></p>
+      ${izborNaStepenHTML()}
       <!--
         ПАЗАЧЪТ НА ИСТОРИЯТА · стои В ГЛАВАТА, не в панел.
         Правило 31 вече отсъди веднъж: „предупреждение в панел, който човек не е
@@ -181,7 +196,9 @@ async function tragni(ekran: HTMLElement): Promise<void> {
         class="neprocheteno"
         data-neprocheteno
         hidden
-        title="Събития, които СТОЯТ в Журнала, но днешният Модел не може да ги приложи — например колона, която вече я няма. Формулата: прочетени = всички − непрочетени. Журналът е цял; щом причината отпадне, те се четат сами."
+        ${podskazkaSDumi(
+          'Събития, които стоят в Журнала, но текущият Модел не може да ги приложи — например колона, която я няма. Формулата: прочетени = всички − непрочетени. Журналът е цял; щом причината отпадне, те се четат сами.',
+        )}
       >
         <p data-neprocheteno-dumi></p>
         <ul data-neprocheteno-redove></ul>
@@ -196,6 +213,8 @@ async function tragni(ekran: HTMLElement): Promise<void> {
   );
 
   const vest = ekran.querySelector<HTMLElement>('[data-vest]')!;
+  const imeto = ekran.querySelector<HTMLElement>('h1[data-ime]')!;
+  const izborNaStepen = ekran.querySelector<HTMLSelectElement>('.glava [data-pomosht-stepen]')!;
   const neprocheteno = ekran.querySelector<HTMLElement>('[data-neprocheteno]')!;
   const neprochetenoDumi = ekran.querySelector<HTMLElement>('[data-neprocheteno-dumi]')!;
   const neprochetenoRedove = ekran.querySelector<HTMLElement>('[data-neprocheteno-redove]')!;
@@ -285,6 +304,16 @@ async function tragni(ekran: HTMLElement): Promise<void> {
       sloji(neprochetenoRedove, h`${nepr.redove.map((r) => h`<li translate="no">${r}</li>`)}`);
     }
     const klyuch = klyuchOtHasha();
+    // кутията от предишния екран увисва без котва · крие се преди новия възел
+    skriyPodskazkata();
+    // подробното върху името е за ТЕКУЩИЯ прозорец · `dataset` не минава през Trusted Types
+    const stepen = stepenNaPomoshtta();
+    imeto.dataset['podskazka'] = tekstNaPomoshtta(
+      PROZORTSI.find((p) => p.klyuch === klyuch)!.pomosht,
+      stepen,
+    );
+    // Настройки може да е сменил степента · селектът в главата казва същото
+    izborNaStepen.value = stepen;
     for (const a of ekran!.querySelectorAll<HTMLElement>('[data-prozorets]')) {
       a.classList.toggle('tekusht', a.dataset['prozorets'] === klyuch);
     }
@@ -297,6 +326,9 @@ async function tragni(ekran: HTMLElement): Promise<void> {
 
   window.addEventListener('hashchange', narisuvay);
   porta.abonirai(narisuvay);
+  // подсказките и изборът на степен · веднъж, върху корена; тялото се сменя при всяко рисуване
+  zakachiPodskazkite(ekran);
+  zakachiIzboraNaStepen(ekran, narisuvay);
   narisuvay();
 
   if (import.meta.env.PROD && 'serviceWorker' in navigator) {

@@ -368,11 +368,14 @@
           "ime": "ZASHTO_I_NULATA",
           "v": [
             "app"
-          ]
+          ],
+          "min": 2
         }
       ],
       "kak": "подсказката на колоната „Сверка/Разлика“ казва изречението (степен Начало) и низът има един дом",
-      "sastoyanie": "otvoren"
+      "sastoyanie": "zatvoren",
+      "zatvoren_na": "2026-09-11",
+      "zatvoren_kak": "`ZASHTO_I_NULATA` е подсказката Начало на сверката в Сметки (`app/prozorets/smetki.ts`, внесен пряко от `src/yadro/sverka.js`); условието `ima … v app` иска поне 2 срещания — вносът и употребата, за да не затваря реда мъртъв import"
     },
     {
       "beleg": "П1",
@@ -476,14 +479,29 @@
     {
       "beleg": "П7",
       "kakvo": "степен „**Начало**\" на подсказките · състояние (08.09): правилото е записано, **подсказките не са построени** · днешните 17 са на експертно ниво · защо спря: чака код",
-      "kade": "",
+      "kade": "src/model/pomosht.ts · app/reshetka/podskazka.ts · tests/podskazkite.test.ts",
       "hod": "Х",
       "predi": [],
-      "chaka": "негова дума кое върви първо",
+      "chaka": "",
       "otpushva": [],
-      "uslovia": [],
-      "kak": "",
-      "sastoyanie": "otvoren"
+      "uslovia": [
+        {
+          "vid": "test",
+          "beleg": "П7"
+        },
+        {
+          "vid": "broy",
+          "shablon": "title=\"|\\.title\\s*=",
+          "v": [
+            "app"
+          ],
+          "max": 0
+        }
+      ],
+      "kak": "всеки носител в Модела и каталога има `pomosht { zashto, kratko }` (типът пада при липса); Начало = защо + формулата, Нормален = формулата; тестът по име брои носителите с пин и обхожда `app/` за `title=`; изборът на степен е в главата и в Настройки",
+      "sastoyanie": "zatvoren",
+      "zatvoren_na": "2026-09-11",
+      "zatvoren_kak": "Ход Х (ADR-025): `src/model/pomosht.ts` · `pomosht` задължително поле в `Kolona` · `Tablitsa` · `ProzoretsVOsnovata` · `ButonNaProzoretsa` · `GlavaNaOblika` · `Pole` · `Komanda` · `Buton` · изведените колони — 226 носителя, броени с пин по вид в `tests/podskazkite.test.ts` („ДЛ-П7 · …\"); степента се извежда (`tekstNaPomoshtta`), етикетите са Начало · Нормален (запис 132); носителят е кутия при задържане и фокус (`app/reshetka/podskazka.ts`), а `title=` в `app/` е 0 — второто условие го брои при всяко пускане."
     },
     {
       "beleg": "СВ1",
@@ -1473,7 +1491,7 @@
           "beleg": "Т7"
         }
       ],
-      "kak": "смяна на `opisanie` на коя да е команда чупи теста",
+      "kak": "смяна на `pomosht` (`zashto · kratko`) на коя да е команда чупи теста · `opisanie` вече не съществува на `Komanda` (ход Х · ADR-025): низът под контролна сума е помощта",
       "sastoyanie": "otvoren"
     },
     {

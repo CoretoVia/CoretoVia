@@ -25,10 +25,23 @@
  */
 
 import type { ProzoretsVOsnovata } from './klyuchove.js';
-import type { Kolona } from './kolona.js';
+import { IMENA_NA_STRANITE_NA_PLASHTANE, type Kolona } from './kolona.js';
 import type { Model } from './model.js';
 import type { Nomenklatura, StoynostNaNomenklatura } from './nomenklatura.js';
+import { type Pomosht, pomosht } from './pomosht.js';
 import type { Nomeratsiya, Segment, Tablitsa } from './tablitsa.js';
+
+/*
+ * ═══ ПОМОЩТА · с НАШИ думи (правило 31 · `pomosht.ts`) ═══
+ *
+ * Всяка колона, таблица, прозорец, глава и бутон тук носи `pomosht`: защо
+ * съществува и формулата с думи. Текстовете са наши — неговите глави и
+ * инструкции са ИЗВОР, за да ги разберем, не текст за екрана (запис 151).
+ * Формулите са взети от кода, който ги смята (`smetach/*`), не от предположение.
+ */
+
+/** Най-честото „какво се пише тук" · за колоните с думи, от които нищо не се смята. */
+const SVOBODEN_TEKST = 'свободен текст · пише се, не се смята';
 
 /**
  * ЛЕНТИТЕ на двете му таблици с продажби · A3 и A60, ДОСЛОВНО (правило 21).
@@ -42,17 +55,38 @@ export const LENTA_NA_PARVATA_SGRADA =
 export const LENTA_NA_VTORATA_SGRADA =
   'Т А Б Л И Ц А  за продажбите на Винтекс Строй ЕАД в обект: ЖИЛИЩНА СГРАДА С ПОДЗЕМНИ ГАРАЖИ в УПИ V-3508, кв. 56, м. Малинова долина, р-н Студентски, гр. София';
 
+/*
+ * ПОМОЩТА НА ПРОЗОРЕЦА е ПОДРОБНОТО върху името на програмата и се сменя с таба
+ * (негово, 11.09, запис 151). `zashto` казва какво е листът и кои таблици носи;
+ * `kratko` — главната формула или главното действие.
+ */
 export const PROZORTSI: readonly ProzoretsVOsnovata[] = Object.freeze([
-  { klyuch: 'profil', list: 'Профил', lenti: [] },
+  {
+    klyuch: 'profil',
+    list: 'Профил',
+    lenti: [],
+    pomosht: pomosht(
+      'Прозорецът на човека, който е влязъл. Тук се открива Книгата със Стопанина, стоят името и Длъжността му от листа Служители, и оттук се чете чужда Книга без запис. Данните на фирмата не са тук.',
+      'кой съм · Длъжността ми стеснява правото · Книгата се открива и се чете оттук',
+    ),
+  },
   {
     klyuch: 'imoti',
     list: 'ИмотиОбектиБизнеси',
     lenti: ['Имоти', 'Обекти добавени към Имоти', 'Бизнеси'],
+    pomosht: pomosht(
+      'Скелетът на всичко: Имотите, под тях Обектите и Бизнесите. Всеки ред оттук става избор в падащите менюта на другите прозорци, а номерът му се смята от мястото му в дървото.',
+      'номер = Имот · Категория · Вид · № · сборове под площ и цена върху видимите редове',
+    ),
   },
   {
     klyuch: 'upravlenie',
     list: 'УправлениеДелаПреписки',
     lenti: ['Бутони', 'ОБЕКТИ', 'Диаграма Гант (Календар)'],
+    pomosht: pomosht(
+      'Задачите — Дело, Среща, Преписка, Проект — под Имот, Обект или Бизнес, в едно дърво с неговите глави. Над него полетата с цифри и бутоните; до него Гант по същите редове. Задача се добавя от десния бутон върху ред.',
+      'задачи към Имот, Обект или Бизнес · сборовете под главите са върху видимите редове',
+    ),
   },
   {
     klyuch: 'smetki',
@@ -65,6 +99,10 @@ export const PROZORTSI: readonly ProzoretsVOsnovata[] = Object.freeze([
       'Разходи',
       'Финансови Отчети за избрания период',
     ],
+    pomosht: pomosht(
+      'Парите по месеци: ПРИХОД и Разходи със секциите им, ДДС и кешът на месеца със сверките му. Знакът на сумата решава страната — плюс е приход, минус е разход; секцията само казва мястото вътре в страната.',
+      'знакът решава страната · ОБЩ = сбор на секциите + ДДС · Резултат = приход + разход',
+    ),
   },
   {
     klyuch: 'sluzhiteli',
@@ -75,14 +113,38 @@ export const PROZORTSI: readonly ProzoretsVOsnovata[] = Object.freeze([
       'Достъп на Длъжности за Служител',
       'Програма за Задачи на Служители',
     ],
+    pomosht: pomosht(
+      'Хората и правата им: Стопани, Служители, Длъжностите с четирите оси на достъпа и програмата със задачите на всеки. Правото се чете от първата дума на реда — Редактира или Вижда — и само стеснява, никога не разширява.',
+      'Длъжност → четири оси · табове · хедъри · редове · Журнал · най-тясното печели',
+    ),
   },
   {
     klyuch: 'prodazhbi',
     list: 'Продажби',
     lenti: [LENTA_NA_PARVATA_SGRADA, LENTA_NA_VTORATA_SGRADA],
+    pomosht: pomosht(
+      'Двете таблици с продажби, всяка с две страни на плащане — банка и кеш. Проверката на всяка страна се смята: цена минус вноските; нула значи платена. Отгоре калкулаторът оценява всеки обект по три подхода и го сравнява с договорената цена.',
+      'проверка = цена − вноските по същата страна · нула = платено · Акт 16 = завършена',
+    ),
   },
-  { klyuch: 'ii', list: 'ИИ', lenti: ['Активни агенти', 'Неактивни агенти'] },
-  { klyuch: 'nastroyki', list: 'Настройки(Стопанин)', lenti: [] },
+  {
+    klyuch: 'ii',
+    list: 'ИИ',
+    lenti: ['Активни агенти', 'Неактивни агенти'],
+    pomosht: pomosht(
+      'Агентите и Сверчикът. Агентът само чете и предлага: Книгата се прочита без мрежа, сверява се с Огледалото и излиза отчет с находки. Нищо не се записва, докато човекът не приеме избраните предложения; накрая се записва разписка и при нула.',
+      'агентът чете и предлага · човекът приема · всяко прието минава през Портата',
+    ),
+  },
+  {
+    klyuch: 'nastroyki',
+    list: 'Настройки(Стопанин)',
+    lenti: [],
+    pomosht: pomosht(
+      'Настройките на Стопанина: номенклатурите като една таблица с подтаблици — пише се в празния ред за нова стойност, поправя се за преименуване, изтрива се за спиране. Оттук се мени и структурата на таблиците, и степента на подсказките.',
+      'номенклатури · структура на таблиците · степен на помощта · менюто расте само оттук',
+    ),
+  },
 ]);
 
 /**
@@ -259,42 +321,59 @@ const NOMERATSIYA_KOLONA: Kolona = Object.freeze({
   klyuch: 'nomeratsiya',
   ime: '№',
   vid: 'nomeratsiya',
+  pomosht: pomosht(
+    'Номерът на реда се смята от описанието на таблицата и никой не го пише: за Стопани, Служители и Достъп — брояч при създаване; за Обекти и Бизнеси — номерът на Имота, категорията, видът и въведеното №. Преименуване не го мени; липсващ сегмент се показва като нула.',
+    'смята се · брояч, или номер на Имота · категория · вид · № · с точки между тях',
+  ),
   zadalzhitelna: false,
   zatvorena: true,
   nashaDuma: true,
 });
 
-function tekst(klyuch: string, ime: string, zadalzhitelna = false): Kolona {
-  return Object.freeze({ klyuch, ime, vid: 'tekst', zadalzhitelna, zatvorena: false });
+/** Колона с думи · помощта идва отвън, защото всяка текстова колона значи друго. */
+function tekst(klyuch: string, ime: string, pomosht: Pomosht, zadalzhitelna = false): Kolona {
+  return Object.freeze({ klyuch, ime, vid: 'tekst', pomosht, zadalzhitelna, zatvorena: false });
 }
 
 /** НЕГОВОТО число „№" · цяло · при Обекти и Бизнеси е сегмент на номерацията. */
-function chislo(klyuch: string, ime: string, zadalzhitelna: boolean): Kolona {
-  return Object.freeze({ klyuch, ime, vid: 'chislo', zadalzhitelna, zatvorena: false });
+function chislo(klyuch: string, ime: string, zadalzhitelna: boolean, pomosht: Pomosht): Kolona {
+  return Object.freeze({ klyuch, ime, vid: 'chislo', pomosht, zadalzhitelna, zatvorena: false });
 }
 
 function nomeratsiya(...segmenti: readonly Segment[]): Nomeratsiya {
   return Object.freeze({ razdelitel: '.', segmenti: Object.freeze([...segmenti]) });
 }
 
-function izbor(klyuch: string, ime: string, nomenklatura: string, belegOt?: string): Kolona {
+function izbor(
+  klyuch: string,
+  ime: string,
+  nomenklatura: string,
+  pomosht: Pomosht,
+  belegOt?: string,
+): Kolona {
   return Object.freeze({
     klyuch,
     ime,
     vid: 'izbor',
     nomenklatura,
+    pomosht,
     ...(belegOt === undefined ? {} : { belegOt }),
     zadalzhitelna: true,
     zatvorena: false,
   });
 }
 
+/** Родителят на Обект и на Бизнес · един и същ текст, защото връзката е една и съща. */
 function vrazkaKamImot(): Kolona {
   return Object.freeze({
     klyuch: 'imot',
     ime: 'име Имот',
     vid: 'vrazka',
     vrazka: ['imoti'],
+    pomosht: pomosht(
+      'Имотът, под който стои редът — родителят му в дървото и първият сегмент от номера му. Избира се от създадените Имоти; Имот с живи деца не се изключва.',
+      'избор от списъка на Имотите · клетката пази ключа на реда на Имота',
+    ),
     zadalzhitelna: true,
     zatvorena: false,
   });
@@ -307,26 +386,82 @@ function obshtiteKoloni(adres: string): readonly Kolona[] {
       klyuch: 'plosht',
       ime: 'площ',
       vid: 'chislo',
+      pomosht: pomosht(
+        'Площта в квадратни метри, пазена вътре като цели квадратни сантиметри, за да няма дробни грешки. Под колоната сборът и средното са върху видимите редове.',
+        'число в кв. м · пише се · сборът под колоната е върху видимите редове',
+      ),
       zadalzhitelna: false,
       zatvorena: false,
       merka: 'kvsm',
     },
-    { klyuch: 'tsena', ime: 'цена', vid: 'evro', zadalzhitelna: false, zatvorena: false },
-    tekst('papka', 'папка в драйва'),
-    tekst('adres', adres),
+    {
+      klyuch: 'tsena',
+      ime: 'цена',
+      vid: 'evro',
+      pomosht: pomosht(
+        'Цената в евро, в цели центове. Влиза в сбора под колоната върху видимите редове; знакът ѝ не значи приход или разход — това е стойност, не движение.',
+        'сума в евро · пише се · сборът под колоната е върху видимите редове',
+      ),
+      zadalzhitelna: false,
+      zatvorena: false,
+    },
+    tekst(
+      'papka',
+      'папка в драйва',
+      pomosht(
+        'Къде в Драйва стои папката на реда — връзка или път, който човек отваря сам. Програмата не чете папката и нищо не смята от нея.',
+        SVOBODEN_TEKST,
+      ),
+    ),
+    tekst(
+      'adres',
+      adres,
+      pomosht(
+        'Адресът така, както го търси картата — за да се намира мястото с едно копиране. Програмата не проверява адреса и нищо не смята от него.',
+        SVOBODEN_TEKST,
+      ),
+    ),
   ];
 }
 
 const IMOTI: Tablitsa = Object.freeze({
   klyuch: 'imoti',
   ime: 'Имоти',
+  pomosht: pomosht(
+    'Имотите — корените на дървото. Всеки Имот е брояч в номерацията и родител на Обекти и Бизнеси; името му е избор навсякъде другаде.',
+    'един ред = един Имот · номер = брояч при създаване · сборове върху видимите редове',
+  ),
   prozorets: 'imoti',
   sashtnost: 'imot',
   koloni: [
     NOMERATSIYA_KOLONA,
-    tekst('ime', 'име Имот', true),
-    izbor('sastoyanie', 'Състояние', NOMENKLATURA.sastoyanieNaImot),
-    chislo('nomer', '№', false),
+    tekst(
+      'ime',
+      'име Имот',
+      pomosht(
+        'Името, по което Имотът се познава навсякъде: в падащите менюта на Обекти, Бизнеси, задачи и движения. Задължително — ред без име не може да бъде посочен.',
+        'свободен текст · пише се · задължително',
+      ),
+      true,
+    ),
+    izbor(
+      'sastoyanie',
+      'Състояние',
+      NOMENKLATURA.sastoyanieNaImot,
+      pomosht(
+        'В какво положение е Имотът — ПИ, УПИ или Строеж, от номенклатурата Състояние на Имот. Клетката пази номера на стойността; ново състояние се добавя от Настройки, не тук.',
+        'избор от номенклатурата Състояние на Имот · клетката пази номера',
+      ),
+    ),
+    chislo(
+      'nomer',
+      '№',
+      false,
+      pomosht(
+        'Неговото число за Имота, отделно от смятания номер на реда. Пише се на ръка и не участва в номерацията на Имотите — те се броят по реда на създаване.',
+        'цяло число · пише се · не влиза в смятания номер',
+      ),
+    ),
     ...obshtiteKoloni('адрес гугъл'),
   ],
   nomeratsiya: nomeratsiya({ ot: 'broyach' }),
@@ -335,14 +470,43 @@ const IMOTI: Tablitsa = Object.freeze({
 const OBEKTI: Tablitsa = Object.freeze({
   klyuch: 'obekti',
   ime: 'Обекти добавени към Имоти',
+  pomosht: pomosht(
+    'Обектите под Имот, групирани по Имот и по категория, както в неговия лист. Номерът се смята: Имот · Категория · Вид · №; категорията стои в клетката на груповия ред.',
+    'един ред = един Обект · номер = Имот · Категория · Вид · №',
+  ),
   prozorets: 'imoti',
   sashtnost: 'obekt',
   koloni: [
     NOMERATSIYA_KOLONA,
     vrazkaKamImot(),
-    izbor('kategoriya', 'Състояние', NOMENKLATURA.kategoriya),
-    izbor('vid', 'Състояние', NOMENKLATURA.vidNaObekt, 'kategoriya'),
-    chislo('nomer', '№', true),
+    izbor(
+      'kategoriya',
+      'Състояние',
+      NOMENKLATURA.kategoriya,
+      pomosht(
+        'Категорията на Обекта — Сграда или Паркинг — вторият сегмент от номера му. В Книгата няма своя колона: стои в клетката на груповия ред над обектите на един Имот.',
+        'избор от номенклатурата Състояние на Обект · сегмент от номера',
+      ),
+    ),
+    izbor(
+      'vid',
+      'Състояние',
+      NOMENKLATURA.vidNaObekt,
+      pomosht(
+        'Видът на Обекта в своята категория — апартамент, гараж, офис, склад, Хале под Сграда; НПМ под Паркинг. Третият сегмент от номера; списъкът се стеснява по избраната категория.',
+        'избор от номенклатурата Вид на обект · стеснен по категорията · сегмент от номера',
+      ),
+      'kategoriya',
+    ),
+    chislo(
+      'nomer',
+      '№',
+      true,
+      pomosht(
+        'Неговото число за Обекта в сградата — последният сегмент от смятания номер. Задължително, защото без него два обекта от един вид не се различават.',
+        'цяло число · пише се · последният сегмент от номера',
+      ),
+    ),
     ...obshtiteKoloni('адрес в гугъл карти'),
   ],
   roditel: { tablitsa: 'imoti', kolona: 'imot' },
@@ -358,15 +522,42 @@ const OBEKTI: Tablitsa = Object.freeze({
 const BIZNESI: Tablitsa = Object.freeze({
   klyuch: 'biznesi',
   ime: 'Бизнеси (работещи в Имотите без Обекти и без Продажба и без Наеми Наем, а с вид Бизнес.)',
+  pomosht: pomosht(
+    'Бизнесите под Имот — без Обекти, без продажба и без наем, с вид Бизнес. Категорията им е закована на 3, затова номерът е Имот · 3 · №.',
+    'един ред = един Бизнес · номер = Имот · 3 · №',
+  ),
   prozorets: 'imoti',
   sashtnost: 'biznes',
   koloni: [
     NOMERATSIYA_KOLONA,
     vrazkaKamImot(),
-    izbor('sastoyanie', 'Състояние Бизнес', NOMENKLATURA.sastoyanieNaBiznes),
-    chislo('nomer', '№ Обект', true),
+    izbor(
+      'sastoyanie',
+      'Състояние Бизнес',
+      NOMENKLATURA.sastoyanieNaBiznes,
+      pomosht(
+        'Какво прави бизнесът в Имота — ФЕЦ с батерии или само батерии, от номенклатурата Състояние Бизнес. Нови състояния се добавят от Настройки, не тук.',
+        'избор от номенклатурата Състояние Бизнес · клетката пази номера',
+      ),
+    ),
+    chislo(
+      'nomer',
+      '№ Обект',
+      true,
+      pomosht(
+        'Неговото число за бизнеса в Имота — последният сегмент от номера. Категорията на бизнеса е закована на 3, затова номерът е Имот · 3 · това число.',
+        'цяло число · пише се · номер = Имот · 3 · това число',
+      ),
+    ),
     ...obshtiteKoloni('адрес в гугъл карти'),
-    tekst('drugi', 'други(при нужда)'),
+    tekst(
+      'drugi',
+      'други(при нужда)',
+      pomosht(
+        'Място за онова, което не се побира в другите колони — бележка на човека. Не се смята и програмата не търси по него.',
+        SVOBODEN_TEKST,
+      ),
+    ),
   ],
   roditel: { tablitsa: 'imoti', kolona: 'imot' },
   nomeratsiya: nomeratsiya(
@@ -394,6 +585,10 @@ const ZADACHI_KOLONI: readonly Kolona[] = [
     ime: 'име Имот',
     vid: 'vrazka',
     vrazka: ['imoti', 'obekti', 'biznesi'],
+    pomosht: pomosht(
+      'Към кой ред е задачата — Имот, Обект или Бизнес; редът е родител на задачата в дървото. Задачата се ражда от десния бутон върху този ред, затова полето идва попълнено.',
+      'връзка към Имот, Обект или Бизнес · клетката пази ключа на реда',
+    ),
     zadalzhitelna: true,
     zatvorena: false,
     vKlyucha: true,
@@ -404,16 +599,37 @@ const ZADACHI_KOLONI: readonly Kolona[] = [
       'vid',
       ' Задачи(нещо като състояние за Делата, Срещите и Преписките).',
       NOMENKLATURA.vidNaZadacha,
+      pomosht(
+        'Какъв вид е задачата — Дело, Среща, Преписка или Проект. В Книгата стои в една клетка с името, разделени с наклонена черта; тук са две колони, защото видът е номер, а името — думи.',
+        'избор от номенклатурата Вид на задача · в Книгата е в една клетка с името',
+      ),
     ),
     vKlyucha: true,
     kratko: 'Вид',
   },
   // главата му E17 е за ВИДА; името е опашката на слятата клетка · нашата дума
-  { ...tekst('ime', 'име на задачата', true), nashaDuma: true, vKlyucha: true, kratko: 'име' },
+  {
+    ...tekst(
+      'ime',
+      'име на задачата',
+      pomosht(
+        'Името на задачата — втората половина на неговата клетка с вида. Заедно с родителя, вида и началото казва кой ред е това при поправка.',
+        'свободен текст · пише се · задължително',
+      ),
+      true,
+    ),
+    nashaDuma: true,
+    vKlyucha: true,
+    kratko: 'име',
+  },
   {
     klyuch: 'ot',
     ime: 'Дата',
     vid: 'data',
+    pomosht: pomosht(
+      'Началото на задачата — първата от двете дати в неговата клетка за начало и край. От нея тръгва лентата в Ганта; без нито една дата задачата не се рисува там.',
+      'дата от календара · началото на лентата в Ганта',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     vKlyucha: true,
@@ -423,6 +639,10 @@ const ZADACHI_KOLONI: readonly Kolona[] = [
     klyuch: 'do',
     ime: 'Край',
     vid: 'data',
+    pomosht: pomosht(
+      'Краят на задачата. По него се брои просрочено, тази седмица и отворено, и по него свети светофарът: жълто седмица преди, червено два дни преди, минал край е просрочен.',
+      'дата от календара · краят на лентата · минал край = просрочено',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     nashaDuma: true,
@@ -432,6 +652,10 @@ const ZADACHI_KOLONI: readonly Kolona[] = [
     ime: 'Оценка',
     vid: 'izbor',
     nomenklatura: NOMENKLATURA.otsenka,
+    pomosht: pomosht(
+      'Колко бърза и колко важна е задачата — Спешно и Важно, Спешно, Важно или Нито едно. Първата се брои в полето горе и оцветява реда в Ганта.',
+      'избор от номенклатурата Оценка · Спешно и Важно се брои горе',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
   },
@@ -439,6 +663,10 @@ const ZADACHI_KOLONI: readonly Kolona[] = [
     klyuch: 'byudzhet',
     ime: 'Бюджет Дела/ Бюджет Сметки',
     vid: 'evro',
+    pomosht: pomosht(
+      'Парите, отделени за задачата, в цели центове. Влизат в полето „Бюджет Дела" горе върху отворените задачи и в сбора под главата върху видимите редове.',
+      'сума в евро · пише се · сборът под главата е върху видимите редове',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
   },
@@ -449,6 +677,10 @@ const ZADACHI_KOLONI: readonly Kolona[] = [
     ime: 'Отговорник',
     vid: 'vrazka',
     vrazka: ['stopani', 'sluzhiteli'],
+    pomosht: pomosht(
+      'Кой отговаря за задачата — човек от Стопани или Служители. Връзката само сочи: напусне ли човекът, задачите му остават и се казват, за да получат друг отговорник.',
+      'връзка към Стопанин или Служител · само сочи, не прави реда дете',
+    ),
     samoSochi: true,
     zadalzhitelna: false,
     zatvorena: false,
@@ -460,6 +692,10 @@ const ZADACHI_KOLONI: readonly Kolona[] = [
 const ZADACHI: Tablitsa = Object.freeze({
   klyuch: 'zadachi',
   ime: 'ОБЕКТИ',
+  pomosht: pomosht(
+    'Задачите под Имот, Обект или Бизнес — Дело, Среща, Преписка, Проект — без своя номерация. Редът се познава по родител, вид, име и начало; в Книгата вид и име, начало и край са по една клетка.',
+    'един ред = една задача · ключ = родител · вид · име · начало',
+  ),
   prozorets: 'upravlenie',
   sashtnost: 'zadacha',
   koloni: ZADACHI_KOLONI,
@@ -498,13 +734,24 @@ const DVIZHENIYA_KOLONI: readonly Kolona[] = [
     ime: 'име Имот',
     vid: 'vrazka',
     vrazka: ['imoti', 'obekti', 'biznesi'],
+    pomosht: pomosht(
+      'Към кой ред са парите — Имот, Обект или Бизнес, или без родител, когато са заплати, кредит или банкова такса. Без родител редът стои сам, с името си.',
+      'връзка към Имот, Обект или Бизнес · може да е празна',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     vKlyucha: true,
     kratko: 'към',
   },
   {
-    ...tekst('ime', 'име на реда'),
+    ...tekst(
+      'ime',
+      'име на реда',
+      pomosht(
+        'Името на реда с пари — кой служител, коя фирма, кой кредит. Заедно с родителя, секцията, функцията и месеца казва кой ред е това при поправка.',
+        'свободен текст · пише се',
+      ),
+    ),
     nashaDuma: true,
     vKlyucha: true,
     kratko: 'име',
@@ -514,6 +761,10 @@ const DVIZHENIYA_KOLONI: readonly Kolona[] = [
     ime: 'секция в ПРИХОД',
     vid: 'izbor',
     nomenklatura: NOMENKLATURA.sektsiiPrihod,
+    pomosht: pomosht(
+      'Секцията в лентата ПРИХОД — Наем Банка, Наем Кеш, Бизнес или Други. Пълни се само при плюс: страната идва от знака на сумата, секцията казва мястото вътре в нея.',
+      'избор от Секции Приход · само при сума с плюс · сборът на секцията е под нея',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     nashaDuma: true,
@@ -526,6 +777,10 @@ const DVIZHENIYA_KOLONI: readonly Kolona[] = [
     ime: 'секция в Разходи',
     vid: 'izbor',
     nomenklatura: NOMENKLATURA.sektsiiRazhodi,
+    pomosht: pomosht(
+      'Секцията в лентата Разходи — Заплати Кеш, Фактури Кеш, Фактури Карта и другите. Пълни се само при минус: знакът решава страната, секцията — мястото вътре в нея.',
+      'избор от Секции Разходи · само при сума с минус · сборът на секцията е под нея',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     nashaDuma: true,
@@ -538,6 +793,10 @@ const DVIZHENIYA_KOLONI: readonly Kolona[] = [
     ime: 'Функция на парите',
     vid: 'izbor',
     nomenklatura: NOMENKLATURA.funktsiyaNaParite,
+    pomosht: pomosht(
+      'Какво прави програмата с реда — Въвеждане, Сверяване с Банкови Извлечения или Вкарване. Вкарването е трите секции за Помощник Управителя; в Книгата стои в една клетка със състоянието.',
+      'избор от Функция на парите · задължително · в Книгата е в една клетка със състоянието',
+    ),
     zadalzhitelna: true,
     zatvorena: false,
     vKlyucha: true,
@@ -548,6 +807,10 @@ const DVIZHENIYA_KOLONI: readonly Kolona[] = [
     ime: 'Вид Сметка',
     vid: 'izbor',
     nomenklatura: NOMENKLATURA.sastoyanieNaSmetki,
+    pomosht: pomosht(
+      'Докъде е стигнал редът — Сметнато, Вкарано или Прочетено (Сверено). Ред без състояние се брои горе като несверен.',
+      'избор от Състояние на Сметки · празно = несверен',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     kratko: 'Състояние',
@@ -556,6 +819,10 @@ const DVIZHENIYA_KOLONI: readonly Kolona[] = [
     klyuch: 'mesets',
     ime: 'месец',
     vid: 'tekst',
+    pomosht: pomosht(
+      'Месецът на парите като година-месец — тактът на Сметки. По него редът пада в колоната на Ганта, в периода на екрана и в сверката на кеша за месеца. Наша колона под неговата глава Дата.',
+      'текст ГГГГ-ММ · пише се · задължително',
+    ),
     zadalzhitelna: true,
     zatvorena: false,
     nashaDuma: true,
@@ -566,6 +833,10 @@ const DVIZHENIYA_KOLONI: readonly Kolona[] = [
     klyuch: 'suma',
     ime: 'Бюджет Дела/ Бюджет Сметки',
     vid: 'evro',
+    pomosht: pomosht(
+      'Сумата в цели центове със знак: плюс е приход, минус е разход, и секцията трябва да е от същата страна. Влиза в сбора на секцията и в ОБЩ на страната.',
+      'сума в евро със знак · плюс приход · минус разход · влиза в сбора на секцията',
+    ),
     zadalzhitelna: true,
     zatvorena: false,
     kratko: 'сума',
@@ -575,6 +846,10 @@ const DVIZHENIYA_KOLONI: readonly Kolona[] = [
 const DVIZHENIYA: Tablitsa = Object.freeze({
   klyuch: 'dvizheniya',
   ime: 'Сметки',
+  pomosht: pomosht(
+    'Редовете с пари — един ред е една сума за един месец, към Имот, Обект, Бизнес или без родител. Знакът решава страната, секцията — мястото в нея; сборовете са по секция и ОБЩ по страна.',
+    'един ред = една сума за месец · знакът решава страната · ОБЩ = сбор на секциите',
+  ),
   prozorets: 'smetki',
   sashtnost: 'dvizhenie',
   koloni: DVIZHENIYA_KOLONI,
@@ -600,6 +875,10 @@ const KESH_KOLONI: readonly Kolona[] = [
     klyuch: 'mesets',
     ime: 'месец',
     vid: 'tekst',
+    pomosht: pomosht(
+      'Месецът на кеша като година-месец — един ред на месец. Срещу него се сверяват дадените пари, изтегленото по извлечение и вкараното по редовете от двете кеш секции.',
+      'текст ГГГГ-ММ · пише се · един ред на месец',
+    ),
     zadalzhitelna: true,
     zatvorena: false,
     nashaDuma: true,
@@ -609,6 +888,10 @@ const KESH_KOLONI: readonly Kolona[] = [
     klyuch: 'zaplati',
     ime: 'дадени за Заплати Кеш',
     vid: 'evro',
+    pomosht: pomosht(
+      'Колко пари в брой са дадени за заплати през месеца, в цели центове. Влиза в даденото = заплати + фактури, което се сверява с изтегленото и с вкараното.',
+      'сума в евро · пише се · дадено = заплати + фактури',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     nashaDuma: true,
@@ -617,6 +900,10 @@ const KESH_KOLONI: readonly Kolona[] = [
     klyuch: 'fakturi',
     ime: 'дадени за Фактури Кеш',
     vid: 'evro',
+    pomosht: pomosht(
+      'Колко пари в брой са дадени за фактури през месеца, в цели центове. Влиза в даденото = заплати + фактури.',
+      'сума в евро · пише се · дадено = заплати + фактури',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     nashaDuma: true,
@@ -625,6 +912,10 @@ const KESH_KOLONI: readonly Kolona[] = [
     klyuch: 'izvlechenie',
     ime: 'изтеглено по извлечение',
     vid: 'evro',
+    pomosht: pomosht(
+      'Колко е изтеглено в брой по банковото извлечение за месеца. Сверява се с даденото: дадено ↔ изтеглено, и разликата се записва и когато е нула.',
+      'сума в евро · пише се · сверка: дадено ↔ изтеглено',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     nashaDuma: true,
@@ -648,6 +939,10 @@ const DDS_KOLONI: readonly Kolona[] = [
     klyuch: 'mesets',
     ime: 'месец',
     vid: 'tekst',
+    pomosht: pomosht(
+      'Месецът на ДДС като година-месец — един ред на месец. Дължимото за месеца влиза в Сметки по знака си, а натрупването върви по реда на месеците.',
+      'текст ГГГГ-ММ · пише се · един ред на месец',
+    ),
     zadalzhitelna: true,
     zatvorena: false,
     nashaDuma: true,
@@ -657,6 +952,10 @@ const DDS_KOLONI: readonly Kolona[] = [
     klyuch: 'nachislen',
     ime: 'начислен ДДС',
     vid: 'evro',
+    pomosht: pomosht(
+      'ДДС по издадените от нас фактури за месеца — излизащият данък, в цели центове. Дължимо = начислен − данъчен кредит.',
+      'сума в евро · пише се · дължимо = начислен − данъчен кредит',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     nashaDuma: true,
@@ -665,6 +964,10 @@ const DDS_KOLONI: readonly Kolona[] = [
     klyuch: 'kredit',
     ime: 'данъчен кредит',
     vid: 'evro',
+    pomosht: pomosht(
+      'ДДС по получените фактури за месеца — входящият данък, който се приспада, в цели центове. Дължимо = начислен − данъчен кредит.',
+      'сума в евро · пише се · дължимо = начислен − данъчен кредит',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     nashaDuma: true,
@@ -673,6 +976,10 @@ const DDS_KOLONI: readonly Kolona[] = [
     klyuch: 'deklarirano',
     ime: 'декларирано',
     vid: 'evro',
+    pomosht: pomosht(
+      'Колко е подадено в декларацията за месеца. Негово число за сверка: дължимо ↔ декларирано, и разликата се записва и когато е нула.',
+      'сума в евро · пише се · сверка: дължимо ↔ декларирано',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     nashaDuma: true,
@@ -681,6 +988,10 @@ const DDS_KOLONI: readonly Kolona[] = [
     klyuch: 'plateno',
     ime: 'платено',
     vid: 'evro',
+    pomosht: pomosht(
+      'Колко е внесено за месеца. Остатък = дължимо − платено; втората сверка е декларирано ↔ платено.',
+      'сума в евро · пише се · остатък = дължимо − платено',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     nashaDuma: true,
@@ -689,6 +1000,10 @@ const DDS_KOLONI: readonly Kolona[] = [
     klyuch: 'izdadeni',
     ime: 'издадени фактури (счетоводство)',
     vid: 'evro',
+    pomosht: pomosht(
+      'Издадените фактури по данни на счетоводството; идват с месец назад. Служат за сверката на НАП — издадени ↔ приход по Сметки за месеца — и не влизат в дължимото.',
+      'сума в евро · пише се · сверява се с прихода по Сметки',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     nashaDuma: true,
@@ -697,6 +1012,10 @@ const DDS_KOLONI: readonly Kolona[] = [
     klyuch: 'plateni',
     ime: 'платени фактури (счетоводство)',
     vid: 'evro',
+    pomosht: pomosht(
+      'Платените фактури по данни на счетоводството; идват с месец назад. Служат за сверката на НАП — платени ↔ разход по Сметки за месеца — и не влизат в дължимото.',
+      'сума в евро · пише се · сверява се с разхода по Сметки',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
     nashaDuma: true,
@@ -706,6 +1025,10 @@ const DDS_KOLONI: readonly Kolona[] = [
 const DDS: Tablitsa = Object.freeze({
   klyuch: 'dds',
   ime: 'ДДС',
+  pomosht: pomosht(
+    'ДДС по месеци — един ред на месец. Дължимото се смята (начислен − данъчен кредит) и влиза в Сметки по знака: плюс за внасяне е разход, минус за възстановяване е приход. Наша таблица.',
+    'един ред на месец · дължимо = начислен − кредит · остатък = дължимо − платено',
+  ),
   prozorets: 'smetki',
   sashtnost: 'dds',
   koloni: DDS_KOLONI,
@@ -715,6 +1038,10 @@ const DDS: Tablitsa = Object.freeze({
 const KESH: Tablitsa = Object.freeze({
   klyuch: 'kesh',
   ime: 'Кеш',
+  pomosht: pomosht(
+    'Кешът по месеци — един ред на месец: дадено за заплати и за фактури срещу изтегленото по извлечение и вкараното по редовете. Наша таблица; в Книгата стои под неговите блокове.',
+    'един ред на месец · дадено = заплати + фактури ↔ изтеглено ↔ вкарано',
+  ),
   prozorets: 'smetki',
   sashtnost: 'kesh',
   koloni: KESH_KOLONI,
@@ -732,6 +1059,11 @@ const KESH: Tablitsa = Object.freeze({
 export interface GlavaNaOblika {
   readonly glava: string;
   readonly podglava?: string;
+  /**
+   * ОБЯСНЕНИЕТО ПРИ ЗАДЪРЖАНЕ върху главата · от кой ред идва клетката под нея
+   * (родител или задача, а при Сметки и движението) и какво се смята отдолу.
+   */
+  readonly pomosht: Pomosht;
   readonly ot: 'nomeratsiya' | 'roditel' | 'zadacha';
   /** колоната на Модела · при родител: ключът в таблицата на Имотите · при задача: в ZADACHI */
   readonly kolona?: string;
@@ -745,35 +1077,112 @@ export interface GlavaNaOblika {
   readonly nashaGlava?: true;
 }
 
+/** Главите, които двата облика споделят дословно · един текст, един дом. */
+const POMOSHT_NA_GLAVATA = Object.freeze({
+  imeImot: pomosht(
+    'Името на Имота, под който е редът: при Обект и Бизнес — името на техния Имот. Редовете под родителя нямат стойност тук.',
+    'от реда на родителя · името на Имота',
+  ),
+  nomer: pomosht(
+    'Неговото въведено число на родителя — колоната № на Имота, Обекта или Бизнеса, не смятаният номер на реда.',
+    'от реда на родителя · въведеното № · не смятаният номер',
+  ),
+  plosht: pomosht(
+    'Площта на родителя в кв. м, от реда на Имота, Обекта или Бизнеса. Сборът под главата е върху видимите редове.',
+    'от реда на родителя · кв. м · сбор под главата върху видимите редове',
+  ),
+  tsena: pomosht(
+    'Цената на родителя в евро, от реда на Имота, Обекта или Бизнеса. Сборът под главата е върху видимите редове.',
+    'от реда на родителя · евро · сбор под главата върху видимите редове',
+  ),
+});
+
 export const OBLIK_NA_UPRAVLENIE: readonly GlavaNaOblika[] = [
-  { glava: '№', ot: 'nomeratsiya' },
-  { glava: 'име Имот', ot: 'roditel', kolona: 'ime' },
+  {
+    glava: '№',
+    ot: 'nomeratsiya',
+    pomosht: pomosht(
+      'Смятаният номер на реда-родител: Имот · Категория · Вид · №. Задачите нямат номер — при тях клетката е празна.',
+      'смята се · Имот · Категория · Вид · № · задачата няма номер',
+    ),
+  },
+  { glava: 'име Имот', ot: 'roditel', kolona: 'ime', pomosht: POMOSHT_NA_GLAVATA.imeImot },
   {
     glava: ' Състояние за Имот или Състояние на Обект',
     podglava:
       'За Имот и за Обект са различни Състояние. Долу ги пише. (редактират се и премахват и създават от Настройки в Нуменклатури)',
     ot: 'roditel',
     kolona: 'sastoyanie',
+    pomosht: pomosht(
+      'Една глава, три източника: при Имот — Състоянието му (ПИ, УПИ, Строеж); при Обект — видът му (апартамент, гараж…); при Бизнес — Състояние Бизнес. Идва от реда на родителя; задачата няма стойност тук.',
+      'Имот → Състояние на Имот · Обект → видът му · Бизнес → Състояние Бизнес',
+    ),
   },
-  { glava: '№', ot: 'roditel', kolona: 'nomer' },
+  { glava: '№', ot: 'roditel', kolona: 'nomer', pomosht: POMOSHT_NA_GLAVATA.nomer },
   {
     glava: ' Задачи(нещо като състояние за Делата, Срещите и Преписките).',
     podglava:
       'Дело, Среща, Преписка(редактират се и премахват и създават от Настройки в Нуменклатури)',
     ot: 'zadacha',
     kolona: 'vid',
+    pomosht: pomosht(
+      'Видът на задачата — Дело, Среща, Преписка, Проект — заедно с името ѝ след наклонена черта, както е в неговата клетка. Само редовете-задачи имат стойност тук.',
+      'от задачата · вид / име · от номенклатурата Вид на задача',
+    ),
   },
-  { glava: 'Дата', podglava: 'Начало/Край', ot: 'zadacha', kolona: 'ot' },
+  {
+    glava: 'Дата',
+    podglava: 'Начало/Край',
+    ot: 'zadacha',
+    kolona: 'ot',
+    pomosht: pomosht(
+      'Началото и краят на задачата в една клетка, с наклонена черта. Краят движи полетата горе (просрочени, тази седмица) и светофара на срока.',
+      'от задачата · начало / край · по края се брои просроченото',
+    ),
+  },
   {
     glava: 'Оценка',
     podglava: 'Спешно и Важно(червн цвят в Календара(Диагарамата Хант)',
     ot: 'zadacha',
     kolona: 'otsenka',
+    pomosht: pomosht(
+      'Оценката на задачата — Спешно и Важно, Спешно, Важно, Нито едно. Спешно и Важно се брои в полето горе и оцветява реда в Ганта.',
+      'от задачата · избор от Оценка · Спешно и Важно свети в Ганта',
+    ),
   },
-  { glava: 'площ', podglava: 'м2', ot: 'roditel', kolona: 'plosht' },
-  { glava: 'цена', podglava: 'знак(Евро)', ot: 'roditel', kolona: 'tsena' },
-  { glava: 'Бюджет Дела/ Бюджет Сметки', ot: 'zadacha', kolona: 'byudzhet' },
-  { glava: 'Отговорник', ot: 'zadacha', kolona: 'otgovornik', nashaGlava: true },
+  {
+    glava: 'площ',
+    podglava: 'м2',
+    ot: 'roditel',
+    kolona: 'plosht',
+    pomosht: POMOSHT_NA_GLAVATA.plosht,
+  },
+  {
+    glava: 'цена',
+    podglava: 'знак(Евро)',
+    ot: 'roditel',
+    kolona: 'tsena',
+    pomosht: POMOSHT_NA_GLAVATA.tsena,
+  },
+  {
+    glava: 'Бюджет Дела/ Бюджет Сметки',
+    ot: 'zadacha',
+    kolona: 'byudzhet',
+    pomosht: pomosht(
+      'Бюджетът на задачата в евро. Сборът под главата е върху видимите редове; полето горе брои само отворените задачи.',
+      'от задачата · евро · сбор под главата върху видимите редове',
+    ),
+  },
+  {
+    glava: 'Отговорник',
+    ot: 'zadacha',
+    kolona: 'otgovornik',
+    nashaGlava: true,
+    pomosht: pomosht(
+      'Отговорникът на задачата — наша глава, няма я в неговия лист. Човек от Стопани или Служители; при напускане задачите остават и се казват.',
+      'от задачата · връзка към човек от Стопани или Служители',
+    ),
+  },
 ];
 
 /**
@@ -785,8 +1194,15 @@ export const OBLIK_NA_UPRAVLENIE: readonly GlavaNaOblika[] = [
  * (домът им е там); движенията се четат оттук.
  */
 export const OBLIK_NA_SMETKI: readonly GlavaNaOblika[] = [
-  { glava: '№', ot: 'nomeratsiya' },
-  { glava: 'име Имот', ot: 'roditel', kolona: 'ime' },
+  {
+    glava: '№',
+    ot: 'nomeratsiya',
+    pomosht: pomosht(
+      'Смятаният номер на реда-родител: Имот · Категория · Вид · №. Задачите и редовете с пари нямат номер — при тях клетката е празна.',
+      'смята се · Имот · Категория · Вид · № · редът с пари няма номер',
+    ),
+  },
+  { glava: 'име Имот', ot: 'roditel', kolona: 'ime', pomosht: POMOSHT_NA_GLAVATA.imeImot },
   {
     glava: ' Състояние за Имот или Състояние на Обект или състояние на Бизнес',
     podglava:
@@ -794,8 +1210,12 @@ export const OBLIK_NA_SMETKI: readonly GlavaNaOblika[] = [
     ot: 'roditel',
     kolona: 'sastoyanie',
     dvizhenie: 'ime',
+    pomosht: pomosht(
+      'Една глава, четири източника: при Имот — Състоянието му; при Обект — видът му; при Бизнес — Състояние Бизнес; при ред с пари — името на реда (служител, фирма, кредит).',
+      'Имот → Състояние · Обект → вид · Бизнес → Състояние Бизнес · пари → име на реда',
+    ),
   },
-  { glava: '№', ot: 'roditel', kolona: 'nomer' },
+  { glava: '№', ot: 'roditel', kolona: 'nomer', pomosht: POMOSHT_NA_GLAVATA.nomer },
   {
     glava: ' Задачи',
     podglava:
@@ -803,6 +1223,10 @@ export const OBLIK_NA_SMETKI: readonly GlavaNaOblika[] = [
     ot: 'zadacha',
     kolona: 'vid',
     dvizhenie: 'funktsiya',
+    pomosht: pomosht(
+      'При задача — видът и името ѝ; при ред с пари — функцията на парите и състоянието на сметката, разделени с наклонена черта, както в неговата клетка.',
+      'задача → вид / име · пари → функция / състояние',
+    ),
   },
   {
     glava: 'Дата',
@@ -812,20 +1236,44 @@ export const OBLIK_NA_SMETKI: readonly GlavaNaOblika[] = [
     ot: 'zadacha',
     kolona: 'ot',
     dvizhenie: 'mesets',
+    pomosht: pomosht(
+      'Две колони под една глава: начало и край на задачата; при ред с пари — месецът като година-месец в първата, втората е празна. По месеца редът влиза в периода и в Ганта.',
+      'задача → начало · край · пари → месец ГГГГ-ММ',
+    ),
   },
   {
     glava: 'Оценка',
     podglava: 'Спешно и Важно(червн цвят в Календара(Диагарамата Хант)',
     ot: 'zadacha',
     kolona: 'otsenka',
+    pomosht: pomosht(
+      'Оценката на задачата — само редовете-задачи имат стойност тук; редът с пари я оставя празна.',
+      'от задачата · избор от Оценка · парите нямат оценка',
+    ),
   },
-  { glava: 'площ', podglava: 'м2', ot: 'roditel', kolona: 'plosht' },
-  { glava: 'цена', podglava: 'знак(Евро)', ot: 'roditel', kolona: 'tsena' },
+  {
+    glava: 'площ',
+    podglava: 'м2',
+    ot: 'roditel',
+    kolona: 'plosht',
+    pomosht: POMOSHT_NA_GLAVATA.plosht,
+  },
+  {
+    glava: 'цена',
+    podglava: 'знак(Евро)',
+    ot: 'roditel',
+    kolona: 'tsena',
+    pomosht: POMOSHT_NA_GLAVATA.tsena,
+  },
   {
     glava: 'Бюджет Дела/ Бюджет Сметки',
     ot: 'zadacha',
     kolona: 'byudzhet',
     dvizhenie: 'suma',
+    pomosht: pomosht(
+      'При задача — бюджетът ѝ; при ред с пари — сумата със знак: плюс приход, минус разход. Сборът под главата е върху видимите редове; ОБЩ по страна е под лентата.',
+      'задача → бюджет · пари → сума със знак · сбор под главата върху видимите редове',
+    ),
   },
 ];
 
@@ -877,6 +1325,11 @@ export interface ButonNaProzoretsa {
   readonly klyuch: string;
   /** неговата клетка · дословно · лицето на бутона е до първата скоба */
   readonly ime: string;
+  /**
+   * ОБЯСНЕНИЕТО ПРИ ЗАДЪРЖАНЕ · какво прави бутонът в кода, с наши думи;
+   * неговата клетка остава негова в `ime`. Мени се заедно с действието.
+   */
+  readonly pomosht: Pomosht;
   /** втори ред при него (L15 · M15 · O15:R15) · неговите думи */
   readonly izbor?: readonly string[];
   readonly deystvie: DeystvieNaButon;
@@ -886,29 +1339,57 @@ export const BUTONI_NA_UPRAVLENIE: readonly ButonNaProzoretsa[] = [
   {
     klyuch: 'otvori',
     ime: 'Отвори(запазен по рано модел или таблица за създаване на празна таблица и после вкарване на функционалност. Предложи начин наклрая на кода за най голяма лекота и функционалност по познат модел от ексел).)',
+    pomosht: pomosht(
+      'Отваря запазен модел на прозореца — именувана снимка на екранната памет: филтри, такт, период, скрити части. Първият ред на менюто връща погледа до подразбраното. Данни не се пипат.',
+      'меню със запазените модели · празната таблица изчиства погледа · данните не се пипат',
+    ),
     deystvie: { vid: 'ekran', klyuch: 'otvori' },
   },
   {
     klyuch: 'zapazi',
     ime: 'Запази(записваш експерименталния модел за периоди напред)',
+    pomosht: pomosht(
+      'Записва как гледаш прозореца в момента — филтри, такт, период, скрити части — под име, като модел за по-нататък. Пита за име; при подразбран поглед няма какво да се запази и го казва.',
+      'снимка на екранната памет под име · записва се като събитие · данните не се пипат',
+    ),
     deystvie: { vid: 'ekran', klyuch: 'zapazi' },
   },
   {
     klyuch: 'dobavyane',
     ime: 'Добавяне(падащо меню за Имот, Обект, Кредит, Среща)',
+    pomosht: pomosht(
+      'Малко меню: Имот и Обект пращат към прозореца Имоти, където се създават; Среща се добавя от десния бутон върху Имот, Обект или Бизнес; Кредит е сив и казва защо. От Сметки бутонът води към Управление.',
+      'меню · Имот и Обект → прозореца Имоти · Среща → десния бутон върху ред',
+    ),
     deystvie: { vid: 'ekran', klyuch: 'dobavyane' },
   },
   {
     klyuch: 'svali-fayl',
     ime: 'Свалифайл (различни таблици в ПДФ и в Ексел или за Никроинвест файл или за Нап)',
+    pomosht: pomosht(
+      'Изнася цялата Книга като файл на Ексел — осемте листа с неговите думи и адреси, плюс скрит служебен лист, за да се прочете обратно. Записва разписка за изнесеното.',
+      'изнася Книгата като файл на Ексел · записва разписка',
+    ),
     deystvie: { vid: 'kniga' },
   },
   {
     klyuch: 'dobavyane-na-sastoyanie',
     ime: 'Добавяне на Състояние Дела от падащо меню се избира: Дела, Срещи, Преписки или се избира ФУнкция на парите в Приход и Разход: ВИждане, Смятане или Въвеждане.',
+    pomosht: pomosht(
+      'Води към Настройки, където живеят номенклатурите: там се добавят, преименуват и спират видовете задачи, функциите на парите и състоянията. Менюто, по което програмата смята, расте само оттам.',
+      'отваря Настройки → Номенклатури · тук нищо не се добавя',
+    ),
     deystvie: { vid: 'nastroyki' },
   },
-  { klyuch: 'skriy-dela', ime: 'Скрий Дела', deystvie: { vid: 'ekran', klyuch: 'skriy-dela' } },
+  {
+    klyuch: 'skriy-dela',
+    ime: 'Скрий Дела',
+    pomosht: pomosht(
+      'Скрива и показва редовете-задачи в дървото, за да останат само Имотите, Обектите и Бизнесите. Поглед, не данни: нищо не се записва и сборовете не се менят. От Сметки води към Управление.',
+      'скрива/показва задачите в дървото · поглед, не данни',
+    ),
+    deystvie: { vid: 'ekran', klyuch: 'skriy-dela' },
+  },
   // ПОСТРОЕНИ в резен 6к · дотогава стояха сиви и сочеха трети резен, който
   // отдавна беше затворен. Обещание, което надживява резена си, казва
   // НЕВЯРНОТО за самата програма — обратното на правило 12 (ADR-018).
@@ -920,38 +1401,74 @@ export const BUTONI_NA_UPRAVLENIE: readonly ButonNaProzoretsa[] = [
   {
     klyuch: 'skriy-razhodi',
     ime: 'Скрий Разходи',
+    pomosht: pomosht(
+      'На Сметки скрива и показва лентата Разходи. Поглед, не данни: скритата страна пак се смята и пак влиза в Резултат. На Управление бутонът казва, че няма действие.',
+      'скрива/показва лентата Разходи · скритото пак се смята',
+    ),
     deystvie: { vid: 'ekran', klyuch: 'skriy-razhodi' },
   },
   {
     klyuch: 'skriy-prihodi',
     ime: 'Скрий Приходи',
+    pomosht: pomosht(
+      'На Сметки скрива и показва лентата ПРИХОД. Поглед, не данни: скритата страна пак се смята и пак влиза в Резултат. На Управление бутонът казва, че няма действие.',
+      'скрива/показва лентата ПРИХОД · скритото пак се смята',
+    ),
     deystvie: { vid: 'ekran', klyuch: 'skriy-prihodi' },
   },
   {
     klyuch: 'skriy-tablitsa',
     ime: 'Скрий Таблица',
+    pomosht: pomosht(
+      'Скрива и показва таблицата, като оставя диаграмата. Последният видим изглед не се скрива — иначе секцията остава празна — и отказът се казва. Поглед, не данни.',
+      'скрива/показва таблицата · последният видим изглед не се скрива',
+    ),
     deystvie: { vid: 'ekran', klyuch: 'skriy-tablitsa' },
   },
   {
     klyuch: 'skriy-diagrama',
     ime: 'Скрий Диаграма',
+    pomosht: pomosht(
+      'Скрива и показва диаграмата Гант, като оставя таблицата. Последният видим изглед не се скрива и отказът се казва. Поглед, не данни: сборовете и Журналът не се пипат.',
+      'скрива/показва Ганта · последният видим изглед не се скрива',
+    ),
     deystvie: { vid: 'ekran', klyuch: 'skriy-diagrama' },
   },
-  { klyuch: 'obnovi', ime: 'Обнови', deystvie: { vid: 'ekran', klyuch: 'obnovi' } },
+  {
+    klyuch: 'obnovi',
+    ime: 'Обнови',
+    pomosht: pomosht(
+      'Прерисува прозореца от Огледалото — същите данни, прочетени наново. Полезно след промяна в друг раздел; нищо не се записва.',
+      'прерисува прозореца · нищо не се записва',
+    ),
+    deystvie: { vid: 'ekran', klyuch: 'obnovi' },
+  },
   {
     klyuch: 'period',
     ime: 'Период',
+    pomosht: pomosht(
+      'Свой такт от две дати — начало и край. Попълнени ли са двете, Гантът се реже по тях и тактът става свой; периодът е памет на екрана, не събитие.',
+      'две дати · начало и край · Гантът се реже по тях · тактът става свой',
+    ),
     izbor: ['начало ', 'край'],
     deystvie: { vid: 'ekran', klyuch: 'period' },
   },
   {
     klyuch: 'nachalo-sega',
     ime: 'Начало Сега',
+    pomosht: pomosht(
+      'Връща първата колона на Ганта на днешния ден и забравя избраното начало; при свой период връща такта на месец. Памет на екрана, нищо не се записва.',
+      'първата колона = днешната дата · при свой период тактът става месец',
+    ),
     deystvie: { vid: 'ekran', klyuch: 'nachalo-sega' },
   },
   {
     klyuch: 'takt',
     ime: 'Времеви Такт Диаграма',
+    pomosht: pomosht(
+      'Мащабът на Ганта — ден с осем работни часа, месец по дните, тримесечие, година по месеци; списъкът пази неговите четири думи, а свой се появява при период. Сборовете по колона следват такта.',
+      'избор на такт · ден · месец · тримесечие · година · сборовете по колона следват такта',
+    ),
     izbor: ['ден', 'месец', 'тримесечие', 'година'],
     deystvie: { vid: 'ekran', klyuch: 'takt' },
   },
@@ -966,18 +1483,52 @@ export const BUTONI_NA_UPRAVLENIE: readonly ButonNaProzoretsa[] = [
  * ИЗГЛЕД, не таблица — задачите вече живеят в Управление.
  * ═══════════════════════════════════════════════════════════════════════════ */
 
+/** Човекът · едни и същи колони за Стопани и Служители · и едни и същи обяснения. */
 function chovek(imeNaImeto: string): readonly Kolona[] {
   return [
     NOMERATSIYA_KOLONA,
-    tekst('ime', imeNaImeto, true),
-    tekst('telefon', 'телефон'),
-    tekst('imeyl', 'Имейл'),
-    tekst('adres', 'Адрес'),
+    tekst(
+      'ime',
+      imeNaImeto,
+      pomosht(
+        'Името на човека, както се показва в менюто за отговорник на задача и в реда му тук. Задължително.',
+        'свободен текст · пише се · задължително',
+      ),
+      true,
+    ),
+    tekst(
+      'telefon',
+      'телефон',
+      pomosht(
+        'Телефонът на човека — за връзка, не за програмата. Не се проверява и не се смята.',
+        SVOBODEN_TEKST,
+      ),
+    ),
+    tekst(
+      'imeyl',
+      'Имейл',
+      pomosht(
+        'Имейлът, с който човекът влиза и пише в Журнала. По него програмата намира реда му и чете Длъжността и правата му.',
+        'свободен текст · пише се · по него се познава кой пише',
+      ),
+    ),
+    tekst(
+      'adres',
+      'Адрес',
+      pomosht(
+        'Адресът на човека — за връзка, не за програмата. Не се проверява и не се смята.',
+        SVOBODEN_TEKST,
+      ),
+    ),
     {
       klyuch: 'dlazhnost',
       ime: 'Длъжност',
       vid: 'izbor',
       nomenklatura: NOMENKLATURA.dlazhnosti,
+      pomosht: pomosht(
+        'Длъжността на човека от номенклатурата Длъжности. Тя носи четирите оси на достъпа от таблицата Достъп; без Длъжност човекът е скрит по четирите оси — нищо не вижда и нищо не пише.',
+        'избор от номенклатурата Длъжности · дава правата по четирите оси',
+      ),
       zadalzhitelna: false,
       zatvorena: false,
     },
@@ -987,6 +1538,10 @@ function chovek(imeNaImeto: string): readonly Kolona[] {
 const STOPANI: Tablitsa = Object.freeze({
   klyuch: 'stopani',
   ime: 'Стопани свързани с Coretovia',
+  pomosht: pomosht(
+    'Стопаните — собствениците на Книгата. Всеки е избор за отговорник на задача; имейлът му казва кой пише в Журнала, а Длъжността — правата му.',
+    'един ред = един човек · номер = брояч · правата идват от Длъжността',
+  ),
   prozorets: 'sluzhiteli',
   sashtnost: 'stopan',
   koloni: chovek('Име'),
@@ -996,6 +1551,10 @@ const STOPANI: Tablitsa = Object.freeze({
 const SLUZHITELI: Tablitsa = Object.freeze({
   klyuch: 'sluzhiteli',
   ime: 'Служители свързани с Coretovia',
+  pomosht: pomosht(
+    'Служителите — хората, които работят с Книгата. Всеки е избор за отговорник на задача; имейлът му казва кой пише, а Длъжността — какво вижда и какво редактира.',
+    'един ред = един човек · номер = брояч · правата идват от Длъжността',
+  ),
   prozorets: 'sluzhiteli',
   sashtnost: 'sluzhitel',
   koloni: chovek('Име Служител'),
@@ -1061,19 +1620,55 @@ const DOSTAP_KOLONI: readonly Kolona[] = [
     ime: 'Длъжност',
     vid: 'izbor',
     nomenklatura: NOMENKLATURA.dlazhnosti,
+    pomosht: pomosht(
+      'За коя Длъжност важи редът — една Длъжност, един ред. Докато няма ред за нея, важи базовият от Книгата; напише ли се ред, той бие.',
+      'избор от номенклатурата Длъжности · един ред на Длъжност',
+    ),
     zadalzhitelna: true,
     zatvorena: false,
     vKlyucha: true,
   },
-  tekst('tabove', 'достъп до табове без Журнал'),
-  tekst('hedari', 'достъп до хедъри'),
-  tekst('redove', 'достъп до Секци Редове'),
-  tekst('zhurnal', 'Таб Журнал'),
+  tekst(
+    'tabove',
+    'достъп до табове без Журнал',
+    pomosht(
+      'Правото върху табовете без Журнала. Чете се първата дума — Редактира или Вижда — а остатъкът казва обхвата; правото само стеснява.',
+      'текст · Редактира или Вижда + обхватът · първата дума е правото',
+    ),
+  ),
+  tekst(
+    'hedari',
+    'достъп до хедъри',
+    pomosht(
+      'Правото върху хедърите (колоните): първата дума е правото, остатъкът е обхватът — кои хедъри. Колона, до която няма право, се скрива, а скритото пак се смята.',
+      'текст · Редактира или Вижда + кои хедъри · скритото пак се смята',
+    ),
+  ),
+  tekst(
+    'redove',
+    'достъп до Секци Редове',
+    pomosht(
+      'Правото върху редовете: първата дума е правото, остатъкът казва кои редове — всички или само неговите задачи. Без право за редове човекът вижда, но не пише ред.',
+      'текст · Редактира или Вижда + кои редове · без него не се пише ред',
+    ),
+  ),
+  tekst(
+    'zhurnal',
+    'Таб Журнал',
+    pomosht(
+      'Правото върху таба Журнал — вижда ли човекът събитията. Първата дума е правото.',
+      'текст · Редактира или Вижда · правото върху Журнала',
+    ),
+  ),
 ];
 
 const DOSTAP: Tablitsa = Object.freeze({
   klyuch: 'dostap',
   ime: 'Достъп на Длъжности за Служител',
+  pomosht: pomosht(
+    'Правата по Длъжност — четири оси: табове, хедъри, редове, Журнал. Петте базови реда са от Книгата и важат, докато няма записан ред за същата Длъжност; записаният бие.',
+    'един ред = една Длъжност · четири оси · най-тясното право печели',
+  ),
   prozorets: 'sluzhiteli',
   sashtnost: 'dostap',
   koloni: DOSTAP_KOLONI,
@@ -1104,28 +1699,110 @@ export type OsNaDostapa = (typeof OSI_NA_DOSTAPA)[number];
 
 /** Купувачът · четирите му глави за човека · еднакви в двете таблици. */
 const KUPUVACH: readonly Kolona[] = [
-  { ...tekst('apartament', 'апартамент', true), vKlyucha: true, kratko: 'апартамент' },
-  tekst('telefon', 'телефон'),
-  tekst('ime', 'име'),
-  tekst('imeyl', 'имейл'),
+  {
+    ...tekst(
+      'apartament',
+      'апартамент',
+      pomosht(
+        'Кой обект се продава — неговата първа колона, напр. „апарт. № 1" или „гараж № 4". По думата в нея калкулаторът познава вида на обекта и казва по коя дума.',
+        'свободен текст · пише се · задължително · по думата се познава видът',
+      ),
+      true,
+    ),
+    vKlyucha: true,
+    kratko: 'апартамент',
+  },
+  tekst(
+    'telefon',
+    'телефон',
+    pomosht('Телефонът на купувача — за връзка, не за програмата.', SVOBODEN_TEKST),
+  ),
+  tekst(
+    'ime',
+    'име',
+    pomosht('Името на купувача — с кого е договорът. Не се смята.', SVOBODEN_TEKST),
+  ),
+  tekst(
+    'imeyl',
+    'имейл',
+    pomosht('Имейлът на купувача — за връзка, не за програмата.', SVOBODEN_TEKST),
+  ),
 ];
 
 /** Принадлежностите и квадратурата · гараж · п. място · мазе · квадратура. */
 const PRINADLEZHNOSTI: readonly Kolona[] = [
-  { klyuch: 'garazh', ime: 'гараж', vid: 'chislo', zadalzhitelna: false, zatvorena: false },
-  { klyuch: 'pMyasto', ime: 'п. място', vid: 'chislo', zadalzhitelna: false, zatvorena: false },
-  { klyuch: 'maze', ime: 'мазе', vid: 'chislo', zadalzhitelna: false, zatvorena: false },
+  {
+    klyuch: 'garazh',
+    ime: 'гараж',
+    vid: 'chislo',
+    pomosht: pomosht(
+      'Номерът на гаража, който върви с обекта; празно, когато няма. Число, не пари — не влиза в реда ОБЩО евро.',
+      'цяло число · пише се · не влиза в ОБЩО евро',
+    ),
+    zadalzhitelna: false,
+    zatvorena: false,
+  },
+  {
+    klyuch: 'pMyasto',
+    ime: 'п. място',
+    vid: 'chislo',
+    pomosht: pomosht(
+      'Номерът на паркомястото, което върви с обекта; празно, когато няма. Число, не пари.',
+      'цяло число · пише се · не влиза в ОБЩО евро',
+    ),
+    zadalzhitelna: false,
+    zatvorena: false,
+  },
+  {
+    klyuch: 'maze',
+    ime: 'мазе',
+    vid: 'chislo',
+    pomosht: pomosht(
+      'Номерът на мазето, което върви с обекта; празно, когато няма. Число, не пари.',
+      'цяло число · пише се · не влиза в ОБЩО евро',
+    ),
+    zadalzhitelna: false,
+    zatvorena: false,
+  },
   {
     klyuch: 'kvadratura',
     ime: 'квадратура',
     vid: 'chislo',
     merka: 'kvsm',
+    pomosht: pomosht(
+      'Квадратурата на обекта в кв. м, пазена като цели кв. см. По нея калкулаторът смята площ по база, а във втората таблица от нея и от евро/квадрат се сверява цената.',
+      'число в кв. м · пише се · площта в калкулатора и в сверката с евро/квадрат',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
   },
 ];
 
-/** Пари в продажба · с ролята и страната им · и дали ЗАВЪРШВАТ продажбата. */
+/** Общата цена на продажбата · една и съща колона в двете таблици. */
+const POMOSHT_NA_TSENATA = pomosht(
+  'Общата договорена цена на продажбата в цели центове. Сверява се с цена банка + цена кеш; калкулаторът я сравнява с оценената и казва разликата.',
+  'сума в евро · пише се · сверка: цена ↔ цена банка + цена кеш',
+);
+
+/** Колоната „цена" е една и съща в двете таблици с продажби · един литерал, два списъка. */
+const TSENA_NA_PRODAZHBATA: Kolona = Object.freeze({
+  klyuch: 'tsena',
+  ime: 'цена',
+  vid: 'evro',
+  pomosht: POMOSHT_NA_TSENATA,
+  zadalzhitelna: false,
+  zatvorena: false,
+});
+
+/**
+ * Пари в продажба · с ролята и страната им · и дали ЗАВЪРШВАТ продажбата.
+ *
+ * Помощта се ИЗВЕЖДА от ролята и страната, за да не се пише по веднъж за всяка
+ * от вноските: цената казва срещу какво се броят вноските; вноската — че влиза в
+ * сбора, който проверката вади; проверката — че е сметка, не поле, и че нулата
+ * значи платено по тази страна. Думата за страната идва от
+ * `IMENA_NA_STRANITE_NA_PLASHTANE`, същата като на екрана.
+ */
 function pari(
   klyuch: string,
   ime: string,
@@ -1133,10 +1810,31 @@ function pari(
   strana: 'banka' | 'kesh',
   zavarshva?: true,
 ): Kolona {
+  const s = IMENA_NA_STRANITE_NA_PLASHTANE[strana];
+  const kak = strana === 'banka' ? 'по банка' : 'в брой';
+  const pomoshtta =
+    rolya === 'tsena'
+      ? pomosht(
+          `Цената по ${s} — частта от продажбата, която се плаща ${kak}. Срещу нея се броят вноските от същата страна; двете цени заедно се сверяват с общата цена.`,
+          `сума в евро · пише се · проверка ${s} = тази цена − вноските ${s}`,
+        )
+      : rolya === 'vnoska'
+        ? pomosht(
+            `Вноска ${kak} — платена част от цената ${s}. Влиза в сбора на вноските, който проверката вади от цената.` +
+              (zavarshva === true
+                ? ' С тази вноска продажбата е завършена, не само платена; платена без нея е нормално състояние и се казва.'
+                : ''),
+            `сума в евро · пише се · влиза в „цена ${s} − вноските ${s}"`,
+          )
+        : pomosht(
+            `Смята се, не се пише на ръка: цена ${s} минус сборът на вноските ${s}. Нулата значи платено по тази страна.`,
+            `цена ${s} − сборът на вноските ${s}`,
+          );
   return {
     klyuch,
     ime,
     vid: 'evro',
+    pomosht: pomoshtta,
     zadalzhitelna: false,
     zatvorena: rolya === 'proverka',
     plashtane: { rolya, strana },
@@ -1147,7 +1845,7 @@ function pari(
 const PRODAZHBI_KOLONI: readonly Kolona[] = [
   ...KUPUVACH,
   ...PRINADLEZHNOSTI,
-  { klyuch: 'tsena', ime: 'цена', vid: 'evro', zadalzhitelna: false, zatvorena: false },
+  TSENA_NA_PRODAZHBATA,
   pari('tsenaBanka', 'цена банка', 'tsena', 'banka'),
   pari('tsenaSmr', 'цена смр ', 'tsena', 'kesh'),
   pari('pdBanka', 'ПД банка', 'vnoska', 'banka'),
@@ -1168,10 +1866,14 @@ const PRODAZHBI2_KOLONI: readonly Kolona[] = [
     klyuch: 'evroKvadrat',
     ime: 'евро/квадрат',
     vid: 'evro',
+    pomosht: pomosht(
+      'Цената за квадратен метър във втората таблица, в цели центове. Сверява се: евро/квадрат × квадратура ↔ цена, и разликата се записва и при нула.',
+      'сума в евро за кв. м · пише се · сверка: × квадратура ↔ цена',
+    ),
     zadalzhitelna: false,
     zatvorena: false,
   },
-  { klyuch: 'tsena', ime: 'цена', vid: 'evro', zadalzhitelna: false, zatvorena: false },
+  TSENA_NA_PRODAZHBATA,
   pari('tsenaBanka', 'цена банка', 'tsena', 'banka'),
   pari('tsenaSmr', 'цена смр ', 'tsena', 'kesh'),
   pari('pdBanka', 'ПД банка', 'vnoska', 'banka'),
@@ -1187,6 +1889,10 @@ const PRODAZHBI2_KOLONI: readonly Kolona[] = [
 const PRODAZHBI: Tablitsa = Object.freeze({
   klyuch: 'prodazhbi',
   ime: LENTA_NA_PARVATA_SGRADA,
+  pomosht: pomosht(
+    'Първата сграда — продажбите с двете страни на плащане, банка и смр (в брой). Проверките се смятат, не се пишат; таблицата е завършена, когато всяка продажба е платена и с Акт 16.',
+    'ред = продажба · проверка = цена − вноските по страна · завършена = платена + Акт 16',
+  ),
   prozorets: 'prodazhbi',
   sashtnost: 'prodazhba',
   koloni: PRODAZHBI_KOLONI,
@@ -1195,6 +1901,10 @@ const PRODAZHBI: Tablitsa = Object.freeze({
 const PRODAZHBI2: Tablitsa = Object.freeze({
   klyuch: 'prodazhbi2',
   ime: LENTA_NA_VTORATA_SGRADA,
+  pomosht: pomosht(
+    'Втората сграда — продажбите с банка и кеш и с колона евро/квадрат, от която цената се сверява. Проверките се смятат; завършена е таблицата, в която всяка продажба е платена и с Акт 16.',
+    'ред = продажба · сверка: евро/квадрат × квадратура ↔ цена · проверка = цена − вноските',
+  ),
   prozorets: 'prodazhbi',
   sashtnost: 'prodazhba2',
   koloni: PRODAZHBI2_KOLONI,

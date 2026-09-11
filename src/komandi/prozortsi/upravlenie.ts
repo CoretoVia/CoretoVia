@@ -10,6 +10,7 @@
  */
 
 import { TABLITSI } from '../../model/osnova.js';
+import { pomosht } from '../../model/pomosht.js';
 import { komandaZaNovRed } from './red.js';
 
 const RODITELI = new Set(
@@ -21,7 +22,11 @@ export const upravlenieDobaviZadacha = komandaZaNovRed(
   'zadachi',
   'upravlenie.dobaviZadacha',
   'Добави Задача',
-  'Добавя задача (Дело · Среща · Преписка · Проект) към избрания Имот, Обект или Бизнес.',
+  pomosht(
+    'От десния бутон върху имот, обект или бизнес отваря чернова за задача към него: дело, ' +
+      'среща, преписка или проект. Краят не може да е преди началото.',
+    'вид от номенклатурата · име · начало и край · оценка · бюджет · отговорник',
+  ),
   {
     myasto: 'desen-buton',
     otIzbora: (izbran) =>

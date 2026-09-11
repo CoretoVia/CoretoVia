@@ -5,6 +5,7 @@
  * писач тук и четец в Огледалото (тестът ги сверява по регистрите).
  */
 
+import { type Pomosht, tekstNaPomoshtta } from '../model/pomosht.js';
 import type { Komanda, Myasto } from './komanda.js';
 import { imotiDobaviBiznes, imotiDobaviObekt, imotiSazdayImot } from './prozortsi/imoti.js';
 import { redIzklyuchi, redPopraviKletka, redVarni } from './prozortsi/red.js';
@@ -82,7 +83,10 @@ export function komandaPoKlyuch(klyuch: string): KoyaDaE | undefined {
 export interface OpisNaKomanda {
   readonly klyuch: string;
   readonly ime: string;
+  /** ИЗВЕДЕНО от `pomosht` на степен Начало · за агента, който чете един низ */
   readonly opisanie: string;
+  /** двете части · за екрана, който показва степента, избрана от Настройки */
+  readonly pomosht: Pomosht;
   readonly prozortsi: readonly string[];
   readonly stepen: 'chete' | 'pishe';
   readonly myasto: Myasto;
@@ -94,7 +98,8 @@ export function opisNaKataloga(): readonly OpisNaKomanda[] {
   return KATALOG.map((k) => ({
     klyuch: k.klyuch,
     ime: k.ime,
-    opisanie: k.opisanie,
+    opisanie: tekstNaPomoshtta(k.pomosht, 'nachalo'),
+    pomosht: k.pomosht,
     prozortsi: k.prozortsi,
     stepen: k.stepen,
     myasto: k.myasto,

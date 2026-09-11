@@ -26,6 +26,7 @@ import {
 import type { Ogledalo } from '../../src/ogledalo/ogledalo.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
+import { izborNaStepenHTML } from '../reshetka/podskazka.js';
 import { naEnterIEscape, pokazhiGreshka } from '../reshetka/redaktsiya.js';
 import { zakachiZebrata } from '../reshetka/zebra.js';
 import { dumiteHTML } from './profil.js';
@@ -103,6 +104,12 @@ export function narisuvayNastroyki(k: KonteksNaEkrana): void {
     k.tyalo,
     h`
     ${dumiteHTML(DUMI_OT_KNIGATA.nastroyki)}
+    <!-- ХЕЛПЪТ · негово, 08.09 (запис 19): „бутон за хелпа като тикче в настройки с две степени" -->
+    <h2 class="lenta">Хелп</h2>
+    <div class="deystviya" data-pomosht-izbor>
+      ${izborNaStepenHTML()}
+      <span class="vest">Показва се при задържане на мишката върху поле, глава, бутон или името горе. Начало казва защо и формулата; Нормален — само формулата.</span>
+    </div>
     <h2 class="lenta">Номенклатури</h2>
     <p class="vest">Пиши в празния ред и натисни Enter. Поправи текста — номерът остава. Изтрий текста — стойността спира, старите редове я пазят. Пиши в спрян ред — връща се.</p>
     <p class="greshka" data-greshka></p>
@@ -114,6 +121,7 @@ export function narisuvayNastroyki(k: KonteksNaEkrana): void {
   );
 
   zakachiZebrata(k.tyalo);
+  // изборът на степен тук го чува делегираният слушател на корена (`app/main.ts`)
 
   /*
    * СТРУКТУРАТА живее ПОД Номенклатурите, в същия прозорец.

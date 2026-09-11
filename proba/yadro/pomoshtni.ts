@@ -40,3 +40,19 @@ export async function tekstoveNa(p: Page, izbor: string): Promise<string[]> {
   await p.waitForSelector(izbor);
   return p.$$eval(izbor, (es) => es.map((e) => (e as HTMLElement).innerText.trim()));
 }
+
+const KUTIYATA = '[role="tooltip"]';
+
+/**
+ * ПОДСКАЗКАТА НА нещо · задържа мишката върху него, чака кутията, чете текста ѝ,
+ * дърпа мишката настрана и чака кутията да се скрие. Никакво фиксирано чакане:
+ * кутията идва след задържане и си отива с толеранс, и двете се ЧАКАТ по белег.
+ */
+export async function podskazkataNa(p: Page, izbor: string): Promise<string> {
+  await p.hover(izbor);
+  await p.waitForSelector(`${KUTIYATA}:not([hidden])`);
+  const tekst = await p.$eval(KUTIYATA, (e) => e.textContent ?? '');
+  await p.mouse.move(0, 0);
+  await p.waitForSelector(KUTIYATA, { state: 'hidden' });
+  return tekst;
+}

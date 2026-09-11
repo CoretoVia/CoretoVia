@@ -15,6 +15,7 @@ import type { Kletka } from '../../src/model/kletka.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { pokazhiMenyu, type Tochka } from '../reshetka/menyu.js';
 import { svaliFayl } from '../reshetka/obshto.js';
+import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
 import { h, type Zapechatan } from '../reshetka/shablon.js';
 import { otvoriProzorets } from '../reshetka/prozorets.js';
 import { pokazhiGreshka } from '../reshetka/redaktsiya.js';
@@ -28,12 +29,14 @@ let iznosVest = '';
  * РЕДЪТ С БУТОНИ · един дом за всички прозорци.
  *
  * Забраненият бутон СТОИ и казва защо (правило 12 · правило 15: изключено не е
- * липсващо); заглавието е думите на Портата, не наши.
+ * липсващо); сивият носи думите на Портата, разрешеният — помощта на командата.
  */
 export function butoniteHTML(butoni: readonly Buton[]): Zapechatan {
   return h`${butoni.map(
     (b) =>
-      h`<button type="button" data-buton="${b.klyuch}" ${b.razreshena ? '' : 'disabled'} title="${b.zashto}">${b.ime}</button>`,
+      h`<button type="button" data-buton="${b.klyuch}" ${b.razreshena ? '' : 'disabled'}${
+        b.razreshena ? podskazka(b.pomosht) : podskazkaSDumi(b.zashto)
+      }>${b.ime}</button>`,
   )}`;
 }
 

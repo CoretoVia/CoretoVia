@@ -19,6 +19,7 @@ import { slotNaKolonata } from '../../model/kolona.js';
 import { tablitsata, tablitsaNaVrazkata } from '../../model/model.js';
 import { poNomer } from '../../model/nomenklatura.js';
 import { MODEL, TABLITSI } from '../../model/osnova.js';
+import { type Pomosht, pomosht } from '../../model/pomosht.js';
 import {
   type IdNaPredlozhenie,
   PREDLOZHENIE,
@@ -354,19 +355,22 @@ function vratataNaRedovete(
   return (k) => sobstven?.(k) ?? zashtoNeRedaktiraRedove(k.ogledalo, k.aktor);
 }
 
-/** Родовата команда „нов ред" · таблицата и неговите имена на бутона идват отвън. */
+/**
+ * Родовата команда „нов ред" · таблицата и неговите имена на бутона идват отвън.
+ * Помощта също идва отвън: какво се пише в реда е различно за всяка таблица.
+ */
 export function komandaZaNovRed(
   tablitsa: string,
   klyuch: string,
   ime: string,
-  opisanie: string,
+  pomoshtta: Pomosht,
   oshte: OshteZaNovRed = {},
 ): Komanda<TovarNovRed> {
   const t = tablitsata(MODEL, tablitsa);
   const komanda: Komanda<TovarNovRed> = {
     klyuch,
     ime,
-    opisanie,
+    pomosht: pomoshtta,
     prozortsi: [t.prozorets],
     stepen: 'pishe',
     myasto: oshte.myasto ?? 'buton',
@@ -464,8 +468,11 @@ function redat(
 const popraviKletka: Komanda<TovarPopravka> = {
   klyuch: 'red.popraviKletka',
   ime: 'Поправи клетка',
-  opisanie:
-    'Поправя посочените клетки на ред; частичен товар. Последната дума бие по поле; null изпразва.',
+  pomosht: pomosht(
+    'Поправя една или няколко клетки на жив ред направо в таблицата. Записва се ново събитие ' +
+      'върху реда — старата стойност остава в Журнала, а задължителна клетка не се изпразва.',
+    'новата стойност на клетката · празно изпразва · изключен ред не се поправя',
+  ),
   prozortsi: PROZORTSI_S_TABLITSI,
   stepen: 'pishe',
   myasto: 'kletka',
@@ -583,12 +590,21 @@ function zhiviDetsa(
 
 function komandaZaIzklyuchvane(izklyuchen: boolean): Komanda<TovarRed> {
   const klyuch = izklyuchen ? 'red.izklyuchi' : 'red.varni';
+  const pomoshtta = izklyuchen
+    ? pomosht(
+        'Скрива реда от таблицата и от сборовете, без да го трие: той остава в Журнала с ' +
+          'номера си. Ред с живи редове под себе си не се изключва.',
+        'скрива се от таблицата и от сборовете · номерът остава · връща се с Върни реда',
+      )
+    : pomosht(
+        'Връща изключен ред в таблицата и в сборовете със същия номер. Ако адресът му е зает ' +
+          'от друг ред, връщането се отказва с думи.',
+        'връщане · само за изключен ред · номерът не се сменя',
+      );
   const komanda: Komanda<TovarRed> = {
     klyuch,
     ime: izklyuchen ? 'Изключи реда' : 'Върни реда',
-    opisanie: izklyuchen
-      ? 'Изключва ред: не се показва и не се смята, но остава в Журнала с номера си.'
-      : 'Връща изключен ред.',
+    pomosht: pomoshtta,
     prozortsi: PROZORTSI_S_TABLITSI,
     stepen: 'pishe',
     myasto: 'desen-buton',

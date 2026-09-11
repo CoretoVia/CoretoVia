@@ -9,18 +9,24 @@
 import { describe, expect, it } from 'vitest';
 import type { Kletka } from '../src/model/kletka.js';
 import type { Kolona } from '../src/model/kolona.js';
+import { pomosht } from '../src/model/pomosht.js';
 import {
   IMENA_NA_SMETKITE,
+  POMOSHT_NA_SMETKITE,
   SMETKI,
   smetkataPoPodrazbirane,
   smetkiteNaKolonata,
   smetni,
 } from '../src/smetach/sbor.js';
 
+/** колоните на теста носят помощ като всяка друга · сметката не я чете, типът я иска */
+const POMOSHT = pomosht('колона само за теста', 'нищо не се смята');
+
 const EVRO: Kolona = {
   klyuch: 'b',
   ime: 'Бюджет',
   vid: 'evro',
+  pomosht: POMOSHT,
   zadalzhitelna: false,
   zatvorena: false,
 };
@@ -29,6 +35,7 @@ const PLOSHT: Kolona = {
   ime: 'площ',
   vid: 'chislo',
   merka: 'kvsm',
+  pomosht: POMOSHT,
   zadalzhitelna: false,
   zatvorena: false,
 };
@@ -36,6 +43,7 @@ const TEKST: Kolona = {
   klyuch: 'i',
   ime: 'име',
   vid: 'tekst',
+  pomosht: POMOSHT,
   zadalzhitelna: true,
   zatvorena: false,
 };
@@ -43,11 +51,23 @@ const PROTSENT: Kolona = {
   klyuch: 'd',
   ime: 'дял',
   vid: 'protsent',
+  pomosht: POMOSHT,
   zadalzhitelna: false,
   zatvorena: false,
 };
 
 describe('сметките · кои, за коя колона', () => {
+  it('всяка от шестте носи помощ · и помощта казва онова, което `smetni` прави', () => {
+    expect(Object.keys(POMOSHT_NA_SMETKITE).sort()).toEqual([...SMETKI].sort());
+    // средното е закръглено и не влиза в по-горен сбор · текстът го казва, кодът го прави
+    expect(POMOSHT_NA_SMETKITE.sredno.kratko).toMatch(/не влиза в по-горен сбор/);
+    expect(smetni('sredno', EVRO, [{ stoynost_st: 1 }]).vlizaVSbor).toBe(false);
+    expect(POMOSHT_NA_SMETKITE.sbor.kratko).toMatch(/влиза в по-горен сбор/);
+    expect(smetni('sbor', EVRO, [{ stoynost_st: 1 }]).vlizaVSbor).toBe(true);
+    // всички са върху ВИДИМИТЕ редове · кое е видимо решава екранът
+    for (const s of SMETKI) expect(POMOSHT_NA_SMETKITE[s].kratko).toMatch(/видимите редове/);
+  });
+
   it('шест сметки с неговите думи · числата дават пет, думите — две', () => {
     expect([...SMETKI]).toEqual([
       'sbor',

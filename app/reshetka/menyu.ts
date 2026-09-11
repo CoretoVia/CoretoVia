@@ -40,7 +40,7 @@ export function pokazhiMenyu(x: number, y: number, tochki: readonly Tochka[]): v
     ul,
     h`${tochki.map(
       (t) =>
-        h`<li><button type="button" data-tochka="${t.klyuch}" ${t.razreshena ? '' : 'disabled'} title="${t.zashto}">${t.ime}${
+        h`<li><button type="button" data-tochka="${t.klyuch}" ${t.razreshena ? '' : 'disabled'}>${t.ime}${
           t.razreshena ? '' : h` <span class="zashto">${t.zashto}</span>`
         }</button></li>`,
     )}`,

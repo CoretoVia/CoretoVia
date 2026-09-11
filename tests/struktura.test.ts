@@ -60,6 +60,10 @@ describe('петте промени · docs/28 §2.1', () => {
     expect(
       MODEL.tablitsi.get('imoti')!.koloni.filter((k) => k.ime.includes('Състояние')),
     ).toHaveLength(1);
+    // колона без автор на текст пак носи помощ · по вида си и с главата си в нея (правило 31)
+    const nova = sega.find((k) => k.klyuch === 'vtoroSastoyanie')!;
+    expect(nova.pomosht.zashto).toContain('Състояние Строеж');
+    expect(nova.pomosht.kratko).toMatch(/избор от номенклатурата/);
   });
 
   it('преименувана глава · ключът ОСТАВА, тоест нито един ред не мърда', () => {
@@ -97,6 +101,10 @@ describe('петте промени · docs/28 §2.1', () => {
     } as const;
     expect(zashtoNeMozhe(MODEL, dobra)).toEqual([]);
     expect(prilozhi(MODEL, dobra).tablitsi.get('belezhkite')!.ime).toBe('Мои бележки');
+    // и тя носи помощ, макар никой да не е писал текст за нея · казва, че е наша
+    const p = prilozhi(MODEL, dobra).tablitsi.get('belezhkite')!.pomosht;
+    expect(p.zashto).toContain('Мои бележки');
+    expect(p.kratko).toMatch(/наша таблица/);
 
     // К1 · прозорците са ОСЕМ и не се добавят
     const zla = { ...dobra, tablitsa: 'druga', prozorets: 'devetiyat' };

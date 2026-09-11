@@ -47,6 +47,11 @@ describe('Портата', () => {
       ['Добави Бизнес', false],
     ]);
     expect(predi[0]?.zashto).toBe('Книгата не е открита — първо Стопанинът.');
+    // бутонът носи помощта на командата си · екранът я чете оттук, без да внася каталога
+    for (const b of predi) {
+      expect(b.pomosht.zashto.length).toBeGreaterThan(0);
+      expect(b.pomosht.kratko.length).toBeGreaterThan(0);
+    }
     expect(iz.butoniZa('profil').map((b) => [b.ime, b.razreshena])).toEqual([
       ['Открий Книгата', true],
     ]);

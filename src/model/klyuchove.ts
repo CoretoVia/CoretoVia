@@ -8,6 +8,7 @@
  */
 
 import type { Sashtnost } from '../yadro/sabitie.js';
+import type { Pomosht } from './pomosht.js';
 
 export type KlyuchNaProzorets =
   | 'profil'
@@ -25,6 +26,12 @@ export interface ProzoretsVOsnovata {
   readonly list: string;
   /** лентите (заглавията на таблици) в листа · в реда от файла · наши думи, къси */
   readonly lenti: readonly string[];
+  /**
+   * ПОДРОБНОТО върху името на програмата · сменя се с таба (негово, 11.09, запис
+   * 151). `zashto` казва какво е този прозорец и кои таблици носи; `kratko` —
+   * главната му формула или главното му действие. ЗАДЪЛЖИТЕЛНО.
+   */
+  readonly pomosht: Pomosht;
 }
 
 export const VID = Object.freeze({

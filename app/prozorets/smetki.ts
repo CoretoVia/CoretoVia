@@ -33,13 +33,17 @@ import { broyPokrivashti, lentaNa, sboroveVKolonite } from '../../src/smetach/ga
 import { imeNaVrazkata } from '../../src/smetach/kletki.js';
 import {
   IMENA_NA_STRANITE,
+  IZVEDENITE_NA_SMETKITE,
   keshatNaMeseca,
   type Sektsiya,
   smetkite,
   type Strana,
   vkarvaneto,
 } from '../../src/smetach/smetki.js';
-import { ddsat, type MesetsNaDdsa } from '../../src/smetach/dds.js';
+import { ddsat, IZVEDENITE_NA_DDSA, type MesetsNaDdsa } from '../../src/smetach/dds.js';
+import { pomosht } from '../../src/model/pomosht.js';
+// ПРЯКО от ядрото, не през барела: изречението е текст без Врата, а барелът я преизнася
+import { ZASHTO_I_NULATA } from '../../src/yadro/sverka.js';
 import { nahodkiteNaNap, NIVA } from '../../src/smetach/nahodki-nap.js';
 import { mozheDaRedaktira } from '../../src/smetach/pravo.js';
 import { koloniNaTakta } from '../../src/smetach/vreme.js';
@@ -47,6 +51,7 @@ import { pishi, pishiVPole, sabiri, type Tsentove, tsentove } from '../../src/ya
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { otvoriChernova } from '../reshetka/chernova.js';
 import { gantSVG, type RedNaGanta } from '../reshetka/gant-svg.js';
+import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
 import { chetiEkranno, zapomniEkranno } from '../reshetka/pamet-ekran.js';
 import { podtaboveHTML, tekushtPodtab, zakachiPodtabove } from '../reshetka/podtabove.js';
@@ -94,6 +99,25 @@ const KOLONI_NA_DDSA = [
 /** колоните на движението на екрана · неговите глави са дълги, тук стоят кратките */
 const KOLONI = ['kam', 'ime', 'funktsiya', 'sastoyanie', 'mesets', 'suma'] as const;
 const SHIRINA_NA_TAKTA = 36;
+
+/** помощта на изведените по ключ · домът им е `src/smetach` · тук само се търси */
+const POMOSHT_NA_IZVEDENITE = new Map(IZVEDENITE_NA_SMETKITE.map((x) => [x.klyuch, x.pomosht]));
+const POMOSHT_NA_DDSA = new Map(IZVEDENITE_NA_DDSA.map((x) => [x.klyuch, x.pomosht]));
+/** белегът на изведена колона · липсва ли ключът, няма подсказка, не се измисля */
+function izvedena(klyuch: string, karta = POMOSHT_NA_IZVEDENITE): Zapechatan {
+  const p = karta.get(klyuch);
+  return p === undefined ? podskazkaSDumi('') : podskazka(p);
+}
+/**
+ * СВЕРКАТА под таблиците · защо се записва и нулата (правило 7).
+ *
+ * Изречението е на ядрото (`ZASHTO_I_NULATA`) и стои тук като „защо", а
+ * формулата — като „кратко": Начало казва двете, Нормален само формулата.
+ */
+const POMOSHT_NA_SVERKATA = pomosht(
+  ZASHTO_I_NULATA,
+  'вход ↔ изход · разликата е нула, когато сверката затваря, и се записва и тогава',
+);
 
 function mesetsatSega(): string {
   return new Date().toISOString().slice(0, 7);
@@ -147,17 +171,60 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
       return kl === undefined || kl === null;
     }).length;
 
-  const poleta = [
-    { klyuch: 'prihod', ime: 'Приход', dumi: pishi(sborPrihod) },
-    { klyuch: 'razhod', ime: 'Разходи', dumi: pishi(sborRazhod) },
-    { klyuch: 'rezultat', ime: 'Резултат', dumi: pishi(sabiri(sborPrihod, sborRazhod)) },
-    { klyuch: 'kesh-dadeno', ime: 'Кеш дадено', dumi: pishi(kesh.dadeno) },
-    { klyuch: 'kesh-izvlechenie', ime: 'Кеш изтеглено', dumi: pishi(kesh.izvlechenie) },
-    { klyuch: 'kesh-vkarano', ime: 'Кеш вкарано', dumi: pishi(Math.abs(kesh.vkarano)) },
-    { klyuch: 'dvizheniya', ime: 'движения', dumi: String(s.broyDvizheniya) },
-    { klyuch: 'nesvereni', ime: 'несверени', dumi: String(nesvereni) },
-    { klyuch: 'dds-ostatak', ime: 'ДДС остатък', dumi: pishi(dds.ostatak) },
-    { klyuch: 'nap-nahodki', ime: 'находки НАП', dumi: String(nap.nahodki.length) },
+  // помощта на парите идва от изведените в `src/smetach` (един дом); броячите я казват тук
+  const poleta: readonly { klyuch: string; ime: string; dumi: string; kak: Zapechatan }[] = [
+    { klyuch: 'prihod', ime: 'Приход', dumi: pishi(sborPrihod), kak: izvedena('prihod') },
+    { klyuch: 'razhod', ime: 'Разходи', dumi: pishi(sborRazhod), kak: izvedena('razhod') },
+    {
+      klyuch: 'rezultat',
+      ime: 'Резултат',
+      dumi: pishi(sabiri(sborPrihod, sborRazhod)),
+      kak: izvedena('rezultat'),
+    },
+    {
+      klyuch: 'kesh-dadeno',
+      ime: 'Кеш дадено',
+      dumi: pishi(kesh.dadeno),
+      kak: izvedena('kesh-dadeno'),
+    },
+    {
+      klyuch: 'kesh-izvlechenie',
+      ime: 'Кеш изтеглено',
+      dumi: pishi(kesh.izvlechenie),
+      kak: izvedena('kesh-izvlechenie'),
+    },
+    {
+      klyuch: 'kesh-vkarano',
+      ime: 'Кеш вкарано',
+      dumi: pishi(Math.abs(kesh.vkarano)),
+      kak: izvedena('kesh-vkarano'),
+    },
+    {
+      klyuch: 'dvizheniya',
+      ime: 'движения',
+      dumi: String(s.broyDvizheniya),
+      kak: podskazkaSDumi(
+        'брой живи редове с пари за периода на екрана · редовете на ДДС не са движения',
+      ),
+    },
+    {
+      klyuch: 'nesvereni',
+      ime: 'несверени',
+      dumi: String(nesvereni),
+      kak: podskazkaSDumi('брой движения без Състояние · сверено е движение с попълнено Състояние'),
+    },
+    {
+      klyuch: 'dds-ostatak',
+      ime: 'ДДС остатък',
+      dumi: pishi(dds.ostatak),
+      kak: izvedena('ostatak', POMOSHT_NA_DDSA),
+    },
+    {
+      klyuch: 'nap-nahodki',
+      ime: 'находки НАП',
+      dumi: String(nap.nahodki.length),
+      kak: podskazkaSDumi('брой находки от сверките на трите нива за месеца на екрана'),
+    },
   ];
 
   // ПРАВОТО стеснява „Вкарване": неговото D19 дава на Помощник Управителя точно
@@ -198,7 +265,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const sektsiyaHTML = (sek: Sektsiya, samoGledane = false): Zapechatan =>
     h`<tr class="grupata sektsiya" data-sektsiya="${sek.strana}·${sek.nomer}">
         <td colspan="${KOLONI.length - 1}" translate="no">${sek.tekst}</td>
-        <td class="evro" data-sbor-sektsiya="${sek.strana}·${sek.nomer}" translate="no">${pishi(sek.sbor)}</td>
+        <td class="evro" data-sbor-sektsiya="${sek.strana}·${sek.nomer}"${izvedena('sektsiya')} translate="no">${pishi(sek.sbor)}</td>
       </tr>${sek.redove.map((r) =>
         redHTML(
           {
@@ -215,7 +282,8 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const vsichkiKoloni = t.koloni.filter((kol) => slotNaKolonata(kol) !== undefined);
   const glaviHTML = KOLONI.map((klyuch) => {
     const kol = kolonaNa(t, klyuch);
-    return h`<th data-kolona="${klyuch}" class="${kol?.vid ?? ''}" title="${kol?.ime ?? ''}">${kol?.kratko ?? kol?.ime ?? ''}</th>`;
+    if (kol === undefined) return h`<th data-kolona="${klyuch}"></th>`;
+    return h`<th data-kolona="${klyuch}" class="${kol.vid}"${podskazka(kol.pomosht)}>${kol.kratko ?? kol.ime}</th>`;
   });
 
   /** Редът на ДДС в лентата · СМЯТА се от таблицата, не е движение (една истина). */
@@ -237,16 +305,16 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
       <table class="reshetka smetki" data-reshetka="${strana}">
         <thead><tr>${glaviHTML}</tr></thead>
         <tbody class="tablitsa">${sektsii.map((sek) => sektsiyaHTML(sek))}${ddsHTML(strana)}</tbody>
-        <tfoot><tr class="sbor"><td colspan="${KOLONI.length - 1}">ОБЩ ${IMENA_NA_STRANITE[strana]}</td><td class="evro" data-sbor="${strana}" translate="no">${pishi(sbor)}</td></tr></tfoot>
+        <tfoot><tr class="sbor"><td colspan="${KOLONI.length - 1}"${izvedena(strana)}>ОБЩ ${IMENA_NA_STRANITE[strana]}</td><td class="evro" data-sbor="${strana}" translate="no">${pishi(sbor)}</td></tr></tfoot>
       </table>
     </section>`;
 
   const butonHTML = (b: ButonNaProzoretsa): Zapechatan => {
     const d = b.deystvie;
     if (d.vid === 'idva')
-      return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}" disabled title="${d.dumi ?? `идва с ход ${d.hod}`}">${litse(b)}</button>`;
+      return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}" disabled${podskazkaSDumi(d.dumi ?? `идва с ход ${d.hod}`)}>${litse(b)}</button>`;
     // СКРИЙ ↔ ПОКАЖИ · бутонът казва какво ще СТАНЕ, не какво е било. Неговата
-    // дума остава в `title`; на лицето стои действието.
+    // дума остава в `ime`; на лицето стои действието, при задържане — помощта.
     const strana = STRANATA_NA_BUTONA[b.klyuch];
     const duma =
       b.klyuch === 'skriy-dela'
@@ -254,7 +322,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         : strana !== undefined && skritite.includes(strana)
           ? `Покажи ${IMENA_NA_STRANITE[strana]}`
           : litse(b);
-    return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}" title="${b.ime}">${duma}</button>`;
+    return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}"${podskazka(b.pomosht)}>${duma}</button>`;
   };
 
   /** Подтабът НАП · ДДС по месеци и таблицата с находки (негово, 05.09 т.2). */
@@ -268,7 +336,8 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
       chislo === undefined || chislo === 0 ? '' : pishiVPole(chislo);
     const glavi = KOLONI_NA_DDSA.map((klyuch) => {
       const kol = kolonaNa(tDds, klyuch);
-      return h`<th data-kolona="${klyuch}" class="${kol?.vid ?? ''}">${kol?.ime ?? ''}</th>`;
+      if (kol === undefined) return h`<th data-kolona="${klyuch}"></th>`;
+      return h`<th data-kolona="${klyuch}" class="${kol.vid}"${podskazka(kol.pomosht)}>${kol.ime}</th>`;
     });
     const redove = dds.mesetsi.map((m) => {
       const red = redKato(tvDds!, m.i);
@@ -290,9 +359,11 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         <span class="vest" translate="no">дължимо = начислен − кредит · остатък = дължимо − платено</span>
       </form>
       <table class="reshetka smetki" data-reshetka="dds">
-        <thead><tr>${glavi}<th class="evro">дължимо</th><th class="evro">остатък</th></tr></thead>
+        <thead><tr>${glavi}${IZVEDENITE_NA_DDSA.map(
+          (x) => h`<th class="evro"${podskazka(x.pomosht)}>${x.ime}</th>`,
+        )}</tr></thead>
         <tbody class="tablitsa">${redove}</tbody>
-        <tfoot><tr class="sbor"><td colspan="${KOLONI_NA_DDSA.length}">натрупване</td><td class="evro" data-dds-dalzhimo translate="no">${pishi(dds.dalzhimo)}</td><td class="evro" data-dds-ostatak translate="no">${pishi(dds.ostatak)}</td></tr></tfoot>
+        <tfoot><tr class="sbor"><td colspan="${KOLONI_NA_DDSA.length}">натрупване</td><td class="evro" data-dds-dalzhimo translate="no"${izvedena('dalzhimo', POMOSHT_NA_DDSA)}>${pishi(dds.dalzhimo)}</td><td class="evro" data-dds-ostatak translate="no"${izvedena('ostatak', POMOSHT_NA_DDSA)}>${pishi(dds.ostatak)}</td></tr></tfoot>
       </table>
       <h2 class="lenta" translate="no">Находки от сверките</h2>
       <p class="pod-tablitsata" data-nap-obobshtenie>${nap.nahodki.length} находки от ${nap.proverki} проверки на три нива: ${NIVA.join(' · ')}. Няма връзка с НАП (негово) — това е инструмент за счетоводителя. Износът за Микроинвест чака файл-мостра от него.</p>
@@ -317,7 +388,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
       <div class="poleta-s-tsifri" data-poleta>
         ${poleta.map(
           (pl) =>
-            h`<div class="pole-s-tsifra" data-pole="${pl.klyuch}"><span class="tsifra" data-tsifra="${pl.klyuch}" translate="no">${pl.dumi}</span><span class="ime">${pl.ime}</span></div>`,
+            h`<div class="pole-s-tsifra" data-pole="${pl.klyuch}"${pl.kak}><span class="tsifra" data-tsifra="${pl.klyuch}" translate="no">${pl.dumi}</span><span class="ime">${pl.ime}</span></div>`,
         )}
       </div>
       <form class="red-kesh" data-kesh-forma>
@@ -327,13 +398,13 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         <label class="malak">изтеглено по извлечение <input class="pole malak" name="kesh-izvlechenie" data-kesh-izvlechenie value="${kesh.izvlechenie === 0 ? '' : pishiVPole(kesh.izvlechenie)}" inputmode="decimal"></label>
         <button type="submit" class="malak" data-kesh-zapishi>Запиши кеша</button>
         <label class="otmetka malak"><input type="checkbox" name="samo-meseca" data-samo-meseca ${samoMeseca ? 'checked' : ''}> само този месец</label>
-        <span class="vest" data-kesh-sverki translate="no">${kesh.sverki
+        <span class="vest" data-kesh-sverki${podskazka(POMOSHT_NA_SVERKATA)} translate="no">${kesh.sverki
           .map((sv) => `${sv.kakvo}: ${sv.nared ? 'затваря' : `разлика ${pishi(sv.razlika)}`}`)
           .join(' · ')}</span>
       </form>
       <div class="deystviya butoni-malki" data-butoni>
         ${BUTONI_NA_UPRAVLENIE.map(butonHTML)}
-        <button type="button" class="malak" data-dobavi-dvizhenie>Добави ред с пари</button>
+        <button type="button" class="malak" data-dobavi-dvizhenie${podskazkaSDumi('отваря чернова под главата · Enter записва реда през Портата · знакът решава страната')}>Добави ред с пари</button>
       </div>
     </div>
     ${podtaboveHTML(PODTABOVE, podtab)}
@@ -346,7 +417,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
       <table class="reshetka smetki nov" data-reshetka="dvizheniya">
         <thead><tr>${vsichkiKoloni.map(
           (kol) =>
-            h`<th data-kolona="${kol.klyuch}" class="${kol.vid}" title="${kol.ime}">${kol.kratko ?? kol.ime}</th>`,
+            h`<th data-kolona="${kol.klyuch}" class="${kol.vid}"${podskazka(kol.pomosht)}>${kol.kratko ?? kol.ime}</th>`,
         )}</tr></thead>
         <tbody class="tablitsa"></tbody>
       </table>
@@ -369,10 +440,10 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
           <table class="reshetka smetki" data-reshetka="vkarvane">
             <thead><tr>${glaviHTML}</tr></thead>
             <tbody class="tablitsa">${v.sektsii.map((sek) => sektsiyaHTML(sek, !mozhePriVkarvane))}</tbody>
-            <tfoot><tr class="sbor"><td colspan="${KOLONI.length - 1}">ОБЩ Вкарване</td><td class="evro" data-sbor="vkarvane" translate="no">${pishi(v.sbor)}</td></tr></tfoot>
+            <tfoot><tr class="sbor"><td colspan="${KOLONI.length - 1}"${izvedena('vkarvane')}>ОБЩ Вкарване</td><td class="evro" data-sbor="vkarvane" translate="no">${pishi(v.sbor)}</td></tr></tfoot>
           </table>
         </section>
-        <p class="pod-tablitsata" data-sverka="smetki">движения ${s.broyDvizheniya} · без секция ${s.bezSektsiya.length} · сверката ${s.sverka.nared ? 'затваря' : `не затваря (${s.sverka.razlika})`}${samoMeseca ? ` · само ${mesets}` : ''}</p>
+        <p class="pod-tablitsata" data-sverka="smetki"${podskazka(POMOSHT_NA_SVERKATA)}>движения ${s.broyDvizheniya} · без секция ${s.bezSektsiya.length} · сверката ${s.sverka.nared ? 'затваря' : `не затваря (${s.sverka.razlika})`}${samoMeseca ? ` · само ${mesets}` : ''}</p>
       </div>
       ${gantIDumiHTML(p.lenti[2] ?? '', DUMI_OT_KNIGATA.smetki)}`
     }`,

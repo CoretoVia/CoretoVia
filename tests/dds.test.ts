@@ -12,7 +12,7 @@ import { describe, expect, it } from 'vitest';
 import { eOtkaz, type Otkaz } from '../src/komandi/izpalnenie.js';
 import { MODEL } from '../src/model/osnova.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
-import { ddsat, stranaNaDdsa } from '../src/smetach/dds.js';
+import { ddsat, IZVEDENITE_NA_DDSA, stranaNaDdsa } from '../src/smetach/dds.js';
 import { nahodkiteNaNap, NIVA, PROVERKI } from '../src/smetach/nahodki-nap.js';
 import { SEKTSIYA_ZAPLATI_KESH } from '../src/smetach/smetki.js';
 import { KNIGA, knigaZaTest, nomerNaSektsiya, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
@@ -20,6 +20,19 @@ import { KNIGA, knigaZaTest, nomerNaSektsiya, STOPANIN, USTROYSTVO, VALUTA } fro
 const KOGATO = '2026-09-05T13:00:00.000Z';
 const DNES = '2026-09-05';
 const MESETS = '2026-08';
+
+describe('изведените на ДДС · двете сметнати глави с помощта им', () => {
+  it('дължимо и остатък · формулата с думи е тази на `ddsat`', () => {
+    expect(IZVEDENITE_NA_DDSA.map((k) => [k.klyuch, k.ime])).toEqual([
+      ['dalzhimo', 'дължимо'],
+      ['ostatak', 'остатък'],
+    ]);
+    expect(IZVEDENITE_NA_DDSA[0]!.pomosht.kratko).toMatch(/^начислен − данъчен кредит/);
+    expect(IZVEDENITE_NA_DDSA[1]!.pomosht.kratko).toBe('дължимо − платено');
+    // дължимото е сметка, не поле · и текстът го казва
+    expect(IZVEDENITE_NA_DDSA[0]!.pomosht.zashto).toMatch(/^Смята се, не се пише/);
+  });
+});
 
 function otkazat(r: unknown): Otkaz {
   if (!eOtkaz(r)) throw new Error(`очаквах отказ, а мина: ${JSON.stringify(r)}`);

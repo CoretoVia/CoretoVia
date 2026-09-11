@@ -7,6 +7,7 @@
  */
 
 import { sashtnost } from '../../model/klyuchove.js';
+import { pomosht } from '../../model/pomosht.js';
 import { strogObekt } from '../../model/shema.js';
 import { TIP } from '../../sabitiya/registar.js';
 import { type Komanda, predvaritelno, razlika } from '../komanda.js';
@@ -18,7 +19,11 @@ interface TovarOtkriy {
 const otkriy: Komanda<TovarOtkriy> = {
   klyuch: 'stopanin.otkriy',
   ime: 'Открий Книгата',
-  opisanie: 'Записва имейла на Стопанина като първото събитие на Книгата. Веднъж.',
+  pomosht: pomosht(
+    'Първата стъпка на нова Книга: записва кой е Стопанинът ѝ и отключва останалите действия. ' +
+      'Минава един път и само с имейла на този, който е отворил програмата.',
+    'имейлът на Стопанина · пише се веднъж, не се смята',
+  ),
   prozortsi: ['profil'],
   stepen: 'pishe',
   myasto: 'buton',

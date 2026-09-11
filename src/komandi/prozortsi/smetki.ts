@@ -16,6 +16,7 @@ import type { Kletka } from '../../model/kletka.js';
 import { sashtnost, VID, type Vid } from '../../model/klyuchove.js';
 import { tablitsata } from '../../model/model.js';
 import { MODEL } from '../../model/osnova.js';
+import { type Pomosht, pomosht } from '../../model/pomosht.js';
 import { shemaNaReda, strogObekt } from '../../model/shema.js';
 import { kletkaNa, zhiviteRedove } from '../../ogledalo/tablitsa.js';
 import { TIP } from '../../sabitiya/registar.js';
@@ -43,7 +44,12 @@ export const smetkiDobaviDvizhenie = komandaZaNovRed(
   TABLITSA,
   'smetki.dobaviDvizhenie',
   'Добави ред с пари',
-  'Добавя приход или разход в секция · знакът решава страната (правило 16).',
+  pomosht(
+    'Записва движение на пари за даден месец — към имот, обект или бизнес, или без родител ' +
+      '(заплати, кредити, банкови такси). Знакът на сумата решава страната: плюс отива в приход, ' +
+      'минус в разход, и секцията трябва да е от същата страна. Нула не е движение.',
+    'сума със знак, не нула · секция от същата страна · функция · вид сметка · месец ГГГГ-ММ',
+  ),
   {
     predusloviya: [
       {
@@ -104,14 +110,14 @@ function komandaZaMesets(
   vid: Vid,
   klyuch: string,
   ime: string,
-  opisanie: string,
+  pomoshtta: Pomosht,
 ): Komanda<TovarZaMesets> {
   const t = tablitsata(MODEL, tablitsa);
   const koloni = t.koloni.filter((k) => k.klyuch !== 'mesets').map((k) => k.klyuch);
   const komanda: Komanda<TovarZaMesets> = {
     klyuch,
     ime,
-    opisanie,
+    pomosht: pomoshtta,
     prozortsi: [t.prozorets],
     stepen: 'pishe',
     myasto: 'sluzhebna',
@@ -193,7 +199,12 @@ export const smetkiZapishiKesh = komandaZaMesets(
   VID.kesh,
   'smetki.zapishiKesh',
   'Запиши кеша за месеца',
-  'Записва дадените кеш пари за Заплати Кеш и Фактури Кеш и изтегленото по извлечение за един месец.',
+  pomosht(
+    'Записва парите в брой за един месец: колко е дадено за заплати и за фактури и колко е ' +
+      'изтеглено по банковото извлечение. Един ред на месец: втори запис записва наново всичките ' +
+      'му числа, не ражда нов ред.',
+    'заплати + фактури = дадено · сверява се с изтегленото и с редовете в кеш секциите',
+  ),
 );
 
 export const smetkiZapishiDds = komandaZaMesets(
@@ -201,5 +212,10 @@ export const smetkiZapishiDds = komandaZaMesets(
   VID.dds,
   'smetki.zapishiDds',
   'Запиши ДДС за месеца',
-  'Записва начисления ДДС, данъчния кредит, декларираното и платеното за един месец, и числата от счетоводството.',
+  pomosht(
+    'Записва числата за ДДС за един месец: начислен, данъчен кредит, декларирано, платено и ' +
+      'двете от счетоводството. Дължимото се смята от тях и влиза в сметките със знак. Един ред ' +
+      'на месец: втори запис записва наново всичките му числа, не ражда нов ред.',
+    'начислен − данъчен кредит = дължимо · дължимо − платено = остатък',
+  ),
 );

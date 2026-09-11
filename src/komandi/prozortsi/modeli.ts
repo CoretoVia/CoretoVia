@@ -17,6 +17,7 @@
 
 import { sashtnost, VID } from '../../model/klyuchove.js';
 import { PROZORTSI } from '../../model/osnova.js';
+import { pomosht } from '../../model/pomosht.js';
 import { strogObekt } from '../../model/shema.js';
 import { TIP } from '../../sabitiya/registar.js';
 import { type Komanda, type Kontekst, predvaritelno, revNa } from '../komanda.js';
@@ -40,12 +41,21 @@ function sashtnosttaNaModela(v: TovarModel): ReturnType<typeof sashtnost> {
 
 function komandata(izklyuchva: boolean): Komanda<TovarModel> {
   const klyuch = izklyuchva ? 'ekran.mahniModel' : 'ekran.zapaziModel';
+  const pomoshtta = izklyuchva
+    ? pomosht(
+        'Маха запазен модел от списъка за отваряне. Записът остава в Журнала — махането не ' +
+          'трие, а спира да го предлага.',
+        'махане по име на модела · остава в Журнала',
+      )
+    : pomosht(
+        'Запазва под име как гледаш прозореца: такт, период, филтър, скрити части. Данните не ' +
+          'се пипат — моделът е поглед, който пътува с Книгата и се вижда от всички.',
+        'име · снимка на настройките на прозореца · пише се, не се смята',
+      );
   return {
     klyuch,
     ime: izklyuchva ? 'Махни модела' : 'Запази модела',
-    opisanie: izklyuchva
-      ? 'Маха запазен модел от списъка · остава в Журнала, спира да се предлага.'
-      : 'Записва как се гледа прозорецът в момента, под име · „за периоди напред".',
+    pomosht: pomoshtta,
     prozortsi: PROZORTSI.map((p) => p.klyuch),
     stepen: 'pishe',
     myasto: 'sluzhebna',

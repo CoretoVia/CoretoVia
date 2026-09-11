@@ -24,7 +24,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'бутоните са сиви преди откриването и казват защо',
     await p.$eval(
       '[data-buton="imoti.sazdayImot"]',
-      (e) => `${(e as HTMLButtonElement).disabled} · ${e.getAttribute('title')}`,
+      (e) => `${(e as HTMLButtonElement).disabled} · ${e.getAttribute('data-podskazka')}`,
     ),
     'true · Книгата не е открита — първо Стопанинът.',
   );
@@ -126,6 +126,13 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   razdel = '1в · Имоти';
   await p.goto(`${ADRES}#/imoti`);
   await p.waitForSelector('[data-buton="imoti.sazdayImot"]');
+  await p.click('[data-buton="imoti.sazdayImot"]');
+  await p.waitForSelector('[data-chernova="imoti"] input[data-kolona="ime"]');
+  // ЕДНО Escape затваря черновата · подсказката не го изяжда (ход Х, скептик Е)
+  await p.hover('[data-chernova="imoti"] input[data-kolona="ime"]');
+  await p.keyboard.press('Escape');
+  await p.waitForSelector('[data-chernova="imoti"]', { state: 'detached' });
+  proveri('едно Escape затваря черновата', await p.$('[data-chernova="imoti"]'), null);
   await p.click('[data-buton="imoti.sazdayImot"]');
   await p.waitForSelector('[data-chernova="imoti"] input[data-kolona="ime"]');
   await p.fill('[data-chernova="imoti"] input[data-kolona="ime"]', 'Студентски Град');

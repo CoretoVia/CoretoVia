@@ -31,7 +31,12 @@ import {
   sboratNaTeglata,
   VIDOVE_OBEKT,
 } from '../src/smetach/kalkulator/nastroyki.js';
-import { otseni, otsenkata, vidatOtImeto } from '../src/smetach/kalkulator/stoynost.js';
+import {
+  KOLONI_NA_OTSENKATA,
+  otseni,
+  otsenkata,
+  vidatOtImeto,
+} from '../src/smetach/kalkulator/stoynost.js';
 import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
 
 const KOGATO = '2026-09-06T10:00:00.000Z';
@@ -43,6 +48,28 @@ describe('числата и чии са', () => {
     // 1,00 = 10 000 базисни точки · оттук тръгва всяко умножение
     expect(EDINITSA_BT).toBe(10_000);
     expect(VIDOVE_OBEKT).toEqual(['apartament', 'garazh', 'parkomyasto', 'sklad', 'drug']);
+  });
+
+  it('шестте колони на оценката · в реда на екрана · с формулата на матрицата с думи', () => {
+    expect(KOLONI_NA_OTSENKATA.map((k) => k.klyuch)).toEqual([
+      'pazaren',
+      'dohoden',
+      'razhoden',
+      'otsenena',
+      'dogovorena',
+      'razlika',
+    ]);
+    const kratko = (klyuch: string): string =>
+      KOLONI_NA_OTSENKATA.find((k) => k.klyuch === klyuch)!.pomosht.kratko;
+    // формулите са тези на matritsa.ts · площ × база · ЧОД ÷ доходност · земя + строителна − овехтяване
+    expect(kratko('pazaren')).toBe('площ × база по вид');
+    expect(kratko('dohoden')).toMatch(/÷ доходност/);
+    expect(kratko('razhoden')).toMatch(/земя \+ строителна/);
+    expect(kratko('razlika')).toMatch(/оценена − договорена/);
+    // теглата и разходните числа са НАШИ и текстът го казва, без да изписва числата
+    const otsenena = KOLONI_NA_OTSENKATA.find((k) => k.klyuch === 'otsenena')!.pomosht;
+    expect(otsenena.zashto).toMatch(/наши числа/);
+    expect(otsenena.zashto).not.toMatch(/\d/);
   });
 
   it('и петте бази са НЕГОВИ · апартаментът е 3 000 €/м² (И53 · И55)', () => {
