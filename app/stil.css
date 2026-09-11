@@ -1327,3 +1327,63 @@ body.vlacha-shirina {
   color: var(--zeleno);
   white-space: nowrap;
 }
+
+/* ИЗСКАЧАЩИЯТ ПРОЗОРЕЦ ЗА СЪЗДАВАНЕ · негово, 11.09 (запис 195) т.11:
+   „Създаването на Имот, Обект, Задачи, Срещи да става в искачащ прозорец", и
+   08.09 (запис 21): „като прозорец върху екрана както в Клод". Това е
+   `<dialog>` на браузъра — затъмнението, капанът на фокуса и Escape идват
+   готови, без нито една библиотека (правило 9). */
+.izskachasht {
+  border: 1px solid var(--linija);
+  border-radius: 10px;
+  padding: 0;
+  max-width: 32rem;
+  width: calc(100vw - 3rem);
+  background: var(--hartiya);
+  color: var(--mastilo);
+  box-shadow: 0 12px 40px rgb(31 42 37 / 25%);
+}
+
+.izskachasht::backdrop {
+  background: rgb(31 42 37 / 35%);
+}
+
+.izskachasht .izskachasht-forma {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.9rem 1rem 1rem;
+}
+
+.izskachasht .poleta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.izskachasht .pole-red {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.izskachasht .pole-v-prozoretsa {
+  width: 100%;
+  max-width: none;
+}
+
+.izskachasht .pole-red .ime {
+  color: var(--sivo);
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (width <= 30rem) {
+  .izskachasht .pole-red {
+    grid-template-columns: 1fr;
+  }
+}

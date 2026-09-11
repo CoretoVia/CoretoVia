@@ -69,6 +69,7 @@ import {
   zakachiTemite,
 } from '../reshetka/lenta-deystviya.js';
 import { podtaboveHTML, tekushtPodtab, zakachiPodtabove } from '../reshetka/podtabove.js';
+import { sazdavaneOtButona } from '../reshetka/sazdavaneto.js';
 import { pokazhiGreshka } from '../reshetka/redaktsiya.js';
 import { kletkaHTML, zakachiReshetkata } from '../reshetka/reshetka.js';
 import {
@@ -569,7 +570,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   for (const b of k.tyalo.querySelectorAll<HTMLButtonElement>('button[data-buton-ekran]')) {
     const opis = BUTONI_NA_UPRAVLENIE.find((x) => x.klyuch === b.dataset['butonEkran']);
     if (opis === undefined) continue;
-    b.addEventListener('click', () => deystvieNaButona(k, opis));
+    b.addEventListener('click', () => deystvieNaButona(k, opis, b));
   }
   k.tyalo
     .querySelector<HTMLButtonElement>('[data-dobavi-dvizhenie]')
@@ -703,7 +704,7 @@ function prevklyuchiStranata(k: KonteksNaEkrana, strana: Strana): void {
   k.prerisuvay();
 }
 
-function deystvieNaButona(k: KonteksNaEkrana, b: ButonNaProzoretsa): void {
+function deystvieNaButona(k: KonteksNaEkrana, b: ButonNaProzoretsa, el: HTMLElement): void {
   const d = b.deystvie;
   switch (d.vid) {
     case 'kniga':
@@ -729,9 +730,11 @@ function deystvieNaButona(k: KonteksNaEkrana, b: ButonNaProzoretsa): void {
       zapomniEkranno(PAMET.skriyZadachi, !chetiEkranno<boolean>(PAMET.skriyZadachi, false));
       k.prerisuvay();
       return;
-    case 'dobavyane':
-      location.hash = '#/upravlenie';
+    case 'dobavyane': {
+      // създаването е в ИЗСКАЧАЩ прозорец и е едно и също навсякъде (записи 193 · 195)
+      sazdavaneOtButona(k, el);
       return;
+    }
     case 'skriy-prihodi':
     case 'skriy-razhodi':
       prevklyuchiStranata(k, STRANATA_NA_BUTONA[d.klyuch]!);

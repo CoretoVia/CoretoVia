@@ -76,7 +76,7 @@ import {
   zakachiTakta,
   zakachiTemite,
 } from '../reshetka/lenta-deystviya.js';
-import { pokazhiMenyu } from '../reshetka/menyu.js';
+import { sazdavaneOtButona } from '../reshetka/sazdavaneto.js';
 import { otvoriModel, zapaziModela } from '../reshetka/modeli.js';
 import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
@@ -762,41 +762,8 @@ function deystvieNaButona(
       return;
     }
     case 'dobavyane': {
-      const r = el.getBoundingClientRect();
-      pokazhiMenyu(r.left, r.bottom, [
-        {
-          klyuch: 'imot',
-          ime: 'Имот · в прозореца Имоти',
-          razreshena: true,
-          zashto: '',
-          deystvie: () => {
-            location.hash = '#/imoti';
-          },
-        },
-        {
-          klyuch: 'obekt',
-          ime: 'Обект · в прозореца Имоти',
-          razreshena: true,
-          zashto: '',
-          deystvie: () => {
-            location.hash = '#/imoti';
-          },
-        },
-        {
-          klyuch: 'kredit',
-          ime: 'Кредит',
-          razreshena: false,
-          zashto: 'идва с ход 11б',
-          deystvie: () => {},
-        },
-        {
-          klyuch: 'sreshta',
-          ime: 'Среща',
-          razreshena: false,
-          zashto: 'от десния бутон върху Имот, Обект или Бизнес',
-          deystvie: () => {},
-        },
-      ]);
+      // създаването е в ИЗСКАЧАЩ прозорец и е едно и също навсякъде (записи 193 · 195)
+      sazdavaneOtButona(k, el);
       return;
     }
     default:

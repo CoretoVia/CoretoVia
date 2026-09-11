@@ -25,6 +25,9 @@ const EVRO_250000 = '250\u202F000,00\u202F€';
  */
 
 /** 3 · Управление · полетата и бутоните · задача от десния бутон · филтър · сбор · Гант · Книгата · вносът */
+/** новият ред в текста на възел · сивият пункт носи причината си на втори ред */
+const NOV_RED = new RegExp(String.fromCharCode(10), 'g');
+
 export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   const { stranitsa: p, broyach } = ctx;
   let razdel = '—';
@@ -369,5 +372,34 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'Управление · две задачи под Гара Яна · отворени 2',
     `${await tekstNa(p, '[data-sverka="darvo"]')} · ${await tekstNa(p, '[data-tsifra="otvoreni"]')}`,
     'видими 5 от 5 · родители 3 · задачи 2 · сираци 0 · 2',
+  );
+  // ══ 3е · ИЗСКАЧАЩИЯТ ПРОЗОРЕЦ ЗА СЪЗДАВАНЕ · негово, запис 195 т.11 ════
+  razdel = '3е · изскачащият прозорец';
+  await natisniButon(p, 'dobavyane');
+  await p.waitForSelector('[data-menyu]');
+  proveri(
+    'менюто дава петте му неща · Кредитът е сив',
+    // сивият пункт носи причината си на втори ред · тук се чете като едно
+    (await tekstoveNa(p, '[data-menyu] button')).map((x) => x.replace(NOV_RED, ' ')).join(' · '),
+    'Имот · Обект · Задача · Среща · Кредит идва с ход 11б',
+  );
+  await p.click('[data-menyu] [data-tochka="imot"]');
+  await p.waitForSelector('dialog[data-izskachasht="imoti"]');
+  proveri(
+    'прозорецът е МОДАЛЕН · и няма поле за № (номерът се дава)',
+    `${await p.$eval(
+      'dialog[data-izskachasht="imoti"]',
+      (e) => (e as HTMLDialogElement).open,
+    )} · ${(await p.$('dialog[data-izskachasht="imoti"] input[data-kolona="nomer"]')) === null}`,
+    'true · true',
+  );
+  await p.fill('dialog[data-izskachasht="imoti"] input[data-kolona="ime"]', 'Панчарево');
+  await p.selectOption('dialog[data-izskachasht="imoti"] select[data-kolona="sastoyanie"]', '1');
+  await p.click('[data-izskachasht-sazday]');
+  await p.waitForSelector('dialog[data-izskachasht="imoti"]', { state: 'detached' });
+  proveri(
+    'Имотът е създаден ОТ ПРОЗОРЕЦА · дървото го показва',
+    (await tekstoveNa(p, 'tr.red.roditel td[data-kolona="ime"]')).includes('Панчарево'),
+    true,
   );
 }
