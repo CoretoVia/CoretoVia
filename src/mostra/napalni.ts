@@ -298,70 +298,139 @@ export async function napalniSMostra(
         byudzhet: evro(6_000),
       } satisfies Kletki,
     },
+    // задачи ОКОЛО днешния ден · за да има какво да покаже светофарът на Ганта
+    {
+      kletki: {
+        kam: tekst(imot(0)),
+        vid: nomer(1),
+        ime: tekst('Ремонт на покрива'),
+        ot: tekst(den(dnes, 0, 2)),
+        do: tekst(den(dnes, 0, 26)),
+        otsenka: nomer(1),
+        byudzhet: evro(15_800),
+      } satisfies Kletki,
+    },
+    {
+      kletki: {
+        kam: tekst(imot(1)),
+        vid: nomer(1),
+        ime: tekst('Довършване на банята'),
+        ot: tekst(den(dnes, 0, 18)),
+        do: tekst(den(dnes, 0, 27)),
+        otsenka: nomer(1),
+        byudzhet: evro(4_300),
+      } satisfies Kletki,
+    },
+    {
+      kletki: {
+        kam: tekst(imot(2)),
+        vid: nomer(1),
+        ime: tekst('Геодезично заснемане'),
+        ot: tekst(den(dnes, 2, 6)),
+        do: tekst(den(dnes, 2, 19)),
+        otsenka: nomer(1),
+        byudzhet: evro(2_100),
+      } satisfies Kletki,
+    },
+    {
+      kletki: {
+        kam: tekst(imot(0)),
+        vid: nomer(1),
+        ime: tekst('Договор за поддръжка'),
+        ot: tekst(den(dnes, 3, 4)),
+        do: tekst(den(dnes, 0, 30)),
+        otsenka: nomer(1),
+        byudzhet: evro(9_600),
+      } satisfies Kletki,
+    },
   ]);
 
   // ── Сметки · приход и разход по месеци ─────────────────────────────────
+  /**
+   * Едно движение · СЕКЦИЯТА е номер от номенклатурата, не текст.
+   *
+   * Приход: 1 Наем Банка · 2 Наем Кеш · 3 Бизнес · 4 Други.
+   * Разход: 1 Заплати Кеш · 2 Фактури Кеш · 3 Фактури Карта · 4 Фактури Банка ·
+   * 5 Кредити · 6 Банкови такси · 7 Заплати Банка · 8 Бизнес.
+   * Мостра, в която всичко пада в една секция, не показва нито сбор по секции,
+   * нито филтър — затова тук секцията се подава, вместо да е закована.
+   */
   const dvizhenie = (
     ime: string,
     mesets: string,
     suma: number,
-    prihod: boolean,
+    sektsiyata: number,
   ): { readonly kletki: Kletki } => ({
     kletki: {
       ime: tekst(ime),
-      ...(prihod ? { sektsiya: nomer(1) } : { sektsiyaR: nomer(1) }),
+      ...(suma >= 0 ? { sektsiya: nomer(sektsiyata) } : { sektsiyaR: nomer(sektsiyata) }),
       funktsiya: nomer(3),
       mesets: tekst(mesets),
       suma: evro(suma),
     } satisfies Kletki,
   });
 
-  await stapka('Движения по Сметки', 'dvizheniya', 'smetki.dobaviDvizhenie', [
-    dvizhenie('Наем · Слънчева поляна', mesetsPredi(dnes, 2), 1_200, true),
-    dvizhenie('Наем · Слънчева поляна', mesetsPredi(dnes, 1), 1_200, true),
-    dvizhenie('Наем · Бяла къща', mesetsPredi(dnes, 1), 850, true),
-    dvizhenie('Наем · Бяла къща', mesetsPredi(dnes, 0), 850, true),
-    dvizhenie('Фактура · строителни материали', mesetsPredi(dnes, 2), -2_400, false),
-    dvizhenie('Фактура · ток и вода', mesetsPredi(dnes, 1), -310, false),
-    dvizhenie('Заплати', mesetsPredi(dnes, 1), -3_600, false),
-    dvizhenie('Заплати', mesetsPredi(dnes, 0), -3_600, false),
-  ]);
+  /**
+   * ДВАНАЙСЕТ МЕСЕЦА НАЗАД · колкото са колоните на календара.
+   *
+   * Мострата с три месеца оставяше девет празни колони и човек не виждаше нито
+   * сбора за периода, нито филтрите. Числата се менят по месец с проста стъпка —
+   * без случайност, за да дава мострата ВИНАГИ едно и също (тестът го брои).
+   */
+  const dvizheniya: { readonly kletki: Kletki }[] = [];
+  for (let n = 11; n >= 0; n -= 1) {
+    const m = mesetsPredi(dnes, n);
+    const stapkata = 11 - n;
+    dvizheniya.push(
+      dvizhenie('Наем · Слънчева поляна', m, 1_200, 1),
+      dvizhenie('Наем · Бяла къща · в брой', m, 850 + stapkata * 10, 2),
+      dvizhenie('Заплати по банка', m, -3_600, 7),
+      dvizhenie('Ток и вода', m, -280 - stapkata * 5, 4),
+      dvizhenie('Такси по сметката', m, -18, 6),
+      dvizhenie('Вноска по кредита', m, -1_450, 5),
+    );
+    // едрите разходи не са всеки месец · инак календарът изглежда нарисуван
+    if (n % 3 === 0) dvizheniya.push(dvizhenie('Строителни материали', m, -2_400, 2));
+    if (n % 4 === 1) dvizheniya.push(dvizhenie('Кафене на партера', m, 600, 3));
+    if (n % 6 === 2) dvizheniya.push(dvizhenie('Гориво и командировки', m, -320, 3));
+  }
+  await stapka('Движения по Сметки', 'dvizheniya', 'smetki.dobaviDvizhenie', dvizheniya);
 
-  await stapka('Кеш по месеци', 'kesh', 'smetki.zapishiKesh', [
-    {
-      mesets: mesetsPredi(dnes, 1),
-      zaplati: evro(1_500),
-      fakturi: evro(400),
-      izvlechenie: evro(1_900),
-    },
-    {
-      mesets: mesetsPredi(dnes, 0),
-      zaplati: evro(1_500),
-      fakturi: evro(260),
-      izvlechenie: evro(1_760),
-    },
-  ]);
+  await stapka(
+    'Кеш по месеци',
+    'kesh',
+    'smetki.zapishiKesh',
+    Array.from({ length: 12 }, (_, i) => {
+      const n = 11 - i;
+      return {
+        mesets: mesetsPredi(dnes, n),
+        zaplati: evro(1_500),
+        fakturi: evro(260 + i * 20),
+        izvlechenie: evro(1_760 + i * 20),
+      };
+    }),
+  );
 
-  await stapka('ДДС по месеци', 'dds', 'smetki.zapishiDds', [
-    {
-      mesets: mesetsPredi(dnes, 1),
-      nachislen: evro(2_400),
-      kredit: evro(900),
-      deklarirano: evro(1_500),
-      plateno: evro(1_500),
-      izdadeni: evro(12_000),
-      plateni: evro(4_500),
-    },
-    {
-      mesets: mesetsPredi(dnes, 0),
-      nachislen: evro(2_050),
-      kredit: evro(620),
-      deklarirano: evro(1_430),
-      plateno: evro(1_000),
-      izdadeni: evro(10_250),
-      plateni: evro(3_100),
-    },
-  ]);
+  await stapka(
+    'ДДС по месеци',
+    'dds',
+    'smetki.zapishiDds',
+    Array.from({ length: 12 }, (_, i) => {
+      const n = 11 - i;
+      const nachislen = 2_050 + i * 30;
+      const kredit = 620 + i * 10;
+      return {
+        mesets: mesetsPredi(dnes, n),
+        nachislen: evro(nachislen),
+        kredit: evro(kredit),
+        deklarirano: evro(nachislen - kredit),
+        // последният месец е ДЕКЛАРИРАН, но още неплатен · остатъкът се вижда
+        plateno: evro(n === 0 ? 0 : nachislen - kredit),
+        izdadeni: evro(nachislen * 5),
+        plateni: evro(kredit * 5),
+      };
+    }),
+  );
 
   // ── Продажби · двете сгради ────────────────────────────────────────────
   await stapka('Продажби · първа сграда', 'prodazhbi', 'prodazhbi.dobaviParva', [
