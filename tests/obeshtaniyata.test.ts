@@ -28,11 +28,14 @@ import { fileURLToPath } from 'node:url';
 
 const KOREN = fileURLToPath(new URL('..', import.meta.url));
 
-/** Резен → готов ли е · четено от ЕДИНСТВЕНИЯ му дом (правило 17). */
+/**
+ * Ход (§1) или резен от основата (§2) → готов ли е · четено от ЕДИНСТВЕНИЯ му дом
+ * (правило 14). От 11.09 планът върви по ходове; резените са затворената основа.
+ */
 function gotovite(): Map<string, boolean> {
   const po = new Map<string, boolean>();
   for (const red of readFileSync(join(KOREN, 'docs', '03-plan.md'), 'utf8').split('\n')) {
-    const m = /^\|\s*\*{0,2}([0-9]+[а-я]?)\*{0,2}\s*\|/.exec(red);
+    const m = /^\|\s*\*{0,2}([0-9]+[а-я]?|Х)\*{0,2}\s*\|/u.exec(red);
     if (m === null) continue;
     po.set(m[1]!, red.includes('**готов**'));
   }
@@ -49,9 +52,9 @@ function vsichkiteTS(papka: string, sabrani: string[] = []): string[] {
   return sabrani;
 }
 
-/** Обещание = ред, който казва „това ИДВА с резен N". */
-const TIPIZIRANO = /vid:\s*'idva'[^}]*rezen:\s*(\d+)/g;
-const TEKSTOVO = /ид(?:ва|ват)\s+(?:с|със)\s+[^.\n]{0,60}?резен\s+(\d+)/g;
+/** Обещание = ред, който казва „това ИДВА с ход N" (до 11.09: „с резен N"). */
+const TIPIZIRANO = /vid:\s*'idva'[^}]*hod:\s*'?(\d+[а-я]?)'?/gu;
+const TEKSTOVO = /ид(?:ва|ват)\s+(?:с|със)\s+[^.\n]{0,60}?(?:ход|резен)\s+(\d+[а-я]?)/gu;
 
 function obeshtaniyata(): { kade: string; rezen: string; red: number }[] {
   const nam: { kade: string; rezen: string; red: number }[] = [];
@@ -77,17 +80,18 @@ function obeshtaniyata(): { kade: string; rezen: string; red: number }[] {
 }
 
 describe('обещанията в кода', () => {
-  it('планът се ЧЕТЕ · и в него има завършени резени', () => {
+  it('планът се ЧЕТЕ · има завършена основа и незатворени ходове', () => {
     // Обход, който не казва колко е видял, е зелен и когато не е гледал
     // (ADR-015 · обход Й). Затова първо се твърди обхватът.
     const po = gotovite();
-    expect(po.size).toBeGreaterThan(10);
+    expect(po.size).toBeGreaterThan(20);
     expect([...po.values()].filter(Boolean).length).toBeGreaterThan(10);
-    expect(po.get('7')).toBe(false);
-    expect(po.get('8')).toBe(false);
+    // ИИ (11а) и Голямото дело (11б) са обещания в кода и НЕ са готови
+    expect(po.get('11а')).toBe(false);
+    expect(po.get('11б')).toBe(false);
   });
 
-  it('и НИТО ЕДНО не сочи резен, който вече е ГОТОВ', () => {
+  it('и НИТО ЕДНО не сочи ход, който вече е ГОТОВ', () => {
     const po = gotovite();
     const vsichki = obeshtaniyata();
     // и тук обхватът се твърди · нула обещания би направило проверката празна
@@ -95,7 +99,7 @@ describe('обещанията в кода', () => {
 
     const stari = vsichki
       .filter((o) => po.get(o.rezen) === true)
-      .map((o) => `${o.kade}:${o.red} — обещава резен ${o.rezen}, а той е ГОТОВ`);
+      .map((o) => `${o.kade}:${o.red} — обещава ход ${o.rezen}, а той е ГОТОВ`);
     expect(stari).toEqual([]);
   });
 });

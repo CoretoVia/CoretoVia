@@ -84,7 +84,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   proveri(
     'Голямото дело казва кога идва',
     await p.$eval('[data-tochka="golyamo-delo"]', (e) => e.getAttribute('title')),
-    'идва с резен 8 · само при Строеж (негово B4)',
+    'идва с ход 11б · само при Строеж (негово B4)',
   );
   await p.click('[data-tochka="upravlenie.dobaviZadacha"]');
   await p.waitForSelector('tr.chernova[data-chernova="zadachi"]');
