@@ -61,8 +61,8 @@ docs/izvori/         zadanie/CHISTO/      docs/15            src/ app/
 | — още открити | **32** | същото |
 | — отпаднали | **9** | същото |
 | — още неустановени | **0** | същото |
-| реда в дълга | **82** | `npm run dalg` · `docs/registar-na-dalga.json` |
-| — отворени | **41** | същото |
+| реда в дълга | **83** | `npm run dalg` · `docs/registar-na-dalga.json` |
+| — отворени | **42** | същото |
 | — затворени | **40** | същото |
 | изисквания в Чистото (ИЗ-) | **928** | `npm run belezi` · `zadanie/CHISTO/00-saotvetstvie-na-belezite.json` — едно число, не четири |
 | инварианти (ИН-) | **263** | същото |

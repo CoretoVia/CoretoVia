@@ -203,14 +203,18 @@ button.vtorichen {
   background: var(--hartiya);
 }
 
+/* ПЛЪТНОСТТА · негово, 11.09 (запис 192): „да няма загубено място между
+   колоните и да са събрани редовете". Дотук всяка клетка носеше 0,3rem нагоре
+   и 0,5rem встрани — при двайсет колони това е цял екран, изхабен за въздух. */
 .tablitsa th,
 .tablitsa td,
 .reshetka th,
 .reshetka td {
   text-align: left;
-  padding: 0.3rem 0.5rem;
+  padding: 0.12rem 0.3rem;
   border-bottom: 1px solid var(--linija);
   vertical-align: middle;
+  line-height: 1.25;
 }
 
 .reshetka th {
@@ -520,15 +524,24 @@ label.malak.buton-grupa .pole.malak {
   gap: 0.75rem;
 }
 
+/* ДВЕТЕ ПОЛОВИНИ · негово, 11.09 (запис 192): „Искам календара да заема
+   половината от екрана и да има скрол по хоризонтала. За таблицата до
+   календара да няма загубено място между колоните и да са събрани редовете и
+   да има също скрол."
+
+   Затова и двете страни са `flex: 1 1 0` — делят мястото по равно — и всяка
+   носи СВОЙ хоризонтален скрол, вместо да бута другата навън. `min-width: 0`
+   е задължителен: без него flex-дете с широка таблица отказва да се свие и
+   половината става цялото. */
 .darvo-blok {
-  flex: 0 1 auto;
+  flex: 1 1 0;
   min-width: 0;
   overflow-x: auto;
 }
 
 .gant-blok {
-  flex: 1 1 24rem;
-  min-width: 12rem;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .gant-skrol {
@@ -699,7 +712,7 @@ label.malak.buton-grupa .pole.malak {
 }
 
 .smetki-blokove {
-  flex: 1 1 32rem;
+  flex: 1 1 0;
   min-width: 0;
   overflow-x: auto;
 }
@@ -876,15 +889,18 @@ label.malak.buton-grupa .pole.malak {
   border-top: 2px solid var(--linija);
 }
 
-/* ГЛАВАТА НЕ БЯГА · при дълга таблица заглавията стоят.
-   НЕ се слага в дървото на Управление: там Гантът мери височината на главата
-   и лентите биха се разминали с редовете си. */
-.ekran .pregled .reshetka.prodazhbi thead tr th,
-.ekran .smetki-blokove .reshetka.smetki thead tr th {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-}
+/* ГЛАВАТА НЕ СЕ ЗАЛЕПВА ТУК · и това е находка, не пропуск.
+
+   Залепването иска онзи, който СКРОЛВА, да е страницата. Но негово, 08.09
+   (запис 64) и 11.09 (запис 192): таблицата има ХОРИЗОНТАЛЕН скрол, а
+   контейнер с overflow-x става собствен скролер и по двете оси — тогава
+   главата се лепи за него, не за екрана, и не мърда никога. Двете му
+   искания се бият на ниво браузър.
+
+   Изходът е известен и записан: скролерът да е ДОКУМЕНТЪТ, а не div
+   (docs/dokladi/09-tablitsata-i-diagramata-CHASTICHEN.md). Това е
+   пренареждане на целия екран, не два реда стил — затова стои като ред в
+   дълга, а не като мъртво правило, което изглежда, че работи. */
 
 /* КЛЕТКИТЕ ПО ВИД · текстът и връзката вляво, празната се вижда, че е празна */
 .ekran .smetki-blokove .reshetka tbody td.kletka.tekst,
@@ -1007,4 +1023,31 @@ main.prozorets {
   font-weight: 600;
   border-top: 2px solid var(--linija);
   background: var(--zeleno-svetlo);
+}
+
+/* ═══ ПОДРЕДБАТА В ГЛАВАТА · негово, 11.09 (запис 192): „Филтър значи да ги
+   сортираш бе профан. Сортираш по име по цифри." Главата е БУТОН, а не поле:
+   натискаш я и редовете се подреждат; стрелката казва посоката. ═══ */
+.ekran .tablitsa-blok .reshetka.redove thead th .glava-podredba,
+.ekran .darvo-blok .reshetka.redove thead th .glava-podredba {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.2rem;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ekran .tablitsa-blok .reshetka.redove thead th .glava-podredba:hover,
+.ekran .tablitsa-blok .reshetka.redove thead th .glava-podredba:focus-visible {
+  color: var(--zeleno);
+  text-decoration: underline;
+}
+.ekran .tablitsa-blok .reshetka.redove thead th .strelka {
+  font-size: 0.7em;
+  color: var(--zeleno);
 }

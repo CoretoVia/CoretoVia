@@ -28,12 +28,11 @@ import { podskazkaSDumi } from './podskazka.js';
 import { h, type Zapechatan } from './shablon.js';
 import { fokusiraySled, zakachiRedaktsiya } from './redaktsiya.js';
 import {
-  glavaSOtmetkaHTML,
+  glavaSPodredbaHTML,
   kletkaSOtmetkaHTML,
-  redSFiltriHTML,
   redSSboroveHTML,
-  zakachiFiltarISbor,
-} from './filtar-sbor.js';
+  zakachiPodredbaISbor,
+} from './podredba-sbor.js';
 import { zakachiZebrata } from './zebra.js';
 
 const SPRYANA_DUMA = ' · спряна';
@@ -77,7 +76,7 @@ export function reshetkaHTML(
   const tv = o.tablitsi.get(tablitsa);
   if (tv === undefined) return h``;
   const koloni = koloniNaReda(t);
-  const glava = h`<thead>${glavaSOtmetkaHTML(koloni)}${redSFiltriHTML(koloni)}</thead>`;
+  const glava = h`<thead>${glavaSPodredbaHTML(koloni)}</thead>`;
   const redHTML = (i: number): Zapechatan => {
     const r = redKato(tv, i);
     return h`<tr class="red${r.izklyuchen ? ' izklyuchen' : ''}" data-id="${r.id}" data-tablitsa="${tablitsa}" data-seq="${r.seq}">${kletkaSOtmetkaHTML(r.id)}${koloni.map(
@@ -115,6 +114,6 @@ export function reshetkaHTML(
 export function zakachiReshetkata(k: KonteksNaEkrana): void {
   zakachiZebrata(k.tyalo);
   zakachiRedaktsiya(k.tyalo, k);
-  zakachiFiltarISbor(k.tyalo);
+  zakachiPodredbaISbor(k.tyalo);
   fokusiraySled(k.tyalo);
 }
