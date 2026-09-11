@@ -43,7 +43,7 @@ async function ogledalo() {
   };
   await zapishi('k0', 'stopanin.otkriy', { imeyl: STOPANIN });
   await zapishi('i1', 'imoti.sazdayImot', {
-    kletki: { ime: { tekst: 'Герман' }, sastoyanie: { nomer: 1 }, nomer: null, ...PRAZEN },
+    kletki: { ime: { tekst: 'Герман' }, sastoyanie: { nomer: 1 }, ...PRAZEN },
   });
   await zapishi('o1', 'imoti.dobaviObekt', {
     kletki: {

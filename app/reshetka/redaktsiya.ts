@@ -79,6 +79,7 @@ export function poleZaKolona(
         ? document.createElement('select')
         : poleSIzbor(n, tekusht !== null && 'nomer' in tekusht ? tekusht.nomer : null, belezi);
     s.dataset['kolona'] = kol.klyuch;
+    belezhiZadalzhitelnoto(s, kol);
     return s;
   }
   if (kol.vid === 'vrazka') {
@@ -114,7 +115,24 @@ export function poleZaKolona(
   } else {
     p.value = tekusht !== null && 'tekst' in tekusht ? tekusht.tekst : '';
   }
+  belezhiZadalzhitelnoto(p, kol);
   return p;
+}
+
+/**
+ * ПОЛЕТО САМО КАЗВА ДАЛИ СЕ ПОПЪЛВА · правило 29, негово от 07.09.
+ *
+ * Дотук задължителното се разбираше чак СЛЕД натискане на Enter, от отказа на
+ * Портата. Негово, 11.09 (запис 195), точка 10: „номер на обект е задължение
+ * да се въведе" — задължение, което полето не показва, човекът научава по
+ * трудния начин. Затова полето го носи на себе си: и екранът го казва с точка
+ * до името, и браузърът го знае, и проходът може да го провери.
+ */
+function belezhiZadalzhitelnoto(pole: HTMLInputElement | HTMLSelectElement, kol: Kolona): void {
+  if (!kol.zadalzhitelna) return;
+  pole.required = true;
+  if (pole instanceof HTMLInputElement && pole.placeholder !== '')
+    pole.placeholder = `${pole.placeholder} ·`;
 }
 
 /** Клетката от полето · празно = `null` (изпразване) · грешен вход хвърля с думи. */

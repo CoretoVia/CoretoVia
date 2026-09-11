@@ -45,7 +45,7 @@ async function knigata() {
   await zapishi('k0', 'stopanin.otkriy', { imeyl: STOPANIN });
   const imot = (id: string, ime: string, sastoyanie: number) =>
     zapishi(id, 'imoti.sazdayImot', {
-      kletki: { ime: { tekst: ime }, sastoyanie: { nomer: sastoyanie }, nomer: null, ...PRAZEN },
+      kletki: { ime: { tekst: ime }, sastoyanie: { nomer: sastoyanie }, ...PRAZEN },
     });
   await imot('i1', 'Герман', 1);
   await imot('i2', 'Гара Яна', 2);

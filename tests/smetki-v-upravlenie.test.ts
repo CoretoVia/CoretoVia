@@ -42,7 +42,7 @@ async function otvori() {
   };
   await zapishi('k0', 'stopanin.otkriy', { imeyl: STOPANIN });
   await zapishi('i1', 'imoti.sazdayImot', {
-    kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 2 }, nomer: null, ...PRAZEN },
+    kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 2 }, ...PRAZEN },
   });
   return { iz, zapishi };
 }

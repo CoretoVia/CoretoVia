@@ -618,7 +618,6 @@ describe('ВРАТАТА НА РЕДОВЕТЕ · Портата пита пра
       kletki: {
         ime: { tekst: 'Проба' },
         sastoyanie: { nomer: 2 },
-        nomer: null,
         plosht: null,
         tsena: null,
         papka: null,

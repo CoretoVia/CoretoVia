@@ -46,7 +46,7 @@ async function otvori() {
   return { k, iz };
 }
 
-const PRAZEN_IMOT = { nomer: null, plosht: null, tsena: null, papka: null, adres: null };
+const PRAZEN_IMOT = { plosht: null, tsena: null, papka: null, adres: null };
 const PRAZEN_OBEKT = { plosht: null, tsena: null, papka: null, adres: null };
 
 function uspeh<T>(r: T | Otkaz): T {

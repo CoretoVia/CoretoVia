@@ -104,7 +104,10 @@ describe('неговата Книга · мострата без служебе�
     expect(kletka(0, 'sastoyanie').stoynost).toEqual({ nomer: 1 });
     expect(kletka(2, 'sastoyanie').stoynost).toEqual({ nomer: 2 });
     expect(kletka(0, 'ime').stoynost).toEqual({ tekst: 'Герман' });
-    expect(kletka(0, 'nomer').stoynost).toEqual({ chislo: 0 });
+    // НОМЕРЪТ НА ИМОТА НЕ СЕ ЧЕТЕ от листа · той се ДАВА (запис 195 т.10).
+    // В неговия лист на D6 стои „0" — поле, което той сам не пълни; затова
+    // колоната е затворена и Книгата не предлага стойност за нея.
+    expect(kletka(0, 'nomer')).toBeUndefined();
     const obekti = p.tablitsi.get('obekti')!;
     // „Склад" → „склад" без главни · бележка · Видът е в категорията на групата
     expect(obekti.redove[0]!.kletki.find((k) => k.kolona === 'vid')!.stoynost).toEqual({
@@ -152,10 +155,10 @@ async function nashata() {
   const PRAZEN = { plosht: null, tsena: null, papka: null, adres: null };
   await zapishi('k0', 'stopanin.otkriy', { imeyl: STOPANIN });
   await zapishi('i1', 'imoti.sazdayImot', {
-    kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 2 }, nomer: null, ...PRAZEN },
+    kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 2 }, ...PRAZEN },
   });
   await zapishi('i2', 'imoti.sazdayImot', {
-    kletki: { ime: { tekst: 'Студентски Град' }, sastoyanie: { nomer: 2 }, nomer: null, ...PRAZEN },
+    kletki: { ime: { tekst: 'Студентски Град' }, sastoyanie: { nomer: 2 }, ...PRAZEN },
   });
   await zapishi('o1', 'imoti.dobaviObekt', {
     kletki: {

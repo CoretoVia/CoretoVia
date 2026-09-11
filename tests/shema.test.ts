@@ -140,7 +140,6 @@ describe('празната задължителна клетка КАЗВА ко
   const prazen = {
     ime: null,
     sastoyanie: null,
-    nomer: null,
     plosht: null,
     tsena: null,
     papka: null,

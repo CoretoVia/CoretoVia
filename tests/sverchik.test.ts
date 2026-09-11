@@ -71,10 +71,10 @@ async function nashata() {
   const { iz, zapishi } = await otvori();
   await zapishi('k0', 'stopanin.otkriy', { imeyl: STOPANIN });
   await zapishi('i1', 'imoti.sazdayImot', {
-    kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 2 }, nomer: null, ...PRAZEN },
+    kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 2 }, ...PRAZEN },
   });
   await zapishi('i2', 'imoti.sazdayImot', {
-    kletki: { ime: { tekst: 'Студентски Град' }, sastoyanie: { nomer: 2 }, nomer: null, ...PRAZEN },
+    kletki: { ime: { tekst: 'Студентски Град' }, sastoyanie: { nomer: 2 }, ...PRAZEN },
   });
   await zapishi('o1', 'imoti.dobaviObekt', {
     kletki: {
@@ -173,7 +173,7 @@ describe('неподвижната точка', () => {
   it('NFD „й" от друга клавиатура не е промяна · NFC още при четенето', async () => {
     const { iz, zapishi } = await nashata();
     await zapishi('i3', 'imoti.sazdayImot', {
-      kletki: { ime: { tekst: 'Бойчиновци' }, sastoyanie: { nomer: 1 }, nomer: null, ...PRAZEN },
+      kletki: { ime: { tekst: 'Бойчиновци' }, sastoyanie: { nomer: 1 }, ...PRAZEN },
     });
     const l = listove(iz);
     const imoti = l.find((x) => x.ime === IMOTI)!;
@@ -252,7 +252,7 @@ describe('променена Книга', () => {
     ]);
     // втори жив Имот с това име · вече не се знае кой
     await zapishi('i3', 'imoti.sazdayImot', {
-      kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 1 }, nomer: null, ...PRAZEN },
+      kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 1 }, ...PRAZEN },
     });
     const l2 = listove(iz);
     const imoti2 = l2.find((x) => x.ime === IMOTI)!;
@@ -513,7 +513,7 @@ describe('променена Книга', () => {
       const r = await otvori();
       await r.zapishi('k0', 'stopanin.otkriy', { imeyl: STOPANIN });
       await r.zapishi('i1', 'imoti.sazdayImot', {
-        kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 2 }, nomer: null, ...PRAZEN },
+        kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 2 }, ...PRAZEN },
       });
       await r.zapishi('o1', 'imoti.dobaviObekt', {
         kletki: {
@@ -564,7 +564,7 @@ describe('променена Книга', () => {
     const { iz, zapishi } = await nashata();
     const l = listove(iz);
     await zapishi('i3', 'imoti.sazdayImot', {
-      kletki: { ime: { tekst: 'Панчарево' }, sastoyanie: { nomer: 2 }, nomer: null, ...PRAZEN },
+      kletki: { ime: { tekst: 'Панчарево' }, sastoyanie: { nomer: 2 }, ...PRAZEN },
     });
     const otchet = await sveriListove(iz, l);
     expect(otchet.predlozheniya).toEqual([]);
@@ -579,7 +579,7 @@ describe('променена Книга', () => {
   it('две живи с едно име · връзка по име е грешка · Бизнес с ключ при преименуван Имот пази родителя си', async () => {
     const { iz, zapishi } = await nashata();
     await zapishi('i3', 'imoti.sazdayImot', {
-      kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 1 }, nomer: null, ...PRAZEN },
+      kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 1 }, ...PRAZEN },
     });
     const l = listove(iz);
     const imoti = l.find((x) => x.ime === IMOTI)!;

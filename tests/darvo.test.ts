@@ -42,7 +42,7 @@ async function ogledalo() {
   await zapishi('k0', 'stopanin.otkriy', { imeyl: STOPANIN });
   const imot = (id: string, ime: string) =>
     zapishi(id, 'imoti.sazdayImot', {
-      kletki: { ime: { tekst: ime }, sastoyanie: { nomer: 2 }, nomer: null, ...PRAZEN },
+      kletki: { ime: { tekst: ime }, sastoyanie: { nomer: 2 }, ...PRAZEN },
     });
   await imot('i1', 'Герман');
   await imot('i2', 'Студентски Град');
