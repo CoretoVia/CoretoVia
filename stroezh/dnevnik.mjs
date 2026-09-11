@@ -46,6 +46,7 @@ const KOREN = process.env['DNEVNIK_KOREN'] ?? '.';
 const DNEVNIK = 'docs/dnevnik';
 const DNI = 'docs/izvori/dni';
 const DALG = 'docs/14-dalgat.md';
+const REGISTAR_DALG = 'docs/registar-na-dalga.json';
 const REGISTAR = 'docs/registar-na-vaprosite.json';
 const PROTOKOL = 'docs/00-PROTOKOL.md';
 const RABOTNI = '.rabotni';
@@ -238,6 +239,26 @@ function predishniteTreschotki(den) {
 
 /** Отворените редове на дълга · §1 на `docs/14`, незачеркнати, с белег. */
 function otvoreniteRedove() {
+  // от 2.1 (11.09) домът е регистърът на дълга · md-то е генериран изглед
+  if (ima(REGISTAR_DALG)) {
+    try {
+      return (JSON.parse(cheti(REGISTAR_DALG)).redove ?? [])
+        .filter((r) => r.sastoyanie === 'otvoren')
+        .map((r) => ({
+          beleg: `ДЛ-${r.beleg}`,
+          kakvo: (r.kakvo ?? '').slice(0, 80),
+          predi: [
+            ...(r.predi ?? []).map((b) => `ДЛ-${b}`),
+            ...(r.chaka ? [r.chaka] : []),
+            ...(r.otpushva ?? []).map((u) => u.vid),
+            ...(r.uslovia ?? []).map((u) => u.vid),
+          ].join(' · '),
+          kak: r.kak ?? '',
+        }));
+    } catch {
+      return [];
+    }
+  }
   if (!ima(DALG)) return [];
   const tekst = cheti(DALG);
   const nachalo = tekst.indexOf('\n## 1 ');

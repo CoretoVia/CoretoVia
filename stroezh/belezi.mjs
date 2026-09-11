@@ -61,6 +61,7 @@ const KOREN = process.env['BELEZI_KOREN'] ?? '.';
 const SAOTVETSTVIE = 'zadanie/CHISTO/00-saotvetstvie-na-belezite.json';
 const REGISTAR = 'docs/registar-na-vaprosite.json';
 const DALG = 'docs/14-dalgat.md';
+const REGISTAR_DALG = 'docs/registar-na-dalga.json';
 const INVARIANTI = 'docs/arhitektura/chasti/5-invariantite.md';
 const CHISTO = 'zadanie/CHISTO';
 
@@ -82,7 +83,7 @@ const ZHIVI_SASTOYANIYA = new Set(['жив', 'генериран']);
 const PIN_STAR_FORMAT = 0;
 
 const NOV =
-  /(?<![\p{L}\p{N}-])(ИЗ-\d{2}-[А-Я]?\d+(?:\.\d+)*|ИН-[А-Я]\d{1,3}|ВП-[А-Я]\d{1,3}[а-я]?|ДЛ-[А-Я]\d{1,3}[а-я]?)(?![\p{L}\p{N}])/gu;
+  /(?<![\p{L}\p{N}-])(ИЗ-\d{2}-[А-Я]?\d+(?:\.\d+)*|ИН-[А-Я]\d{1,3}|ВП-[А-Я]\d{1,3}[а-я]?|ДЛ-[А-Я]{1,2}\d{1,3}[а-я]?)(?![\p{L}\p{N}])/gu;
 /**
  * Сериите на четирите дома · без И (изворите), Ж/Р (собствени номерации на теми, само
  * с точка след номера), М (модулите · М12-01 е номер на изискване в тема 12) и У (видове
@@ -145,6 +146,15 @@ function redoveOtRegistara() {
 }
 
 function redoveOtDalga() {
+  // от 2.1 (11.09) домът е регистърът на дълга · md-то е генериран изглед
+  if (ima(REGISTAR_DALG)) {
+    return (JSON.parse(cheti(REGISTAR_DALG)).redove ?? []).map((r) => ({
+      staro: r.beleg,
+      fayl: REGISTAR_DALG,
+      novo: `ДЛ-${r.beleg}`,
+      vid: 'ДЛ',
+    }));
+  }
   if (!ima(DALG)) return [];
   const t = cheti(DALG);
   // §1 отворени · §2 невикано · §3 затворени · белегът е самоличност и не изчезва при затваряне

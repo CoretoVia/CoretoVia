@@ -5,7 +5,7 @@
     "ИЗ": 928,
     "ИН": 263,
     "ВП": 147,
-    "ДЛ": 62
+    "ДЛ": 72
   },
   "redove": [
     {
@@ -892,373 +892,433 @@
     },
     {
       "staro": "А0",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-А0",
       "vid": "ДЛ"
     },
     {
+      "staro": "Н1",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-Н1",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Н2",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-Н2",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Н3",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-Н3",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Н4",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-Н4",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Н5",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-Н5",
+      "vid": "ДЛ"
+    },
+    {
       "staro": "П1",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-П1",
       "vid": "ДЛ"
     },
     {
       "staro": "П2",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-П2",
       "vid": "ДЛ"
     },
     {
       "staro": "П3",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-П3",
       "vid": "ДЛ"
     },
     {
       "staro": "П4",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-П4",
       "vid": "ДЛ"
     },
     {
       "staro": "П5",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-П5",
       "vid": "ДЛ"
     },
     {
       "staro": "П6",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-П6",
       "vid": "ДЛ"
     },
     {
       "staro": "П7",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-П7",
       "vid": "ДЛ"
     },
     {
+      "staro": "СВ1",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-СВ1",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "СВ2",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-СВ2",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "СВ3",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-СВ3",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "СВ4",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-СВ4",
+      "vid": "ДЛ"
+    },
+    {
       "staro": "Т1",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т1",
       "vid": "ДЛ"
     },
     {
       "staro": "Т10",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т10",
       "vid": "ДЛ"
     },
     {
       "staro": "Т11",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т11",
       "vid": "ДЛ"
     },
     {
       "staro": "Т13",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т13",
       "vid": "ДЛ"
     },
     {
       "staro": "Т14",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т14",
       "vid": "ДЛ"
     },
     {
       "staro": "Т15",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т15",
       "vid": "ДЛ"
     },
     {
       "staro": "Т16",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т16",
       "vid": "ДЛ"
     },
     {
       "staro": "Т17",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т17",
       "vid": "ДЛ"
     },
     {
+      "staro": "Т17а",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-Т17а",
+      "vid": "ДЛ"
+    },
+    {
       "staro": "Т18",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т18",
       "vid": "ДЛ"
     },
     {
       "staro": "Т19",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т19",
       "vid": "ДЛ"
     },
     {
       "staro": "Т2",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т2",
       "vid": "ДЛ"
     },
     {
       "staro": "Т20",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т20",
       "vid": "ДЛ"
     },
     {
       "staro": "Т21",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т21",
       "vid": "ДЛ"
     },
     {
       "staro": "Т22",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т22",
       "vid": "ДЛ"
     },
     {
       "staro": "Т23",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т23",
       "vid": "ДЛ"
     },
     {
       "staro": "Т24",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т24",
       "vid": "ДЛ"
     },
     {
       "staro": "Т25",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т25",
       "vid": "ДЛ"
     },
     {
       "staro": "Т26",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т26",
       "vid": "ДЛ"
     },
     {
       "staro": "Т27",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т27",
       "vid": "ДЛ"
     },
     {
       "staro": "Т28",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т28",
       "vid": "ДЛ"
     },
     {
       "staro": "Т29",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т29",
       "vid": "ДЛ"
     },
     {
       "staro": "Т3",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т3",
       "vid": "ДЛ"
     },
     {
       "staro": "Т30",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т30",
       "vid": "ДЛ"
     },
     {
       "staro": "Т31",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т31",
       "vid": "ДЛ"
     },
     {
       "staro": "Т32",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т32",
       "vid": "ДЛ"
     },
     {
       "staro": "Т33",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т33",
       "vid": "ДЛ"
     },
     {
       "staro": "Т34",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т34",
       "vid": "ДЛ"
     },
     {
       "staro": "Т35",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т35",
       "vid": "ДЛ"
     },
     {
       "staro": "Т36",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т36",
       "vid": "ДЛ"
     },
     {
       "staro": "Т37",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т37",
       "vid": "ДЛ"
     },
     {
       "staro": "Т38",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т38",
       "vid": "ДЛ"
     },
     {
       "staro": "Т39",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т39",
       "vid": "ДЛ"
     },
     {
       "staro": "Т4",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т4",
       "vid": "ДЛ"
     },
     {
       "staro": "Т40",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т40",
       "vid": "ДЛ"
     },
     {
       "staro": "Т41",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т41",
       "vid": "ДЛ"
     },
     {
       "staro": "Т42",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т42",
       "vid": "ДЛ"
     },
     {
       "staro": "Т43",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т43",
       "vid": "ДЛ"
     },
     {
       "staro": "Т44",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т44",
       "vid": "ДЛ"
     },
     {
       "staro": "Т45",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т45",
       "vid": "ДЛ"
     },
     {
       "staro": "Т46",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т46",
       "vid": "ДЛ"
     },
     {
       "staro": "Т47",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т47",
       "vid": "ДЛ"
     },
     {
       "staro": "Т48",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т48",
       "vid": "ДЛ"
     },
     {
       "staro": "Т49",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т49",
       "vid": "ДЛ"
     },
     {
       "staro": "Т5",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т5",
       "vid": "ДЛ"
     },
     {
       "staro": "Т50",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т50",
       "vid": "ДЛ"
     },
     {
       "staro": "Т51",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т51",
       "vid": "ДЛ"
     },
     {
       "staro": "Т52",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т52",
       "vid": "ДЛ"
     },
     {
       "staro": "Т53",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т53",
       "vid": "ДЛ"
     },
     {
       "staro": "Т54",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т54",
       "vid": "ДЛ"
     },
     {
       "staro": "Т55",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т55",
       "vid": "ДЛ"
     },
     {
       "staro": "Т6",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т6",
       "vid": "ДЛ"
     },
     {
       "staro": "Т7",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т7",
       "vid": "ДЛ"
     },
     {
       "staro": "Т8",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т8",
       "vid": "ДЛ"
     },
     {
       "staro": "Т9",
-      "fayl": "docs/14-dalgat.md",
+      "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Т9",
       "vid": "ДЛ"
     },

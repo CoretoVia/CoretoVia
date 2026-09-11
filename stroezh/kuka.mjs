@@ -48,6 +48,7 @@ if (kuka === 'pre-commit') {
     ['protokol', [npm, ['run', 'protokol']]],
     ['karta:proveri', [npm, ['run', 'karta:proveri']]],
     ['belezi', [npm, ['run', 'belezi']]],
+    ['dalg', [npm, ['run', 'dalg']]],
     // цялото дърво, не само подготвеното: `biome --staged` иска VCS настройка,
     // която проектът няма, а `stil` върху 225 файла е под три секунди
     ['stil', [npm, ['run', 'stil']]],

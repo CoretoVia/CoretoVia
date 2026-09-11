@@ -44,11 +44,16 @@ function darvo(koren: string) {
     JSON.stringify({ vaprosi: [vapros('А3', 'x'), vapros('В5', '')] }),
     'utf8',
   );
-  writeFileSync(
-    join(koren, 'docs', '14-dalgat.md'),
-    '# 14\n\n## 1 · ОТВОРЕНИ\n\n| # | какво |\n| :--: | :---- |\n| **ДЛ-Т45** | нещо |\n\n## 2 · НЕВИКАНО\n\n## 3 · ЗАТВОРЕНИ\n\n| какво | как |\n| :---- | :---- |\n| **ДЛ-Т2 · правото** | слезе |\n\n## 4 · КОЕ НЕ СЕ ПРАВИ\n',
-    'utf8',
-  );
+  // домът на дълга е регистърът (2.1) · md-то е генериран изглед и тук не е нужно
+  const dalg = (belezi: string[]) =>
+    writeFileSync(
+      join(koren, 'docs', 'registar-na-dalga.json'),
+      JSON.stringify({
+        redove: belezi.map((beleg) => ({ beleg, sastoyanie: 'otvoren', uslovia: [] })),
+      }),
+      'utf8',
+    );
+  dalg(['Т45', 'Т2']);
   writeFileSync(
     join(koren, 'docs', 'arhitektura', 'chasti', '5-invariantite.md'),
     '# 5\n\n| # | инвариант |\n| :-- | :---- |\n| ИН-А1 | Журналът е само за добавяне |\n',
@@ -65,7 +70,7 @@ function darvo(koren: string) {
       timeout: 120_000,
       env: { ...process.env, BELEZI_KOREN: koren },
     });
-  return { koren, pusni };
+  return { koren, pusni, dalg };
 }
 
 describe('белезите · четиринайсетата порта', () => {
@@ -84,11 +89,11 @@ describe('белезите · четиринайсетата порта', () => 
   });
 
   it('МЯРКАТА ЛОВИ · непознат нов белег → находка · остаряло съответствие → находка · свежо → минава', () => {
-    const { koren, pusni } = darvo(mkdtempSync(join(tmpdir(), 'belezi-')));
+    const { koren, pusni, dalg } = darvo(mkdtempSync(join(tmpdir(), 'belezi-')));
     expect(pusni(['--sazday']).status).toBe(0);
     const chisto = pusni(['--proveri']);
     expect(chisto.status, chisto.stdout).toBe(0);
-    // ВП 1, не 2: обвивката В5 (без въпрос) не е въпрос · ДЛ 2: затвореният ред пази белега си
+    // ВП 1, не 2: обвивката В5 (без въпрос) не е въпрос · ДЛ 2: двата реда на регистъра на дълга
     expect(chisto.stdout).toMatch(/ИЗ 2 · ИН 1 · ВП 1 · ДЛ 2/);
 
     // документ сочи белег, който няма дом
@@ -108,11 +113,7 @@ describe('белезите · четиринайсетата порта', () => 
       `# ADR-099\n\n${SHAPKA('жив')}\n\nСтъпва на ИН-А1.\n`,
       'utf8',
     );
-    writeFileSync(
-      join(koren, 'docs', '14-dalgat.md'),
-      '# 14\n\n## 1 · ОТВОРЕНИ\n\n| # | какво |\n| :--: | :---- |\n| **ДЛ-Т45** | нещо |\n| **ДЛ-Т46** | друго |\n\n## 2 · НЕВИКАНО\n\n## 3 · ЗАТВОРЕНИ\n\n## 4 · КОЕ НЕ СЕ ПРАВИ\n',
-      'utf8',
-    );
+    dalg(['Т45', 'Т2', 'Т46']);
     const ostaryalo = pusni(['--proveri']);
     expect(ostaryalo.status).not.toBe(0);
     expect(ostaryalo.stdout).toContain('остаряло');
