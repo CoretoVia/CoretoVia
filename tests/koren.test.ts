@@ -14,7 +14,7 @@
 
 import { describe, expect, it } from 'vitest';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -35,6 +35,27 @@ const POZVOLENI = Object.freeze([
   'vite.config.ts',
   'vitest.config.ts',
 ]);
+
+/**
+ * Дърво във временна папка за картата · тя се пуска САМО срещу него. Коренът идва
+ * ОТВЪН, от самия тест — за да е видимо в теста, че се пише извън дървото (обход И).
+ * Помощникът стои ПРЕДИ първия тест във файла, защото обходът И приписва всяко
+ * писане на най-близкия `it(` над него.
+ */
+function darvo(koren: string) {
+  // пазачът на обход И: дървото е ВИНАГИ във временната папка, никога в проекта
+  if (!koren.startsWith(tmpdir())) throw new Error(`дървото не е във tmpdir(): ${koren}`);
+  mkdirSync(join(koren, 'docs'), { recursive: true });
+  const pusni = (argv: string[]) =>
+    spawnSync(process.execPath, [resolve('stroezh/karta.mjs'), ...argv], {
+      encoding: 'utf8',
+      timeout: 120_000,
+      env: { ...process.env, KARTA_KOREN: koren },
+    });
+  return { koren, pusni };
+}
+const shapka = (vid: string, sastoyanie = 'жив') =>
+  `**Дата:** 2026-09-11 · **Вид:** ${vid} · **Състояние:** ${sastoyanie}`;
 
 describe('коренът на хранилището', () => {
   // подпроцес · времето е ОБЯВЕНО, за да не пада тестът под товар (обход Д)
@@ -115,33 +136,126 @@ describe('регистърът на въпросите · десетата по�
  * не описва, дава находка.
  */
 describe('картата · единайсетата порта', () => {
-  it('картата е сверена с дървото', () => {
+  it('картата е сверена с дървото · и ВСЕКИ документ носи шапка на ред 3', () => {
     const r = spawnSync(process.execPath, ['stroezh/karta.mjs', '--proveri'], {
       encoding: 'utf8',
       timeout: 120_000,
     });
     expect(r.stdout).toMatch(/описани документи: \d+/);
+    expect(r.stdout).toMatch(/шапки: \d+ документа · находки 0/);
     expect(r.status, r.stdout + r.stderr).toBe(0);
   });
 
   it('МЯРКАТА ЛОВИ · документ, който картата не описва, дава находка', () => {
-    const koren = mkdtempSync(join(tmpdir(), 'karta-'));
-    mkdirSync(join(koren, 'docs'), { recursive: true });
-    const pusni = (argv: string[]) =>
-      spawnSync(process.execPath, [resolve('stroezh/karta.mjs'), ...argv], {
-        encoding: 'utf8',
-        timeout: 120_000,
-        env: { ...process.env, KARTA_KOREN: koren },
-      });
-
-    writeFileSync(join(koren, 'docs', 'edno.md'), '# Едно\n\nПървият абзац.\n', 'utf8');
+    const { koren, pusni } = darvo(mkdtempSync(join(tmpdir(), 'karta-')));
+    writeFileSync(
+      join(koren, 'docs', 'edno.md'),
+      `# Едно\n\n${shapka('решение')}\n\nПървият абзац.\n`,
+      'utf8',
+    );
     expect(pusni(['--pishi']).status).toBe(0);
     expect(pusni(['--proveri']).status).toBe(0);
 
     // появява се ВТОРИ документ · картата вече не го знае
-    writeFileSync(join(koren, 'docs', 'dve.md'), '# Две\n\nВтори абзац.\n', 'utf8');
+    writeFileSync(
+      join(koren, 'docs', 'dve.md'),
+      `# Две\n\n${shapka('решение')}\n\nВтори абзац.\n`,
+      'utf8',
+    );
     const r = pusni(['--proveri']);
     expect(r.status).not.toBe(0);
     expect(r.stdout).toMatch(/ОСТАРЯЛА/);
+  });
+
+  /**
+   * ШАПКАТА (Етап 1.1 · решение 1 от плана на 10.09): без нея, с непознат вид или
+   * с вид извън папката си документът е находка — иначе „един вид, един дом" е
+   * пожелание, а `docs/36-neshto.md` пак ще се роди.
+   */
+  it('МЯРКАТА ЛОВИ · без шапка · непознат вид · вид извън папката си', () => {
+    const { koren, pusni } = darvo(mkdtempSync(join(tmpdir(), 'karta-')));
+    writeFileSync(join(koren, 'docs', 'bez.md'), '# Без\n\nАбзац.\n', 'utf8');
+    writeFileSync(join(koren, 'docs', 'chuzhd.md'), `# Чужд\n\n${shapka('роман')}\n`, 'utf8');
+    mkdirSync(join(koren, 'docs', 'dokladi'));
+    writeFileSync(
+      join(koren, 'docs', 'dokladi', 'ne-tuk.md'),
+      `# Не тук\n\n${shapka('решение')}\n`,
+      'utf8',
+    );
+    expect(pusni(['--pishi']).status).toBe(0);
+    const r = pusni(['--proveri']);
+    expect(r.status).not.toBe(0);
+    expect(r.stdout).toContain('без шапка на ред 3 · docs/bez.md');
+    expect(r.stdout).toContain('непознат вид „роман"');
+    expect(r.stdout).toContain('вид извън папката си · „решение" в docs/dokladi/');
+  });
+
+  it('МЯРКАТА ЛОВИ · два плана → червено · надживян извън arhiv/ → червено · и минава, щом остане един', () => {
+    const { koren, pusni } = darvo(mkdtempSync(join(tmpdir(), 'karta-')));
+    writeFileSync(join(koren, 'docs', '03-plan.md'), `# План\n\n${shapka('план')}\n`, 'utf8');
+    writeFileSync(
+      join(koren, 'docs', 'drug-plan.md'),
+      `# Друг план\n\n${shapka('план')}\n`,
+      'utf8',
+    );
+    writeFileSync(
+      join(koren, 'docs', 'star.md'),
+      `# Стар\n\n${shapka('решение', 'надживян')}\n\nВместо него: новото.\n`,
+      'utf8',
+    );
+    expect(pusni(['--pishi']).status).toBe(0);
+    const r = pusni(['--proveri']);
+    expect(r.status).not.toBe(0);
+    expect(r.stdout).toContain('два дома на еднократен вид „план"');
+    expect(r.stdout).toContain('надживян извън arhiv/ · docs/star.md');
+
+    // положителна контрола: един план, а старото — в архива, с „Вместо него"
+    rmSync(join(koren, 'docs', 'drug-plan.md'));
+    rmSync(join(koren, 'docs', 'star.md'));
+    mkdirSync(join(koren, 'docs', 'arhiv'));
+    writeFileSync(
+      join(koren, 'docs', 'arhiv', '2026-09-01-star.md'),
+      `# Стар\n\n${shapka('решение', 'надживян')}\n\nВместо него: новото.\n`,
+      'utf8',
+    );
+    expect(pusni(['--pishi']).status).toBe(0);
+    const ok = pusni(['--proveri']);
+    expect(ok.status, ok.stdout).toBe(0);
+  });
+});
+
+/**
+ * ═══ ПРОТОКОЛЪТ · първият доказващ тест (Етап 1.1) ═══
+ *
+ * До 11.09 машината се пускаше, но никой не беше доказал, че ЛОВИ. Вид работа без
+ * платена цена е ред, който протоколът трябва да отказва — тук се вижда, че го прави.
+ */
+describe('протоколът · дванайсетата порта', () => {
+  it('МЯРКАТА ЛОВИ · вид работа без платена цена → находка · с нея → минава', () => {
+    const koren = mkdtempSync(join(tmpdir(), 'protokol-'));
+    mkdirSync(join(koren, 'docs'), { recursive: true });
+    const pusni = (argv: string[]) =>
+      spawnSync(process.execPath, [resolve('stroezh/protokol.mjs'), ...argv], {
+        encoding: 'utf8',
+        timeout: 120_000,
+        env: { ...process.env, PROTOKOL_KOREN: koren },
+      });
+    const tsyal =
+      '# П\n\n**Дата:** 2026-09-11 · **Вид:** протокол · **Състояние:** жив · **Версия:** 1 · **Отпечатък:** ·\n\n## 1 · ВИДОВЕ\n\n### У1 · НЕЩО\n\n**Задължително:**\n- x\n\n**Платената цена:** y\n\n**Как се познава, че е спазено:** z\n';
+    writeFileSync(join(koren, 'docs', '00-PROTOKOL.md'), tsyal, 'utf8');
+    expect(pusni(['--pishi']).status).toBe(0);
+    const dobre = pusni([]);
+    expect(dobre.status, dobre.stdout).toBe(0);
+
+    writeFileSync(
+      join(koren, 'docs', '00-PROTOKOL.md'),
+      tsyal.replace('**Платената цена:** y\n\n', ''),
+      'utf8',
+    );
+    expect(pusni(['--pishi']).status).toBe(0);
+    const r = pusni([]);
+    expect(r.status).not.toBe(0);
+    expect(r.stdout).toContain('ПЛАТЕНА ЦЕНА');
+    expect(r.stdout).toContain('У1');
   });
 });
