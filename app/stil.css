@@ -1293,3 +1293,28 @@ body.vlacha-shirina {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* ЗАЛЕПЕНАТА ЛЯВА ЧАСТ · номерът и името остават, докато тактовете се движат
+   наляво (негово, запис 195 т.2 · `docs/24`). Фонът е плътен, инак редовете
+   отдолу минават под тях; `left` се мери и се пише от `zalepiLyavata`. */
+.ekran .darvo-blok .reshetka.darvo .zalepena-kolona {
+  position: sticky;
+  z-index: 2;
+  background: var(--hartiya);
+}
+.ekran .darvo-blok .reshetka.darvo thead .zalepena-kolona,
+.ekran .darvo-blok .reshetka.darvo tfoot .zalepena-kolona {
+  background: var(--fon);
+}
+.ekran .darvo-blok .reshetka.darvo tr.zebra .zalepena-kolona {
+  background: var(--zebra);
+}
+.ekran .darvo-blok .reshetka.darvo tr.roditel .zalepena-kolona {
+  background: var(--zeleno);
+}
+.ekran .darvo-blok .reshetka.darvo tr.roditel.nivo-1 .zalepena-kolona {
+  background: var(--zeleno-svetlo);
+}
+.ekran .darvo-blok .reshetka.darvo .zalepena-kolona.posledna-zalepena {
+  border-right: 2px solid var(--linija);
+}

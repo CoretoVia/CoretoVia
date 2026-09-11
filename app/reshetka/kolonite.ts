@@ -198,3 +198,41 @@ export function zakachiVlacheneto(koren: HTMLElement): void {
     document.addEventListener('pointerup', pusni);
   });
 }
+
+/**
+ * ЗАЛЕПЕНАТА ЛЯВА ЧАСТ · номерът и името остават, докато тактовете се движат.
+ *
+ * Негово, 11.09 (запис 195), точка 2: „**Ганта обхваща всички редове изцяло и
+ * се сливат двете. Направи ги едно ако може. Те работят заедно.**" Сляти са —
+ * един ред, едни клетки (ход 88). Оставаше едно: календарът стоеше отвъд
+ * десния ръб и до него се стигаше само със скролиране, при което името на
+ * задачата излизаше от екрана и лентата преставаше да значи нещо.
+ *
+ * `docs/24` го е решил още тогава: „трябва да остават видими, докато тактовете
+ * се движат наляво — залепена лява". Точно това е тук, и точно така изглежда MS
+ * Project: имената стоят, времето тече.
+ *
+ * ОТМЕСТВАНЕТО СЕ МЕРИ, НЕ СЕ ЗАКОВАВА: ширините се влачат с ръка (ход 87),
+ * тъй че второто залепено се лепи там, където СВЪРШВА първото — а не на кръгло
+ * число, което остарява при първото влачене.
+ */
+const ZALEPENI_KOLONI = 2;
+
+export function zalepiLyavata(koren: HTMLElement): void {
+  for (const tabl of koren.querySelectorAll<HTMLTableElement>('table.reshetka.darvo')) {
+    const glavi = [...tabl.querySelectorAll<HTMLElement>('thead tr:first-child th')];
+    const dokade = Math.min(ZALEPENI_KOLONI, glavi.length);
+    let otmestvane = 0;
+    for (let i = 0; i < dokade; i += 1) {
+      const shirina = glavi[i]?.getBoundingClientRect().width ?? 0;
+      for (const red of tabl.rows) {
+        const kletka = red.cells[i];
+        if (kletka === undefined) continue;
+        kletka.classList.add('zalepena-kolona');
+        if (i === dokade - 1) kletka.classList.add('posledna-zalepena');
+        kletka.style.left = `${Math.round(otmestvane)}px`;
+      }
+      otmestvane += shirina;
+    }
+  }
+}

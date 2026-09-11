@@ -65,6 +65,21 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     `${await p.$$eval('[data-filtar]', (es) => es.length)} · ${await tekstNa(p, '[data-sbor-red] td:first-child')}`,
     '10 · сбор',
   );
+  // негово, 11.09 (запис 195), точка 2: „Ганта обхваща всички редове изцяло и се
+  // сливат двете" · сляти са, а лявата част СТОИ, докато тактовете се движат
+  proveri(
+    'номерът и името са ЗАЛЕПЕНИ вляво · и второто се лепи, където свършва първото',
+    await p.evaluate(() => {
+      const glavi = [
+        ...document.querySelectorAll('table.reshetka.darvo thead tr:first-child th'),
+      ].slice(0, 2);
+      const kak = glavi.map((th) => getComputedStyle(th).position).join(' · ');
+      const otmestvane = (glavi[1] as HTMLElement | undefined)?.style.left ?? '';
+      const shirinaNaParvoto = Math.round(glavi[0]?.getBoundingClientRect().width ?? 0);
+      return `${kak} · ${otmestvane === `${shirinaNaParvoto}px` ? 'лепнато точно' : otmestvane}`;
+    }),
+    'sticky · sticky · лепнато точно',
+  );
   proveri(
     'Гантът е до таблицата · без ленти',
     (await tekstNa(p, '[data-sverka="gant"]')).startsWith('ленти 0 ·'),
