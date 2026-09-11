@@ -253,6 +253,17 @@ export async function napalniSMostra(
   ]);
 
   // ── Управление · задачи с бюджет и срок ────────────────────────────────
+  /**
+   * ОТГОВОРНИЦИТЕ · негово, 05.09: „Да се добави отговорник за всяка задача."
+   *
+   * Без тях Програмата за Задачи стои на нули, а седмичната програма на всеки
+   * човек е празна — тоест мострата не показва точно онова, което той поиска
+   * да види (запис 195 т.7). Две от задачите остават БЕЗ отговорник нарочно:
+   * така се вижда и че нераздадените се броят и се раздават с десния бутон.
+   */
+  const chovek = (i: number): string =>
+    idNaRed(porta.ogledalo(), 'sluzhiteli', broyRedove(porta.ogledalo(), 'sluzhiteli') - 1 - i);
+
   await stapka('Задачи', 'zadachi', 'upravlenie.dobaviZadacha', [
     {
       kletki: {
@@ -262,6 +273,7 @@ export async function napalniSMostra(
         ot: tekst(den(dnes, 1, 10)),
         do: tekst(den(dnes, 1, 24)),
         otsenka: nomer(1),
+        otgovornik: tekst(chovek(1)),
         byudzhet: evro(12_000),
       } satisfies Kletki,
     },
@@ -273,6 +285,7 @@ export async function napalniSMostra(
         ot: tekst(den(dnes, 1, 12)),
         do: tekst(den(dnes, 0, 8)),
         otsenka: nomer(1),
+        otgovornik: tekst(chovek(0)),
         byudzhet: evro(8_500),
       } satisfies Kletki,
     },
@@ -284,6 +297,7 @@ export async function napalniSMostra(
         ot: tekst(den(dnes, 0, 3)),
         do: tekst(den(dnes, 0, 20)),
         otsenka: nomer(1),
+        otgovornik: tekst(chovek(1)),
         byudzhet: evro(21_400),
       } satisfies Kletki,
     },
@@ -307,6 +321,7 @@ export async function napalniSMostra(
         ot: tekst(den(dnes, 0, 2)),
         do: tekst(den(dnes, 0, 26)),
         otsenka: nomer(1),
+        otgovornik: tekst(chovek(1)),
         byudzhet: evro(15_800),
       } satisfies Kletki,
     },
@@ -318,6 +333,7 @@ export async function napalniSMostra(
         ot: tekst(den(dnes, 0, 18)),
         do: tekst(den(dnes, 0, 27)),
         otsenka: nomer(1),
+        otgovornik: tekst(chovek(0)),
         byudzhet: evro(4_300),
       } satisfies Kletki,
     },
@@ -329,6 +345,7 @@ export async function napalniSMostra(
         ot: tekst(den(dnes, 2, 6)),
         do: tekst(den(dnes, 2, 19)),
         otsenka: nomer(1),
+        otgovornik: tekst(chovek(1)),
         byudzhet: evro(2_100),
       } satisfies Kletki,
     },
