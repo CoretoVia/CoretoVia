@@ -1395,3 +1395,42 @@ input.pole:required,
 select.pole:required {
   border-left: 2px solid var(--zeleno);
 }
+
+/* СЕДМИЧНАТА ПРОГРАМА · седем дни, днешният отбелязан, натрупаното с цвят.
+   Негово, 11.09 (запис 195) т.7: „седмичната програма, не днешната а
+   седмичната… се трупа, докато не се отбележи, че е свършена задачата." */
+.sedmitsata .sedmitsata-tablitsa {
+  width: 100%;
+}
+
+.sedmitsata .sedmitsata-tablitsa .den {
+  width: 11rem;
+  white-space: nowrap;
+  color: var(--sivo);
+}
+
+.sedmitsata .sedmitsata-tablitsa tr.dnes {
+  background: var(--zhalto);
+}
+
+.sedmitsata .sedmitsata-tablitsa tr.dnes .den {
+  color: var(--mastilo);
+  font-weight: 600;
+}
+
+.sedmitsata .zadacha-v-denya {
+  display: inline-block;
+  margin-right: 0.4rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  background: var(--zeleno-svetlo);
+}
+
+.sedmitsata .zadacha-v-denya.natrupana {
+  background: var(--cherveno);
+  color: var(--hartiya);
+}
+
+.sedmitsata .prazna-duma {
+  color: var(--sivo);
+}

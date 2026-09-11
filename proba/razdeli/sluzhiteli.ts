@@ -9,6 +9,9 @@ const STOPANINAT = 'proba@example.bg';
 const POMOSHTNIK = 'pomoshtnik@example.bg';
 
 /** 6 · Служители · четирите му блока · достъпът на Длъжността · Профилът */
+/** новият ред в текста на възел · сивият пункт носи причината си на втори ред */
+const NOV_RED_S = new RegExp(String.fromCharCode(10), 'g');
+
 export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   const { stranitsa: p, broyach } = ctx;
   let razdel = '—';
@@ -234,4 +237,30 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     await tekstNa(p, '[data-otchet-vest]'),
     '0 предложения · 0 находки · 0 бележки',
   );
+
+  // ══ 6ж · СЕДМИЧНАТА ПРОГРАМА · негово, 11.09 (запис 195), точка 7 ══════
+  razdel = '6ж · седмичната програма';
+  await p.goto(`${ADRES}#/sluzhiteli`);
+  await p.waitForSelector('tr.red[data-tablitsa="sluzhiteli"]');
+  await p.click('tr.red[data-tablitsa="sluzhiteli"]', { button: 'right' });
+  await p.waitForSelector('[data-menyu]');
+  proveri(
+    'десният бутон върху служител дава седмицата и раздаването',
+    (await tekstoveNa(p, '[data-menyu] button')).map((x) => x.replace(NOV_RED_S, ' ')).join(' · '),
+    'Седмичната програма · Дай задача · 1 без отговорник · Редактирай данните · с двойно натискане в клетката клетката се отваря с натискане върху нея',
+  );
+  await p.click('[data-menyu] [data-tochka="sedmitsata"]');
+  await p.waitForSelector('dialog[data-sedmitsa]');
+  proveri(
+    'седмицата е СЕДЕМ дни, от понеделник',
+    (await tekstoveNa(p, 'dialog[data-sedmitsa] tr.red .den')).length,
+    7,
+  );
+  proveri(
+    'и казва колко се трупат от миналото',
+    (await tekstNa(p, '[data-sedmitsa-sverka]')).startsWith('натрупани от минали дни'),
+    true,
+  );
+  await p.click('[data-sedmitsa-zatvori]');
+  await p.waitForSelector('dialog[data-sedmitsa]', { state: 'detached' });
 }

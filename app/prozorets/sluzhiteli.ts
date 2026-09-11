@@ -23,6 +23,7 @@ import {
 import { DOSTAP_PO_PODRAZBIRANE } from '../../src/model/osnova.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { zakachiButonite } from '../reshetka/chernova.js';
+import { zakachiDesniyaButonNaHorata } from '../reshetka/sedmichniyat-prozorets.js';
 import { dopishi, h, sloji, type Zapechatan } from '../reshetka/shablon.js';
 import { reshetkaHTML, zakachiReshetkata } from '../reshetka/reshetka.js';
 import { butoniteHTML, iznosVestHTML } from './deystviya.js';
@@ -127,4 +128,6 @@ export function narisuvaySluzhiteli(k: KonteksNaEkrana): void {
   zakachiReshetkata(k);
 
   zakachiButonite(k, 'sluzhiteli', TABLITSA_NA_BUTONA);
+  // негово, 11.09 (запис 195) т.7 · седмичната програма и раздаването с ДЕСНИЯ бутон
+  zakachiDesniyaButonNaHorata(k, dnes);
 }
