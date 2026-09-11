@@ -2514,14 +2514,16 @@
     },
     {
       "beleg": "Т50",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Системата от плана на 10.09 (Етап 1.4–1.9 · 1б П.А–П.Е · 2.2–2.6) е УСЛОВИЕ на 10е и на тага 1.0 (условия 1–3, 6, 7 на npm run versiya), не „успоредно“ пожелание. Кога се затваря?",
+      "sastoyanie": "otkrit",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "docs/14-dalgat.md",
+      "kakvo_sledva": "преди 10е · как се познава: dalg.mjs --versiya условия 1–3, 6, 7 зелени; тагът 1.0 не се слага без тях · планът: docs/dnevnik/2026-09-11-plan-biznes-1-0.md §3 Р3 · роден 11.09 от скептик (вид работа У10)",
       "otpushva": [],
       "zhivee_v": [
-        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+        "docs/14-dalgat.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {
