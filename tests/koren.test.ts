@@ -14,7 +14,7 @@
 
 import { describe, expect, it } from 'vitest';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -103,25 +103,41 @@ describe('регистърът на въпросите · десетата по�
     expect(r.status, r.stdout + r.stderr).toBe(0);
   });
 
-  it('МЯРКАТА ЛОВИ · белег, който го няма в регистъра, дава находка', () => {
+  it('МЯРКАТА ЛОВИ · белег, който го няма в регистъра, дава находка · голото и чуждият вид не са въпроси · --sazday не ражда обвивки', () => {
     // дървото се вдига ВЪВ ВРЕМЕННА ПАПКА · проверка не пише в дървото на
     // проекта (обход И · и точно това улови първата версия на този тест)
     const koren = mkdtempSync(join(tmpdir(), 'registar-'));
     mkdirSync(join(koren, 'docs'), { recursive: true });
-    writeFileSync(join(koren, 'docs', 'proba.md'), 'Тук се говори за Т1 и за С4.\n', 'utf8');
+    // 2.0в (11.09.2026): въпрос е САМО `ВП-X` · голото Т9 и другите домове не се събират
     writeFileSync(
-      join(koren, 'docs', 'registar-na-vaprosite.json'),
-      JSON.stringify({ vaprosi: [] }),
+      join(koren, 'docs', 'proba.md'),
+      'Тук се говори за ВП-Т1 и за ВП-С4; голото Т9, ИН-А1, ДЛ-Т45 и ИЗ-04-К1 не са въпроси.\n',
       'utf8',
     );
-    const r = spawnSync(process.execPath, [resolve('stroezh/registar.mjs'), '--proveri'], {
-      encoding: 'utf8',
-      timeout: 120_000,
-      env: { ...process.env, REGISTAR_KOREN: koren },
-    });
+    const registar = join(koren, 'docs', 'registar-na-vaprosite.json');
+    writeFileSync(registar, JSON.stringify({ vaprosi: [] }), 'utf8');
+    const pusni = (argv: string[]) =>
+      spawnSync(process.execPath, [resolve('stroezh/registar.mjs'), ...argv], {
+        encoding: 'utf8',
+        timeout: 120_000,
+        env: { ...process.env, REGISTAR_KOREN: koren },
+      });
+    const r = pusni(['--proveri']);
     expect(r.status).not.toBe(0);
     expect(r.stdout).toMatch(/непознат белег/);
-    expect(r.stdout).toContain('Т1');
+    expect(r.stdout).toContain('„Т1"');
+    expect(r.stdout).toContain('„С4"');
+    expect(r.stdout).not.toContain('„Т9"');
+    expect(r.stdout).not.toContain('„А1"');
+    expect(r.stdout).not.toContain('„Т45"');
+    expect(r.stdout).not.toContain('„К1"');
+
+    // --sazday вече не ражда обвивки без въпрос · регистърът остава празен, находката остава
+    const s = pusni(['--sazday']);
+    expect(s.status, s.stdout).toBe(0);
+    expect(s.stdout).toContain('непознати 2');
+    expect(JSON.parse(readFileSync(registar, 'utf8')).vaprosi).toHaveLength(0);
+    expect(pusni(['--proveri']).status).not.toBe(0);
   });
 
   /**
