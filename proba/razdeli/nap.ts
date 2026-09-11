@@ -125,4 +125,35 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     await tekstNa(p, '[data-otchet-vest]'),
     '0 предложения · 0 находки · 0 бележки',
   );
+
+  // ══ ДВЕТЕ ТАБЛИЦИ · негово, 11.09 (запис 195), точка 5 ═════════════════
+  razdel = '5д · двете таблици на НАП';
+  // след Книгата страницата стои другаде · двете таблици живеят в подтаб НАП
+  await p.goto(`${ADRES}#/smetki`);
+  await p.waitForSelector('[data-podtabove]');
+  await p.click('[data-podtab="nap"]');
+  await p.waitForSelector('[data-nap-neizlyazlo]');
+  proveri(
+    'сумата, която НЕ излиза, е за МИНАЛИЯ месец · и го казва',
+    (await tekstNa(p, '[data-nap-neizlyazlo]')).startsWith('За '),
+    true,
+  );
+  // ВСЕКИ месец стои в ТОЧНО една от двете таблици · това е инвариантът, а не
+  // конкретното число: кой месец къде пада зависи от данните, а разделянето — не
+  const vDvete = await p.$$eval('[data-nap-tablitsa] tbody tr', (es) => es.length);
+  proveri(
+    'всеки гледан месец е в точно една от двете таблици',
+    `${vDvete} от ${(await tekstNa(p, '[data-nap-neizlyazlo]')).replace(/^.*Гледани месеци /u, '')}`,
+    `${vDvete} от ${String(vDvete)}.`,
+  );
+  proveri(
+    'и двете места ги има · таблица или изречение, че няма нищо',
+    `${(await p.$('[data-nap-tablitsa="tekushti"], [data-nap-prazna="tekushti"]')) !== null} · ${
+      (await p.$('[data-nap-tablitsa="greshki"], [data-nap-prazna="greshki"]')) !== null
+    }`,
+    'true · true',
+  );
+  // подтабът се ПОМНИ · оставен на НАП, той чака следващия раздел на грешно място
+  await p.click('[data-podtab="smetki"]');
+  await p.waitForSelector('[data-vkarvane-pravo]');
 }

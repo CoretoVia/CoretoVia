@@ -1434,3 +1434,26 @@ select.pole:required {
 .sedmitsata .prazna-duma {
   color: var(--sivo);
 }
+
+/* ДВЕТЕ ТАБЛИЦИ НА НАП · негово, 11.09 (запис 195) т.5: „платените се сортират
+   най отдолу с затъмнен цвят а тези които не са излезли светят". Подредбата е
+   смятана; тук е само цветът. */
+.ekran .nap-mesetsi {
+  width: 100%;
+}
+
+.ekran .nap-mesetsi tr.platen {
+  color: var(--sivo);
+  background: var(--zebra);
+}
+
+.ekran .nap-mesetsi tr.chaka {
+  background: var(--zhalto);
+  font-weight: 600;
+}
+
+.ekran .nap-mesetsi tr.zakasnyal,
+.ekran .nap-mesetsi tr.nadplaten,
+.ekran .nap-mesetsi tr.razminava {
+  color: var(--cherveno);
+}

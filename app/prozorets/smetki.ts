@@ -31,6 +31,7 @@ import { kolonaNa } from '../../src/model/tablitsa.js';
 import { redKato } from '../../src/ogledalo/tablitsa.js';
 import { denNaMeseca, dvanaysetMeseca, kalendar } from '../../src/smetach/kalendar.js';
 import { type Pokazatel, pokazatelite } from '../../src/smetach/pokazateli.js';
+import { napTablitsite, type RedNaNap } from '../../src/smetach/nap-tablitsite.js';
 import { trezorat } from '../../src/smetach/trezor.js';
 import { zadachiteSByudzhet } from '../../src/smetach/zadachi-v-smetki.js';
 import { imeNaVrazkata } from '../../src/smetach/kletki.js';
@@ -226,13 +227,19 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
    * ТРЕЗОРЪТ · Заданието го иска (M06-10) и той пита за него (запис 195 т.5).
    * Смята се от кеша на месеца; нищо не се въвежда (M06-P3).
    */
-  const trezor = trezorat(kesh);
   const takt = chetiEkranno<Takt>(PAMET.takt, 'godina');
   const period = chetiEkranno<SvoyPeriod | null>(PAMET.period, null);
   /** колко месеца стоят на екрана · средното на месец се дели точно на тях */
   const koloniNaMesetsite = koloniteNaSmetkite(takt, mesets, period).length;
   // ДДС · редът на всеки месец влиза в СМЕТКИ по знака си (негово, 05.09 т.2)
   const dds = ddsat(o, kogato);
+  const trezor = trezorat(kesh);
+  /**
+   * ДВЕТЕ ТАБЛИЦИ НА НАП · негово, 11.09 (запис 195), точка 5.
+   * Подредбата е СМЯТАНА, не екранна: платените най-отдолу, закъснелите и
+   * надплатените в отделната таблица за грешки.
+   */
+  const napDvete = napTablitsite(dds, `${mesets}-01`);
   const ddsMesetsi = dds.mesetsi.filter((m) => !samoMeseca || m.mesets === mesets);
   const ddsNa = (strana: Strana): readonly MesetsNaDdsa[] =>
     ddsMesetsi.filter((m) => m.strana === strana);
@@ -404,6 +411,27 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
     return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}"${podskazka(b.pomosht)}>${duma}</button>`;
   };
 
+  /**
+   * ЕДИН РИСУВАЧ ЗА ДВЕТЕ ТАБЛИЦИ · те са едни и същи колони с различен подбор.
+   *
+   * Видът на реда носи цвета: платеното е затъмнено, чакащото свети, а
+   * закъснялото и надплатеното са в другата таблица (негово, запис 195 т.5).
+   */
+  const redoveNaNapHTML = (
+    spisak: readonly RedNaNap[],
+    koya: string,
+    kogatoNyama: string,
+  ): Zapechatan =>
+    spisak.length === 0
+      ? h`<p class="vest" data-nap-prazna="${koya}">${kogatoNyama}</p>`
+      : h`<table class="tablitsa nap-mesetsi" data-nap-tablitsa="${koya}">
+          <thead><tr><th>месец</th><th class="evro">дължимо</th><th class="evro">декларирано</th><th class="evro">платено</th><th class="evro">остатък</th><th>какво</th></tr></thead>
+          <tbody>${spisak.map(
+            (r) =>
+              h`<tr class="red ${r.vid}" data-nap-mesets="${r.mesets}"><td translate="no">${r.mesets}</td><td class="evro" translate="no">${pishi(r.dalzhimo)}</td><td class="evro" translate="no">${pishi(r.deklarirano)}</td><td class="evro" translate="no">${pishi(r.plateno)}</td><td class="evro" translate="no">${pishi(r.ostatak)}</td><td>${r.kakvo}</td></tr>`,
+          )}</tbody>
+        </table>`;
+
   /** Подтабът НАП · ДДС по месеци и таблицата с находки (негово, 05.09 т.2). */
   const napHTML = (): Zapechatan => {
     const tDds = tablitsata(MODEL, 'dds');
@@ -444,6 +472,11 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         <tbody class="tablitsa">${redove}</tbody>
         <tfoot><tr class="sbor"><td colspan="${KOLONI_NA_DDSA.length}">натрупване</td><td class="evro" data-dds-dalzhimo translate="no"${izvedena('dalzhimo', POMOSHT_NA_DDSA)}>${pishi(dds.dalzhimo)}</td><td class="evro" data-dds-ostatak translate="no"${izvedena('ostatak', POMOSHT_NA_DDSA)}>${pishi(dds.ostatak)}</td></tr></tfoot>
       </table>
+      <h2 class="lenta" translate="no">Дължимо към НАП</h2>
+      <p class="pod-tablitsata" data-nap-neizlyazlo>За ${napDvete.minaliyatMesets} не е излязло ${pishi(napDvete.neizlyazlo_st)} · смята се с месец назад, защото числата от счетоводството идват така. Гледани месеци ${String(napDvete.ogledani)}.</p>
+      ${redoveNaNapHTML(napDvete.tekushti, 'tekushti', 'няма месец, който да чака плащане')}
+      <h2 class="lenta" translate="no">Грешки · неплатени над месец, надплатени, разминаващи се</h2>
+      ${redoveNaNapHTML(napDvete.greshki, 'greshki', 'няма нито една')}
       <h2 class="lenta" translate="no">Находки от сверките</h2>
       <p class="pod-tablitsata" data-nap-obobshtenie>${nap.nahodki.length} находки от ${nap.proverki} проверки на три нива: ${NIVA.join(' · ')}. Няма връзка с НАП (негово) — това е инструмент за счетоводителя. Износът за Микроинвест чака файл-мостра от него.</p>
       ${
