@@ -8,10 +8,29 @@
 
 import { DUMI_OT_KNIGATA } from '../../src/model/dumi-ot-knigata.js';
 import { prozoretsPoList, SLUZHEBEN_LIST } from '../../src/model/osnova.js';
+import { pomosht } from '../../src/model/pomosht.js';
+import { napalniSMostra, type RedNaMostrata } from '../../src/mostra/napalni.js';
 import { dostapaMi } from '../../src/smetach/pravo.js';
 import { dumiZaGreshka } from '../../src/yadro/dumi.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
+import { podskazka } from '../reshetka/podskazka.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
+
+/**
+ * РАЗПИСКАТА НА МОСТРАТА · живее ИЗВЪН тялото, защото всеки запис прерисува.
+ *
+ * Всяко действие през Портата вика абоната, а той рисува прозореца наново:
+ * елементът, който държиш в ръка, се сменя с нов и текстът, писан в стария,
+ * отива в откъснат възел. Същият урок като при износа (`deystviya.ts`).
+ */
+let mostraVest = '';
+let mostraRedove: readonly RedNaMostrata[] = [];
+
+/** Помощта на бутона · защо съществува и какво прави, с наши думи (правило 31). */
+const POMOSHT_NA_MOSTRATA = pomosht(
+  'Програмата тръгва празна и празен екран не показва нищо · мострата слага измислени редове във всяка таблица, за да се види как изглежда пълна.',
+  'пише през Вратата · пълни само празните таблици · всеки ред влиза в Журнала',
+);
 
 export function dumiteHTML(dumi: readonly { nomer: string; tekst: string }[]): Zapechatan {
   if (dumi.length === 0) return h``;
@@ -79,6 +98,23 @@ export function narisuvayProfil(k: KonteksNaEkrana): void {
       <button type="button" class="vtorichen" data-proveri>Провери веригата</button>
       <p data-veriga></p>
     </section>
+    <section class="sektsiya" data-sektsiya="mostra">
+      <h2>Мострата</h2>
+      <p>Напълва празните таблици с ИЗМИСЛЕНИ данни — имоти, обекти, задачи с бюджети, движения по Сметки, кеш, ДДС, служители и продажби — за да се види цялата програма, преди да е въведен истински ред. Пише се през Вратата, като всяко друго действие: всеки ред влиза в Журнала и се сторнира оттам. Таблица, която вече има редове, не се пипа.</p>
+      <button type="button" data-mostra${podskazka(POMOSHT_NA_MOSTRATA)}>Напълни с мостра</button>
+      <p data-mostra-vest>${mostraVest}</p>
+      ${
+        mostraRedove.length === 0
+          ? ''
+          : h`<table class="tablitsa" data-mostra-razpiska>
+        <thead><tr><th>какво</th><th>редове</th><th>бележка</th></tr></thead>
+        <tbody>${mostraRedove.map(
+          (r) =>
+            h`<tr class="red"><td>${r.kakvo}</td><td translate="no">${String(r.broy)}</td><td>${r.otkaz}</td></tr>`,
+        )}</tbody>
+      </table>`
+      }
+    </section>
     <section class="sektsiya" data-sektsiya="kniga">
       <h2>Погледни Книгата</h2>
       <p>Показва какво има в една Книга (.xlsx) — листове, редове, колони. Нищо не се сверява и нищо не се записва; вносът е в <a href="#/ii">ИИ · Сверчикът</a>.</p>
@@ -103,6 +139,25 @@ export function narisuvayProfil(k: KonteksNaEkrana): void {
     }
     location.hash = '#/imoti';
   });
+
+  k.tyalo
+    .querySelector<HTMLButtonElement>('[data-mostra]')
+    ?.addEventListener('click', async (e) => {
+      (e.currentTarget as HTMLButtonElement).disabled = true;
+      const imeyl = k.aktor().trim() === '' ? 'stopanin@example.bg' : k.aktor();
+      k.zadayAktor(imeyl);
+      try {
+        mostraRedove = await napalniSMostra(k.porta, imeyl, new Date().toISOString().slice(0, 10));
+        const sbor = mostraRedove.reduce((a, r) => a + r.broy, 0);
+        mostraVest =
+          sbor === 0
+            ? 'Нищо ново · таблиците вече имат редове.'
+            : `Готово · ${sbor} записа. Виж Имоти, Управление, Сметки, Служители и Продажби.`;
+      } catch (greshka) {
+        mostraVest = dumiZaGreshka(greshka);
+      }
+      k.prerisuvay();
+    });
 
   k.tyalo
     .querySelector<HTMLButtonElement>('[data-proveri]')
