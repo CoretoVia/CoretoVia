@@ -1,0 +1,8010 @@
+{
+  "kakvo": "Съответствие старо → ново на белезите · ГЕНЕРИРАНО от `node stroezh/belezi.mjs --sazday` · не се пише на ръка",
+  "gramatika": "ИЗ-‹тема›-‹n› · ИН-‹група›‹n› · ВП-‹серия›‹n› · ДЛ-‹серия›‹n›",
+  "broy": {
+    "ИЗ": 851,
+    "ИН": 263,
+    "ВП": 187,
+    "ДЛ": 32
+  },
+  "redove": [
+    {
+      "staro": "А0",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-А0",
+      "vid": "ВП"
+    },
+    {
+      "staro": "А1",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-А1",
+      "vid": "ВП"
+    },
+    {
+      "staro": "А2",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-А2",
+      "vid": "ВП"
+    },
+    {
+      "staro": "А3",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-А3",
+      "vid": "ВП"
+    },
+    {
+      "staro": "А37",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-А37",
+      "vid": "ВП"
+    },
+    {
+      "staro": "А4",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-А4",
+      "vid": "ВП"
+    },
+    {
+      "staro": "А43",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-А43",
+      "vid": "ВП"
+    },
+    {
+      "staro": "А94",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-А94",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Б1",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Б1",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Б2",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Б2",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Б3",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Б3",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Б4",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Б4",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Б5",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Б5",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Б6",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Б6",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В1",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В1",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В10",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В10",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В11",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В11",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В12",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В12",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В13",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В13",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В2",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В2",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В3",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В3",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В4",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В4",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В5",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В5",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В6",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В6",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В7",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В7",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В8",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В8",
+      "vid": "ВП"
+    },
+    {
+      "staro": "В9",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-В9",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Г1",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Г1",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Г2",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Г2",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Г3",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Г3",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Д1",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Д1",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Д2",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Д2",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Д3",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Д3",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Е1",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Е1",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Е2",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Е2",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Е3",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Е3",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Е4",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Е4",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Е5",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Е5",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К1",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К1",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К10",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К10",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К11",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К11",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К12",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К12",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К13",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К13",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К14",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К14",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К15",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К15",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К16",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К16",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К17",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К17",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К18",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К18",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К19",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К19",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К2",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К2",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К20",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К20",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К21",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К21",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К22",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К22",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К23",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К23",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К24",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К24",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К25",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К25",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К26",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К26",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К27",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К27",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К28",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К28",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К29",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К29",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К3",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К3",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К30",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К30",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К31",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К31",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К32",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К32",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К33",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К33",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К34",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К34",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К35",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К35",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К36",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К36",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К37",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К37",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К38",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К38",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К39",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К39",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К4",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К4",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К40",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К40",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К41",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К41",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К42",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К42",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К43",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К43",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К44",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К44",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К45",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К45",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К46",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К46",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К47",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К47",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К5",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К5",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К6",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К6",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К7",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К7",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К8",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К8",
+      "vid": "ВП"
+    },
+    {
+      "staro": "К9",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-К9",
+      "vid": "ВП"
+    },
+    {
+      "staro": "М1",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-М1",
+      "vid": "ВП"
+    },
+    {
+      "staro": "М11",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-М11",
+      "vid": "ВП"
+    },
+    {
+      "staro": "М12",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-М12",
+      "vid": "ВП"
+    },
+    {
+      "staro": "М2",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-М2",
+      "vid": "ВП"
+    },
+    {
+      "staro": "М3",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-М3",
+      "vid": "ВП"
+    },
+    {
+      "staro": "М6",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-М6",
+      "vid": "ВП"
+    },
+    {
+      "staro": "О1",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-О1",
+      "vid": "ВП"
+    },
+    {
+      "staro": "О10",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-О10",
+      "vid": "ВП"
+    },
+    {
+      "staro": "О11",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-О11",
+      "vid": "ВП"
+    },
+    {
+      "staro": "О2",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-О2",
+      "vid": "ВП"
+    },
+    {
+      "staro": "О3",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-О3",
+      "vid": "ВП"
+    },
+    {
+      "staro": "О4",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-О4",
+      "vid": "ВП"
+    },
+    {
+      "staro": "О5",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-О5",
+      "vid": "ВП"
+    },
+    {
+      "staro": "О6",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-О6",
+      "vid": "ВП"
+    },
+    {
+      "staro": "О7",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-О7",
+      "vid": "ВП"
+    },
+    {
+      "staro": "О8",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-О8",
+      "vid": "ВП"
+    },
+    {
+      "staro": "О9",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-О9",
+      "vid": "ВП"
+    },
+    {
+      "staro": "П1",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-П1",
+      "vid": "ВП"
+    },
+    {
+      "staro": "П10",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-П10",
+      "vid": "ВП"
+    },
+    {
+      "staro": "П11",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-П11",
+      "vid": "ВП"
+    },
+    {
+      "staro": "П2",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-П2",
+      "vid": "ВП"
+    },
+    {
+      "staro": "П3",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-П3",
+      "vid": "ВП"
+    },
+    {
+      "staro": "П4",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-П4",
+      "vid": "ВП"
+    },
+    {
+      "staro": "П5",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-П5",
+      "vid": "ВП"
+    },
+    {
+      "staro": "П6",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-П6",
+      "vid": "ВП"
+    },
+    {
+      "staro": "П7",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-П7",
+      "vid": "ВП"
+    },
+    {
+      "staro": "П8",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-П8",
+      "vid": "ВП"
+    },
+    {
+      "staro": "П9",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-П9",
+      "vid": "ВП"
+    },
+    {
+      "staro": "С1",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-С1",
+      "vid": "ВП"
+    },
+    {
+      "staro": "С13",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-С13",
+      "vid": "ВП"
+    },
+    {
+      "staro": "С17",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-С17",
+      "vid": "ВП"
+    },
+    {
+      "staro": "С2",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-С2",
+      "vid": "ВП"
+    },
+    {
+      "staro": "С3",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-С3",
+      "vid": "ВП"
+    },
+    {
+      "staro": "С4",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-С4",
+      "vid": "ВП"
+    },
+    {
+      "staro": "С5",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-С5",
+      "vid": "ВП"
+    },
+    {
+      "staro": "С6",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-С6",
+      "vid": "ВП"
+    },
+    {
+      "staro": "С7",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-С7",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т1",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т1",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т10",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т10",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т11",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т11",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т12",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т12",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т13",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т13",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т14",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т14",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т15",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т15",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т16",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т16",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т17",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т17",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т18",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т18",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т19",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т19",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т2",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т2",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т20",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т20",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т21",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т21",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т22",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т22",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т23",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т23",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т24",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т24",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т25",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т25",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т26",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т26",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т27",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т27",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т28",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т28",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т29",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т29",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т3",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т3",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т30",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т30",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т31",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т31",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т32",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т32",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т33",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т33",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т34",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т34",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т35",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т35",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т36",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т36",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т37",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т37",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т38",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т38",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т39",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т39",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т4",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т4",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т40",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т40",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т41",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т41",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т42",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т42",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т43",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т43",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т44",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т44",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т45",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т45",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т46",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т46",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т47",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т47",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т48",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т48",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т49",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т49",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т5",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т5",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т50",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т50",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т51",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т51",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т52",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т52",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т53",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т53",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т54",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т54",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т55",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т55",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т6",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т6",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т7",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т7",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т8",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т8",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Т9",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Т9",
+      "vid": "ВП"
+    },
+    {
+      "staro": "У1",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-У1",
+      "vid": "ВП"
+    },
+    {
+      "staro": "У2",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-У2",
+      "vid": "ВП"
+    },
+    {
+      "staro": "У3",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-У3",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Ф1",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Ф1",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Ф2",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Ф2",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Ф3",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Ф3",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Ф4",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Ф4",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Ф5",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Ф5",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Ф6",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Ф6",
+      "vid": "ВП"
+    },
+    {
+      "staro": "Ф7",
+      "fayl": "docs/registar-na-vaprosite.json",
+      "novo": "ВП-Ф7",
+      "vid": "ВП"
+    },
+    {
+      "staro": "П1",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-П1",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "П2",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-П2",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "П3",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-П3",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "П4",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-П4",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "П5",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-П5",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "П6",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-П6",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "П7",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-П7",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т13",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т13",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т15",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т15",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т16",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т16",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т18",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т18",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т19",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т19",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т20",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т20",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т21",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т21",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т22",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т22",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т24",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т24",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т26",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т26",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т3",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т3",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т35",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т35",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т4",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т4",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т43",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т43",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т45",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т45",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т49",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т49",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т50",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т50",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т51",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т51",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т52",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т52",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т53",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т53",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т54",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т54",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т55",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т55",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т6",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т6",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т7",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т7",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Т9",
+      "fayl": "docs/14-dalgat.md",
+      "novo": "ДЛ-Т9",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "1.1",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-1.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.2",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-1.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.3",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-1.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.4",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-1.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.5",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-1.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "10.1",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-10.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "10.2",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-10.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "11.1",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-11.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "11.2",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-11.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "11.3",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-11.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "12.1",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-12.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.1",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-2.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.2",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-2.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.3",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-2.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.4",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-2.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.5",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-2.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.6",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-2.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.7",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-2.7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.8",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-2.8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.1",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-3.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.2",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-3.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.3",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-3.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.4",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-3.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.5",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-3.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.6",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-3.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.1",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-4.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.2",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-4.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.3",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-4.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.4",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-4.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.5",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-4.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.6",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-4.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.1",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-5.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.2",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-5.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.3",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-5.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.4",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-5.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.5",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-5.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.6",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-5.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.1",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-6.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.2",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-6.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.3",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-6.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.4",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-6.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.5",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-6.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.6",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-6.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.7",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-6.7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.1",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-7.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.10",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-7.10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.11",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-7.11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.2",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-7.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.3",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-7.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.4",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-7.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.5",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-7.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.6",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-7.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.7",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-7.7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.8",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-7.8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.9",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-7.9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "8.1",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-8.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "8.2",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-8.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "8.3",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-8.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "8.4",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-8.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "8.5",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-8.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.1",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-9.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.2",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-9.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.3",
+      "fayl": "zadanie/CHISTO/01-imoti-i-portfeyl.md",
+      "novo": "ИЗ-01-9.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И1.1",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И1.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И1.2",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И1.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И1.3",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И1.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И2.1",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И2.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И2.2",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И2.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И2.3",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И2.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И2.4",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И2.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И2.5",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И2.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И2.6",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И2.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И2.7",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И2.7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И2.8",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И2.8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И3.1",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И3.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И3.2",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И3.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И3.3",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И3.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И4.1",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И4.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И5.1",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И5.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И5.2",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И5.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И5.3",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И5.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И5.4",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И5.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И6.1",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И6.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И6.2",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И6.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И6.3",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И6.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И6.4",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И6.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И7.1",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И7.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И7.2",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И7.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И8.1",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И8.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И8.2",
+      "fayl": "zadanie/CHISTO/02-naemi-i-dogovori.md",
+      "novo": "ИЗ-02-И8.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.1",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-1.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.2",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-1.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.3",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-1.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.4",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-1.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.5",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-1.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.6",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-1.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.7",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-1.7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "10.1",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-10.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "11.1",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-11.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "11.2",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-11.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "12.1",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-12.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "12.2",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-12.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "12.3",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-12.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "12.4",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-12.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "12.5",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-12.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "12.6",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-12.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.1",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-2.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.2",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-2.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.3",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-2.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.4",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-2.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.5",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-2.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.6",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-2.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.7",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-2.7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.8",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-2.8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.9",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-2.9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.1",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-3.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.2",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-3.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.3",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-3.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.4",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-3.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.5",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-3.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.1",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-4.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.2",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-4.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.3",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-4.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.4",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-4.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.5",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-4.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.1",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-5.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.2",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-5.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.3",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-5.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.4",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-5.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.5",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-5.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.6",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-5.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.7",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-5.7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.1",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-6.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.2",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-6.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.3",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-6.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.4",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-6.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.5",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-6.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.1",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-7.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.2",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-7.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.3",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-7.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "8.1",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-8.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "8.2",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-8.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "8.3",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-8.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "8.4",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-8.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "8.5",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-8.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.1",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-9.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.10",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-9.10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.11",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-9.11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.12",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-9.12",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.13",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-9.13",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.14",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-9.14",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.2",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-9.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.3",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-9.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.4",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-9.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.5",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-9.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.6",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-9.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.7",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-9.7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.8",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-9.8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "9.9",
+      "fayl": "zadanie/CHISTO/03-prodazhbi-i-sdelki.md",
+      "novo": "ИЗ-03-9.9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К1",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К10",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К11",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К12",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К12",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К13",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К13",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К14",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К14",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К15",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К15",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К16",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К16",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К17",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К17",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К18",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К18",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К19",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К19",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К2",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К20",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К20",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К21",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К21",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К22",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К22",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К23",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К23",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К24",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К24",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К25",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К25",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К26",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К26",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К27",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К27",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К28",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К28",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К29",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К29",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К3",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К30",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К30",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К31",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К31",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К32",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К32",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К33",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К33",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К34",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К34",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К35",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К35",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К36",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К36",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К37",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К37",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К38",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К38",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К39",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К39",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К4",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К40",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К40",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К41",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К41",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К42",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К42",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К43",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К43",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К44",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К44",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К45",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К45",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К46",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К46",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К47",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К47",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К5",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К6",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К7",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К8",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "К9",
+      "fayl": "zadanie/CHISTO/04-krediti-i-finansirane.md",
+      "novo": "ИЗ-04-К9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И1",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И10",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И11",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И12",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И12",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И13",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И13",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И131",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И131",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И137",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И137",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И14",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И14",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И15",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И15",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И16",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И16",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И17",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И17",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И18",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И18",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И19",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И19",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И2",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И20",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И20",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И21",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И21",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И22",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И22",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И23",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И23",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И24",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И24",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И25",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И25",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И26",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И26",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И27",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И27",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И28",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И28",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И29",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И29",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И3",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И30",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И30",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И31",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И31",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И32",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И32",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И33",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И33",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И34",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И34",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И35",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И35",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И36",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И36",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И37",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И37",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И38",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И38",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И39",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И39",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И4",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И40",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И40",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И41",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И41",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И42",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И42",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И43",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И43",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И44",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И44",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И45",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И45",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И46",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И46",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И47",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И47",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И48",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И48",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И49",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И49",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И5",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И50",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И50",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И51",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И51",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И52",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И52",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И53",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И53",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И54",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И54",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И55",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И55",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И56",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И56",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И57",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И57",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И58",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И58",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И59",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И59",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И6",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И60",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И60",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И61",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И61",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И62",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И62",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И63",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И63",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И64",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И64",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И65",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И65",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И66",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И66",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И67",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И67",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И68",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И68",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И69",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И69",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И7",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И70",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И70",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И71",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И71",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И72",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И72",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И73",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И73",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И74",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И74",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И75",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И75",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И76",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И76",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И77",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И77",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И78",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И78",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И79",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И79",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И8",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И80",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И80",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И81",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И81",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И82",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И82",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И83",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И83",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И84",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И84",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И85",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И85",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И86",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И86",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И87",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И87",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И88",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И88",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И89",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И89",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И9",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И90",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И90",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И91",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И91",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И92",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И92",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И93",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И93",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И94",
+      "fayl": "zadanie/CHISTO/07-proekti-dela-i-grafik.md",
+      "novo": "ИЗ-07-И94",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р1",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р10",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р11",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р12",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р12",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р13",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р13",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р14",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р14",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р15",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р15",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р16",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р16",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р17",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р17",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р18",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р18",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р19",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р19",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р2",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р20",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р20",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р21",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р21",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р22",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р22",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р23",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р23",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р24",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р24",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р25",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р25",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р26",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р26",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р27",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р27",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р28",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р28",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р29",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р29",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р3",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р30",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р30",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р31",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р31",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р32",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р32",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р33",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р33",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р34",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р34",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р35",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р35",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р36",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р36",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р37",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р37",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р38",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р38",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р39",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р39",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р4",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р40",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р40",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р41",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р41",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р42",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р42",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р43",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р43",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р44",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р44",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р45",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р45",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р46",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р46",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р47",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р47",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р48",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р48",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р49",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р49",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р5",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р50",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р50",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р51",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р51",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р52",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р52",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р53",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р53",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р54",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р54",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р55",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р55",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р56",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р56",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р57",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р57",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р58",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р58",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р59",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р59",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р6",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р60",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р60",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р61",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р61",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р7",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р8",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Р9",
+      "fayl": "zadanie/CHISTO/08-dostavchitsi-i-razhodi.md",
+      "novo": "ИЗ-08-Р9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д1",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д10",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д11",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д12",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д12",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д13",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д13",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д14",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д14",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д15",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д15",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д16",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д16",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д17",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д17",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д18",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д18",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д19",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д19",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д2",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д20",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д20",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д21",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д21",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д22",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д22",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д23",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д23",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д24",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д24",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д25",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д25",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д26",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д26",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д27",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д27",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д28",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д28",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д29",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д29",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д3",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д30",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д30",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д31",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д31",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д32",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д32",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д33",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д33",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д34",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д34",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д4",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д5",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д6",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д7",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д8",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д9",
+      "fayl": "zadanie/CHISTO/09-dokumenti-i-dosieta.md",
+      "novo": "ИЗ-09-Д9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И1",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И10",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И11",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И12",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И12",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И13",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И13",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И14",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И14",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И15",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И15",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И16",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И16",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И17",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И17",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И18",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И18",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И19",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И19",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И2",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И20",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И20",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И21",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И21",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И22",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И22",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И23",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И23",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И24",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И24",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И25",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И25",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И26",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И26",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И27",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И27",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И28",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И28",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И29",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И29",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И3",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И30",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И30",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И31",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И31",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И32",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И32",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И33",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И33",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И34",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И34",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И35",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И35",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И36",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И36",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И37",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И37",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И38",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И38",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И4",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И5",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И6",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И7",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И8",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И9",
+      "fayl": "zadanie/CHISTO/10-kontakti-i-prepiski.md",
+      "novo": "ИЗ-10-И9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д1",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д10",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д100",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д100",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д101",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д101",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д102",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д102",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д103",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д103",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д104",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д104",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д105",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д105",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д106",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д106",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д107",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д107",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д108",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д108",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д109",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д109",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д11",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д110",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д110",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д111",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д111",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д112",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д112",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д12",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д12",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д13",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д13",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д14",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д14",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д15",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д15",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д16",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д16",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д17",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д17",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д18",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д18",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д19",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д19",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д2",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д20",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д20",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д21",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д21",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д22",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д22",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д23",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д23",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д24",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д24",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д25",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д25",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д26",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д26",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д27",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д27",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д28",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д28",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д29",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д29",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д3",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д30",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д30",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д31",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д31",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д32",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д32",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д33",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д33",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д34",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д34",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д35",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д35",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д36",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д36",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д37",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д37",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д38",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д38",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д39",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д39",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д4",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д40",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д40",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д41",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д41",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д42",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д42",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д43",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д43",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д44",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д44",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д45",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д45",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д46",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д46",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д47",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д47",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д48",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д48",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д49",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д49",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д5",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д50",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д50",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д51",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д51",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д52",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д52",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д53",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д53",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д54",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д54",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д55",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д55",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д56",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д56",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д57",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д57",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д58",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д58",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д59",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д59",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д6",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д60",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д60",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д61",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д61",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д62",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д62",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д63",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д63",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д64",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д64",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д65",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д65",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д66",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д66",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д67",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д67",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д68",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д68",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д69",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д69",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д7",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д70",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д70",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д71",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д71",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д72",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д72",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д73",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д73",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д74",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д74",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д75",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д75",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д76",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д76",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д77",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д77",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д78",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д78",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д79",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д79",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д8",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д80",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д80",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д81",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д81",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д82",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д82",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д83",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д83",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д84",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д84",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д85",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д85",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д86",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д86",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д87",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д87",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д88",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д88",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д89",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д89",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д9",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д90",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д90",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д91",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д91",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д92",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д92",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д93",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д93",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д94",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д94",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д95",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д95",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д96",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д96",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д97",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д97",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д98",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д98",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Д99",
+      "fayl": "zadanie/CHISTO/13-dostap-roli-i-naemateli.md",
+      "novo": "ИЗ-13-Д99",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "11",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж1",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж10",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж11",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж12",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж12",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж13",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж13",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж14",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж14",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж15",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж15",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж16",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж16",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж17",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж17",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж18",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж18",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж19",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж19",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж2",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж20",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж20",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж21",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж21",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж22",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж22",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж23",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж23",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж24",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж24",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж25",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж25",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж26",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж26",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж27",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж27",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж28",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж28",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж29",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж29",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж3",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж30",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж30",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж31",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж31",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж32",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж32",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж33",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж33",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж34",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж34",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж35",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж35",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж36",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж36",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж37",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж37",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж38",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж38",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж39",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж39",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж4",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж40",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж40",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж41",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж41",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж42",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж42",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж43",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж43",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж44",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж44",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж45",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж45",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж46",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж46",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж47",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж47",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж48",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж48",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж49",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж49",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж5",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж50",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж50",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж51",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж51",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж52",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж52",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж53",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж53",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж54",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж54",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж55",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж55",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж56",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж56",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж57",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж57",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж58",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж58",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж59",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж59",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж6",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж60",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж60",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж61",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж61",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж62",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж62",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж63",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж63",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж64",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж64",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж65",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж65",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж66",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж66",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж67",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж67",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж68",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж68",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж69",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж69",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж7",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж70",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж70",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж71",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж71",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж72",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж72",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж73",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж73",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж74",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж74",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж75",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж75",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж76",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж76",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж77",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж77",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж78",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж78",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж79",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж79",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж8",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж80",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж80",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж81",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж81",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж82",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж82",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж83",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж83",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж84",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж84",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж85",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж85",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж86",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж86",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж87",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж87",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж88",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж88",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Ж9",
+      "fayl": "zadanie/CHISTO/14-zapis-zhurnal-i-vrashtane.md",
+      "novo": "ИЗ-14-Ж9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И1",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И10",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И11",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И12",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И12",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И13",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И13",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И14",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И14",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И15",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И15",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И16",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И16",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И17",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И17",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И18",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И18",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И19",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И19",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И2",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И20",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И20",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И21",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И21",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И22",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И22",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И23",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И23",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И24",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И24",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И25",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И25",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И26",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И26",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И27",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И27",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И28",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И28",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И29",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И29",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И3",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И30",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И30",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И31",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И31",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И32",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И32",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И33",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И33",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И34",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И34",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И35",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И35",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И36",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И36",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И37",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И37",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И38",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И38",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И39",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И39",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И4",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И40",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И40",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И41",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И41",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И42",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И42",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И43",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И43",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И44",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И44",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И45",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И45",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И46",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И46",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И47",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И47",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И48",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И48",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И49",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И49",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И5",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И50",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И50",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И51",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И51",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И52",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И52",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И53",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И53",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И54",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И54",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И55",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И55",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И56",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И56",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И57",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И57",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И58",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И58",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И59",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И59",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И6",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И60",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И60",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И61",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И61",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И62",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И62",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И63",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И63",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И64",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И64",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И65",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И65",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И66",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И66",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И67",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И67",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И68",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И68",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И69",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И69",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И7",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И70",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И70",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И71",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И71",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И72",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И72",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И73",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И73",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И74",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И74",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И75",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И75",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И76",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И76",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И77",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И77",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И78",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И78",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И79",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И79",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И8",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И80",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И80",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И81",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И81",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И82",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И82",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И83",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И83",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И84",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И84",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И85",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И85",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И86",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И86",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И87",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И87",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И88",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И88",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И89",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И89",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И9",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И90",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И90",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И91",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И91",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И92",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И92",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И93",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И93",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И94",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И94",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И95",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И95",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И96",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И96",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "И97",
+      "fayl": "zadanie/CHISTO/15-interfeys-i-izgledi.md",
+      "novo": "ИЗ-15-И97",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.1",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-1.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.2",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-1.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.3",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-1.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.4",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-1.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.5",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-1.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "1.6",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-1.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.1",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-2.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.10",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-2.10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.11",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-2.11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.12",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-2.12",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.13",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-2.13",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.14",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-2.14",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.2",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-2.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.3",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-2.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.4",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-2.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.5",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-2.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.6",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-2.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.7",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-2.7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.8",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-2.8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "2.9",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-2.9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.1",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.10",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.11",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.12",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.12",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.13",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.13",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.14",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.14",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.15",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.15",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.16",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.16",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.2",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.3",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.4",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.5",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.6",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.7",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.8",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "3.9",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-3.9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.1",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-4.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.10",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-4.10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.11",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-4.11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.12",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-4.12",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.2",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-4.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.3",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-4.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.4",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-4.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.5",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-4.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.6",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-4.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.7",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-4.7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.8",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-4.8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "4.9",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-4.9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.1",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-5.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.2",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-5.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "5.3",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-5.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.1",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-6.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.2",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-6.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "6.3",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-6.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.1",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-7.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.2",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-7.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.3",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-7.3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.4",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-7.4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.5",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-7.5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "7.6",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-7.6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "8.1",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-8.1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "8.2",
+      "fayl": "zadanie/CHISTO/17-vnos-iznos-i-vrazki.md",
+      "novo": "ИЗ-17-8.2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "В13",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-В13",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т1",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т1",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т10",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т10",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т11",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т11",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т12",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т12",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т13",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т13",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т14",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т14",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т15",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т15",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т16",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т16",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т17",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т17",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т18",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т18",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т19",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т19",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т2",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т2",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т20",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т20",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т21",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т21",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т22",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т22",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т23",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т23",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т24",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т24",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т25",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т25",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т26",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т26",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т27",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т27",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т28",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т28",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т29",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т29",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т3",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т3",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т30",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т30",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т31",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т31",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т32",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т32",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т33",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т33",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т34",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т34",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т35",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т35",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т36",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т36",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т37",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т37",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т38",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т38",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т39",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т39",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т4",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т4",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т40",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т40",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т41",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т41",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т42",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т42",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т43",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т43",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т44",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т44",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т45",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т45",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т46",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т46",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т47",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т47",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т48",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т48",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т49",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т49",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т5",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т5",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т50",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т50",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т51",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т51",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т52",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т52",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т53",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т53",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т54",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т54",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т55",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т55",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т6",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т6",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т7",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т7",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т8",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т8",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "Т9",
+      "fayl": "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+      "novo": "ИЗ-19-Т9",
+      "vid": "ИЗ"
+    },
+    {
+      "staro": "А1",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А1",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А10",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А10",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А11",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А11",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А12",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А12",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А13",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А13",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А14",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А14",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А15",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А15",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А16",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А16",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А17",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А17",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А18",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А18",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А19",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А19",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А2",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А2",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А20",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А20",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А21",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А21",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А22",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А22",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А23",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А23",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А24",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А24",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А25",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А25",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А26",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А26",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А27",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А27",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А28",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А28",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А29",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А29",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А3",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А3",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А30",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А30",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А31",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А31",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А32",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А32",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А33",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А33",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А34",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А34",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А35",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А35",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А4",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А4",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А5",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А5",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А6",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А6",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А7",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А7",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А8",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А8",
+      "vid": "ИН"
+    },
+    {
+      "staro": "А9",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-А9",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б1",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б1",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б10",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б10",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б11",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б11",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б12",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б12",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б13",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б13",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б14",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б14",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б15",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б15",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б16",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б16",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б17",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б17",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б18",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б18",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б19",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б19",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б2",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б2",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б20",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б20",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б21",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б21",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б22",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б22",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б23",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б23",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б24",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б24",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б25",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б25",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б26",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б26",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б27",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б27",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б28",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б28",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б29",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б29",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б3",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б3",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б30",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б30",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б31",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б31",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б32",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б32",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б33",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б33",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б34",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б34",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б35",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б35",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б36",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б36",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б37",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б37",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б38",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б38",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б39",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б39",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б4",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б4",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б40",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б40",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б41",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б41",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б42",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б42",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б43",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б43",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б44",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б44",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б45",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б45",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б5",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б5",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б6",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б6",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б7",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б7",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б8",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б8",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Б9",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Б9",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В1",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В1",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В10",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В10",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В11",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В11",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В12",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В12",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В13",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В13",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В14",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В14",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В15",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В15",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В16",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В16",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В17",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В17",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В18",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В18",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В19",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В19",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В2",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В2",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В20",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В20",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В21",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В21",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В22",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В22",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В23",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В23",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В24",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В24",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В25",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В25",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В26",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В26",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В27",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В27",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В28",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В28",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В29",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В29",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В3",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В3",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В30",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В30",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В31",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В31",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В32",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В32",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В33",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В33",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В34",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В34",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В35",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В35",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В36",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В36",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В37",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В37",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В38",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В38",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В39",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В39",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В4",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В4",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В5",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В5",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В6",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В6",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В7",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В7",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В8",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В8",
+      "vid": "ИН"
+    },
+    {
+      "staro": "В9",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-В9",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г1",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г1",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г10",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г10",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г11",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г11",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г12",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г12",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г13",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г13",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г14",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г14",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г15",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г15",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г16",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г16",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г17",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г17",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г18",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г18",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г19",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г19",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г2",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г2",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г20",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г20",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г21",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г21",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г22",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г22",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г23",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г23",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г24",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г24",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г25",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г25",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г26",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г26",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г27",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г27",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г28",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г28",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г29",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г29",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г3",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г3",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г4",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г4",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г5",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г5",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г6",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г6",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г7",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г7",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г8",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г8",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Г9",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Г9",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д1",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д1",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д10",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д10",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д11",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д11",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д12",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д12",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д13",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д13",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д14",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д14",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д15",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д15",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д16",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д16",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д17",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д17",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д18",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д18",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д19",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д19",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д2",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д2",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д20",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д20",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д21",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д21",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д22",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д22",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д23",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д23",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д24",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д24",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д25",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д25",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д26",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д26",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д3",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д3",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д4",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д4",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д5",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д5",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д6",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д6",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д7",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д7",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д8",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д8",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Д9",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Д9",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е1",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е1",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е10",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е10",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е11",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е11",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е12",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е12",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е13",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е13",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е14",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е14",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е15",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е15",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е16",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е16",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е17",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е17",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е18",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е18",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е19",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е19",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е2",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е2",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е20",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е20",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е3",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е3",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е4",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е4",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е5",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е5",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е6",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е6",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е7",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е7",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е8",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е8",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Е9",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Е9",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж1",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж1",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж10",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж10",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж11",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж11",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж12",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж12",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж13",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж13",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж14",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж14",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж15",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж15",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж16",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж16",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж17",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж17",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж18",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж18",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж19",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж19",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж2",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж2",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж20",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж20",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж3",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж3",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж4",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж4",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж5",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж5",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж6",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж6",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж7",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж7",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж8",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж8",
+      "vid": "ИН"
+    },
+    {
+      "staro": "Ж9",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-Ж9",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З1",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З1",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З10",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З10",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З11",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З11",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З12",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З12",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З13",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З13",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З14",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З14",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З15",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З15",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З16",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З16",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З17",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З17",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З18",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З18",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З19",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З19",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З2",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З2",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З20",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З20",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З21",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З21",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З22",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З22",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З23",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З23",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З24",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З24",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З25",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З25",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З26",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З26",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З27",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З27",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З28",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З28",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З29",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З29",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З3",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З3",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З30",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З30",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З4",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З4",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З5",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З5",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З6",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З6",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З7",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З7",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З8",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З8",
+      "vid": "ИН"
+    },
+    {
+      "staro": "З9",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-З9",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И1",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И1",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И10",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И10",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И11",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И11",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И12",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И12",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И13",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И13",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И14",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И14",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И15",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И15",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И16",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И16",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И17",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И17",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И18",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И18",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И19",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И19",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И2",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И2",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И3",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И3",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И4",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И4",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И5",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И5",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И6",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И6",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И7",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И7",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И8",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И8",
+      "vid": "ИН"
+    },
+    {
+      "staro": "И9",
+      "fayl": "docs/arhitektura/chasti/5-invariantite.md",
+      "novo": "ИН-И9",
+      "vid": "ИН"
+    }
+  ]
+}
