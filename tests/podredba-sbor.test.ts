@@ -54,11 +54,11 @@ const KOLONI: readonly Kolona[] = [
 ];
 
 describe('главата подрежда', () => {
-  it('всяка колона е БУТОН, който отваря менюто · не поле за търсене', () => {
+  it('всяка колона е БУТОН за подредба · не поле за търсене', () => {
     const iz = kato(glavaSPodredbaHTML(KOLONI));
     // ПЪРВО броят · цикъл върху празен списък минава тихо (обход Г на честността)
     expect(KOLONI).toHaveLength(4);
-    for (const k of KOLONI) expect(iz).toContain(`data-glava="${k.klyuch}"`);
+    for (const k of KOLONI) expect(iz).toContain(`data-podredi="${k.klyuch}"`);
     expect(iz).toContain('<button type="button"');
     // поправката от 11.09 · тук НЯМА поле за писане
     expect(iz).not.toContain('<input');

@@ -20,6 +20,7 @@
  * като ширините."
  */
 
+import { pokazhiMenyu } from './menyu.js';
 import { chetiEkranno, zapomniEkranno } from './pamet-ekran.js';
 
 /** Най-тясната колона, под която текстът става нечетим. */
@@ -113,6 +114,51 @@ export function prilozhiKolonite(koren: HTMLElement): void {
     const broy = lenta.querySelector<HTMLElement>('[data-skriti-broy]');
     if (broy !== null) broy.textContent = String(skriti);
   }
+}
+
+/**
+ * СКРИВАНЕТО е на ДЕСНИЯ БУТОН върху главата · негова конвенция.
+ *
+ * Негово, 31.08: „на всеки обект, който се движи из различни таблици, да има
+ * опция **с десен бутон да го управляваш**… и да са съобразени от мястото,
+ * където е самият обект." Лявото натискане подрежда (запис 192), дясното
+ * управлява — така главата носи двете, без нито едно допълнително копче да
+ * яде място (запис 193: „мястото е ценно").
+ */
+export function zakachiDesniyaButonNaGlavata(koren: HTMLElement): void {
+  koren.addEventListener('contextmenu', (e) => {
+    const th = (e.target as HTMLElement | null)?.closest<HTMLElement>('th[data-kolona]');
+    if (th === null || th === undefined) return;
+    const tabl = th.closest('table.reshetka.redove');
+    if (!(tabl instanceof HTMLTableElement)) return;
+    const tablitsa = tabl.dataset['reshetka'] ?? '';
+    const klyuch = th.dataset['kolona'] ?? '';
+    if (tablitsa === '' || klyuch === '') return;
+    e.preventDefault();
+    const ime = (th.textContent ?? '').trim();
+    pokazhiMenyu(e.clientX, e.clientY, [
+      {
+        klyuch: 'skriy',
+        ime: `Скрий колоната „${ime}"`,
+        razreshena: true,
+        zashto: '',
+        deystvie: () => {
+          skriyKolona(tablitsa, klyuch);
+          prilozhiKolonite(koren);
+        },
+      },
+      {
+        klyuch: 'varni',
+        ime: 'Покажи всички колони',
+        razreshena: true,
+        zashto: '',
+        deystvie: () => {
+          varniVsichkiKoloni(tablitsa);
+          prilozhiKolonite(koren);
+        },
+      },
+    ]);
+  });
 }
 
 /**

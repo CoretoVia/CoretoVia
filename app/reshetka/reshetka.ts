@@ -27,7 +27,12 @@ import type { KonteksNaEkrana } from '../kontekst.js';
 import { podskazkaSDumi } from './podskazka.js';
 import { h, type Zapechatan } from './shablon.js';
 import { fokusiraySled, zakachiRedaktsiya } from './redaktsiya.js';
-import { prilozhiKolonite, varniVsichkiKoloni, zakachiVlacheneto } from './kolonite.js';
+import {
+  prilozhiKolonite,
+  varniVsichkiKoloni,
+  zakachiDesniyaButonNaGlavata,
+  zakachiVlacheneto,
+} from './kolonite.js';
 import {
   glavaSPodredbaHTML,
   kletkaSOtmetkaHTML,
@@ -117,6 +122,7 @@ export function zakachiReshetkata(k: KonteksNaEkrana): void {
   zakachiRedaktsiya(k.tyalo, k);
   zakachiPodredbaISbor(k.tyalo);
   zakachiVlacheneto(k.tyalo);
+  zakachiDesniyaButonNaGlavata(k.tyalo);
   prilozhiKolonite(k.tyalo);
   k.tyalo.addEventListener('click', (e) => {
     const buton = (e.target as HTMLElement | null)?.closest<HTMLElement>('[data-varni-koloni]');

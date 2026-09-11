@@ -1076,3 +1076,46 @@ body.vlacha-shirina {
 .ekran .skriti-koloni {
   color: var(--sivo);
 }
+
+/* ═══ ЕДИН РЕД · таблицата и календарът са едно, както в MS Project ═══
+   Негово, 11.09 (запис 194): „Искам да се сливат редовете на таблицата и на
+   календара, са еднакви редове… както изглежда в МС Проджект." Тактовете са
+   КОЛОНИ на същата таблица; дотук вдясно стоеше SVG, подравнен с мерене. */
+.ekran .darvo-blok .reshetka.darvo td.takt,
+.ekran .darvo-blok .reshetka.darvo th.takt {
+  width: 2.4rem;
+  min-width: 2.4rem;
+  text-align: center;
+  font-size: 0.7rem;
+  border-left: 1px solid var(--linija);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.ekran .darvo-blok .reshetka.darvo th.takt.dnes,
+.ekran .darvo-blok .reshetka.darvo td.takt.dnes {
+  background: var(--zhalto);
+}
+.ekran .darvo-blok .reshetka.darvo td.takt.lenta {
+  background: var(--zeleno);
+  color: var(--hartiya);
+  text-align: left;
+  padding-left: 0.25rem;
+}
+.ekran .darvo-blok .reshetka.darvo td.takt.lenta.zhalto {
+  background: #caa63a;
+}
+.ekran .darvo-blok .reshetka.darvo td.takt.lenta.cherveno,
+.ekran .darvo-blok .reshetka.darvo td.takt.lenta.prosrocheno,
+.ekran .darvo-blok .reshetka.darvo td.takt.lenta.speshno {
+  background: var(--cherveno);
+}
+/* „Скрий Диаграма" крие КОЛОНИТЕ на такта, а не съседен блок */
+.ekran .darvo-blok .reshetka.darvo.bez-taktove td.takt,
+.ekran .darvo-blok .reshetka.darvo.bez-taktove th.takt {
+  display: none;
+}
+.ekran .darvo-blok .reshetka.darvo tfoot td.takt .pokrivashti {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--sivo);
+}

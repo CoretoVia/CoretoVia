@@ -9,7 +9,8 @@
  * четиринайсет бутона (`BUTONI_NA_UPRAVLENIE` — данни, всеки казва какво прави
  * днес). Под нея — дървото Имот → Обект/Бизнес → Задача (`darvo.ts`) с неговите
  * десет глави, подглавите, редът „филтър" (`filtar.ts`) и редът СБОР
- * (`sbor.ts`), а до него — диаграмата Гант върху същите редове (`gant-svg.ts`).
+ * (`sbor.ts`), а тактовете са КОЛОНИ на същия ред — календарът е в таблицата,
+ * не втора таблица встрани (негово, запис 194: „както изглежда в МС Проджект").
  *
  * Нищо тук не се записва без Портата: задача се добавя от десния бутон върху
  * Имот, Обект или Бизнес (чернова под реда), клетките се поправят на място,
@@ -35,13 +36,12 @@ import { type Red, redKato } from '../../src/ogledalo/tablitsa.js';
 import { darvoto, type RoditelVDarvoto } from '../../src/smetach/darvo.js';
 import { eFiltarPrazen, filtrirayDarvoto, type RedZaFiltar } from '../../src/smetach/filtar.js';
 import {
-  broyPokrivashti,
   dumataNaButona,
   type KoeSeVizhda,
   lentaNa,
   prevkluchi,
+  broyPokrivashti,
   sboroveVKolonite,
-  type Svetofar,
   svetofarNaSroka,
 } from '../../src/smetach/gant.js';
 import { dumiNaKletka, imeNaReda, tekstNaIzbora } from '../../src/smetach/kletki.js';
@@ -58,6 +58,7 @@ import {
 import {
   IMENA_NA_TAKTOVETE,
   koloniNaTakta,
+  type KolonaNaTakta,
   type SvoyPeriod,
   type Takt,
   TAKTOVE,
@@ -65,7 +66,6 @@ import {
 import { pishi } from '../../src/yadro/pari.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { otvoriChernova } from '../reshetka/chernova.js';
-import { gantSVG, type RedNaGanta } from '../reshetka/gant-svg.js';
 import { pokazhiMenyu } from '../reshetka/menyu.js';
 import { otvoriModel, zapaziModela } from '../reshetka/modeli.js';
 import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
@@ -73,7 +73,12 @@ import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
 import { chetiEkranno, zapomniEkranno } from '../reshetka/pamet-ekran.js';
 import { pokazhiGreshka } from '../reshetka/redaktsiya.js';
 import { kletkaHTML, zakachiReshetkata } from '../reshetka/reshetka.js';
-import { gantIDumiHTML, izpalniOtMenyuto, zakachiDyasnoMenyu, zapaziKnigata } from './deystviya.js';
+import {
+  dumiteIIznosHTML,
+  izpalniOtMenyuto,
+  zakachiDyasnoMenyu,
+  zapaziKnigata,
+} from './deystviya.js';
 
 const PAMET = Object.freeze({
   filtar: 'upravlenie.filtar',
@@ -86,7 +91,7 @@ const PAMET = Object.freeze({
 });
 const TABLITSA = 'zadachi';
 /** ширината на една колона на такта · при ден (часове) по-тясна */
-const SHIRINA_NA_KOLONATA: Readonly<Record<Takt, number>> = Object.freeze({
+const _SHIRINA_NA_KOLONATA: Readonly<Record<Takt, number>> = Object.freeze({
   den: 28,
   sedmitsa: 40,
   mesets: 36,
@@ -95,8 +100,8 @@ const SHIRINA_NA_KOLONATA: Readonly<Record<Takt, number>> = Object.freeze({
   svoy: 36,
 });
 /** височините, когато таблицата е скрита и няма какво да се измери */
-const VISINA_NA_GLAVATA_BEZ_TABLITSA = 84;
-const VISINA_NA_REDA_BEZ_TABLITSA = 28;
+const _VISINA_NA_GLAVATA_BEZ_TABLITSA = 84;
+const _VISINA_NA_REDA_BEZ_TABLITSA = 28;
 
 /** лицето на бутона · до първата скоба · неговата дума */
 function litse(b: ButonNaProzoretsa): string {
@@ -123,6 +128,37 @@ function kolonaZaSbora(g: GlavaNaOblika): { tablitsa: string; kol: Kolona } | nu
   return kol === undefined ? null : { tablitsa, kol };
 }
 
+/** Бюджетът на реда · цели центове, нула когато няма. */
+function byudzhetaNa(r: RedNaEkrana): number {
+  for (const k of r.kletki) if (k !== null && 'stoynost_st' in k) return k.stoynost_st;
+  return 0;
+}
+
+/**
+ * КЛЕТКИТЕ НА ТАКТА за един ред · дясната половина на СЪЩИЯ ред.
+ *
+ * Негово, 08.09 (запис 64в): „Календар със Задачи с ТЕКСТ в календара в
+ * Управление и цифри в Сметки". Затова в клетката влиза името на задачата, а
+ * не число: първата покрита клетка го носи, останалите са плътни.
+ *
+ * Светофарът идва от срока: нормално · жълто седмица преди · червено два дни
+ * преди · просрочено. „Спешно и Важно" е негова дума и слага свой клас.
+ */
+function taktKletkiHTML(
+  r: RedNaEkrana,
+  koloni: readonly KolonaNaTakta[],
+  dnes: string,
+): readonly Zapechatan[] {
+  const lenta = r.vid === 'zadacha' ? lentaNa({ id: r.id, ot: r.ot, do: r.do }, koloni) : null;
+  const svetofar = r.vid === 'zadacha' && r.do !== '' ? svetofarNaSroka(r.do, dnes) : null;
+  return koloni.map((kol, i) => {
+    const vatre = lenta !== null && i >= lenta.ot && i < lenta.ot + lenta.broy;
+    if (!vatre) return h`<td class="takt${kol.dnes ? ' dnes' : ''}"></td>`;
+    const klas = `takt lenta ${svetofar ?? 'normalno'}${r.speshno ? ' speshno' : ''}${kol.dnes ? ' dnes' : ''}`;
+    return h`<td class="${klas}" data-lenta="${r.id}">${i === lenta.ot ? r.ime : ''}</td>`;
+  });
+}
+
 interface RedNaEkrana {
   readonly vid: 'roditel' | 'zadacha';
   readonly nivo: 0 | 1 | 2;
@@ -132,7 +168,12 @@ interface RedNaEkrana {
   readonly dumi: readonly string[];
   /** клетката под всяка негова глава · за сбора */
   readonly kletki: readonly (Kletka | null)[];
-  readonly html: Zapechatan;
+  /** клетките на реда · `<tr>` се сглобява НАКРАЯ, за да легнат до него и тактовете */
+  readonly tds: readonly Zapechatan[];
+  /** класът и белезите на реда · същите, каквито бяха в готовия `<tr>` */
+  readonly klas: string;
+  readonly seq: number;
+  readonly roditelId: string;
   readonly ime: string;
   readonly ot: string;
   readonly do: string;
@@ -204,7 +245,10 @@ function redNaRoditel(
     ot: '',
     do: '',
     speshno: false,
-    html: h`<tr class="${klas}" data-id="${r.id}" data-tablitsa="${r.tablitsa}" data-nivo="${r.nivo}" data-seq="${red.seq}">${tds}</tr>`,
+    tds,
+    klas,
+    seq: red.seq,
+    roditelId: '',
   };
 }
 
@@ -257,7 +301,10 @@ function redNaZadacha(
     do: tekst('do'),
     speshno:
       speshnoNomer !== null && ots !== undefined && 'nomer' in ots && ots.nomer === speshnoNomer,
-    html: h`<tr class="red zadacha nivo-2" data-id="${red.id}" data-tablitsa="${TABLITSA}" data-roditel="${roditelId}" data-nivo="2" data-seq="${red.seq}">${tds}</tr>`,
+    tds,
+    klas: 'red zadacha nivo-2',
+    seq: red.seq,
+    roditelId,
   };
 }
 
@@ -311,6 +358,21 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   const vidimi = f.vidimi.map((i) => redove[i]!);
 
   // ═══ сборът под всяка глава · върху видимите ═══
+  /**
+   * ТАКТОВЕТЕ · КОЛОНИ НА СЪЩАТА ТАБЛИЦА, не втора таблица встрани.
+   *
+   * Негово, 11.09 (запис 194): „Искам да се сливат редовете на таблицата и на
+   * календара, са еднакви редове. Искам да са едно както изглежда в МС
+   * Проджект." И самата му Книга ги държи така: тактовете `K17:R17` са клетки
+   * на реда. Дотук вдясно стоеше SVG, подравнен с мерене на височини — красиво,
+   * но два отделни свята, които се разминават при първия скрол.
+   */
+  const deystvashtTakt: Takt = takt === 'svoy' && period === null ? 'mesets' : takt;
+  const koloniNaTaktove =
+    deystvashtTakt === 'svoy' && period !== null
+      ? koloniNaTakta('svoy', dnes, period)
+      : koloniNaTakta(deystvashtTakt, dnes);
+
   const sborKletki: Zapechatan[] = [];
   for (const [j, g] of oblik.entries()) {
     const broy = Math.max(1, koloniPodGlavata(g).length);
@@ -349,6 +411,35 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   const glavi = oblik.map(
     (g) =>
       h`<th colspan="${Math.max(1, koloniPodGlavata(g).length)}" data-glava="${g.kolona ?? 'nomeratsiya'}"${podskazka(g.pomosht)}>${g.glava}</th>`,
+  );
+  /** сборът под всеки такт · бюджетът на задачите, които почват в него */
+  /** колко задачи има на екрана и за колко от тях пада лента в този такт */
+  const zadachiteNaEkrana = vidimi.filter((r) => r.vid === 'zadacha');
+  const broyZadachi = zadachiteNaEkrana.length;
+  const broyLenti = zadachiteNaEkrana.filter(
+    (r) => lentaNa({ id: r.id, ot: r.ot, do: r.do }, koloniNaTaktove) !== null,
+  ).length;
+  const lentiteNaEkrana = zadachiteNaEkrana
+    .map((r) => lentaNa({ id: r.id, ot: r.ot, do: r.do }, koloniNaTaktove))
+    .filter((l) => l !== null);
+  const pokrivashti = broyPokrivashti(koloniNaTaktove, lentiteNaEkrana);
+  const sboroveNaTaktovete = sboroveVKolonite(
+    koloniNaTaktove,
+    zadachiteNaEkrana
+      .filter((r) => r.ot !== '')
+      .map((r) => ({ data: r.ot, chislo: byudzhetaNa(r) })),
+  ).map((s, i) => {
+    const broy = pokrivashti[i] ?? 0;
+    return h`<td class="takt evro" translate="no">${
+      s.obhvat === 0 || s.sbor === 0 ? '' : pishi(s.sbor)
+    }${broy === 0 ? '' : h`<span class="pokrivashti">${String(broy)}</span>`}</td>`;
+  });
+  const glaviNaTaktovete = koloniNaTaktove.map(
+    (kol) =>
+      h`<th class="takt${kol.dnes ? ' dnes' : ''}"${podskazkaSDumi(kol.opis)}>${kol.nadpis}</th>`,
+  );
+  const podglaviNaTaktovete = koloniNaTaktove.map(
+    (kol) => h`<th class="podglava takt${kol.dnes ? ' dnes' : ''}"></th>`,
   );
   const podglavi = oblik.map(
     (g) =>
@@ -399,22 +490,31 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
     <section class="upravlenie-tyalo" data-upravlenie>
       <div class="tablitsa-blok darvo-blok" data-blok="darvo" ${vizhda.tablitsa ? '' : 'hidden'}>
         <h2 class="lenta" translate="no">${p.lenti[1] ?? 'ОБЕКТИ'}</h2>
-        <table class="reshetka darvo" data-reshetka="${TABLITSA}">
+        <table class="reshetka darvo${vizhda.diagrama ? '' : ' bez-taktove'}" data-reshetka="${TABLITSA}">
           <thead>
-            <tr class="glavi">${glavi}</tr>
-            <tr class="podglavi">${podglavi}</tr>
-            <tr class="filtar" data-filtar-red>${redFiltar}</tr>
+            <tr class="glavi">${glavi}${glaviNaTaktovete}</tr>
+            <tr class="podglavi">${podglavi}${podglaviNaTaktovete}</tr>
+            <tr class="filtar" data-filtar-red>${redFiltar}${koloniNaTaktove.map(() => h`<td class="takt"></td>`)}</tr>
           </thead>
-          <tbody class="tablitsa">${vidimi.map((r) => r.html)}</tbody>
-          <tfoot><tr class="sbor" data-sbor-red>${sborKletki}</tr></tfoot>
+          <tbody class="tablitsa">${vidimi.map(
+            (r) =>
+              h`<tr class="${r.klas}" data-id="${r.id}" data-tablitsa="${r.tablitsa}" data-nivo="${String(r.nivo)}" data-seq="${String(r.seq)}"${
+                r.roditelId === '' ? '' : h` data-roditel="${r.roditelId}"`
+              }>${r.tds}${taktKletkiHTML(r, koloniNaTaktove, dnes)}</tr>`,
+          )}</tbody>
+          <tfoot><tr class="sbor" data-sbor-red>${sborKletki}${sboroveNaTaktovete}</tr></tfoot>
         </table>
+        <p class="pod-tablitsata" data-sverka="gant">ленти ${String(broyLenti)} · без дати или извън обхвата ${String(
+          broyZadachi - broyLenti,
+        )} · задачи ${String(broyZadachi)} · такт ${IMENA_NA_TAKTOVETE[deystvashtTakt].toLocaleLowerCase('bg')} · колони ${String(
+          koloniNaTaktove.length,
+        )}</p>
         <p class="pod-tablitsata" data-sverka="darvo">видими ${f.broyVidimi} от ${redove.length} · родители ${darvo.broyRoditeli} · задачи ${darvo.broyZadachi} · сираци ${darvo.siratsi.length}${eFiltarPrazen(filtar) ? '' : ' · филтърът е включен'}</p>
       </div>
-      ${gantIDumiHTML(p.lenti[2] ?? 'Диаграма Гант', DUMI_OT_KNIGATA.upravlenie, !vizhda.diagrama)}`,
+      ${dumiteIIznosHTML(DUMI_OT_KNIGATA.upravlenie)}`,
   );
 
   zakachiReshetkata(k);
-  narisuvayGanta(k, vidimi, takt, period, dnes);
 
   // ═══ филтърът · сметките · памет на екрана ═══
   for (const pole of k.tyalo.querySelectorAll<HTMLInputElement>('[data-filtar]')) {
@@ -493,79 +593,6 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
             },
           ],
   );
-}
-
-/** Гантът · след като таблицата е на екрана, редовете се измерват и лентите застават срещу тях. */
-function narisuvayGanta(
-  k: KonteksNaEkrana,
-  vidimi: readonly RedNaEkrana[],
-  takt: Takt,
-  period: SvoyPeriod | null,
-  dnes: string,
-): void {
-  const skrol = k.tyalo.querySelector<HTMLElement>('[data-gant-skrol]');
-  if (!skrol) return;
-  // „свой" без период не е такт · пада на месец, и СВЕРКАТА казва месец, не „свой"
-  const deystvasht: Takt = takt === 'svoy' && period === null ? 'mesets' : takt;
-  const koloni =
-    deystvasht === 'svoy' && period !== null
-      ? koloniNaTakta('svoy', dnes, period)
-      : koloniNaTakta(deystvasht, dnes);
-  const tabl = k.tyalo.querySelector<HTMLTableElement>(`[data-reshetka="${TABLITSA}"]`);
-  const vidimaTablitsa = tabl !== null && tabl.offsetParent !== null;
-  const gore = vidimaTablitsa ? tabl.getBoundingClientRect().top : 0;
-  const visinaNaGlavata = vidimaTablitsa
-    ? (tabl.tHead?.getBoundingClientRect().height ?? VISINA_NA_GLAVATA_BEZ_TABLITSA)
-    : VISINA_NA_GLAVATA_BEZ_TABLITSA;
-  const trove = vidimaTablitsa ? [...tabl.querySelectorAll<HTMLElement>('tbody tr.red')] : [];
-  const redove: RedNaGanta[] = vidimi.map((r, i) => {
-    const tr = trove[i];
-    const y =
-      tr === undefined
-        ? visinaNaGlavata + i * VISINA_NA_REDA_BEZ_TABLITSA
-        : tr.getBoundingClientRect().top - gore;
-    const visina =
-      tr === undefined ? VISINA_NA_REDA_BEZ_TABLITSA : tr.getBoundingClientRect().height;
-    const lenta = r.vid === 'zadacha' ? lentaNa({ id: r.id, ot: r.ot, do: r.do }, koloni) : null;
-    let svetofar: Svetofar | null = null;
-    if (r.vid === 'zadacha' && r.do !== '') {
-      try {
-        svetofar = svetofarNaSroka(r.do, dnes);
-      } catch {
-        svetofar = null; // нечетима дата · лентата стои без светофар, клетката я казва
-      }
-    }
-    return { id: r.id, ime: r.ime, y, visina, lenta, svetofar, speshno: r.speshno };
-  });
-  const lenti = redove.map((r) => r.lenta).filter((l) => l !== null);
-  const chislaPoData = vidimi
-    .filter((r) => r.vid === 'zadacha' && r.ot !== '')
-    .map((r) => {
-      const b = r.kletki.find((kl) => kl !== null && 'stoynost_st' in kl);
-      return {
-        data: r.ot,
-        chislo: b !== null && b !== undefined && 'stoynost_st' in b ? b.stoynost_st : 0,
-      };
-    });
-  const sborove = sboroveVKolonite(koloni, chislaPoData);
-  const pokrivashti = broyPokrivashti(koloni, lenti);
-  sloji(
-    skrol,
-    gantSVG({
-      koloni,
-      redove,
-      visinaNaGlavata,
-      sborove,
-      pokrivashti,
-      shirinaNaKolonata: SHIRINA_NA_KOLONATA[deystvasht],
-    }),
-  );
-  const zadachi = vidimi.filter((r) => r.vid === 'zadacha').length;
-  const sverka = k.tyalo.querySelector('[data-sverka="gant"]');
-  if (sverka)
-    sverka.textContent = `ленти ${lenti.length} · без дати или извън обхвата ${zadachi - lenti.length} · задачи ${zadachi} · такт ${IMENA_NA_TAKTOVETE[deystvasht].toLowerCase()} · колони ${koloni.length}`;
-  const dnesI = koloni.findIndex((x) => x.dnes);
-  if (dnesI > 2) skrol.scrollLeft = (dnesI - 2) * SHIRINA_NA_KOLONATA[deystvasht];
 }
 
 function deystvieNaButona(

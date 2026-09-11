@@ -131,7 +131,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
   proveri(
     'Гантът · една лента · червена, защото е Спешно и Важно',
-    await p.$eval('[data-gant] rect.gant-lenta', (e) => e.classList.contains('speshno')),
+    await p.$eval('td.takt.lenta', (e) => e.classList.contains('speshno')),
     true,
   );
   proveri(
@@ -160,8 +160,8 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'видими 2 от 4 · родители 3 · задачи 1 · сираци 0 · филтърът е включен',
   );
   proveri(
-    'Гантът следва филтъра · една лента върху два реда',
-    await p.$$eval('[data-gant] line.gant-red', (es) => es.length),
+    'календарът следва филтъра · редовете са едни и същи в двете половини',
+    (await p.$$('[data-reshetka="zadachi"] tbody tr.red')).length,
     2,
   );
   await p.fill('[data-filtar="4"]', '');
@@ -192,7 +192,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     '72',
   );
   await p.click('[data-buton-ekran="skriy-diagrama"]');
-  await p.waitForSelector('[data-blok="gant"][hidden]', { state: 'attached' });
+  await p.waitForSelector('[data-reshetka="zadachi"].bez-taktove');
   proveri(
     'Скрий Диаграма · бутонът вече казва „Покажи Диаграма"',
     await tekstNa(p, '[data-buton-ekran="skriy-diagrama"]'),
@@ -206,7 +206,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'Последният изглед не се скрива — иначе секцията остава празна.',
   );
   await p.click('[data-buton-ekran="skriy-diagrama"]');
-  await p.waitForSelector('[data-blok="gant"]:not([hidden])');
+  await p.waitForSelector('[data-reshetka="zadachi"]:not(.bez-taktove)');
   proveri(
     'Покажи Диаграма я връща',
     await tekstNa(p, '[data-buton-ekran="skriy-diagrama"]'),

@@ -176,6 +176,19 @@ export function otgovoratNaPortata(
  * КРАЯТ на прозорец с диаграма · блокът на Ганта, вестта за износа и думите му
  * от Книгата. Управление и Сметки го делят: една дума, един дом (правило 14).
  */
+/**
+ * ЗАТВАРЯНЕТО НА ПРОЗОРЕЦ, чийто календар е В таблицата.
+ *
+ * Негово, 11.09 (запис 194): „Искам да се сливат редовете на таблицата и на
+ * календара… както изглежда в МС Проджект." Тогава отделен блок за диаграмата
+ * няма — остават само разписката за износа и думите му от Книгата.
+ */
+export function dumiteIIznosHTML(dumi: readonly DumaOtKnigata[]): Zapechatan {
+  return h`</section>
+    ${iznosVestHTML()}
+    <details class="dumite-blok"><summary>думите му от Книгата</summary>${dumiteHTML(dumi)}</details>`;
+}
+
 export function gantIDumiHTML(
   lenta: string,
   dumi: readonly DumaOtKnigata[],

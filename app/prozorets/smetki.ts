@@ -30,6 +30,7 @@ import { slotNaKolonata } from '../../src/model/kolona.js';
 import { kolonaNa } from '../../src/model/tablitsa.js';
 import { redKato } from '../../src/ogledalo/tablitsa.js';
 import { denNaMeseca, dvanaysetMeseca, kalendar } from '../../src/smetach/kalendar.js';
+import { zadachiteSByudzhet } from '../../src/smetach/zadachi-v-smetki.js';
 import { imeNaVrazkata } from '../../src/smetach/kletki.js';
 import {
   IMENA_NA_STRANITE,
@@ -72,6 +73,8 @@ const PAMET = Object.freeze({
   podtab: 'smetki.podtab',
   /** кои страни са скрити · ПОГЛЕД, не данни: нула събития, нула Журнал */
   skriti: 'smetki.skriti',
+  /** един бутон крие задачите · негово, запис 193 */
+  skriyZadachi: 'smetki.skriyZadachi',
 });
 /** Кой бутон коя страна крие · неговите две клетки от лист Сметки (ред 12–13). */
 const STRANATA_NA_BUTONA: Readonly<Record<string, Strana | undefined>> = Object.freeze({
@@ -152,6 +155,8 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
    * Скриването пипа екрана и нищо друго — нито сбор, нито Журнал, нито износ.
    */
   const skritite = chetiEkranno<readonly Strana[]>(PAMET.skriti, []);
+  /** един бутон крие задачите с бюджет · негово, запис 193 */
+  const skritiZadachi = chetiEkranno<boolean>(PAMET.skriyZadachi, false);
   // ДДС · редът на всеки месец влиза в СМЕТКИ по знака си (негово, 05.09 т.2)
   const dds = ddsat(o, kogato);
   const ddsMesetsi = dds.mesetsi.filter((m) => !samoMeseca || m.mesets === mesets);
@@ -317,7 +322,9 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
     const strana = STRANATA_NA_BUTONA[b.klyuch];
     const duma =
       b.klyuch === 'skriy-dela'
-        ? 'Дела · в Управление'
+        ? skritiZadachi
+          ? 'Покажи Задачи'
+          : 'Скрий Задачи'
         : strana !== undefined && skritite.includes(strana)
           ? `Покажи ${IMENA_NA_STRANITE[strana]}`
           : litse(b);
@@ -450,7 +457,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
 
   zakachiReshetkata(k);
   zakachiPodtabove(k.tyalo, PAMET.podtab, k.prerisuvay);
-  if (podtab === 'smetki') narisuvayKalendara(k, [...s.prihod, ...s.razhod], mesets);
+  if (podtab === 'smetki') narisuvayKalendara(k, [...s.prihod, ...s.razhod], mesets, skritiZadachi);
   k.tyalo.querySelector<HTMLFormElement>('[data-dds-forma]')?.addEventListener('submit', (e) => {
     e.preventDefault();
     void zapishiDdsa(k);
@@ -501,22 +508,44 @@ function narisuvayKalendara(
   k: KonteksNaEkrana,
   sektsii: readonly Sektsiya[],
   mesets: string,
+  skritiZadachi: boolean,
 ): void {
   const skrol = k.tyalo.querySelector<HTMLElement>('[data-gant-skrol]');
   if (!skrol) return;
   const koloni = koloniNaTakta('svoy', `${mesets}-01`, dvanaysetMeseca(mesets));
-  const kal = kalendar(
-    sektsii.map((s) => ({
+  /**
+   * ЗАДАЧИТЕ С БЮДЖЕТ влизат в календара на Сметки · и само те.
+   *
+   * Негово, 11.09 (запис 163): „Скриването на Задачите с Бюджет(само те се
+   * пренасят от Управление в Сметки, това е важно) от Управление в Сметки ще ги
+   * изключва от изчисленията". Бюджетът е планиран РАЗХОД, затова влиза с минус
+   * (правило 16 · знакът се смята, не се записва).
+   */
+  const zadachite = zadachiteSByudzhet(k.porta.ogledalo());
+  const redoveNaKalendara = [
+    ...sektsii.map((s) => ({
       id: `${s.strana}-${s.nomer}`,
       ime: s.spryana ? `${s.tekst} · спряна` : s.tekst,
       chisla: s.redove.map((r) => ({ data: denNaMeseca(r.mesets), chislo: r.suma_st })),
     })),
-    koloni,
-  );
+    ...(skritiZadachi
+      ? []
+      : zadachite.redove.map((z) => ({
+          id: `zadacha-${z.id}`,
+          ime: `Задача · ${z.ime}`,
+          chisla: [{ data: z.data, chislo: -z.byudzhet_st }],
+        }))),
+  ];
+  const kal = kalendar(redoveNaKalendara, koloni);
   sloji(skrol, kalendarHTML(kal));
   const sverka = k.tyalo.querySelector('[data-sverka="gant"]');
   if (sverka)
-    sverka.textContent = `секции ${kal.redove.length} · колони ${koloni.length} · период ${pishi(kal.vsichko)}`;
+    sverka.textContent =
+      `редове ${kal.redove.length} · колони ${koloni.length} · период ${pishi(kal.vsichko)}` +
+      ` · задачи с бюджет ${skritiZadachi ? 'скрити' : String(zadachite.redove.length)}` +
+      (zadachite.bezData.length === 0
+        ? ''
+        : ` · бюджет без дата не влиза: ${zadachite.bezData.join(' · ')}`);
 }
 
 function zapishiKesha(k: KonteksNaEkrana): Promise<void> {
@@ -604,6 +633,10 @@ function deystvieNaButona(k: KonteksNaEkrana, b: ButonNaProzoretsa): void {
       k.prerisuvay();
       return;
     case 'skriy-dela':
+      // ЕДИН бутон · крие задачите с бюджет от календара и от сбора (запис 193)
+      zapomniEkranno(PAMET.skriyZadachi, !chetiEkranno<boolean>(PAMET.skriyZadachi, false));
+      k.prerisuvay();
+      return;
     case 'dobavyane':
       location.hash = '#/upravlenie';
       return;
