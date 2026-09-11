@@ -30,6 +30,7 @@ import { slotNaKolonata } from '../../src/model/kolona.js';
 import { kolonaNa } from '../../src/model/tablitsa.js';
 import { redKato } from '../../src/ogledalo/tablitsa.js';
 import { denNaMeseca, dvanaysetMeseca, kalendar } from '../../src/smetach/kalendar.js';
+import { type Pokazatel, pokazatelite } from '../../src/smetach/pokazateli.js';
 import { zadachiteSByudzhet } from '../../src/smetach/zadachi-v-smetki.js';
 import { imeNaVrazkata } from '../../src/smetach/kletki.js';
 import {
@@ -138,6 +139,33 @@ interface RedNaEkrana {
   readonly ime: string;
 }
 
+/**
+ * ДАННИТЕ ЗА КОЕФИЦИЕНТИТЕ · под таблицата и диаграмата.
+ *
+ * Негово, 11.09 (запис 194): „Събери основните данни необходими за
+ * изчисляване на коефициентите от отчети. Искам под таблицата и диаграмата да
+ * дадеш всички данни които може да се съберат от Приходи и Разходи."
+ *
+ * Всяко число стои с ФОРМУЛАТА си (правило 28): екранът казва откъде идва, а
+ * не само колко е. Оттук нататък Отчетите стъпват върху видяно, не върху
+ * обещано.
+ */
+function blokatNaPokazatelite(spisak: readonly Pokazatel[]): Zapechatan {
+  return h`<section class="sektsiya" data-sektsiya="pokazateli">
+      <h2 class="lenta">Данни за коефициентите</h2>
+      <p class="pod-tablitsata">Събрано от Приход и Разход за показания период · всяко число носи формулата си при задържане.</p>
+      <div class="poleta-s-tsifri" data-pokazateli>${spisak.map(
+        (x) =>
+          h`<div class="pole-s-tsifra" data-pokazatel="${x.klyuch}"${podskazka(
+            pomosht(
+              `Данните за коефициентите идват от Приход и Разход, не се въвеждат на ръка · „${x.ime}" се смята при всяко рисуване.`,
+              x.formula,
+            ),
+          )}><span class="tsifra" translate="no">${x.stoynost}</span><span class="ime">${x.ime}</span><span class="formula">${x.formula}</span></div>`,
+      )}</div>
+    </section>`;
+}
+
 export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const o = k.porta.ogledalo();
   const p = PROZORTSI.find((x) => x.klyuch === 'smetki')!;
@@ -157,6 +185,8 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const skritite = chetiEkranno<readonly Strana[]>(PAMET.skriti, []);
   /** един бутон крие задачите с бюджет · негово, запис 193 */
   const skritiZadachi = chetiEkranno<boolean>(PAMET.skriyZadachi, false);
+  /** колко месеца стоят на екрана · средното на месец се дели точно на тях */
+  const koloniNaMesetsite = koloniNaTakta('svoy', `${mesets}-01`, dvanaysetMeseca(mesets)).length;
   // ДДС · редът на всеки месец влиза в СМЕТКИ по знака си (негово, 05.09 т.2)
   const dds = ddsat(o, kogato);
   const ddsMesetsi = dds.mesetsi.filter((m) => !samoMeseca || m.mesets === mesets);
@@ -451,7 +481,8 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         </section>
         <p class="pod-tablitsata" data-sverka="smetki"${podskazka(POMOSHT_NA_SVERKATA)}>движения ${s.broyDvizheniya} · без секция ${s.bezSektsiya.length} · сверката ${s.sverka.nared ? 'затваря' : `не затваря (${s.sverka.razlika})`}${samoMeseca ? ` · само ${mesets}` : ''}</p>
       </div>
-      ${gantIDumiHTML(p.lenti[2] ?? '', DUMI_OT_KNIGATA.smetki)}`
+      ${gantIDumiHTML(p.lenti[2] ?? '', DUMI_OT_KNIGATA.smetki)}
+    ${blokatNaPokazatelite(pokazatelite(s, koloniNaMesetsite))}`
     }`,
   );
 

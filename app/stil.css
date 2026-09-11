@@ -1119,3 +1119,13 @@ body.vlacha-shirina {
   font-size: 0.65rem;
   color: var(--sivo);
 }
+
+/* ФОРМУЛАТА СЕ ВИЖДА · негово, 25.08 (И96 т.5): „всички коефициенти изредени с
+   формулата на един ред и под нея сметките за периода на параметри и
+   коефициенти". Затова тя стои НА плочката, не само в подсказката. */
+.ekran [data-pokazateli] .pole-s-tsifra .formula {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--sivo);
+  line-height: 1.2;
+}
