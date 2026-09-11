@@ -45,6 +45,96 @@
       "sastoyanie": "otvoren"
     },
     {
+      "beleg": "Н10",
+      "kakvo": "`razlikaOtZakraglyane` и `zakragli` (`src/yadro/valuta.ts`) · правило 3: сметките се закръглят на стотици и разликата се изписва (правило 7) · нито едната има викащ извън файла си",
+      "kade": "src/yadro/valuta.ts",
+      "hod": "8",
+      "predi": [],
+      "chaka": "8.1–8.7 · Сметки показва стотици",
+      "otpushva": [],
+      "uslovia": [
+        {
+          "vid": "ima",
+          "ime": "zakragli",
+          "v": [
+            "app"
+          ]
+        },
+        {
+          "vid": "ima",
+          "ime": "razlikaOtZakraglyane",
+          "v": [
+            "app"
+          ]
+        }
+      ],
+      "kak": "Сметки показва закръгленото на стотици и разликата от закръглянето до него; закръгленото не влиза в сбор (тест)",
+      "sastoyanie": "otvoren"
+    },
+    {
+      "beleg": "Н11",
+      "kakvo": "`tsenaNagore` (`src/yadro/valuta.ts`) · правило 3: цените се закръглят на цяло НАГОРЕ до стотица (негово) · Калкулаторът връща точното, никой не закръгля нагоре · същият клас като ДЛ-Т3: правило без изпълнение в живия път",
+      "kade": "src/yadro/valuta.ts · src/smetach/kalkulator/stoynost.ts",
+      "hod": "8",
+      "predi": [],
+      "chaka": "ход 8 · Продажби показва цената (негова ценова листа: 215 400 · 224 800)",
+      "otpushva": [],
+      "uslovia": [
+        {
+          "vid": "ima",
+          "ime": "tsenaNagore",
+          "v": [
+            "src",
+            "app"
+          ],
+          "izvan": [
+            "src/yadro/valuta.ts"
+          ]
+        }
+      ],
+      "kak": "оценената цена в Продажби е `tsenaNagore(точното)`; точното остава за разликата и сборовете; тест по ценовата листа",
+      "sastoyanie": "otvoren"
+    },
+    {
+      "beleg": "Н12",
+      "kakvo": "`reshetka` (`src/smetach/gant.ts`) · решетката на Ганта е написана на ЧЕТИРИ места (gant.ts · app/prozorets/upravlenie.ts · app/prozorets/smetki.ts · src/kniga/pisane.ts), а домът никой не го вика · не е замяна едно към едно (лентата на ред срещу плосък списък)",
+      "kade": "src/smetach/gant.ts:104 · app/prozorets/upravlenie.ts:507 · app/prozorets/smetki.ts:421 · src/kniga/pisane.ts:552",
+      "hod": "8",
+      "predi": [],
+      "chaka": "8.1 · пивотът ред × такт (`src/smetach/kalendar.ts`) пренаписва Ганта — тогава домът е един",
+      "otpushva": [],
+      "uslovia": [
+        {
+          "vid": "broy",
+          "shablon": "import \\{[^}]*\\breshetka\\b[^}]*\\} from '[^']*smetach/gant\\.js'",
+          "v": [
+            "src",
+            "app"
+          ],
+          "min": 1
+        }
+      ],
+      "kak": "един дом на решетката, виканo от двата екрана и от Книгата; трите инлайн копия ги няма (обход 8б)",
+      "sastoyanie": "otvoren"
+    },
+    {
+      "beleg": "Н13",
+      "kakvo": "правилото `agentat-ne-pishe` в `.dependency-cruiser.cjs` е от `^src/agenti/`, а папката не съществува — брои нула файла и свети зелено над празно множество; К3 за живия агент (Сверчикът · `src/kniga/sverchik.ts`) няма машина в слоевете (докладът в `docs/35` §3.1 · инвариант ИН-А29)",
+      "kade": ".dependency-cruiser.cjs · src/kniga/sverchik.ts",
+      "hod": "11а",
+      "predi": [],
+      "chaka": "ход 11а · агентите получават своя папка `src/agenti/` (`docs/registar-na-prenosa.md`: protokol.ts · zadachi.ts)",
+      "otpushva": [],
+      "uslovia": [
+        {
+          "vid": "fayl",
+          "pat": "src/agenti/protokol.ts"
+        }
+      ],
+      "kak": "`src/agenti/` съществува и `tests/sloevete.test.ts` спира да казва „брои нула файла“; Сверчикът минава под правилото за агента",
+      "sastoyanie": "otvoren"
+    },
+    {
       "beleg": "Н2",
       "kakvo": "`zapis.ts` · логът · единствен викащ е тестът",
       "kade": "`src/yadro/zapis.ts`",
@@ -70,24 +160,27 @@
     },
     {
       "beleg": "Н3",
-      "kakvo": "`verigaLichna` · `podpishi` · само от тест",
+      "kakvo": "`verigaLichna` · `otpechatakNaVeriga` · само от тест (беше „`verigaLichna` · `podpishi`“; `podpishi` е свой ред ДЛ-Н8 · ход 10а)",
       "kade": "`src/yadro/samolichnost.ts:156`",
-      "hod": "10а",
+      "hod": "10ж",
       "predi": [
         "А0"
       ],
-      "chaka": "~~втората Порта · тя чака ДЛ-А0~~ · **ДЛ-А0 е ЗАТВОРЕН → УСЛОВИЕТО Е ИЗПЪЛНЕНО · редът е ПРОСРОЧЕН**",
+      "chaka": "ход 10ж (Личният · Профил показва личната книга и чия е) · `src/yadro/pravata.ts:91` вече пише адреса инлайн, тъй че закачане в ядрото би било зелено без смисъл — условието гледа `app/`",
       "otpushva": [],
       "uslovia": [
         {
           "vid": "ima",
           "ime": "verigaLichna",
           "v": [
-            "src",
             "app"
-          ],
-          "izvan": [
-            "src/yadro/samolichnost.ts"
+          ]
+        },
+        {
+          "vid": "ima",
+          "ime": "otpechatakNaVeriga",
+          "v": [
+            "app"
           ]
         }
       ],
@@ -128,7 +221,7 @@
       "predi": [
         "Т2"
       ],
-      "chaka": "~~ДЛ-Т2 · закачат се заедно~~ · **ДЛ-Т2 е ЗАТВОРЕН → УСЛОВИЕТО Е ИЗПЪЛНЕНО · редът е ПРОСРОЧЕН**",
+      "chaka": "чака ход 10а (вторият писач): ограда без чужд писач е надпис · ДЛ-Т2 беше отпушващото условие и е затворен",
       "otpushva": [],
       "uslovia": [
         {
@@ -140,6 +233,96 @@
         }
       ],
       "kak": "`app/main.ts` я подава и тест доказва отказа",
+      "sastoyanie": "otvoren"
+    },
+    {
+      "beleg": "Н6",
+      "kakvo": "`proveriPodpisVBrauzara` (`src/nositel/samolichnost-web.ts`) · проверка на чужд подпис Ed25519 · само от тест · без нея поканата (10а) и печатът на папката (10г) са надпис",
+      "kade": "src/nositel/samolichnost-web.ts",
+      "hod": "10а",
+      "predi": [],
+      "chaka": "ход 10а · жицата на подписа (`docs/03-plan.md` §1)",
+      "otpushva": [],
+      "uslovia": [
+        {
+          "vid": "ima",
+          "ime": "proveriPodpisVBrauzara",
+          "v": [
+            "src",
+            "app"
+          ],
+          "izvan": [
+            "src/nositel/samolichnost-web.ts"
+          ]
+        }
+      ],
+      "kak": "приемането на покана и печатът на папката минават през проверката на подписа; фалшив печат → отказ с думи, и тест го доказва",
+      "sastoyanie": "otvoren"
+    },
+    {
+      "beleg": "Н7",
+      "kakvo": "`razpredeli` (`src/yadro/pari.ts`) · разпределя сума на n части без загуба на цент · само от тест · единственият назован викащ е проекцията на кредита по месеци (11.1)",
+      "kade": "src/yadro/pari.ts",
+      "hod": "8",
+      "predi": [],
+      "chaka": "8.1–8.7 · 11.1 кредитите (вноска · обща · месеци · проекция „Сметнато“)",
+      "otpushva": [],
+      "uslovia": [
+        {
+          "vid": "ima",
+          "ime": "razpredeli",
+          "v": [
+            "src",
+            "app"
+          ],
+          "izvan": [
+            "src/yadro/pari.ts"
+          ]
+        }
+      ],
+      "kak": "проекцията на кредита ползва `razpredeli` и Σ на частите = цялото до цент, с тест",
+      "sastoyanie": "otvoren"
+    },
+    {
+      "beleg": "Н8",
+      "kakvo": "`podpishi` (`src/yadro/samolichnost.ts`) · подписването с Ed25519 · нула викащи извън тестовете (отделено от ДЛ-Н3 на 11.09)",
+      "kade": "src/yadro/samolichnost.ts",
+      "hod": "10а",
+      "predi": [],
+      "chaka": "ход 10а · жицата на подписа",
+      "otpushva": [],
+      "uslovia": [
+        {
+          "vid": "broy",
+          "shablon": "\\.podpishi\\(",
+          "v": [
+            "src",
+            "app"
+          ],
+          "min": 1
+        }
+      ],
+      "kak": "поканата и печатът на папката се подписват през `.podpishi(` в живия път (src/ или app/, не тест); тест доказва, че подмяна на байт чупи подписа",
+      "sastoyanie": "otvoren"
+    },
+    {
+      "beleg": "Н9",
+      "kakvo": "`ZASHTO_I_NULATA` (`src/yadro/sverka.ts`) · изречението защо се записва и нулата (правило 7) · екраните вече не го казват (grep в app → 0) · това е подсказка „Начало“ за колоната на сверката, не ядрен низ",
+      "kade": "src/yadro/sverka.ts",
+      "hod": "Х",
+      "predi": [],
+      "chaka": "ход Х · хелпът на две степени · домът на обяснението е при нещото (правило 31)",
+      "otpushva": [],
+      "uslovia": [
+        {
+          "vid": "ima",
+          "ime": "ZASHTO_I_NULATA",
+          "v": [
+            "app"
+          ]
+        }
+      ],
+      "kak": "подсказката на колоната „Сверка/Разлика“ казва изречението (степен Начало) и низът има един дом",
       "sastoyanie": "otvoren"
     },
     {
@@ -920,7 +1103,9 @@
         }
       ],
       "kak": "тест: изпуснато звено ЧУПИ сверката · днес не я чупи",
-      "sastoyanie": "otvoren"
+      "sastoyanie": "zatvoren",
+      "zatvoren_na": "2026-09-11",
+      "zatvoren_kak": "Очакваното в сверката на сгъването вече е онова, което `seq` обещава — Σ (последен − първи + 1) по верига, — а не Σ дължини, равно на изхода по конструкция. Тест „Т4 · изпуснато звено ЧУПИ сверката\" в `tests/sgavane.test.ts`: без третото звено вход 5, изход 4, сверката не затваря; цялата верига и верига от средата затварят."
     },
     {
       "beleg": "Т40",
@@ -1201,9 +1386,21 @@
       ],
       "chaka": "ДЛ-А0",
       "otpushva": [],
-      "uslovia": [],
+      "uslovia": [
+        {
+          "vid": "test",
+          "beleg": "Т6"
+        },
+        {
+          "vid": "fayl",
+          "pat": ".dependency-cruiser.cjs",
+          "sadarzha": "reachable: true"
+        }
+      ],
       "kak": "**пробните файлове ПАДАТ** · обход, който никой не е оборвал, още не е обход",
-      "sastoyanie": "otvoren"
+      "sastoyanie": "zatvoren",
+      "zatvoren_na": "2026-09-11",
+      "zatvoren_kak": "`tests/sloevete.test.ts` пуска dependency-cruiser върху нарочно счупено дърво в tmpdir: по един нарушител за всяко от 15-те правила → червено с името му; чисто дърво → зелено. Първото изречение на реда беше вярно (четирите забрани пускаха Вратата през барела и през преизнасяне — доказано с нула нарушения), второто („всеки прозорец я взима през барела“) — не: само `app/main.ts` внася барела. Новото правило `nikoy-ne-stiga-do-vratata` пита ДОСТИЖИМОСТ (`reachable: true`) от всичко извън корена, изпълнителя, носителя и ядрото; `src/ogledalo/sgavane.ts` вече взима `Sabitie` от файла, не от барела. Живото дърво: 0 нарушения при 121 модула."
     },
     {
       "beleg": "Т7",
@@ -1246,9 +1443,25 @@
       "predi": [],
       "chaka": "нищо",
       "otpushva": [],
-      "uslovia": [],
+      "uslovia": [
+        {
+          "vid": "test",
+          "beleg": "Т9"
+        },
+        {
+          "vid": "broy",
+          "shablon": "Number\\(\\s*(?:[^()\\n]|\\([^()\\n]*\\))*\\?\\?\\s*''\\s*\\)",
+          "v": [
+            "src",
+            "app"
+          ],
+          "max": 0
+        }
+      ],
       "kak": "обходът намира живия случай · и ВСЕКИ негов израз има доказан случай, не само обходът",
-      "sastoyanie": "otvoren"
+      "sastoyanie": "zatvoren",
+      "zatvoren_na": "2026-09-11",
+      "zatvoren_kak": "Първият израз на обход 4 (`Number(… ?? '')`) се търсеше в текст без низове и не можеше да съвпадне никога; първата поправка (текст с низовете) също не хващаше — `golKod` крие отварящата кавичка. Сега обход 4 търси ИЗЧИСТЕНАТА форма (`??`, интервали, `)` = „резервата беше низ“: `''` · `\"\"` · `'0'`) с едно ниво вложени скоби; живият случай в `src/kniga/chetene.ts` (ключ без сегмент ставаше ред № 0) е поправен на `null`. Тест „Т9 · обход 4 лови резервата-низ“ в `tests/chistota.test.ts`: трите низа падат, `?? 0` не."
     }
   ]
 }

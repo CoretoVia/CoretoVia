@@ -133,6 +133,20 @@ describe('сгъването', () => {
     expect(r.sverka.nared).toBe(true);
   });
 
+  it('Т4 · изпуснато звено ЧУПИ сверката · Σ дължини беше равно по конструкция', async () => {
+    const a = await veriga('kniga', 5, 0);
+    // третото звено липсва · дотук сверката не го усещаше: сливането връща колкото получи
+    const bezTretoto = a.filter((s) => s.seq !== 3);
+    const r = sgani([bezTretoto], KOGATO);
+    expect(r.potok).toHaveLength(4);
+    expect(r.sverka.vhod).toBe(5);
+    expect(r.sverka.izhod).toBe(4);
+    expect(r.sverka.nared).toBe(false);
+    // цялата верига затваря · и верига, подадена от средата си, също (обещанието е между първо и последно)
+    expect(sgani([a], KOGATO).sverka.nared).toBe(true);
+    expect(sgani([a.slice(2)], KOGATO).sverka.nared).toBe(true);
+  });
+
   it('празната верига се пропуска и не влиза в резюметата', async () => {
     const a = await veriga('kniga', 2, 0);
     const r = sgani([a, []], KOGATO);

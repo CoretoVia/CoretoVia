@@ -1085,8 +1085,11 @@ class Chetets {
           }
           belezi = { [n.podredbaPo]: kat };
         }
-        const nomerOtKlyucha = klyuch === null ? null : Number(klyuch.split('#')[2] ?? '');
-        const nomer = klyuch !== null && Number.isInteger(nomerOtKlyucha) ? nomerOtKlyucha : null;
+        // ДЛ-Т9 · липсващият сегмент на ключа е ЛИПСА, не нула: `Number('' )` даваше 0
+        // и ключ без номер минаваше за ред № 0 (обход 4 на чистотата вече го лови)
+        const segmentNaKlyucha = klyuch === null ? undefined : klyuch.split('#')[2];
+        const nomerOtKlyucha = segmentNaKlyucha === undefined ? null : Number(segmentNaKlyucha);
+        const nomer = Number.isInteger(nomerOtKlyucha) ? nomerOtKlyucha : null;
         if (klyuch === null && tekst === '') {
           // празна клетка без ключ · нищо за четене
           if (ePrazen(r.slice(0, 5))) {

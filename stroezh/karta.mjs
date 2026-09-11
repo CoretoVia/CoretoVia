@@ -269,6 +269,35 @@ function redoveNa(pat) {
   }
 }
 
+/** JSON дом, ако го има · иначе `null` (картата казва „няма", не гадае). */
+function chetiJson(pat) {
+  try {
+    return JSON.parse(readFileSync(join(KOREN, pat), 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * БРОЯЧЪТ НА ИЗИСКВАНИЯТА · ход 9 (11.09.2026) · ЕДНО число вместо четири.
+ *
+ * До 10.09 документите казваха 1200 · 1221 · 1225 · 1248 изисквания — всяко
+ * преброено на ръка в различен ден. Числото идва от съответствието на белезите
+ * (`npm run belezi`), което се генерира от самите файлове на Чистото.
+ */
+function belezite() {
+  const s = chetiJson('zadanie/CHISTO/00-saotvetstvie-na-belezite.json');
+  return s?.broy ?? null;
+}
+
+function dalgat() {
+  const d = chetiJson('docs/registar-na-dalga.json');
+  if (!d) return null;
+  const po = {};
+  for (const r of d.redove ?? []) po[r.sastoyanie] = (po[r.sastoyanie] ?? 0) + 1;
+  return { obshto: (d.redove ?? []).length, ...po };
+}
+
 function sglobi(dokumenti) {
   const reg = brutoOtRegistara();
   const opisvani = dokumenti.filter((d) => d.pat !== SEBE_SI);
@@ -337,7 +366,23 @@ function sglobi(dokumenti) {
   b.push(`| — още открити | **${reg.otkrit ?? 0}** | същото |`);
   b.push(`| — отпаднали | **${reg.otpadnal ?? 0}** | същото |`);
   b.push(`| — още неустановени | **${reg.nepoznat ?? 0}** | същото |`);
-  b.push(`| реда в дълга | **${redoveNa('docs/14-dalgat.md')}** | \`docs/14-dalgat.md\` |`);
+  const dl = dalgat();
+  if (dl) {
+    b.push(
+      `| реда в дълга | **${dl.obshto}** | \`npm run dalg\` · \`docs/registar-na-dalga.json\` |`,
+    );
+    b.push(`| — отворени | **${dl.otvoren ?? 0}** | същото |`);
+    b.push(`| — затворени | **${dl.zatvoren ?? 0}** | същото |`);
+  } else {
+    b.push(`| реда в дълга | **${redoveNa('docs/14-dalgat.md')}** | \`docs/14-dalgat.md\` |`);
+  }
+  const bel = belezite();
+  if (bel) {
+    b.push(
+      `| изисквания в Чистото (ИЗ-) | **${bel['ИЗ']}** | \`npm run belezi\` · \`zadanie/CHISTO/00-saotvetstvie-na-belezite.json\` — едно число, не четири |`,
+    );
+    b.push(`| инварианти (ИН-) | **${bel['ИН']}** | същото |`);
+  }
   b.push(
     `| реда извори (неговите думи) | **${redoveNa('docs/izvori/01-chist-dopiska.md') + redoveNa('docs/izvori/02-po-temi.md') + redoveNa('docs/izvori/03-koloni-hedari-tablitsi.md') + redoveNa('docs/izvori/04-prozortsite-i-vrazkite.md')}** | \`docs/izvori/\` |`,
   );

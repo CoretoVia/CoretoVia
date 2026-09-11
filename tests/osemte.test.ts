@@ -39,7 +39,14 @@ describe('осемте прозореца', () => {
     expect(prozoretsPoList('Лист9')).toBeUndefined();
   });
 
-  it('никъде другаде в src/ не стои име на лист като низ · един дом (правило 17)', () => {
+  /**
+   * ХОД 9 (11.09.2026): обходът стига и до `app/`. Дотук екранът можеше да напише
+   * „Сметки" като низ и тестът мълчеше — точно това стоеше в `app/prozorets/smetki.ts`
+   * (подтабът носеше името на прозореца на ръка). `proba/` НЕ се обхожда нарочно:
+   * проходът е независим свидетел и сверява Книгата му с имената, изписани
+   * дословно, както ги изписва и този тест по-горе.
+   */
+  it('никъде другаде в src/ и app/ не стои име на лист като низ · един дом (правило 17)', () => {
     const nahodki: string[] = [];
     let pregledani = 0;
     const obhod = (papka: string): void => {
@@ -50,14 +57,19 @@ describe('осемте прозореца', () => {
           const tekst = readFileSync(pat, 'utf8');
           pregledani += 1;
           for (const p of PROZORTSI) {
-            if (tekst.includes(`'${p.list}'`) || tekst.includes(`"${p.list}"`))
+            if (
+              tekst.includes(`'${p.list}'`) ||
+              tekst.includes(`"${p.list}"`) ||
+              tekst.includes(`\`${p.list}\``)
+            )
               nahodki.push(`${pat} · ${p.list}`);
           }
         }
       }
     };
     obhod('src');
-    expect(pregledani).toBeGreaterThan(50);
+    obhod('app');
+    expect(pregledani).toBeGreaterThan(80);
     expect(nahodki).toEqual([]);
   });
 });

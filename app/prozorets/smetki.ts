@@ -74,9 +74,11 @@ const STRANATA_NA_BUTONA: Readonly<Record<string, Strana | undefined>> = Object.
   'skriy-razhodi': 'razhod',
 });
 
+/** прозорецът · името му живее САМО в `osnova.ts` (К1 · `tests/osemte.test.ts` обхожда и `app/`) */
+const PROZORETSAT = PROZORTSI.find((x) => x.klyuch === 'smetki')!;
 /** неговият „таб НАП" е ПОДТАБ на Сметки (05.09 т.2) · осемте прозореца остават осем */
 const PODTABOVE = [
-  { klyuch: 'smetki', ime: 'Сметки' },
+  { klyuch: 'smetki', ime: PROZORETSAT.list },
   { klyuch: 'nap', ime: 'НАП' },
 ] as const;
 /** колоните на ДДС на екрана · месецът и неговите числа */

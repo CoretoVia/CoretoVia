@@ -462,7 +462,13 @@ function proveri() {
         continue;
       }
       const chist = beleg.replace(/[*~]/g, '');
-      const ok = patishta.some((p) => ima(p) && cheti(p).includes(chist));
+      // белегът може да носи вида си отпред (ДЛ-Т4) · доказателството може да го пише голо („Т4 · …“ в името на тест)
+      const golo = chist.replace(/^(?:ВП|ДЛ|ИН)-/u, '');
+      const ok = patishta.some((p) => {
+        if (!ima(p)) return false;
+        const t = cheti(p);
+        return t.includes(chist) || t.includes(golo);
+      });
       if (!ok)
         nahodki.push(`Д4б · ${beleg} · нито един от пътищата не съществува и съдържа белега`);
     }

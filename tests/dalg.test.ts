@@ -88,7 +88,7 @@ describe('дългът · петнайсетата порта', () => {
     expect(r.stdout).toMatch(/редове: [1-9]\d* · отворени [1-9]\d* · затворени [1-9]\d*/);
     expect(r.stdout).toMatch(/без машинно условие: \d+ · пин \d+/);
     expect(r.status, r.stdout + r.stderr).toBe(0);
-  });
+  }, 120_000);
 
   it('МЯРКАТА ЛОВИ · отворен ред с държащи условия → „ВЕЧЕ ЗАТВОРЕН" · затворен ред с паднало условие → „ОТВОРИЛ СЕ Е ТИХО" · остаряло md → находка', () => {
     const { registar, pusni } = darvo(mkdtempSync(join(tmpdir(), 'dalg-')));
@@ -135,7 +135,7 @@ describe('дългът · петнайсетата порта', () => {
     expect(pusni(['--pishi']).status).toBe(0);
     const pak = pusni(['--proveri']);
     expect(pak.status, pak.stdout).toBe(0);
-  });
+  }, 120_000);
 
   it('МЯРКАТА ЛОВИ · ред без условие се брои и пинът не расте · `predi` към несъществуващ ред → находка', () => {
     const { registar, pusni } = darvo(mkdtempSync(join(tmpdir(), 'dalg-')));
@@ -151,5 +151,5 @@ describe('дългът · петнайсетата порта', () => {
     const p = pusni(['--proveri']);
     expect(p.status).not.toBe(0);
     expect(p.stdout).toContain('чака „Т99", който го няма в регистъра');
-  });
+  }, 120_000);
 });

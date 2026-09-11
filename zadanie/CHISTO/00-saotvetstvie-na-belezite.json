@@ -5,7 +5,7 @@
     "ИЗ": 928,
     "ИН": 263,
     "ВП": 147,
-    "ДЛ": 72
+    "ДЛ": 80
   },
   "redove": [
     {
@@ -903,6 +903,30 @@
       "vid": "ДЛ"
     },
     {
+      "staro": "Н10",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-Н10",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Н11",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-Н11",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Н12",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-Н12",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Н13",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-Н13",
+      "vid": "ДЛ"
+    },
+    {
       "staro": "Н2",
       "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Н2",
@@ -924,6 +948,30 @@
       "staro": "Н5",
       "fayl": "docs/registar-na-dalga.json",
       "novo": "ДЛ-Н5",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Н6",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-Н6",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Н7",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-Н7",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Н8",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-Н8",
+      "vid": "ДЛ"
+    },
+    {
+      "staro": "Н9",
+      "fayl": "docs/registar-na-dalga.json",
+      "novo": "ДЛ-Н9",
       "vid": "ДЛ"
     },
     {

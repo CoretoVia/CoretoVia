@@ -66,7 +66,7 @@ const MARKER_B = '<!-- ДЪЛГЪТ · генерирано · КРАЙ -->';
  * (11.09.2026). Може само да пада: всеки нов ред влиза с условие, а старите получават
  * условие, когато думите им станат проверими.
  */
-const PIN_BEZ_USLOVIE = 22;
+const PIN_BEZ_USLOVIE = 20;
 
 const pat = (...p) => join(KOREN, ...p);
 const ima = (p) => existsSync(pat(p));
