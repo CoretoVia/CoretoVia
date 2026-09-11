@@ -17,10 +17,21 @@ import {
   spri,
   broyachNaNomenklaturata,
   zhivite,
+  type Nomenklatura,
   type ZhivaNomenklatura,
 } from '../src/model/nomenklatura.js';
 import { MODEL, NOMENKLATURA } from '../src/model/osnova.js';
-import { nomenklaturata } from '../src/model/model.js';
+import type { Model } from '../src/model/model.js';
+
+/**
+ * Само за теста · номенклатурата по ключ, хвърляща с думи. Живият код чете
+ * `m.nomenklaturi.get(…)` и допуска липсата; тук липсата е счупена основа.
+ */
+const nomenklaturata = (m: Model, klyuch: string): Nomenklatura => {
+  const n = m.nomenklaturi.get(klyuch);
+  if (n === undefined) throw new Error(`Няма номенклатура „${klyuch}" в Модела.`);
+  return n;
+};
 
 const sastoyanie = (): ZhivaNomenklatura =>
   otBazovite(nomenklaturata(MODEL, NOMENKLATURA.sastoyanieNaImot));

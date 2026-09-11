@@ -9,11 +9,13 @@ import { koyPishe } from '../src/yadro/index.js';
 import { describe, expect, it } from 'vitest';
 import { eOtkaz, type Otkaz } from '../src/komandi/izpalnenie.js';
 import { MODEL, NOMENKLATURA } from '../src/model/osnova.js';
+import type { Ogledalo } from '../src/ogledalo/ogledalo.js';
 import { redKato, zhiviteRedove } from '../src/ogledalo/tablitsa.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
+import { ddsat } from '../src/smetach/dds.js';
+import { GreshkaPari } from '../src/yadro/pari.js';
 import {
   keshatNaMeseca,
-  nomerNaSektsiya,
   OBRAZETS_NA_MESETSA,
   SEKTSIYA_FAKTURI_KESH,
   SEKTSIYA_ZAPLATI_KESH,
@@ -21,7 +23,7 @@ import {
   stranaNaSuma,
   vkarvaneto,
 } from '../src/smetach/smetki.js';
-import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
+import { KNIGA, knigaZaTest, nomerNaSektsiya, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T13:00:00.000Z';
 const MESETS = '2026-09';
@@ -438,5 +440,56 @@ describe('номенклатурите на секциите са неговит
       'Заплати Банка',
       'Бизнес',
     ]);
+  });
+});
+
+/**
+ * ПРЕГРАДАТА ЗА ЦЕЛИ ЧИСЛА (правило 3) · сборовете минават през `sabiri`.
+ *
+ * През Вратата дробна сума не минава, затова тук се подменя САМИЯТ стълб на
+ * Огледалото: така се доказва, че сборът ОТКАЗВА число извън целите, вместо да
+ * го събере мълчаливо — дотук `reduce((a, r) => a + r, 0)` събираше всичко.
+ */
+describe('преградата за цели центове · сборовете отказват дробното', () => {
+  /** Огледало, в което първата клетка на колоната е дробна. */
+  function sDrobnaKletka(o: Ogledalo, tablitsa: string, kolona: string): Ogledalo {
+    const tv = o.tablitsi.get(tablitsa)!;
+    const danni = Float64Array.from(tv.koloni.get(kolona)!.danni);
+    danni[0] = 1050.5;
+    const koloni = new Map(tv.koloni);
+    koloni.set(kolona, { slot: 'stoynost_st', danni });
+    return { ...o, tablitsi: new Map([...o.tablitsi, [tablitsa, { ...tv, koloni }]]) };
+  }
+
+  it('Сметки · секцията, страната и резултатът', async () => {
+    const { iz, zapishi } = await otvori();
+    await zapishi(
+      'd1',
+      'smetki.dobaviDvizhenie',
+      dvizhenie({
+        kam: { tekst: 'obekt:o1' },
+        sektsiya: { nomer: 1 },
+        suma: { stoynost_st: 120000 },
+      }),
+    );
+    const o = iz.ogledalo();
+    expect(smetkite(o, KOGATO).sborPrihod).toBe(120000);
+    expect(() => smetkite(sDrobnaKletka(o, 'dvizheniya', 'suma'), KOGATO)).toThrow(GreshkaPari);
+  });
+
+  it('ДДС · натрупването', async () => {
+    const { iz, zapishi } = await otvori();
+    await zapishi('d1', 'smetki.zapishiDds', {
+      mesets: MESETS,
+      nachislen: { stoynost_st: 60000 },
+      kredit: null,
+      deklarirano: null,
+      plateno: null,
+      izdadeni: null,
+      plateni: null,
+    });
+    const o = iz.ogledalo();
+    expect(ddsat(o, KOGATO).dalzhimo).toBe(60000);
+    expect(() => ddsat(sDrobnaKletka(o, 'dds', 'nachislen'), KOGATO)).toThrow(GreshkaPari);
   });
 });

@@ -45,7 +45,7 @@ import {
 } from '../model/osnova.js';
 import { otpechatakNaModela } from '../model/otpechatak.js';
 import { kolonaNa, koloniNaReda, slyataNa, type Tablitsa } from '../model/tablitsa.js';
-import type { Ogledalo } from '../ogledalo/ogledalo.js';
+import { type Ogledalo, tablitsaVOgledaloto } from '../ogledalo/ogledalo.js';
 import { type Red as RedNaOgledaloto, redKato, zhiviteRedove } from '../ogledalo/tablitsa.js';
 import type { Kursor } from '../sabitiya/tovari.js';
 import { darvoto } from '../smetach/darvo.js';
@@ -799,7 +799,7 @@ function redoveNaDarvoto(
     const red: Red = [];
     if (r.vid === 'roditel') {
       red[0] = tekstNaNomera(r.nomer);
-      const tv = o.tablitsi.get(r.tablitsa)!;
+      const tv = tablitsaVOgledaloto(o, r.tablitsa);
       const negov = redKato(tv, r.i);
       for (const [j, g] of oblik.entries())
         if (g.ot === 'roditel') red[sh.nachalo[j]!] = roditelKletka(o, g, r.tablitsa, negov);

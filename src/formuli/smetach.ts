@@ -260,16 +260,6 @@ export function smetniFormulaTochno(izraz: string, chetets: ChetetsNaKletki): Dr
   return smetni(razcheti(izraz), chetets);
 }
 
-/**
- * ФОРМУЛАТА като ЦЯЛО ЧИСЛО · за сметките в центове.
- *
- * Стойностите се подават като дроби и се връщат в цели центове; закръгляването
- * е ЕДНО и е тук, накрая (правило 3).
- */
-export function smetniFormula(izraz: string, chetets: ChetetsNaKletki): number {
-  return kamTsyalo(smetniFormulaTochno(izraz, chetets));
-}
-
 /** Равни ли са две дроби · ТОЧНО, без праг. */
 export function ravni(a: Drob, b: Drob): boolean {
   return a.n * b.d === b.n * a.d;

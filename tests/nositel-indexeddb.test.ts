@@ -9,15 +9,9 @@ import { veriga as verigata } from '../src/yadro/index.js';
 
 import 'fake-indexeddb/auto';
 import { describe, expect, it } from 'vitest';
-import {
-  GreshkaReplay,
-  proveriVerigata,
-  Vrata,
-  VsichkoRazresheno,
-  type Dnevnik,
-} from '../src/yadro/index.js';
+import { GreshkaReplay, proveriVerigata, Vrata, type Dnevnik } from '../src/yadro/index.js';
 import { otvoriDnevnik, type DnevnikVIndexedDB } from '../src/nositel/dnevnik-indexeddb.js';
-import { operatsiya, SHA } from './pomoshtni.js';
+import { operatsiya, SHA, VsichkoRazresheno } from './pomoshtni.js';
 
 const NAEMATEL = 'vintexstroy';
 let broyach = 0;

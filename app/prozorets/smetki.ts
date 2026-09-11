@@ -43,7 +43,7 @@ import { ddsat, type MesetsNaDdsa } from '../../src/smetach/dds.js';
 import { nahodkiteNaNap, NIVA } from '../../src/smetach/nahodki-nap.js';
 import { mozheDaRedaktira } from '../../src/smetach/pravo.js';
 import { koloniNaTakta } from '../../src/smetach/vreme.js';
-import { pishi, pishiVPole } from '../../src/yadro/pari.js';
+import { pishi, pishiVPole, sabiri, type Tsentove, tsentove } from '../../src/yadro/pari.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { otvoriChernova } from '../reshetka/chernova.js';
 import { gantSVG, type RedNaGanta } from '../reshetka/gant-svg.js';
@@ -134,9 +134,11 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const ddsMesetsi = dds.mesetsi.filter((m) => !samoMeseca || m.mesets === mesets);
   const ddsNa = (strana: Strana): readonly MesetsNaDdsa[] =>
     ddsMesetsi.filter((m) => m.strana === strana);
-  const ddsSbor = (strana: Strana): number => ddsNa(strana).reduce((a, m) => a + m.suma, 0);
-  const sborPrihod = s.sborPrihod + ddsSbor('prihod');
-  const sborRazhod = s.sborRazhod + ddsSbor('razhod');
+  // правило 3 · сборовете ПРЕД ЧОВЕКА минават през преградата за цели центове (ДЛ-Н4 · ход 9)
+  const ddsSbor = (strana: Strana): Tsentove =>
+    sabiri(...ddsNa(strana).map((m) => tsentove(m.suma)));
+  const sborPrihod = sabiri(tsentove(s.sborPrihod), ddsSbor('prihod'));
+  const sborRazhod = sabiri(tsentove(s.sborRazhod), ddsSbor('razhod'));
   const nap = nahodkiteNaNap(o, `${mesets}-01`, kogato);
   const nesvereni = [...s.prihod, ...s.razhod]
     .flatMap((x) => x.redove)
@@ -148,7 +150,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const poleta = [
     { klyuch: 'prihod', ime: 'Приход', dumi: pishi(sborPrihod) },
     { klyuch: 'razhod', ime: 'Разходи', dumi: pishi(sborRazhod) },
-    { klyuch: 'rezultat', ime: 'Резултат', dumi: pishi(sborPrihod + sborRazhod) },
+    { klyuch: 'rezultat', ime: 'Резултат', dumi: pishi(sabiri(sborPrihod, sborRazhod)) },
     { klyuch: 'kesh-dadeno', ime: 'Кеш дадено', dumi: pishi(kesh.dadeno) },
     { klyuch: 'kesh-izvlechenie', ime: 'Кеш изтеглено', dumi: pishi(kesh.izvlechenie) },
     { klyuch: 'kesh-vkarano', ime: 'Кеш вкарано', dumi: pishi(Math.abs(kesh.vkarano)) },

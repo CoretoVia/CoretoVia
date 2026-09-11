@@ -7,7 +7,6 @@ import {
   GreshkaPari,
   izvadi,
   kakvoPishe,
-  obarni,
   otSuma,
   razpredeli,
   sabiri,
@@ -24,11 +23,6 @@ describe('цели центове', () => {
     expect(() => tsentove(12.5)).toThrow(GreshkaPari);
     expect(() => tsentove(NaN)).toThrow(GreshkaPari);
     expect(() => tsentove(Infinity)).toThrow(GreshkaPari);
-  });
-
-  it('сторното връща състоянието едно към едно', () => {
-    const vnoska = tsentove(1234_56);
-    expect(sabiri(vnoska, obarni(vnoska))).toBe(0);
   });
 
   it('изваждането е точно там, където float греши', () => {

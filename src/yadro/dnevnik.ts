@@ -2,12 +2,12 @@
  * ЖУРНАЛЪТ — единствената истина. Само добавяне, никога презапис.
  *
  * Това е ПОРТ: интерфейсът е един и същ за трите носителя.
- * Тук е реализацията в паметта (за тестове и за първия резен).
- * Следват адаптери: IndexedDB (В), Postgres (Б), Sheets (А).
+ * Адаптерите са носителите: IndexedDB (В), Postgres (Б), Sheets (А).
+ * Реализацията в паметта е ДВОЙНИК за тестовете и живее при тях —
+ * `tests/pomoshtni.ts` (ход 9 · присъда „test-dvoynik" · правило 30).
  */
 
 import type { Sabitie, Sashtnost } from './sabitie.js';
-import { klyuchNaSashtnost, veriga } from './sabitie.js';
 
 export interface Dnevnik {
   /** Последното събитие на веригата — дава prevHash и следващия seq. */
@@ -60,70 +60,5 @@ export class GreshkaDnevnik extends Error {
   constructor(message: string) {
     super(message);
     this.name = 'GreshkaDnevnik';
-  }
-}
-
-/** Реализация в паметта. Изолацията на верига е на ниво данни. */
-export class DnevnikVPametta implements Dnevnik {
-  readonly #poVeriga = new Map<string, Sabitie[]>();
-  readonly #poOpId = new Map<string, Sabitie>();
-
-  async posledno(veriga: string): Promise<Sabitie | undefined> {
-    const redica = this.#poVeriga.get(veriga);
-    return redica?.[redica.length - 1];
-  }
-
-  async parvo(veriga: string): Promise<Sabitie | undefined> {
-    return this.#poVeriga.get(veriga)?.[0];
-  }
-
-  async poOpId(veriga: string, opId: string): Promise<Sabitie | undefined> {
-    return this.#poOpId.get(`${veriga} ${opId}`);
-  }
-
-  async tekushtRev(veriga: string, sashtnost: Sashtnost): Promise<number> {
-    const klyuch = klyuchNaSashtnost(sashtnost);
-    const redica = this.#poVeriga.get(veriga) ?? [];
-    for (let i = redica.length - 1; i >= 0; i -= 1) {
-      const s = redica[i]!;
-      if (klyuchNaSashtnost(s.sashtnost) === klyuch) return s.seq;
-    }
-    return 0;
-  }
-
-  async dobavi(s: Sabitie): Promise<void> {
-    const redica = this.#poVeriga.get(veriga(s)) ?? [];
-    const ochakvanSeq = redica.length + 1;
-    if (s.seq !== ochakvanSeq) {
-      throw new GreshkaDnevnik(
-        `Журналът е само за добавяне: очакван seq ${ochakvanSeq}, получен ${s.seq}`,
-      );
-    }
-    const klyuchOp = `${veriga(s)} ${s.opId}`;
-    if (this.#poOpId.has(klyuchOp)) {
-      throw new GreshkaDnevnik(`opId вече съществува: ${s.opId}`);
-    }
-    redica.push(Object.freeze(s));
-    this.#poVeriga.set(veriga(s), redica);
-    this.#poOpId.set(klyuchOp, s);
-  }
-
-  async chetiVsichki(veriga: string): Promise<Sabitie[]> {
-    return [...(this.#poVeriga.get(veriga) ?? [])];
-  }
-
-  async chetiZaSashtnost(veriga: string, sashtnost: Sashtnost): Promise<Sabitie[]> {
-    const klyuch = klyuchNaSashtnost(sashtnost);
-    const redica = this.#poVeriga.get(veriga) ?? [];
-    return redica.filter((s) => klyuchNaSashtnost(s.sashtnost) === klyuch);
-  }
-
-  async verigi(prefiks: string): Promise<string[]> {
-    return [...this.#poVeriga.keys()].filter((k) => k.startsWith(prefiks)).sort();
-  }
-
-  /** Само за тестове: кои вериги са пипани. */
-  get pipnatiteVerigi(): string[] {
-    return [...this.#poVeriga.keys()];
   }
 }

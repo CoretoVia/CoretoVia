@@ -8,18 +8,21 @@
  *
  * НАРОЧНО не дели код с `ogledalo.ts` освен проверката на товара и
  * номенклатурата: оракул, който вика проверявания код, не проверява нищо.
+ *
+ * Живее при тестовете (ход 9): в `src/ogledalo/` го внасяше само
+ * `tests/ogledalo.test.ts`, а обход 6б на чистотата брои точно това.
  */
 
-import type { Kletka } from '../model/kletka.js';
-import type { Model } from '../model/model.js';
+import type { Kletka } from '../src/model/kletka.js';
+import type { Model } from '../src/model/model.js';
 import {
   otBazovite,
   poNomer,
   sStoynost,
   spri,
   type ZhivaNomenklatura,
-} from '../model/nomenklatura.js';
-import { proveriTovar, TIP } from '../sabitiya/registar.js';
+} from '../src/model/nomenklatura.js';
+import { proveriTovar, TIP } from '../src/sabitiya/registar.js';
 import type {
   PayloadRedIzklyuchen,
   PayloadRedZapisan,
@@ -27,9 +30,9 @@ import type {
   PayloadStorno,
   PayloadStoynostSpryana,
   PayloadStoynostZapisana,
-} from '../sabitiya/tovari.js';
-import type { Sabitie } from '../yadro/sabitie.js';
-import { veriga, zvenoNa } from '../yadro/sabitie.js';
+} from '../src/sabitiya/tovari.js';
+import type { Sabitie } from '../src/yadro/sabitie.js';
+import { veriga, zvenoNa } from '../src/yadro/sabitie.js';
 
 export interface NaivenRed {
   readonly id: string;

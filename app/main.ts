@@ -7,6 +7,7 @@
  */
 
 import type { KlyuchNaProzorets } from '../src/model/klyuchove.js';
+import { proveriModela } from '../src/model/model.js';
 import { MODEL, PROZORTSI } from '../src/model/osnova.js';
 import { otvoriDnevnik } from '../src/nositel/dnevnik-indexeddb.js';
 import { sha256NaBaytove, sha256Web } from '../src/nositel/hash-web.js';
@@ -28,6 +29,7 @@ import {
   proveriVerigata,
   Vrata,
 } from '../src/yadro/index.js';
+import { napraviZapisvach } from '../src/yadro/zapis.js';
 import type { KonteksNaEkrana } from './kontekst.js';
 import { narisuvayProzorets } from './prozorets/prozortsite.js';
 import { zatvoriMenyuto } from './reshetka/menyu.js';
@@ -78,13 +80,40 @@ async function main(): Promise<void> {
 }
 
 async function tragni(ekran: HTMLElement): Promise<void> {
+  /*
+   * МОДЕЛЪТ СЕ ПРОВЕРЯВА, ПРЕДИ ДА СЕ ОТВОРИ КАКВОТО И ДА Е.
+   *
+   * `proveriModela` стоеше построена и викана САМО от теста: счупена основа
+   * (избор без номенклатура · връзка към непозната таблица) стигаше до
+   * Изпълнителя и се сгъваше мълчаливо. Находка тук е грешка в КОДА, не в
+   * данните — затова приложението не тръгва и го КАЗВА (правило 12), а
+   * Журналът остава неотворен и непипнат.
+   */
+  const nahodkiVModela = proveriModela(MODEL);
+  if (nahodkiVModela.length > 0) {
+    kazhiNaEkrana(
+      ekran,
+      'Моделът е счупен · приложението не тръгва',
+      `${nahodkiVModela.join(' · ')} · Това е дефект в кода, не в данните; Журналът не е отварян и не е пипнат.`,
+    );
+    return;
+  }
   const dnevnik = await otvoriDnevnik(KNIGA, (dumi) =>
     kazhiNaEkrana(ekran, 'Журналът е зает от друг раздел · чакам', dumi),
   );
   // Ключалката между разделите я има само където браузърът дава Web Locks;
   // без нея Вратата пак върви — с опашка в рамките на този раздел.
   const klyuchalka = klyuchalkaMezhduRazdeli();
-  const kotva = new KotvaVLocalStorage('coretovia:kotva');
+  /*
+   * ЗАПИСЪТ · какво програмата казва за себе си (ДЛ-Н2 · `src/yadro/zapis.ts`).
+   *
+   * Прави се тук, в корена, защото часовникът се подава отвън. Първият гълтащ
+   * `catch`, който пише в него, е котвата: частен прозорец или забранени данни
+   * досега се преглъщаха, сега се БРОЯТ (правило 12). Пръстенът стои в паметта
+   * на раздела; износът му е следваща крачка, не тази.
+   */
+  const zapisvach = napraviZapisvach({ chasovnik: () => Date.now() });
+  const kotva = new KotvaVLocalStorage('coretovia:kotva', zapisvach);
 
   /**
    * САМОЛИЧНОСТТА · свой ключ на устройството (ADR-024 §1).
@@ -92,7 +121,8 @@ async function tragni(ekran: HTMLElement): Promise<void> {
    * Своя база, не тази на Журнала: онази е на версия 1 и всяка нейна промяна е
    * миграция върху единственото място, в което живеят парите.
    *
-   * Отпечатъкът заменя `VsichkoRazresheno`. Днес това НЕ мени нищо видимо —
+   * Отпечатъкът заменя „всичко разрешено" — двойника на правата от тестовете.
+   * Днес това НЕ мени нищо видимо —
    * лична верига още няма, а `LichnoESamoTvoe` пуска всяка верига, която не
    * завършва на наставката. Но в мига, в който първата лична верига се роди,
    * границата вече е на място, вместо да се добавя после върху написани

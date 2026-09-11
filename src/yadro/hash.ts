@@ -8,7 +8,8 @@ import { SHEMA, SHEMA_PREDI_RAZREZA, veriga } from './sabitie.js';
 
 /**
  * Портът: асинхронен, за да върви и на Web Crypto в браузъра.
- * Реализациите живеят при носителите — `src/nositel/hash-node.ts` и `hash-web.ts`.
+ * Реализацията живее при носителя — `src/nositel/hash-web.ts` (Web Crypto);
+ * тестовете носят своя върху `node:crypto` в `tests/pomoshtni.ts` (ход 9).
  * Тук нарочно няма стойност по подразбиране: носителят се избира явно.
  */
 export type Sha256 = (danni: string) => Promise<string>;

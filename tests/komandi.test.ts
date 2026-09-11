@@ -397,6 +397,29 @@ describe('задачата на Управление (ADR-005)', () => {
     expect(otkaz(zadacha('imot:k2', { ime: null }))).toMatch(/kletki\.ime: очаква се object/);
   });
 
+  it('датата се проверява по КАЛЕНДАРА · „2026-02-31" е отказ на Вратата · 29.02 на високосна минава', async () => {
+    // Дотук се гледаше само видът ГГГГ-ММ-ДД: „2026-02-31" минаваше и влизаше в
+    // Журнала завинаги (правило 1 не прощава). Сега решава `eData`.
+    const { iz } = await nachalo();
+    const otkaz = otkazat(
+      iz.probvay(
+        'x',
+        'upravlenie.dobaviZadacha',
+        zadacha('imot:k2', { ot: { tekst: '2026-02-31' } }),
+      ),
+    );
+    expect(otkaz.zashto.join(' ')).toMatch(/не е дата ГГГГ-ММ-ДД от календара: „2026-02-31"/);
+    expect(zhiviteRedove(iz.ogledalo().tablitsi.get('zadachi')!)).toHaveLength(0);
+    uspeh(
+      await iz.izpalni(
+        'z1',
+        'upravlenie.dobaviZadacha',
+        zadacha('imot:k2', { ot: { tekst: '2024-02-29' } }),
+      ),
+    );
+    expect(zhiviteRedove(iz.ogledalo().tablitsi.get('zadachi')!)).toHaveLength(1);
+  });
+
   it('родител с живи задачи не се изключва · изключената задача освобождава · клетката се поправя на място', async () => {
     const { iz } = await nachalo();
     uspeh(await iz.izpalni('z1', 'upravlenie.dobaviZadacha', zadacha('obekt:k3')));

@@ -9,7 +9,7 @@
 import { describe, expect, it } from 'vitest';
 import { NOMENKLATURA } from '../src/model/osnova.js';
 import { MODEL } from '../src/model/osnova.js';
-import { naivnoSgavane } from '../src/ogledalo/naivno.js';
+import { naivnoSgavane } from './naivno.js';
 import { fold, type Ogledalo, tablitsaVOgledaloto } from '../src/ogledalo/ogledalo.js';
 import { sgani } from '../src/ogledalo/sgavane.js';
 import { kletkaNa, redKato, zhiviteRedove } from '../src/ogledalo/tablitsa.js';

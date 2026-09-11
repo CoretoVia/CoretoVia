@@ -9,7 +9,8 @@
 import { describe, expect, it } from 'vitest';
 import { DUMI_OT_KNIGATA } from '../src/model/dumi-ot-knigata.js';
 import { slotNaKolonata, vlizaVSbor } from '../src/model/kolona.js';
-import { type Model, nomenklaturata, proveriModela, tablitsata } from '../src/model/model.js';
+import { type Model, proveriModela, tablitsata } from '../src/model/model.js';
+import type { Nomenklatura } from '../src/model/nomenklatura.js';
 import {
   MODEL,
   NOMENKLATURA,
@@ -22,6 +23,16 @@ import {
 } from '../src/model/osnova.js';
 import { poIzbor, shemaNaReda, strogObekt } from '../src/model/shema.js';
 import { koloniNaReda } from '../src/model/tablitsa.js';
+
+/**
+ * Само за теста · номенклатурата по ключ, хвърляща с думи. Живият код чете
+ * `m.nomenklaturi.get(…)` и допуска липсата; тук липсата е счупена основа.
+ */
+const nomenklaturata = (m: Model, klyuch: string): Nomenklatura => {
+  const n = m.nomenklaturi.get(klyuch);
+  if (n === undefined) throw new Error(`Няма номенклатура „${klyuch}" в Модела.`);
+  return n;
+};
 
 describe('основата на резен 1', () => {
   it('е здрава · проверката връща нула находки', () => {
@@ -386,6 +397,24 @@ describe('проверката на Модела хваща счупена ос�
     expect(nahodki.join('\n')).toMatch(/избор без номенклатура/);
     expect(nahodki.join('\n')).toMatch(/непозната таблица/);
     expect(nahodki.join('\n')).toMatch(/иска родител/);
+  });
+
+  it('находката носи АДРЕС · таблица.колона · за да се поправи без гадаене', () => {
+    // Коренът (`app/main.ts`) показва точно тези думи и не тръгва: адресът е
+    // това, което човекът вижда, затова се пази дословно, не по част.
+    const imoti = tablitsata(MODEL, 'imoti');
+    const schupena = {
+      ...imoti,
+      koloni: [
+        ...imoti.koloni,
+        { klyuch: 'x', ime: 'x', vid: 'izbor' as const, zadalzhitelna: false, zatvorena: false },
+      ],
+    };
+    const nahodki = sChupka((m) => ({
+      ...m,
+      tablitsi: new Map([...m.tablitsi, ['imoti', schupena]]),
+    }));
+    expect(nahodki).toEqual(['Колона „imoti.x" е избор без номенклатура.']);
   });
 
   it('два пъти един номер или един текст в номенклатура', () => {

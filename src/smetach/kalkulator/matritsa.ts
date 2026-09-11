@@ -10,9 +10,9 @@
  * участващото и въведено състояние."
  *
  * ЯДРАТА СА ПРЕНЕСЕНИ ДОСЛОВНО от MasterBook (`src/kalkulator/matritsa.ts`):
- * `tsenaOtChasti` · `tsenaPoSastoyanie` · `tsenaPoRazhod` · `saglasuvana` ·
- * `teglataZatvaryat`. Смятат се ЦЕЛИ числа и се дели ВЕДНЪЖ, накрая: обратният
- * ред би закръглил по средата и разликата щеше да расте с всеки обект.
+ * `tsenaOtChasti` · `tsenaPoSastoyanie` · `tsenaPoRazhod` · `saglasuvana`.
+ * Смятат се ЦЕЛИ числа и се дели ВЕДНЪЖ, накрая: обратният ред би закръглил
+ * по средата и разликата щеше да расте с всеки обект.
  */
 
 import {
@@ -172,17 +172,6 @@ export interface Saglasuvane {
   readonly deystvashti: Tegla;
   /** имената на подходите, отпаднали заради нулева стойност */
   readonly otpadnali: readonly string[];
-}
-
-/**
- * ЗАТВАРЯТ ЛИ ТЕГЛАТА · питат ГО, преди да викнат `saglasuvana`.
- *
- * Строгостта на `saglasuvana` е правилна и остава: сбор, различен от 100 %, не
- * бива да ражда число. Но ЕКРАНЪТ не бива да пада заради нея — отказът е
- * СЪОБЩЕНИЕ (правило 15), не срив.
- */
-export function teglataZatvaryat(tegla: Tegla): boolean {
-  return sboratNaTeglata(tegla) === EDINITSA_BT;
 }
 
 /**

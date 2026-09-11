@@ -4,14 +4,8 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import {
-  DnevnikVPametta,
-  proveriVerigata,
-  Vrata,
-  VsichkoRazresheno,
-  type Sabitie,
-} from '../src/yadro/index.js';
-import { operatsiya, seyalka, SHA } from './pomoshtni.js';
+import { proveriVerigata, Vrata, type Sabitie } from '../src/yadro/index.js';
+import { DnevnikVPametta, operatsiya, seyalka, SHA, VsichkoRazresheno } from './pomoshtni.js';
 
 function novaVrata() {
   const dnevnik = new DnevnikVPametta();

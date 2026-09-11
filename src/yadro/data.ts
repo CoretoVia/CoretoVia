@@ -9,12 +9,9 @@
  * дата, но не е ден.
  */
 
-export class GreshkaData extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'GreshkaData';
-  }
-}
+// ХОД 9 (11.09.2026): `otData` и `GreshkaData` паднаха — четири месеца никой не ги
+// викаше; Вратата на редовете (`src/komandi/prozortsi/red.ts`) пита `eData` и строи
+// думите на отказа с името на колоната. git ги пази.
 
 const VID = /^(\d{4})-(\d{2})-(\d{2})$/;
 
@@ -30,15 +27,4 @@ export function eData(tekst: unknown): tekst is string {
   if (mesets < 1 || mesets > 12 || den < 1) return false;
   // Ден 0 на следващия месец е последният ден на този — така февруари се брои сам.
   return den <= new Date(Date.UTC(godina, mesets, 0)).getUTCDate();
-}
-
-/**
- * Чете дата, написана от човек, и я връща като ISO ден.
- * Приема „2026-02-28"; отказва празно, „28.02.2026" и „2026-02-31".
- */
-export function otData(tekst: string, koe = 'Датата'): string {
-  const chisto = tekst.trim();
-  if (chisto === '') throw new GreshkaData(`${koe} липсва.`);
-  if (!eData(chisto)) throw new GreshkaData(`${koe} не е ден от календара: „${chisto}"`);
-  return chisto;
 }

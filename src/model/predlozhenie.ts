@@ -80,17 +80,6 @@ export type Predlozhenie =
       readonly id: string;
     });
 
-/** Видовете · пин за тестовете: всеки има команда. */
-export const VIDOVE_PREDLOZHENIYA: readonly Predlozhenie['vid'][] = Object.freeze([
-  'nova-stoynost',
-  'preimenuvana',
-  'spryana',
-  'varnata',
-  'nov-red',
-  'popravka',
-  'izklyuchi',
-]);
-
 /** Думите на вида · за екрана. */
 export const DUMI_NA_VIDA: Readonly<Record<Predlozhenie['vid'], string>> = Object.freeze({
   'nova-stoynost': 'нова стойност',

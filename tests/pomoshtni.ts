@@ -1,18 +1,167 @@
-import { sha256Node } from '../src/nositel/hash-node.js';
+import { podravni, poTekst } from '../src/model/nomenklatura.js';
+import type { Ogledalo } from '../src/ogledalo/ogledalo.js';
 import { TIP } from '../src/sabitiya/registar.js';
+import { NOMENKLATURA_NA_STRANATA, type Strana } from '../src/smetach/smetki.js';
 import {
-  DnevnikVPametta,
+  type Dnevnik,
+  type DrajkaNaKotva,
+  GreshkaDnevnik,
+  klyuchNaSashtnost,
   koyPishe,
   type Operatsiya,
+  type Pravata,
   type Rezultat,
   type Sabitie,
   type Sashtnost,
+  type Sha256,
+  veriga,
   Vrata,
-  VsichkoRazresheno,
 } from '../src/yadro/index.js';
+
+/*
+ * ═══ ДВОЙНИЦИТЕ ЗА ТЕСТ · ход 9 · присъда „test-dvoynik" · правило 30 ═══
+ *
+ * Дотук всеки от тях стоеше изнесен в `src/`, а го викаше САМО тестът: обход 3 на
+ * чистотата броеше имената като „непостроена възможност", а обход 6б — цели файлове
+ * (`hash-node.ts` · `naivno.ts`) като внасяни само от тестове. Те не са възможност —
+ * те са помощници на тестовете по определение. Домът им е тук. Кодът е пренесен дословно,
+ * с обясненията си; портовете (`Dnevnik` · `DrajkaNaKotva` · `Pravata` · `Sha256`)
+ * остават в ядрото и тук само се реализират.
+ */
+
+/**
+ * Хеш за Node — за тестовете и за носител „Б · свой сървър".
+ * В браузъра стои `hash-web.ts`. Портът `Sha256` не знае разликата.
+ *
+ * Беше `src/nositel/hash-node.ts`. Носител „Б" още няма викащ, тъй че дотогава
+ * реализацията живее при единствения си викащ — тестовете.
+ */
+const sha256Node: Sha256 = async (danni) => {
+  const { createHash } = await import('node:crypto');
+  return createHash('sha256').update(danni, 'utf8').digest('hex');
+};
 
 /** Носителят за тестовете. Ядрото нарочно няма стойност по подразбиране. */
 export const SHA = sha256Node;
+
+/** Реализация в паметта. Изолацията на верига е на ниво данни. */
+export class DnevnikVPametta implements Dnevnik {
+  readonly #poVeriga = new Map<string, Sabitie[]>();
+  readonly #poOpId = new Map<string, Sabitie>();
+
+  async posledno(veriga: string): Promise<Sabitie | undefined> {
+    const redica = this.#poVeriga.get(veriga);
+    return redica?.[redica.length - 1];
+  }
+
+  async parvo(veriga: string): Promise<Sabitie | undefined> {
+    return this.#poVeriga.get(veriga)?.[0];
+  }
+
+  async poOpId(veriga: string, opId: string): Promise<Sabitie | undefined> {
+    return this.#poOpId.get(`${veriga} ${opId}`);
+  }
+
+  async tekushtRev(veriga: string, sashtnost: Sashtnost): Promise<number> {
+    const klyuch = klyuchNaSashtnost(sashtnost);
+    const redica = this.#poVeriga.get(veriga) ?? [];
+    for (let i = redica.length - 1; i >= 0; i -= 1) {
+      const s = redica[i]!;
+      if (klyuchNaSashtnost(s.sashtnost) === klyuch) return s.seq;
+    }
+    return 0;
+  }
+
+  async dobavi(s: Sabitie): Promise<void> {
+    const redica = this.#poVeriga.get(veriga(s)) ?? [];
+    const ochakvanSeq = redica.length + 1;
+    if (s.seq !== ochakvanSeq) {
+      throw new GreshkaDnevnik(
+        `Журналът е само за добавяне: очакван seq ${ochakvanSeq}, получен ${s.seq}`,
+      );
+    }
+    const klyuchOp = `${veriga(s)} ${s.opId}`;
+    if (this.#poOpId.has(klyuchOp)) {
+      throw new GreshkaDnevnik(`opId вече съществува: ${s.opId}`);
+    }
+    redica.push(Object.freeze(s));
+    this.#poVeriga.set(veriga(s), redica);
+    this.#poOpId.set(klyuchOp, s);
+  }
+
+  async chetiVsichki(veriga: string): Promise<Sabitie[]> {
+    return [...(this.#poVeriga.get(veriga) ?? [])];
+  }
+
+  async chetiZaSashtnost(veriga: string, sashtnost: Sashtnost): Promise<Sabitie[]> {
+    const klyuch = klyuchNaSashtnost(sashtnost);
+    const redica = this.#poVeriga.get(veriga) ?? [];
+    return redica.filter((s) => klyuchNaSashtnost(s.sashtnost) === klyuch);
+  }
+
+  async verigi(prefiks: string): Promise<string[]> {
+    return [...this.#poVeriga.keys()].filter((k) => k.startsWith(prefiks)).sort();
+  }
+}
+
+/** Котвата не е изнесен тип на ядрото · чете се от порта, за да не се изнася само за теста. */
+type Kotva = NonNullable<ReturnType<DrajkaNaKotva['cheti']>>;
+
+/** За тестове и за среди без localStorage. */
+export class KotvaVPametta implements DrajkaNaKotva {
+  readonly #po = new Map<string, Kotva>();
+
+  cheti(veriga: string): Kotva | null {
+    return this.#po.get(veriga) ?? null;
+  }
+
+  zabij(veriga: string, kotva: Kotva): void {
+    this.#po.set(veriga, kotva);
+  }
+}
+
+/** Първи резен: един собственик, всичко негово. */
+export class VsichkoRazresheno implements Pravata {
+  async mozheDaPishe(): Promise<boolean> {
+    return true;
+  }
+
+  async mozheDaIznasya(): Promise<boolean> {
+    return true;
+  }
+}
+
+/** Изрична карта actor → вериги. Ползва се в тестовете за изолация. */
+export class PoSpisak implements Pravata {
+  readonly #karta: ReadonlyMap<string, ReadonlySet<string>>;
+
+  constructor(karta: Readonly<Record<string, readonly string[]>>) {
+    this.#karta = new Map(Object.entries(karta).map(([actor, verigi]) => [actor, new Set(verigi)]));
+  }
+
+  async mozheDaPishe(actor: string, veriga: string): Promise<boolean> {
+    return this.#karta.get(actor)?.has(veriga) ?? false;
+  }
+
+  async mozheDaIznasya(actor: string, veriga: string): Promise<boolean> {
+    return this.#karta.get(actor)?.has(veriga) ?? false;
+  }
+}
+
+/**
+ * Номерът на секция по думата ѝ · помощник на тестовете на Сметки и ДДС.
+ *
+ * Беше в `src/smetach/smetki.ts` с шапка, която го обявяваше за сверката на кеша
+ * и за секцията „Вкарване" — а нито кешът, нито „Вкарване" го викаха: те намират
+ * секцията по `podravni(x.tekst)` сами. Викаха го само тестовете, за да запишат
+ * движение в секция по номер. Домът му е тук (ход 9).
+ */
+export function nomerNaSektsiya(o: Ogledalo, strana: Strana, tekst: string): number | null {
+  const n = o.nomenklaturi.get(NOMENKLATURA_NA_STRANATA[strana]);
+  if (n === undefined) return null;
+  const s = poTekst(n, podravni(tekst));
+  return s === undefined ? null : s.nomer;
+}
 
 /** Детерминистичен генератор — без Math.random, за да са тестовете повторяеми. */
 export function seyalka(seme = 1): () => number {

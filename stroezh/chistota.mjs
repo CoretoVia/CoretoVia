@@ -687,9 +687,17 @@ function bezChuzhdiNizove(t) {
     .replace(/`(?:[^`\\]|\\.)*`/g, (m) => m.replace(/[^\n]/g, ' '));
 }
 
-function vnesenoOt(fayl) {
+/**
+ * ТИПОВИЯТ ВНОС НЕ ТЕСТВА (ход 9 · 11.09.2026). `import type { X } from '…'` изчезва при
+ * компилация и не изпълнява нито ред от файла — тест или помощник, който внася само
+ * тип, не е докоснал кода. За свързаността (обход 6) типът Е връзка; за „без тест"
+ * (обход 7) не е. Затова четенето има две лица.
+ */
+function vnesenoOt(fayl, bezTipove = false) {
   const nabor = new Set();
-  for (const [, spets] of bezChuzhdiNizove(tekstat.get(fayl)).matchAll(SPETSIFER)) {
+  let tekst = bezChuzhdiNizove(tekstat.get(fayl));
+  if (bezTipove) tekst = tekst.replace(/import\s+type\s+[^;]*?from\s*'[^']+'/g, ' ');
+  for (const [, spets] of tekst.matchAll(SPETSIFER)) {
     if (!spets.startsWith('.')) continue;
     nabor.add(izravni(resolve(dirname(fayl), spets)).replace(/\.js$/, '.ts'));
   }
@@ -820,7 +828,7 @@ vidyal('6б · само през барела', vidyaniPrezBarela);
  */
 const dokosnatiOtTest = new Set();
 for (const t of [...testove, ...prohod]) {
-  for (const cel of vnasya.get(t)) {
+  for (const cel of vnesenoOt(t, true)) {
     dokosnatiOtTest.add(cel);
     if (basename(cel) === 'index.ts' && vnasya.has(cel)) {
       for (const prez of vnasya.get(cel)) dokosnatiOtTest.add(prez);
@@ -1005,7 +1013,7 @@ vidyal('8б · дублирано по структура', kod.length);
  * Присвояване на `innerHTML` или `outerHTML`, `insertAdjacentHTML`,
  * `document.write`, `eval` и `new Function` — навсякъде в `src/` и `app/`
  * ОСВЕН в самата врата. Прагът е НУЛА: изключение не се предвижда, защото
- * вратата приема всичко през `h` и `nashHTML`.
+ * вратата приема всичко през `h`, а адрес на скрипт — през `nashSkript`.
  */
 const IZVAN_VRATATA = [
   [/\.(?:inner|outer)HTML\s*=/, 'присвояване на HTML извън вратата'],
@@ -1131,9 +1139,9 @@ const PRAGOVE = {
    * НУЛА, и тук няма именувано изключение (резен 6м).
    *
    * Всеки друг праг в този файл има име зад себе си. Тук няма и не бива да има:
-   * вратата приема ВСИЧКО — разметка през `h`, наш готов низ през `nashHTML`,
-   * адрес на скрипт през `nashSkript`. Който има нужда от втори път, всъщност
-   * има нужда да мине през първия.
+   * вратата приема ВСИЧКО — разметка през `h`, адрес на скрипт през
+   * `nashSkript`. Който има нужда от втори път, всъщност има нужда да мине
+   * през първия.
    */
   '9 · път до HTML извън вратата': 0,
   /**
@@ -1156,9 +1164,13 @@ const PRAGOVE = {
  * пинът с ръка, вместо числото да стои като украса.
  */
 const PINOVE_TOCHNI = {
-  '3 · само тест': 32,
-  '6б · само през барела': 4,
-  '7 · без тест': 47,
+  // 11.09 · ход 9: 32 → 9 (деветте имат ред в дълга: ДЛ-Н3 · Н5 · Н6 · Н7 · Н9 · Н10 · Н11 · Н12)
+  '3 · само тест': 9,
+  // 11.09 · ход 9: 4 → 0 (hash-node.ts · naivno.ts отидоха в tests/, data.ts · zapis.ts получиха викащ)
+  '6б · само през барела': 0,
+  // 11.09 · ход 9: 47 → 49 — не защото кодът стана по-лош, а защото типовият внос спря да
+  // брои за тест (два файла бяха „докоснати" само през `import type` от помощник)
+  '7 · без тест': 49,
 };
 
 const poObhod = new Map();

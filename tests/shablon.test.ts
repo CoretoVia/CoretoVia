@@ -6,7 +6,7 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { h, nashHTML, type Zapechatan } from '../app/reshetka/shablon.js';
+import { h, type Zapechatan } from '../app/reshetka/shablon.js';
 
 /**
  * Само за теста · вижда какво е сглобил шаблонът, без да минава през възел.
@@ -70,11 +70,6 @@ describe('запечатаният HTML', () => {
   it('числото влиза като число, не като „[object Object]"', () => {
     expect(kato(h`${1500}`)).toBe('1500');
     expect(kato(h`${true}`)).toBe('true');
-  });
-
-  it('и НАШИЯТ готов HTML влиза цял · но само през назована врата', () => {
-    // `nashHTML` е РЕШЕНИЕ и се вижда в диф · обходът на чистотата брои виканията
-    expect(kato(h`${nashHTML('<svg><rect/></svg>')}`)).toBe('<svg><rect/></svg>');
   });
 
   /**

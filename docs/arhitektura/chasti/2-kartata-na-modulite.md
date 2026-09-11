@@ -184,7 +184,7 @@ grep -rln "yadro/index" src app
 | какво | доказателство | значение |
 | :---- | :---- | :---- |
 | **обхватът е само `src app`** | `package.json:20` → `depcruise --config .dependency-cruiser.cjs src app` | `tests/`, `stroezh/`, `proba/`, `zadanie/` са ИЗВЪН слоевата машина. Тестът може да внесе каквото си иска |
-| **`chuzhdo-samo-poimenno` не лови `core`** | `src/nositel/hash-node.ts → crypto` с типове `["core","dynamic-import"]`; правилото брои само `npm`, `npm-dev`, `npm-no-pkg`, `npm-unknown` | вграденото в Node не се смята за „чужд пакет" — записано решение за това не намерих |
+| **`chuzhdo-samo-poimenno` не лови `core`** | `sha256Node → crypto` (от 11.09 в `tests/pomoshtni.ts`; до тогава `src/nositel/hash-node.ts`) с типове `["core","dynamic-import"]`; правилото брои само `npm`, `npm-dev`, `npm-no-pkg`, `npm-unknown` | вграденото в Node не се смята за „чужд пакет" — записано решение за това не намерих |
 | **`chuzhdo-samo-poimenno` не лови `unknown`** | `app/vite-okolna-sreda.d.ts → vite/client` с тип `["unknown"]` | зависимост, която резолверът не разпознава, минава мълчаливо |
 
 ---

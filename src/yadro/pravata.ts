@@ -2,8 +2,11 @@
  * ПРАВАТА — кой какво вижда и пипа.
  *
  * ⚠ П3 от Плана за изпълнение още чака дума за самоличността
- * („имейл без парола" не е думата на собственика). Затова тук стои
- * само портът и две тривиални реализации — истинската политика идва после.
+ * („имейл без парола" не е думата на собственика). Затова тук стоят
+ * портът и политиките на продукта — `LichnoESamoTvoe` (жив викащ: `app/main.ts`)
+ * и `PoSvoyataVeriga` (чака ход 10б · ДЛ-Н5); тривиалните двойници („всичко
+ * разрешено" · „по списък") са само за тестовете и живеят при тях —
+ * `tests/pomoshtni.ts` (ход 9 · правило 30).
  */
 
 import type { Sashtnost } from './sabitie.js';
@@ -17,17 +20,6 @@ export interface Pravata {
    * появи втори бутон без питане.
    */
   mozheDaIznasya(actor: string, veriga: string): Promise<boolean>;
-}
-
-/** Първи резен: един собственик, всичко негово. */
-export class VsichkoRazresheno implements Pravata {
-  async mozheDaPishe(): Promise<boolean> {
-    return true;
-  }
-
-  async mozheDaIznasya(): Promise<boolean> {
-    return true;
-  }
 }
 
 /**
@@ -166,22 +158,5 @@ export class PoSvoyataVeriga implements Pravata {
 
   async mozheDaIznasya(actor: string, veriga: string): Promise<boolean> {
     return this.#vatre.mozheDaIznasya(actor, veriga);
-  }
-}
-
-/** Изрична карта actor → вериги. Ползва се в тестовете за изолация. */
-export class PoSpisak implements Pravata {
-  readonly #karta: ReadonlyMap<string, ReadonlySet<string>>;
-
-  constructor(karta: Readonly<Record<string, readonly string[]>>) {
-    this.#karta = new Map(Object.entries(karta).map(([actor, verigi]) => [actor, new Set(verigi)]));
-  }
-
-  async mozheDaPishe(actor: string, veriga: string): Promise<boolean> {
-    return this.#karta.get(actor)?.has(veriga) ?? false;
-  }
-
-  async mozheDaIznasya(actor: string, veriga: string): Promise<boolean> {
-    return this.#karta.get(actor)?.has(veriga) ?? false;
   }
 }

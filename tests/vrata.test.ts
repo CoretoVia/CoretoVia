@@ -4,16 +4,21 @@
 
 import { describe, expect, it } from 'vitest';
 import {
-  DnevnikVPametta,
   GreshkaVrata,
-  PoSpisak,
   proveriVerigata,
   Vrata,
-  VsichkoRazresheno,
   type Dnevnik,
   type Pravata,
 } from '../src/yadro/index.js';
-import { KNIGA, operatsiya, SHA, VERIGA_NA_SLUZHITEL } from './pomoshtni.js';
+import {
+  DnevnikVPametta,
+  KNIGA,
+  operatsiya,
+  PoSpisak,
+  SHA,
+  VERIGA_NA_SLUZHITEL,
+  VsichkoRazresheno,
+} from './pomoshtni.js';
 
 function novaVrata(pravata: Pravata = new VsichkoRazresheno()) {
   const dnevnik = new DnevnikVPametta();

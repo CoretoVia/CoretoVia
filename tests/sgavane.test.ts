@@ -18,18 +18,28 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import {
-  DnevnikVPametta,
-  Vrata,
-  VsichkoRazresheno,
-  type Sabitie,
-  koyPishe,
-} from '../src/yadro/index.js';
-import { naprediChasovnika, sravniPoTakt, taktNaSabitie } from '../src/yadro/takt.js';
+import { Vrata, type Sabitie, koyPishe } from '../src/yadro/index.js';
+import { naprediChasovnika, sravniTakt, taktNaSabitie } from '../src/yadro/takt.js';
 import { sgani } from '../src/ogledalo/sgavane.js';
-import { SHA, USTROYSTVO, VALUTA } from './pomoshtni.js';
+import { DnevnikVPametta, SHA, USTROYSTVO, VALUTA, VsichkoRazresheno } from './pomoshtni.js';
 
 const KOGATO = '2026-08-26T09:00:00.000Z';
+
+/**
+ * Същото, но от събития · за четене и за тестове.
+ *
+ * ГОРЕЩИЯТ ПЪТ НЕ МИНАВА ОТТУК, и това е измерено, не предположено: сливането
+ * прави десетки хиляди сравнения, а всяко викане тук плаща по два `Date.parse`
+ * и два замразени обекта. При 10 000 събития в пет вериги това извади 25,2 ms
+ * при бюджет 20 — тоест мярката улови собствената ми разсипия.
+ *
+ * Затова сливането смята такта ВЕДНЪЖ на събитие и после сравнява готовото
+ * (`sravniTakt`). Тази функция остава за местата, където яснотата тежи повече
+ * от милисекундите — и такова място днес е само този тест (ход 9).
+ */
+function sravniPoTakt(a: Sabitie, b: Sabitie): number {
+  return sravniTakt(taktNaSabitie(a), taktNaSabitie(b));
+}
 
 /** Една верига с N прости събития · без домейн, за да се мери СГЪВАНЕТО. */
 async function veriga(klyuch: string, broy: number, ot: number): Promise<readonly Sabitie[]> {

@@ -6,15 +6,11 @@ import { koyPishe } from '../src/yadro/index.js';
  * а разписката се записва и при нула (правило 7).
  */
 
-import { describe, expect, it } from 'vitest';
+import { describe, expect, expectTypeOf, it } from 'vitest';
 import { komandaZaPredlozhenie } from '../src/komandi/izpalnenie.js';
 import { KATALOG } from '../src/komandi/katalog.js';
 import { MODEL, NOMENKLATURA } from '../src/model/osnova.js';
-import {
-  PREDLOZHENIE,
-  type Predlozhenie,
-  VIDOVE_PREDLOZHENIYA,
-} from '../src/model/predlozhenie.js';
+import { PREDLOZHENIE, type Predlozhenie } from '../src/model/predlozhenie.js';
 import { Izpalnitel } from '../src/porta/izpalnitel.js';
 import { izpalniPredlozheniyata, probvayPredlozheniyata } from '../src/porta/vnasyane.js';
 import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js';
@@ -22,6 +18,21 @@ import { KNIGA, knigaZaTest, STOPANIN, USTROYSTVO, VALUTA } from './pomoshtni.js
 const KOGATO = '2026-09-05T16:00:00.000Z';
 const idNa = (i: number): string => `vnos:${i}`;
 const OBSHTO = { adres: 'A1', list: 'лист', zashto: '', poPodrazbirane: true, zavisiOt: [] };
+
+/**
+ * Видовете · пин с ръка, при тестовете (ход 9): в `src/` го викаше само този тест.
+ * `satisfies` пада при махнат или сгрешен вид; `expectTypeOf` в теста долу — при
+ * нов вид, който не е добавен тук. И двете падат на `npm run typecheck`.
+ */
+const VIDOVE_PREDLOZHENIYA = [
+  'nova-stoynost',
+  'preimenuvana',
+  'spryana',
+  'varnata',
+  'nov-red',
+  'popravka',
+  'izklyuchi',
+] as const satisfies readonly Predlozhenie['vid'][];
 
 async function otvori() {
   const k = knigaZaTest();
@@ -49,6 +60,7 @@ const PRAZEN = { plosht: null, tsena: null, papka: null, adres: null };
 describe('преводът към команда', () => {
   it('всеки от седемте вида има ТОЧНО една команда · броят е пин', () => {
     expect(VIDOVE_PREDLOZHENIYA).toHaveLength(7);
+    expectTypeOf<Predlozhenie['vid']>().toEqualTypeOf<(typeof VIDOVE_PREDLOZHENIYA)[number]>();
     expect(PREDLOZHENIE).toBe('@predlozhenie:');
     const primeri: Predlozhenie[] = [
       { ...OBSHTO, vid: 'nova-stoynost', nomenklatura: 'x', tekst: 'a', belezi: {}, nomer: 1 },

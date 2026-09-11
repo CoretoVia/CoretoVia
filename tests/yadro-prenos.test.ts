@@ -13,15 +13,11 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { sha256Node } from '../src/nositel/hash-node.js';
 import {
-  KotvaVPametta,
   kotvataKazva,
   LichnoESamoTvoe,
   MERKA,
   PoSvoyataVeriga,
-  SUMATA_NAD_NULA,
-  VsichkoRazresheno,
   ZASHTO_I_NULATA,
   klyuchNaZveno,
   izchisliHash,
@@ -34,6 +30,7 @@ import {
   proveriKotvata,
   sverka,
 } from '../src/yadro/index.js';
+import { KotvaVPametta, SHA, VsichkoRazresheno } from './pomoshtni.js';
 
 const KOGATO = '2026-09-05T09:00:00.000Z';
 const svedi = (imeyl: string): string => imeyl.trim().toLowerCase();
@@ -142,10 +139,6 @@ describe('сверката и звеното', () => {
     expect(na('A', 2)).toBe('A#2');
     expect(na('B', 2)).not.toBe(na('A', 2));
   });
-
-  it('думите за сумата над нула са едни', () => {
-    expect(SUMATA_NAD_NULA).toBe('Сумата трябва да е повече от нула.');
-  });
 });
 
 /**
@@ -222,25 +215,25 @@ describe('версията на схемата и валутата', () => {
   });
 
   it('смяна на ВАЛУТАТА мени подписа · историята не се преномерира тихо', async () => {
-    const a = await izchisliHash(osnova, sha256Node);
-    const b = await izchisliHash({ ...osnova, valuta: 'USD' }, sha256Node);
+    const a = await izchisliHash(osnova, SHA);
+    const b = await izchisliHash({ ...osnova, valuta: 'USD' }, SHA);
     expect(a).not.toBe(b);
   });
 
   it('смяна на ВЕРСИЯТА мени подписа', async () => {
-    const a = await izchisliHash(osnova, sha256Node);
-    const b = await izchisliHash({ ...osnova, shema: 2 }, sha256Node);
+    const a = await izchisliHash(osnova, SHA);
+    const b = await izchisliHash({ ...osnova, shema: 2 }, SHA);
     expect(a).not.toBe(b);
   });
 
   it('и трите нови полета на разреза са в подписа', async () => {
-    const a = await izchisliHash(osnova, sha256Node);
+    const a = await izchisliHash(osnova, SHA);
     for (const smyana of [
       { kniga: 'druga' },
       { pisach: 'k1-chuzhd' },
       { ustroystvo: `k1-${'f'.repeat(32)}` },
     ]) {
-      expect(await izchisliHash({ ...osnova, ...smyana }, sha256Node)).not.toBe(a);
+      expect(await izchisliHash({ ...osnova, ...smyana }, SHA)).not.toBe(a);
     }
   });
 });
