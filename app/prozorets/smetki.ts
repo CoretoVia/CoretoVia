@@ -29,7 +29,7 @@ import {
 import { slotNaKolonata } from '../../src/model/kolona.js';
 import { kolonaNa } from '../../src/model/tablitsa.js';
 import { redKato } from '../../src/ogledalo/tablitsa.js';
-import { broyPokrivashti, lentaNa, sboroveVKolonite } from '../../src/smetach/gant.js';
+import { denNaMeseca, dvanaysetMeseca, kalendar } from '../../src/smetach/kalendar.js';
 import { imeNaVrazkata } from '../../src/smetach/kletki.js';
 import {
   IMENA_NA_STRANITE,
@@ -50,7 +50,7 @@ import { koloniNaTakta } from '../../src/smetach/vreme.js';
 import { pishi, pishiVPole, sabiri, type Tsentove, tsentove } from '../../src/yadro/pari.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { otvoriChernova } from '../reshetka/chernova.js';
-import { gantSVG, type RedNaGanta } from '../reshetka/gant-svg.js';
+import { kalendarHTML } from '../reshetka/kalendar-tablitsa.js';
 import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
 import { chetiEkranno, zapomniEkranno } from '../reshetka/pamet-ekran.js';
@@ -98,7 +98,6 @@ const KOLONI_NA_DDSA = [
 ] as const;
 /** колоните на движението на екрана · неговите глави са дълги, тук стоят кратките */
 const KOLONI = ['kam', 'ime', 'funktsiya', 'sastoyanie', 'mesets', 'suma'] as const;
-const SHIRINA_NA_TAKTA = 36;
 
 /** помощта на изведените по ключ · домът им е `src/smetach` · тук само се търси */
 const POMOSHT_NA_IZVEDENITE = new Map(IZVEDENITE_NA_SMETKITE.map((x) => [x.klyuch, x.pomosht]));
@@ -451,7 +450,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
 
   zakachiReshetkata(k);
   zakachiPodtabove(k.tyalo, PAMET.podtab, k.prerisuvay);
-  if (podtab === 'smetki') narisuvayGanta(k, [...s.prihod, ...s.razhod], mesets);
+  if (podtab === 'smetki') narisuvayKalendara(k, [...s.prihod, ...s.razhod], mesets);
   k.tyalo.querySelector<HTMLFormElement>('[data-dds-forma]')?.addEventListener('submit', (e) => {
     e.preventDefault();
     void zapishiDdsa(k);
@@ -491,52 +490,33 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
 }
 
 /** Гантът на Сметки · всяко движение е една колона — месецът му. */
-function narisuvayGanta(k: KonteksNaEkrana, sektsii: readonly Sektsiya[], mesets: string): void {
+/**
+ * КАЛЕНДАРЪТ на Сметки · ТАБЛИЦА с цифри, не картина.
+ *
+ * Негово, 11.09 (записи 145 · 147 · 149): цифрата със знака в клетката · общ
+ * сбор под колоните · сбор на реда за периода. Редовете са СЕКЦИИТЕ, както в
+ * Книгата му; числата им се събират по месец в колоната на такта.
+ */
+function narisuvayKalendara(
+  k: KonteksNaEkrana,
+  sektsii: readonly Sektsiya[],
+  mesets: string,
+): void {
   const skrol = k.tyalo.querySelector<HTMLElement>('[data-gant-skrol]');
   if (!skrol) return;
-  const koloni = koloniNaTakta('godina', `${mesets}-01`);
-  const tabl = k.tyalo.querySelectorAll<HTMLTableElement>('[data-reshetka]');
-  const gore =
-    k.tyalo.querySelector<HTMLElement>('.smetki-blokove')?.getBoundingClientRect().top ?? 0;
-  const redove: RedNaGanta[] = [];
-  const chislaPoData: { data: string; chislo: number }[] = [];
-  for (const tb of tabl) {
-    if (tb.dataset['reshetka'] === 'vkarvane') continue;
-    for (const tr of tb.querySelectorAll<HTMLElement>('tbody tr.red')) {
-      const r = tr.getBoundingClientRect();
-      const id = tr.dataset['id'] ?? '';
-      const sek = sektsii.find((x) => x.redove.some((y) => y.id === id));
-      const red = sek?.redove.find((y) => y.id === id);
-      const kogaMu = red?.mesets ?? '';
-      redove.push({
-        id,
-        ime: `${sek?.tekst ?? ''} · ${kogaMu}`,
-        y: r.top - gore,
-        visina: r.height,
-        lenta:
-          kogaMu === '' ? null : lentaNa({ id, ot: `${kogaMu}-01`, do: `${kogaMu}-01` }, koloni),
-        svetofar: null,
-        speshno: false,
-      });
-      if (red !== undefined && kogaMu !== '')
-        chislaPoData.push({ data: `${kogaMu}-01`, chislo: red.suma_st });
-    }
-  }
-  const lenti = redove.map((r) => r.lenta).filter((l) => l !== null);
-  sloji(
-    skrol,
-    gantSVG({
-      koloni,
-      redove,
-      visinaNaGlavata: 24,
-      sborove: sboroveVKolonite(koloni, chislaPoData),
-      pokrivashti: broyPokrivashti(koloni, lenti),
-      shirinaNaKolonata: SHIRINA_NA_TAKTA,
-    }),
+  const koloni = koloniNaTakta('svoy', `${mesets}-01`, dvanaysetMeseca(mesets));
+  const kal = kalendar(
+    sektsii.map((s) => ({
+      id: `${s.strana}-${s.nomer}`,
+      ime: s.spryana ? `${s.tekst} · спряна` : s.tekst,
+      chisla: s.redove.map((r) => ({ data: denNaMeseca(r.mesets), chislo: r.suma_st })),
+    })),
+    koloni,
   );
+  sloji(skrol, kalendarHTML(kal));
   const sverka = k.tyalo.querySelector('[data-sverka="gant"]');
   if (sverka)
-    sverka.textContent = `ленти ${lenti.length} · движения ${redove.length} · колони ${koloni.length}`;
+    sverka.textContent = `секции ${kal.redove.length} · колони ${koloni.length} · период ${pishi(kal.vsichko)}`;
 }
 
 function zapishiKesha(k: KonteksNaEkrana): Promise<void> {
