@@ -2279,14 +2279,15 @@
       "sastoyanie": "reshen_ot_koda",
       "negovite_dumi": "",
       "adres": "docs/ADR-023-pette-resheniya-06-09-vecherta.md:200 („същият закон като поканата в календара · ADR-064\") срещу `ls docs/ADR-*`, който спира на docs/ADR-024-chetirite-neobratimi.md · и docs/registar-na-prenosa.md:213: „domein/kalendar.ts | 149 | ЧАКА (Google Calendar → OAuth) | — | — | ADR-064\"",
-      "kakvo_sledva": "ADR-064 е ADR на MasterBook, НЕ на Coretovia, и не е пренасян — значи опората на решението в ADR-023 е висяща препратка навън: или се пренася, или цитатът се маха (правило 13). Не чака негова дума.",
+      "kakvo_sledva": "затворен 11.09.2026: препратката в docs/ADR-023:200 и редът в docs/registar-na-prenosa.md:213 са квалифицирани „ADR-064 на MasterBook, непренесен\" (правило 13); календарът идва с адаптера на 1.1 · docs/14 §3.2",
       "otpushva": [],
       "zhivee_v": [
         "docs/14-dalgat.md",
         "docs/25-planat-i-vaprosite.md",
         "docs/dokladi/03-firmata-i-nepopitanoto.md",
         "docs/dokladi/06-propuskite-ot-arhiva.md",
-        "docs/dokladi/07-redat-na-kodirane.md"
+        "docs/dokladi/07-redat-na-kodirane.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {
@@ -2471,14 +2472,16 @@
     },
     {
       "beleg": "Т48",
-      "vapros": "",
-      "sastoyanie": "nepoznat",
+      "vapros": "Стъпалото на Журнала 1 → 2 вдига ли целия Журнал в паметта (getAll)? При десетки хиляди звена на телефон това е таван.",
+      "sastoyanie": "reshen_ot_koda",
       "negovite_dumi": "",
-      "adres": "",
-      "kakvo_sledva": "",
+      "adres": "src/nositel/dnevnik-indexeddb.ts",
+      "kakvo_sledva": "затворен 11.09.2026: пренасянето върви с курсор, всяко звено влиза веднага в новото хранилище под временно име, сверка вход↔изход, после старото пада и новото получава името си · тест с 300 звена и нула повиквания на getAll (tests/nositel-indexeddb.test.ts) · docs/14 §3.2",
       "otpushva": [],
       "zhivee_v": [
-        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md"
+        "zadanie/CHISTO/19-nositel-sreda-i-razgrashtane.md",
+        "docs/14-dalgat.md",
+        "docs/dnevnik/2026-09-11.md"
       ]
     },
     {

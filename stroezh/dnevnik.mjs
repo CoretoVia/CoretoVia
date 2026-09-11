@@ -174,6 +174,68 @@ function sledvashtZapis() {
   return max + 1;
 }
 
+/**
+ * ТАБЛОТО НА ТРЕСЧОТКИТЕ (0.12) · числа, които вървят само в една посока.
+ * `kray` ги записва в §5 на деня; `nachalo` ги показва срещу предишния ден;
+ * `proveri` (Д5б) пада, когато растат в грешната посока. Един дом на списъка.
+ */
+const TRESCHOTKI = [
+  ['nepoznati', 'непознати', 'надолу'],
+  ['dlBezUslovie', 'ДЛ без условие', 'надолу'],
+  ['dniSKommitiBezZapis', 'дни с коммити без дневник', 'нула'],
+  ['otkriti', 'открити', 'инфо'],
+  ['dlOtvoreni', 'ДЛ отворени', 'инфо'],
+];
+
+function treschotkite(den) {
+  const reg = registarat();
+  const otvoreni = otvoreniteRedove();
+  const dlBezUslovie = otvoreni.filter(
+    (o) => !o.predi || o.predi.trim() === '' || o.predi.trim() === '—',
+  ).length;
+  // дни, в които има коммит, но няма дневник (от първия ден на ритуала)
+  let dniSKommitiBezZapis = 0;
+  if (IMA_GIT) {
+    const dniSDnevnik = new Set(faylovePoDen(DNEVNIK).map((f) => f.slice(0, 10)));
+    const dniSKommit = new Set(
+      (git('log', '--format=%ad', '--date=short', `--since=${PARVIYAT_DEN}`, '--no-merges') ?? '')
+        .split('\n')
+        .map((r) => r.trim())
+        .filter((r) => DEN.test(r) && r >= PARVIYAT_DEN && r <= den),
+    );
+    for (const d of dniSKommit) if (!dniSDnevnik.has(d)) dniSKommitiBezZapis++;
+  }
+  return {
+    nepoznati: reg.nepoznat ?? 0,
+    dlBezUslovie,
+    dniSKommitiBezZapis,
+    otkriti: reg.otkrit ?? 0,
+    dlOtvoreni: otvoreni.length,
+  };
+}
+
+function redTreschotki(t) {
+  return `тресчотки · ${TRESCHOTKI.map(([k, ime]) => `${ime} ${t[k]}`).join(' · ')}`;
+}
+
+/** Стойностите от §5 на последния ден ПРЕДИ `den` · null, ако там още няма ред „тресчотки". */
+function predishniteTreschotki(den) {
+  const f = faylovePoDen(DNEVNIK)
+    .filter((x) => x < `${den}.md`)
+    .at(-1);
+  if (!f) return null;
+  const red = (razdeli(cheti(DNEVNIK, f)).get('5') ?? [])
+    .map((x) => x.trim())
+    .find((x) => x.startsWith('тресчотки'));
+  if (!red) return null;
+  const t = {};
+  for (const [k, ime] of TRESCHOTKI) {
+    const m = new RegExp(`${ime} (\\d+)`, 'u').exec(red);
+    if (m) t[k] = Number(m[1]);
+  }
+  return t;
+}
+
 /** Отворените редове на дълга · §1 на `docs/14`, незачеркнати, с белег. */
 function otvoreniteRedove() {
   if (!ima(DALG)) return [];
@@ -396,12 +458,23 @@ function proveri() {
         nahodki.push(`Д5 · роден белег „${beleg}" не е вписан нито в регистъра, нито в дълга`);
     }
 
-    // Д5б · непознатите не растат спрямо предишния ден (тресчотка)
+    // Д5б · тресчотките не растат спрямо предишния ден · непознатите (от текста
+    // на предишния ден или от реда „тресчотки" в §5) · ДЛ без условие · дни с коммити без дневник
     const predishen = dnevnitsi.filter((f) => f < `${den}.md`).at(-1);
     if (predishen) {
       const m = /непознати: (\d+)/u.exec(cheti(DNEVNIK, predishen));
       if (m && (reg.nepoznat ?? 0) > Number(m[1])) {
         nahodki.push(`Д5б · непознатите в регистъра растат: ${m[1]} → ${reg.nepoznat}`);
+      }
+    }
+    const predT = predishniteTreschotki(den);
+    const segaT = treschotkite(den);
+    for (const [k, ime, posoka] of TRESCHOTKI) {
+      if (posoka === 'надолу' && predT?.[k] !== undefined && segaT[k] > predT[k]) {
+        nahodki.push(`Д5б · тресчотката „${ime}" расте: ${predT[k]} → ${segaT[k]}`);
+      }
+      if (posoka === 'нула' && segaT[k] > 0) {
+        nahodki.push(`Д5б · тресчотката „${ime}" не е нула: ${segaT[k]}`);
       }
     }
   }
@@ -637,6 +710,18 @@ function nachalo() {
   kazhi(
     `РЕГИСТЪРЪТ: ${reg.obshto} въпроса · отговорени ${reg.otgovoren ?? 0} · открити ${reg.otkrit ?? 0} · решени от кода ${reg.reshen_ot_koda ?? 0} · непознати ${reg.nepoznat ?? 0}`,
   );
+  const sega = treschotkite(den);
+  const predi = predishniteTreschotki(den);
+  kazhi('ТАБЛОТО НА ТРЕСЧОТКИТЕ · вървят само в една посока · `kray` ги записва в §5:');
+  for (const [k, ime, posoka] of TRESCHOTKI) {
+    const s = sega[k];
+    const p = predi?.[k];
+    const znak =
+      p === undefined ? '' : s < p ? ` (↓ от ${p})` : s > p ? ` (↑ от ${p})` : ` (= ${p})`;
+    const greshna =
+      (posoka === 'надолу' && p !== undefined && s > p) || (posoka === 'нула' && s > 0);
+    kazhi(`  ${ime}: ${s}${znak}${greshna ? ' · В ГРЕШНА ПОСОКА — находка' : ''}`);
+  }
   kazhi('');
 
   // 6 · протоколът и заданието
@@ -722,7 +807,10 @@ function kray() {
   if (ima('stroezh/karta.mjs')) pusni(process.execPath, ['stroezh/karta.mjs', '--pishi']);
 
   if (bezPorti) {
-    zamestiRazdel5(den, [`портите: НЕ са пускани от тази сесия (${chas}) · чака CI`]);
+    zamestiRazdel5(den, [
+      `портите: НЕ са пускани от тази сесия (${chas}) · чака CI`,
+      redTreschotki(treschotkite(den)),
+    ]);
     console.log('§5: „чака CI" · портите ще ги пусне CI при push');
   } else {
     // ПЪРВО честният междинен ред: proverka включва dnevnik:proveri, който иска §5
@@ -734,6 +822,7 @@ function kray() {
     const redove = [
       `proverka · EXIT ${p.status} · ${p.sekundi} s · HEAD ${head} · ${den} ${chas}`,
       `proba · EXIT ${pb.status} · 2 пъти · ${pb.sekundi} s`,
+      redTreschotki(treschotkite(den)),
     ];
     zamestiRazdel5(den, redove);
     mkdirSync(pat(RABOTNI), { recursive: true });
