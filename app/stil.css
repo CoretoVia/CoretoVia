@@ -27,8 +27,12 @@ body {
   line-height: 1.45;
 }
 
+/* ЦЕЛИЯТ ЕКРАН · негово, 11.09 (запис 193): „мястото е ценно. Няма празни
+   пространства." Осемдесетте рема бяха мярка за ЧЕТИВО — текст на колона; тук
+   се гледа таблица с двайсет колони и календар до нея, и всеки отрязан рем е
+   колона по-малко на екрана. */
 .ekran {
-  max-width: 80rem;
+  max-width: none;
   margin: 0 auto;
   padding: 0.5rem 1rem 0;
 }
@@ -211,7 +215,7 @@ button.vtorichen {
 .reshetka th,
 .reshetka td {
   text-align: left;
-  padding: 0.12rem 0.3rem;
+  padding: 0.1rem 0.2rem;
   border-bottom: 1px solid var(--linija);
   vertical-align: middle;
   line-height: 1.25;
@@ -354,6 +358,12 @@ button.vtorichen {
   line-height: 1.35;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
   white-space: normal;
+  /* ПОДСКАЗКАТА НЕ ХВАЩА МИШКАТА · тя е обяснение, не преграда.
+     Находка от 12.09: в падащото меню подсказката на един пункт лягаше върху
+     следващия и той просто не се натискаше — ръката удряше в облаче с текст.
+     Проходът го хвана („intercepts pointer events"); окото не би го хванало,
+     защото облачето изчезва точно когато човек се сети да погледне. */
+  pointer-events: none;
 }
 
 /* Начало е подробното · повече място, за да не става кула */
@@ -1260,4 +1270,26 @@ body.vlacha-shirina {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.4rem;
+}
+
+/* ПОДГЛАВАТА НЕ РАЗТЯГА КОЛОНАТА · негово, 11.09 (запис 195), точка 8: „Не
+   искам растояния между колоните." Обяснението му от ред 18 стои на два реда и
+   толкова; цялото се чете при задържане на мишката. */
+.ekran .darvo-blok .reshetka.darvo thead tr.podglavi th .podglava-tekst {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 13rem;
+  white-space: normal;
+}
+
+/* ГЛАВАТА НЕ РАЗТЯГА КОЛОНАТА · неговите заглавия са цели изречения („Задачи
+   (нещо като състояние за Делата, Срещите и Преписките)"). Пуснати свободно, те
+   решаваха ширината и изяждаха половин екран, а календарът оставаше отвъд ръба.
+   Цялото заглавие се чете при задържане; ширината се влачи като в Ексел. */
+.ekran .darvo-blok .reshetka.darvo thead tr.glavi th {
+  max-width: 11rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

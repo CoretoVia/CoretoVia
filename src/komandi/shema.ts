@@ -33,6 +33,12 @@ export function proveriPoShema(sh: ShemaJSON, v: unknown, pat = 'товарът'
     (tip === 'integer' && pozvoleni.includes('number')) ||
     (tip === 'object' && typeof v === 'object' && pozvoleni.includes('object'));
   if (!tipMinava) {
+    // ПРАЗНА ЗАДЪЛЖИТЕЛНА КЛЕТКА · най-честият отказ пред човек · казва се с ДУМИ
+    // (правило 12). Схемата носи НЕГОВОТО име на колоната именно за този ред.
+    if (tip === 'null' && sh.ime !== undefined) {
+      n.push(`„${sh.ime}" е задължително — ред без него не се записва.`);
+      return n;
+    }
     n.push(`${pat}: очаква се ${pozvoleni.join(' или ')}, а е ${tip}.`);
     return n;
   }

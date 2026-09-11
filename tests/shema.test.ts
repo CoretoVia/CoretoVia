@@ -127,3 +127,45 @@ describe('честност на каталога', () => {
     );
   });
 });
+
+/**
+ * ПРАЗНАТА ЗАДЪЛЖИТЕЛНА КЛЕТКА · отказът е ИЗРЕЧЕНИЕ, не схема.
+ *
+ * Негово, 11.09 (запис 195), точка 9: „Име имот и Състояние имат грешка при
+ * създаване на Имот." Грешката беше в ДУМИТЕ: екранът показваше „товарът.
+ * kletki.sastoyanie: очаква се object, а е null" — вярно по същество и
+ * безполезно за човека пред него (правило 12).
+ */
+describe('празната задължителна клетка КАЗВА кое липсва', () => {
+  const prazen = {
+    ime: null,
+    sastoyanie: null,
+    nomer: null,
+    plosht: null,
+    tsena: null,
+    papka: null,
+    adres: null,
+  };
+
+  it('Имот без Състояние · отказът носи НЕГОВОТО име на колоната', () => {
+    const sh = shemaNaReda(tablitsata(MODEL, 'imoti'), 'sazdavane');
+    expect(proveriPoShema(sh, { ...prazen, ime: { tekst: 'Гара Яна' } })).toEqual([
+      '„Състояние" е задължително — ред без него не се записва.',
+    ]);
+  });
+
+  it('липсват и двете · казват се и двете, всяка със своето име', () => {
+    const sh = shemaNaReda(tablitsata(MODEL, 'imoti'), 'sazdavane');
+    expect(proveriPoShema(sh, prazen)).toEqual([
+      '„име Имот" е задължително — ред без него не се записва.',
+      '„Състояние" е задължително — ред без него не се записва.',
+    ]);
+  });
+
+  it('машинните думи остават за онова, което НЕ е празно поле', () => {
+    const sh = strogObekt({ broy: { type: 'integer' } });
+    expect(proveriPoShema(sh, { broy: 'две' })).toEqual([
+      'товарът.broy: очаква се integer, а е string.',
+    ]);
+  });
+});

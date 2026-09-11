@@ -556,10 +556,20 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   const podglaviNaTaktovete = koloniNaTaktove.map(
     (kol) => h`<th class="podglava takt${kol.dnes ? ' dnes' : ''}"></th>`,
   );
-  const podglavi = oblik.map(
-    (g) =>
-      h`<th class="podglava" colspan="${Math.max(1, koloniPodGlavata(g).length)}">${g.podglava ?? ''}</th>`,
-  );
+  /**
+   * ПОДГЛАВАТА НЕ РАЗТЯГА КОЛОНАТА · негово, 11.09 (запис 195), точка 8:
+   * „Не искам растояния между колоните."
+   *
+   * Неговите обяснения на ред 18 са по цяло изречение; пуснати свободно, те
+   * решаваха ширината на колоната и изяждаха половин екран. Текстът остава цял
+   * — в подсказката — а на реда стои толкова, колкото се събира.
+   */
+  const podglavi = oblik.map((g) => {
+    const dumi = g.podglava ?? '';
+    return h`<th class="podglava" colspan="${Math.max(1, koloniPodGlavata(g).length)}"${
+      dumi === '' ? '' : podskazkaSDumi(dumi)
+    }><span class="podglava-tekst">${dumi}</span></th>`;
+  });
   const redFiltar = oblik.map((g, j) =>
     j === 0
       ? h`<td class="filtar-duma" translate="no">филтър</td>`
