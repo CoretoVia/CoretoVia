@@ -239,6 +239,34 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     '0 предложения · 0 находки · 0 бележки',
   );
 
+  // ══ 4ж · ТАКТЪТ И В СМЕТКИ · негово, 11.09 (запис 195), точка 4 ═══════
+  razdel = '4ж · тактът в Сметки';
+  await p.goto(`${ADRES}#/smetki`);
+  await p.waitForSelector('[data-zalepeno="smetki"]');
+  proveri(
+    'Сметки също има избор на такт · и той започва от година',
+    await p.$eval('[data-takt]', (e) => (e as HTMLSelectElement).value),
+    'godina',
+  );
+  const koloniteNaKalendara = async (): Promise<number> =>
+    p.$$eval('[data-gant-skrol] thead th', (es) => es.length);
+  const priGodina = await koloniteNaKalendara();
+  await p.selectOption('[data-takt]', 'mesets');
+  await p.waitForFunction(
+    (broy: number) => document.querySelectorAll('[data-gant-skrol] thead th').length !== broy,
+    priGodina,
+  );
+  proveri(
+    'такт месец · календарът се мени от дванайсет колони на дни',
+    (await koloniteNaKalendara()) > priGodina,
+    true,
+  );
+  await p.selectOption('[data-takt]', 'godina');
+  await p.waitForFunction(
+    (broy: number) => document.querySelectorAll('[data-gant-skrol] thead th').length === broy,
+    priGodina,
+  );
+
   // ══ 4е · СМЕТКИТЕ В УПРАВЛЕНИЕ · и ЕДИН бутон, който ги крие ══════════
   // Негово, 11.09 (запис 193): „В Управление има същия бутон който обаче крие
   // само редовете на сметки /скрий Сметки/."

@@ -29,6 +29,13 @@ import {
   OTKRITITE,
   TEMI_NA_BUTONITE,
 } from '../../src/model/osnova.js';
+import {
+  IMENA_NA_TAKTOVETE,
+  type SvoyPeriod,
+  type Takt,
+  TAKTOVE,
+} from '../../src/smetach/vreme.js';
+import { podskazka, podskazkaSDumi } from './podskazka.js';
 import { h, type Zapechatan } from './shablon.js';
 
 /**
@@ -80,4 +87,97 @@ export function zakachiTemite(koren: HTMLElement): void {
     const v = e.target as Node;
     for (const d of vsichki()) if (!d.contains(v)) d.open = false;
   });
+}
+
+/**
+ * ТАКТЪТ И ПЕРИОДЪТ · едни и същи в Управление и в Сметки.
+ *
+ * Негово, 11.09 (запис 195), точка 4: „**Такта да се дава и в двете: Сметки и
+ * Управление.**" Дотук тактът беше само в Управление, а Сметки показваше
+ * дванайсет месеца, заковани в кода — човек не можеше да свие погледа до един
+ * месец, нито да го разпъне.
+ *
+ * Домът на тези три бутона е ЕДИН (правило 14): преписани в два прозореца, те
+ * биха се разминали при първата му дума за някой от тях.
+ */
+function kontroliteNaTakta(
+  b: ButonNaProzoretsa,
+  takt: Takt,
+  period: SvoyPeriod | null,
+): Zapechatan | null {
+  const litseNa = (x: ButonNaProzoretsa): string => x.ime.split('(')[0]!.trim();
+  if (b.klyuch === 'takt') {
+    const izbor = (b.izbor ?? []).map((duma) => {
+      const klyuch = TAKTOVE.find(
+        (x) => IMENA_NA_TAKTOVETE[x].toLowerCase() === duma.toLowerCase(),
+      );
+      return klyuch === undefined
+        ? ''
+        : h`<option value="${klyuch}" ${klyuch === takt ? 'selected' : ''}>${duma}</option>`;
+    });
+    return h`<label class="malak buton-grupa" data-buton-ekran="${b.klyuch}"${podskazka(b.pomosht)}>${litseNa(b)} <select class="pole malak" data-takt>${takt === 'svoy' ? '<option value="svoy" selected>свой</option>' : ''}${izbor}</select></label>`;
+  }
+  if (b.klyuch === 'period')
+    return h`<label class="malak buton-grupa" data-buton-ekran="${b.klyuch}"${podskazka(b.pomosht)}>${litseNa(b)} <input type="date" class="pole malak" data-period-ot value="${period?.ot ?? ''}"${podskazkaSDumi(b.izbor?.[0] ?? '')}><input type="date" class="pole malak" data-period-do value="${period?.do ?? ''}"${podskazkaSDumi(b.izbor?.[1] ?? '')}></label>`;
+  return null;
+}
+
+/**
+ * СЛУШАТЕЛИТЕ на такта и на периода · същите в двата прозореца.
+ *
+ * Периодът се приема САМО цял и само когато краят не е преди началото; щом се
+ * приеме, тактът става „свой" — инак екранът би показвал един период, а долният
+ * ред би сумирал друг.
+ */
+export function zakachiTakta(
+  koren: HTMLElement,
+  klyuchoveNaPametta: { readonly takt: string; readonly period: string },
+  zapomni: (klyuch: string, stoynost: unknown) => void,
+  prerisuvay: () => void,
+  kazhiGreshka: (dumi: string) => void,
+): void {
+  koren.querySelector<HTMLSelectElement>('[data-takt]')?.addEventListener('change', (e) => {
+    zapomni(klyuchoveNaPametta.takt, (e.target as HTMLSelectElement).value);
+    prerisuvay();
+  });
+  const ot = koren.querySelector<HTMLInputElement>('[data-period-ot]');
+  const doo = koren.querySelector<HTMLInputElement>('[data-period-do]');
+  const smeni = (): void => {
+    const a = ot?.value ?? '';
+    const b = doo?.value ?? '';
+    if (a === '' || b === '') return;
+    if (b < a) {
+      kazhiGreshka('Краят на периода е преди началото му.');
+      return;
+    }
+    zapomni(klyuchoveNaPametta.period, { ot: a, do: b });
+    zapomni(klyuchoveNaPametta.takt, 'svoy');
+    prerisuvay();
+  };
+  ot?.addEventListener('change', smeni);
+  doo?.addEventListener('change', smeni);
+}
+
+/**
+ * ОБЩОТО НАЧАЛО НА ВСЕКИ БУТОН · сивият „идва с ход N" и контролите на времето.
+ *
+ * И двата прозореца започваха рисуването на бутон с едни и същи пет реда.
+ * Обход 8 на чистотата ги хвана, и с право: преписаното се разминава при
+ * първата промяна само на едното място. Тук стои общото, а всеки прозорец
+ * продължава със СВОЕТО — кой бутон какво казва при него.
+ *
+ * Връща `null`, когато бутонът не е нито сив, нито от времето — тогава
+ * прозорецът го рисува сам.
+ */
+export function obshtotoNaButona(
+  b: ButonNaProzoretsa,
+  takt: Takt,
+  period: SvoyPeriod | null,
+): Zapechatan | null {
+  const d = b.deystvie;
+  if (d.vid === 'idva')
+    return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}" disabled${podskazkaSDumi(
+      d.dumi ?? `идва с ход ${d.hod}`,
+    )}>${b.ime.split('(')[0]!.trim()}</button>`;
+  return kontroliteNaTakta(b, takt, period);
 }

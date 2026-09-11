@@ -84,6 +84,7 @@ const dvizhenie = (oshte: Record<string, unknown>) => ({
     funktsiya: { nomer: 3 },
     sastoyanie: { nomer: 2 },
     mesets: { tekst: MESETS },
+    data: null,
     suma: null,
     ...oshte,
   },

@@ -66,12 +66,16 @@ import {
   type KolonaNaTakta,
   type SvoyPeriod,
   type Takt,
-  TAKTOVE,
 } from '../../src/smetach/vreme.js';
 import { pishi } from '../../src/yadro/pari.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { otvoriChernova } from '../reshetka/chernova.js';
-import { lentaNaDeystviyata, zakachiTemite } from '../reshetka/lenta-deystviya.js';
+import {
+  obshtotoNaButona,
+  lentaNaDeystviyata,
+  zakachiTakta,
+  zakachiTemite,
+} from '../reshetka/lenta-deystviya.js';
 import { pokazhiMenyu } from '../reshetka/menyu.js';
 import { otvoriModel, zapaziModela } from '../reshetka/modeli.js';
 import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
@@ -416,7 +420,7 @@ function redNaDvizhenie(d: DvizhenieVDarvoto, oblik: readonly GlavaNaOblika[]): 
     dumi,
     kletki,
     ime: parite,
-    ot: `${d.mesets}-01`,
+    ot: d.data === '' ? `${d.mesets}-01` : d.data,
     do: '',
     speshno: false,
     tds,
@@ -583,20 +587,8 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
       h`<div class="pole-s-tsifra" data-pole="${pl.klyuch}"${podskazka(pl.pomosht)}><span class="tsifra" data-tsifra="${pl.klyuch}" translate="no">${pl.vid === 'evro' ? pishi(pl.stoynost) : pl.stoynost}</span><span class="ime">${pl.ime}</span></div>`,
   );
   const butonHTML = (b: ButonNaProzoretsa): Zapechatan => {
-    const d = b.deystvie;
-    if (d.vid === 'idva')
-      return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}" disabled${podskazkaSDumi(d.dumi ?? `идва с ход ${d.hod}`)}>${litse(b)}</button>`;
-    if (b.klyuch === 'takt') {
-      const izbor = (b.izbor ?? []).map((duma) => {
-        const t = TAKTOVE.find((x) => IMENA_NA_TAKTOVETE[x].toLowerCase() === duma.toLowerCase());
-        return t === undefined
-          ? ''
-          : h`<option value="${t}" ${t === takt ? 'selected' : ''}>${duma}</option>`;
-      });
-      return h`<label class="malak buton-grupa" data-buton-ekran="${b.klyuch}"${podskazka(b.pomosht)}>${litse(b)} <select class="pole malak" data-takt>${takt === 'svoy' ? '<option value="svoy" selected>свой</option>' : ''}${izbor}</select></label>`;
-    }
-    if (b.klyuch === 'period')
-      return h`<label class="malak buton-grupa" data-buton-ekran="${b.klyuch}"${podskazka(b.pomosht)}>${litse(b)} <input type="date" class="pole malak" data-period-ot value="${period?.ot ?? ''}"${podskazkaSDumi(b.izbor?.[0] ?? '')}><input type="date" class="pole malak" data-period-do value="${period?.do ?? ''}"${podskazkaSDumi(b.izbor?.[1] ?? '')}></label>`;
+    const obshto = obshtotoNaButona(b, takt, period);
+    if (obshto !== null) return obshto;
     let duma = litse(b);
     if (b.klyuch === 'skriy-tablitsa') duma = dumataNaButona(vizhda, 'tablitsa');
     if (b.klyuch === 'skriy-diagrama') duma = dumataNaButona(vizhda, 'diagrama');
@@ -665,26 +657,13 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
       k.prerisuvay();
     });
   }
-  k.tyalo.querySelector<HTMLSelectElement>('[data-takt]')?.addEventListener('change', (e) => {
-    zapomniEkranno(PAMET.takt, (e.target as HTMLSelectElement).value);
-    k.prerisuvay();
-  });
-  const periodOt = k.tyalo.querySelector<HTMLInputElement>('[data-period-ot]');
-  const periodDo = k.tyalo.querySelector<HTMLInputElement>('[data-period-do]');
-  const smeniPerioda = (): void => {
-    const ot = periodOt?.value ?? '';
-    const doo = periodDo?.value ?? '';
-    if (ot === '' || doo === '') return;
-    if (doo < ot) {
-      pokazhiGreshka(k.tyalo, 'Краят на периода е преди началото му.');
-      return;
-    }
-    zapomniEkranno(PAMET.period, { ot, do: doo });
-    zapomniEkranno(PAMET.takt, 'svoy');
-    k.prerisuvay();
-  };
-  periodOt?.addEventListener('change', smeniPerioda);
-  periodDo?.addEventListener('change', smeniPerioda);
+  zakachiTakta(
+    k.tyalo,
+    { takt: PAMET.takt, period: PAMET.period },
+    zapomniEkranno,
+    k.prerisuvay,
+    (dumi) => pokazhiGreshka(k.tyalo, dumi),
+  );
 
   // ═══ бутоните · всеки казва какво прави ═══
   for (const b of k.tyalo.querySelectorAll<HTMLButtonElement>('button[data-buton-ekran]')) {

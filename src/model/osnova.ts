@@ -830,6 +830,19 @@ const DVIZHENIYA_KOLONI: readonly Kolona[] = [
     kratko: 'месец',
   },
   {
+    klyuch: 'data',
+    ime: 'дата',
+    vid: 'data',
+    pomosht: pomosht(
+      'Денят на парите, ако се знае — по избор. Попълнен ли е, редът пада точно на него в календара; празен ли е, пада на първия ден от месеца си. Месецът остава задължителен, защото по него се сверява кешът и ДДС.',
+      'дата от календара · по избор · решава деня в календара',
+    ),
+    zadalzhitelna: false,
+    zatvorena: false,
+    nashaDuma: true,
+    kratko: 'дата',
+  },
+  {
     klyuch: 'suma',
     ime: 'Бюджет Дела/ Бюджет Сметки',
     vid: 'evro',
@@ -853,7 +866,10 @@ const DVIZHENIYA: Tablitsa = Object.freeze({
   prozorets: 'smetki',
   sashtnost: 'dvizhenie',
   koloni: DVIZHENIYA_KOLONI,
-  slyati: [{ kolona: 'funktsiya', opashka: 'sastoyanie', razdelitel: ' / ' }],
+  slyati: [
+    { kolona: 'funktsiya', opashka: 'sastoyanie', razdelitel: ' / ' },
+    { kolona: 'mesets', opashka: 'data', razdelitel: ' / ' },
+  ],
   podglava: {
     funktsiya:
       'Вид Задачи: Дело, Среща, Преписка и Вид Сметка: Сметнато, Вкарано (поле за това), Прочетено(Сверено.)',

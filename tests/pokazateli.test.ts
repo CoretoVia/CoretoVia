@@ -25,7 +25,7 @@ function sektsiya(
     strana,
     nomer,
     tekst,
-    redove: [{ i: 0, id: `r-${nomer}`, suma_st: sbor, mesets: '2026-09' }],
+    redove: [{ i: 0, id: `r-${nomer}`, suma_st: sbor, mesets: '2026-09', data: '' }],
     sbor,
     spryana: false,
   };

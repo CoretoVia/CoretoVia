@@ -57,6 +57,7 @@ const dvizhenie = (oshte: Record<string, unknown>) => ({
     funktsiya: { nomer: 3 },
     sastoyanie: null,
     mesets: { tekst: '2026-09' },
+    data: null,
     suma: null,
     ...oshte,
   },
@@ -116,6 +117,7 @@ describe('сметките в дървото на Управление', () => {
         kam: { tekst: 'imot:i1' },
         sektsiya: { nomer },
         mesets: { tekst: '2026-11' },
+        data: null,
         suma: { stoynost_st: 1_000 },
       }),
     );
@@ -126,6 +128,7 @@ describe('сметките в дървото на Управление', () => {
         kam: { tekst: 'imot:i1' },
         sektsiya: { nomer },
         mesets: { tekst: '2026-08' },
+        data: null,
         suma: { stoynost_st: 2_000 },
       }),
     );

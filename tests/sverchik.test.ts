@@ -161,6 +161,7 @@ describe('неподвижната точка', () => {
         funktsiya: { nomer: 3 },
         sastoyanie: null,
         mesets: { tekst: '2026-09' },
+        data: null,
         suma: { stoynost_st: 120000 },
       },
     });

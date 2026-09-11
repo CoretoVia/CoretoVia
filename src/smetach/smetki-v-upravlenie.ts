@@ -39,6 +39,8 @@ export interface DvizhenieVDarvoto {
   readonly funktsiya: string;
   /** `ГГГГ-ММ` · тактът на Сметки */
   readonly mesets: string;
+  /** `ГГГГ-ММ-ДД` · денят, ако е попълнен · инак първият ден от месеца */
+  readonly data: string;
   /** цели центове СЪС ЗНАКА · плюс приход, минус разход */
   readonly suma_st: number;
 }
@@ -87,6 +89,7 @@ export function smetkiteVUpravlenie(o: Ogledalo): SmetkiteVUpravlenie {
       sektsiya,
       funktsiya,
       mesets: tekstNaKletka(o, TABLITSA, i, 'mesets'),
+      data: tekstNaKletka(o, TABLITSA, i, 'data'),
       suma_st,
     };
     if (red.roditelId === '') {

@@ -48,7 +48,12 @@ import { pomosht } from '../../src/model/pomosht.js';
 import { ZASHTO_I_NULATA } from '../../src/yadro/sverka.js';
 import { nahodkiteNaNap, NIVA } from '../../src/smetach/nahodki-nap.js';
 import { mozheDaRedaktira } from '../../src/smetach/pravo.js';
-import { koloniNaTakta } from '../../src/smetach/vreme.js';
+import {
+  type KolonaNaTakta,
+  koloniNaTakta,
+  type SvoyPeriod,
+  type Takt,
+} from '../../src/smetach/vreme.js';
 import { pishi, pishiVPole, sabiri, type Tsentove, tsentove } from '../../src/yadro/pari.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { otvoriChernova } from '../reshetka/chernova.js';
@@ -56,7 +61,12 @@ import { kalendarHTML } from '../reshetka/kalendar-tablitsa.js';
 import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
 import { chetiEkranno, zapomniEkranno } from '../reshetka/pamet-ekran.js';
-import { lentaNaDeystviyata, zakachiTemite } from '../reshetka/lenta-deystviya.js';
+import {
+  obshtotoNaButona,
+  lentaNaDeystviyata,
+  zakachiTakta,
+  zakachiTemite,
+} from '../reshetka/lenta-deystviya.js';
 import { podtaboveHTML, tekushtPodtab, zakachiPodtabove } from '../reshetka/podtabove.js';
 import { pokazhiGreshka } from '../reshetka/redaktsiya.js';
 import { kletkaHTML, zakachiReshetkata } from '../reshetka/reshetka.js';
@@ -77,6 +87,9 @@ const PAMET = Object.freeze({
   skriti: 'smetki.skriti',
   /** един бутон крие задачите · негово, запис 193 */
   skriyZadachi: 'smetki.skriyZadachi',
+  /** тактът и периодът · негово, запис 195 т.4 — тактът да го има и тук */
+  takt: 'smetki.takt',
+  period: 'smetki.period',
 });
 /** Кой бутон коя страна крие · неговите две клетки от лист Сметки (ред 12–13). */
 const STRANATA_NA_BUTONA: Readonly<Record<string, Strana | undefined>> = Object.freeze({
@@ -167,6 +180,27 @@ function blokatNaPokazatelite(spisak: readonly Pokazatel[]): Zapechatan {
     </section>`;
 }
 
+/**
+ * КОЛОНИТЕ НА КАЛЕНДАРА В СМЕТКИ · по такта, не заковани.
+ *
+ * Негово, 11.09 (запис 195), точка 4: тактът да го има и в Сметки. Дотук тук
+ * стояха дванайсет месеца, закована в кода — не можеше да се свие до един
+ * месец, нито да се разпъне.
+ *
+ * Котвата остава ПОКАЗАНИЯТ МЕСЕЦ, не днешният ден: по него се сверяват кешът
+ * и ДДС, и ако календарът тръгне от друго място, горната лента и долният ред
+ * биха говорили за различни периоди.
+ */
+function koloniteNaSmetkite(
+  takt: Takt,
+  mesets: string,
+  period: SvoyPeriod | null,
+): readonly KolonaNaTakta[] {
+  if (takt === 'svoy' && period !== null) return koloniNaTakta('svoy', `${mesets}-01`, period);
+  if (takt === 'godina' || takt === 'svoy')
+    return koloniNaTakta('svoy', `${mesets}-01`, dvanaysetMeseca(mesets));
+  return koloniNaTakta(takt, `${mesets}-01`);
+}
 export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const o = k.porta.ogledalo();
   const p = PROZORTSI.find((x) => x.klyuch === 'smetki')!;
@@ -186,8 +220,10 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const skritite = chetiEkranno<readonly Strana[]>(PAMET.skriti, []);
   /** един бутон крие задачите с бюджет · негово, запис 193 */
   const skritiZadachi = chetiEkranno<boolean>(PAMET.skriyZadachi, false);
+  const takt = chetiEkranno<Takt>(PAMET.takt, 'godina');
+  const period = chetiEkranno<SvoyPeriod | null>(PAMET.period, null);
   /** колко месеца стоят на екрана · средното на месец се дели точно на тях */
-  const koloniNaMesetsite = koloniNaTakta('svoy', `${mesets}-01`, dvanaysetMeseca(mesets)).length;
+  const koloniNaMesetsite = koloniteNaSmetkite(takt, mesets, period).length;
   // ДДС · редът на всеки месец влиза в СМЕТКИ по знака си (негово, 05.09 т.2)
   const dds = ddsat(o, kogato);
   const ddsMesetsi = dds.mesetsi.filter((m) => !samoMeseca || m.mesets === mesets);
@@ -345,9 +381,8 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
     </section>`;
 
   const butonHTML = (b: ButonNaProzoretsa): Zapechatan => {
-    const d = b.deystvie;
-    if (d.vid === 'idva')
-      return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}" disabled${podskazkaSDumi(d.dumi ?? `идва с ход ${d.hod}`)}>${litse(b)}</button>`;
+    const obshto = obshtotoNaButona(b, takt, period);
+    if (obshto !== null) return obshto;
     // СКРИЙ ↔ ПОКАЖИ · бутонът казва какво ще СТАНЕ, не какво е било. Неговата
     // дума остава в `ime`; на лицето стои действието, при задържане — помощта.
     const strana = STRANATA_NA_BUTONA[b.klyuch];
@@ -490,8 +525,16 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
 
   zakachiReshetkata(k);
   zakachiTemite(k.tyalo);
+  zakachiTakta(
+    k.tyalo,
+    { takt: PAMET.takt, period: PAMET.period },
+    zapomniEkranno,
+    k.prerisuvay,
+    (dumi) => pokazhiGreshka(k.tyalo, dumi),
+  );
   zakachiPodtabove(k.tyalo, PAMET.podtab, k.prerisuvay);
-  if (podtab === 'smetki') narisuvayKalendara(k, [...s.prihod, ...s.razhod], mesets, skritiZadachi);
+  if (podtab === 'smetki')
+    narisuvayKalendara(k, [...s.prihod, ...s.razhod], mesets, skritiZadachi, takt, period);
   k.tyalo.querySelector<HTMLFormElement>('[data-dds-forma]')?.addEventListener('submit', (e) => {
     e.preventDefault();
     void zapishiDdsa(k);
@@ -543,10 +586,12 @@ function narisuvayKalendara(
   sektsii: readonly Sektsiya[],
   mesets: string,
   skritiZadachi: boolean,
+  takt: Takt,
+  period: SvoyPeriod | null,
 ): void {
   const skrol = k.tyalo.querySelector<HTMLElement>('[data-gant-skrol]');
   if (!skrol) return;
-  const koloni = koloniNaTakta('svoy', `${mesets}-01`, dvanaysetMeseca(mesets));
+  const koloni = koloniteNaSmetkite(takt, mesets, period);
   /**
    * ЗАДАЧИТЕ С БЮДЖЕТ влизат в календара на Сметки · и само те.
    *
@@ -560,7 +605,11 @@ function narisuvayKalendara(
     ...sektsii.map((s) => ({
       id: `${s.strana}-${s.nomer}`,
       ime: s.spryana ? `${s.tekst} · спряна` : s.tekst,
-      chisla: s.redove.map((r) => ({ data: denNaMeseca(r.mesets), chislo: r.suma_st })),
+      // датата решава деня; без нея — първият ден на месеца (запис 195 т.3)
+      chisla: s.redove.map((r) => ({
+        data: r.data === '' ? denNaMeseca(r.mesets) : r.data,
+        chislo: r.suma_st,
+      })),
     })),
     ...(skritiZadachi
       ? []

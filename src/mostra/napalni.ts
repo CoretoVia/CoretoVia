@@ -372,6 +372,7 @@ export async function napalniSMostra(
     suma: number,
     sektsiyata: number,
     kam = '',
+    den = 0,
   ): { readonly kletki: Kletki } => ({
     kletki: {
       ...(kam === '' ? {} : { kam: tekst(kam) }),
@@ -379,6 +380,9 @@ export async function napalniSMostra(
       ...(suma >= 0 ? { sektsiya: nomer(sektsiyata) } : { sektsiyaR: nomer(sektsiyata) }),
       funktsiya: nomer(3),
       mesets: tekst(mesets),
+      // ДЕНЯТ е по избор (запис 195 т.3) · част от редовете го носят, за да личи
+      // разликата: с дата редът пада на своя ден, без нея — на първия от месеца
+      ...(den === 0 ? {} : { data: tekst(`${mesets}-${String(den).padStart(2, '0')}`) }),
       suma: evro(suma),
     } satisfies Kletki,
   });
@@ -395,12 +399,12 @@ export async function napalniSMostra(
     const m = mesetsPredi(dnes, n);
     const stapkata = 11 - n;
     dvizheniya.push(
-      dvizhenie('Наем · Слънчева поляна', m, 1_200, 1, obekt(0)),
-      dvizhenie('Наем · Бяла къща · в брой', m, 850 + stapkata * 10, 2, imot(1)),
-      dvizhenie('Заплати по банка', m, -3_600, 7),
-      dvizhenie('Ток и вода', m, -280 - stapkata * 5, 4, imot(0)),
+      dvizhenie('Наем · Слънчева поляна', m, 1_200, 1, obekt(0), 5),
+      dvizhenie('Наем · Бяла къща · в брой', m, 850 + stapkata * 10, 2, imot(1), 7),
+      dvizhenie('Заплати по банка', m, -3_600, 7, '', 25),
+      dvizhenie('Ток и вода', m, -280 - stapkata * 5, 4, imot(0), 18),
       dvizhenie('Такси по сметката', m, -18, 6),
-      dvizhenie('Вноска по кредита', m, -1_450, 5),
+      dvizhenie('Вноска по кредита', m, -1_450, 5, '', 10),
     );
     // едрите разходи не са всеки месец · инак календарът изглежда нарисуван
     if (n % 3 === 0) dvizheniya.push(dvizhenie('Строителни материали', m, -2_400, 2, imot(2)));
