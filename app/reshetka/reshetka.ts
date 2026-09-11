@@ -27,6 +27,7 @@ import type { KonteksNaEkrana } from '../kontekst.js';
 import { podskazkaSDumi } from './podskazka.js';
 import { h, type Zapechatan } from './shablon.js';
 import { fokusiraySled, zakachiRedaktsiya } from './redaktsiya.js';
+import { prilozhiKolonite, varniVsichkiKoloni, zakachiVlacheneto } from './kolonite.js';
 import {
   glavaSPodredbaHTML,
   kletkaSOtmetkaHTML,
@@ -103,7 +104,7 @@ export function reshetkaHTML(
   if (pokazhiIzklyuchenite) {
     for (let i = 0; i < tv.broy; i += 1) if (tv.izklyuchen[i] === 1) tyalo.push(redHTML(i));
   }
-  return h`<table class="reshetka redove" data-reshetka="${tablitsa}">${glava}<tbody class="tablitsa">${tyalo}</tbody>${redSSboroveHTML(koloni)}</table><p class="pod-tablitsata" data-sverka="${tablitsa}">живи ${zhivi} · изключени ${izklyucheni} · всички ${tv.broy}</p>`;
+  return h`<table class="reshetka redove" data-reshetka="${tablitsa}">${glava}<tbody class="tablitsa">${tyalo}</tbody>${redSSboroveHTML(koloni)}</table><p class="pod-tablitsata skriti-koloni" data-skriti-koloni hidden>скрити колони: <span data-skriti-broy>0</span> · <button type="button" class="malak" data-varni-koloni="${tablitsa}">покажи всички</button></p><p class="pod-tablitsata" data-sverka="${tablitsa}">живи ${zhivi} · изключени ${izklyucheni} · всички ${tv.broy}</p>`;
 }
 
 /**
@@ -115,5 +116,13 @@ export function zakachiReshetkata(k: KonteksNaEkrana): void {
   zakachiZebrata(k.tyalo);
   zakachiRedaktsiya(k.tyalo, k);
   zakachiPodredbaISbor(k.tyalo);
+  zakachiVlacheneto(k.tyalo);
+  prilozhiKolonite(k.tyalo);
+  k.tyalo.addEventListener('click', (e) => {
+    const buton = (e.target as HTMLElement | null)?.closest<HTMLElement>('[data-varni-koloni]');
+    if (buton === null || buton === undefined) return;
+    varniVsichkiKoloni(buton.dataset['varniKoloni'] ?? '');
+    prilozhiKolonite(k.tyalo);
+  });
   fokusiraySled(k.tyalo);
 }

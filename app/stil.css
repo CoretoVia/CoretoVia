@@ -1051,3 +1051,28 @@ main.prozorets {
   font-size: 0.7em;
   color: var(--zeleno);
 }
+
+/* ═══ КОЛОНИТЕ КАТО В ЕКСЕЛ · негово, 11.09 (запис 193): „колоната да се мести
+   ширината като на ексел… мястото е ценно. Няма празни пространства." ═══ */
+.ekran .tablitsa-blok .reshetka.redove thead tr th[data-kolona] {
+  position: relative;
+}
+.ekran .tablitsa-blok .reshetka.redove thead th .drazhka {
+  position: absolute;
+  top: 0;
+  right: -2px;
+  width: 5px;
+  height: 100%;
+  cursor: col-resize;
+  touch-action: none;
+}
+.ekran .tablitsa-blok .reshetka.redove thead th .drazhka:hover {
+  background: var(--zeleno);
+}
+body.vlacha-shirina {
+  cursor: col-resize;
+  user-select: none;
+}
+.ekran .skriti-koloni {
+  color: var(--sivo);
+}

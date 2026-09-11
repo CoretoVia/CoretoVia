@@ -27,6 +27,8 @@
 import type { Kolona } from '../../src/model/kolona.js';
 import { pomosht } from '../../src/model/pomosht.js';
 import { pishi } from '../../src/yadro/pari.js';
+import { prilozhiKolonite, skriyKolona } from './kolonite.js';
+import { pokazhiMenyu, type Tochka } from './menyu.js';
 import { podskazka } from './podskazka.js';
 import { h, type Zapechatan } from './shablon.js';
 
@@ -42,9 +44,9 @@ const ZNAK: Readonly<Record<Posoka, string>> = Object.freeze({
   'kakto-e': '',
 });
 
-const POMOSHT_NA_PODREDBATA = pomosht(
-  'Подрежда редовете по тази колона, без да пипа нито един запис · второто натискане обръща посоката, третото връща реда от Книгата.',
-  'думите по азбука · числата по големина · групите не се разбъркват',
+const POMOSHT_NA_GLAVATA = pomosht(
+  'Главата е контролата на колоната · натискаш я и избираш: подредба нагоре или надолу, обратно както е в Книгата, или скриване на колоната. Десният ѝ ръб се влачи и мести ширината, както в Ексел.',
+  'подредба · скриване · ширина с влачене',
 );
 
 const POMOSHT_NA_OTMETKATA = pomosht(
@@ -62,7 +64,7 @@ export function glavaSPodredbaHTML(koloni: readonly Kolona[]): Zapechatan {
       <th class="broy-kolona"${podskazka(POMOSHT_NA_OTMETKATA)}>брой</th>
       ${koloni.map(
         (k) =>
-          h`<th data-kolona="${k.klyuch}" class="${k.vid}"${podskazka(k.pomosht)}><button type="button" class="glava-podredba" data-podredi="${k.klyuch}"${podskazka(POMOSHT_NA_PODREDBATA)}>${k.ime}<span class="strelka" data-strelka="${k.klyuch}"></span></button></th>`,
+          h`<th data-kolona="${k.klyuch}" class="${k.vid}"${podskazka(k.pomosht)}><button type="button" class="glava-podredba" data-glava="${k.klyuch}"${podskazka(POMOSHT_NA_GLAVATA)}>${k.ime}<span class="strelka" data-strelka="${k.klyuch}"></span></button><span class="drazhka" data-shirina="${k.klyuch}" aria-hidden="true"></span></th>`,
       )}
     </tr>`;
 }
@@ -238,13 +240,6 @@ function podredi(tabl: HTMLTableElement, klyuch: string, posoka: Posoka): void {
   }
 }
 
-/** Следващата посока · нагоре → надолу → както е в Книгата. */
-function sledvashta(sega: string | undefined): Posoka {
-  if (sega === 'nagore') return 'nadolu';
-  if (sega === 'nadolu') return 'kakto-e';
-  return 'nagore';
-}
-
 /**
  * Закача подредбата, сборовете и отметките върху всяка решетка с редове.
  *
@@ -260,16 +255,42 @@ export function zakachiPodredbaISbor(koren: HTMLElement): void {
   koren.addEventListener('click', (e) => {
     const cel = e.target;
     if (!(cel instanceof HTMLElement)) return;
-    const buton = cel.closest<HTMLElement>('[data-podredi]');
+    const buton = cel.closest<HTMLElement>('[data-glava]');
     if (buton === null) return;
     const tabl = buton.closest('table.reshetka.redove');
     if (!(tabl instanceof HTMLTableElement)) return;
-    const klyuch = buton.dataset['podredi'] ?? '';
-    const posoka =
-      tabl.dataset['podredenoPo'] === klyuch ? sledvashta(tabl.dataset['posoka']) : 'nagore';
-    tabl.dataset['podredenoPo'] = posoka === 'kakto-e' ? '' : klyuch;
-    tabl.dataset['posoka'] = posoka;
-    podredi(tabl, klyuch, posoka);
+    const klyuch = buton.dataset['glava'] ?? '';
+    const tablitsa = tabl.dataset['reshetka'] ?? '';
+    const ime = (buton.textContent ?? '').trim();
+    const r = buton.getBoundingClientRect();
+
+    const tochka = (
+      klyuchNaTochkata: string,
+      imeNaTochkata: string,
+      deystvie: () => void,
+    ): Tochka => ({
+      klyuch: klyuchNaTochkata,
+      ime: imeNaTochkata,
+      razreshena: true,
+      zashto: '',
+      deystvie,
+    });
+
+    const podrediI = (posoka: Posoka): void => {
+      tabl.dataset['podredenoPo'] = posoka === 'kakto-e' ? '' : klyuch;
+      tabl.dataset['posoka'] = posoka;
+      podredi(tabl, klyuch, posoka);
+    };
+
+    pokazhiMenyu(r.left, r.bottom, [
+      tochka('nagore', `Подреди по „${ime}" нагоре`, () => podrediI('nagore')),
+      tochka('nadolu', `Подреди по „${ime}" надолу`, () => podrediI('nadolu')),
+      tochka('kakto-e', 'Както е в Книгата', () => podrediI('kakto-e')),
+      tochka('skriy', `Скрий колоната „${ime}"`, () => {
+        skriyKolona(tablitsa, klyuch);
+        prilozhiKolonite(koren);
+      }),
+    ]);
   });
 
   koren.addEventListener('change', (e) => {
