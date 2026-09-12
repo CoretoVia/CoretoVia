@@ -31,10 +31,12 @@ import {
 } from '../../src/model/osnova.js';
 import {
   IMENA_NA_TAKTOVETE,
+  type KolonaNaTakta,
   type SvoyPeriod,
   type Takt,
   TAKTOVE,
 } from '../../src/smetach/vreme.js';
+import { pishi } from '../../src/yadro/pari.js';
 import { podskazka, podskazkaSDumi } from './podskazka.js';
 import { h, type Zapechatan } from './shablon.js';
 
@@ -180,4 +182,42 @@ export function obshtotoNaButona(
       d.dumi ?? `идва с ход ${d.hod}`,
     )}>${b.ime.split('(')[0]!.trim()}</button>`;
   return kontroliteNaTakta(b, takt, period);
+}
+
+/**
+ * ГЛАВИТЕ НА ТАКТА · едни и същи в Управление и в Сметки.
+ *
+ * Негово, 12.09 (запис 199): в двата прозореца календарът е част от таблицата,
+ * значи и главите му са едни. Дръжката за ширина стои САМО на първия ден —
+ * местиш един, местиш всички (т.4), защото дните са едно и също нещо.
+ */
+export function glaviteNaTakta(koloni: readonly KolonaNaTakta[]): readonly Zapechatan[] {
+  return koloni.map(
+    (kol, i) =>
+      h`<th class="takt${kol.dnes ? ' dnes' : ''}"${podskazkaSDumi(kol.opis)}>${kol.nadpis}${
+        i === 0 ? h`<span class="shirina" data-shirina-darvo aria-hidden="true"></span>` : ''
+      }</th>`,
+  );
+}
+
+/**
+ * ЛИЦЕТО НА ЕДНА КЛЕТКА ОТ ТАКТА · и името, и числото, когато ги има двете.
+ *
+ * Негово, 12.09 (запис 201), ДОСЛОВНО: „**Всеки ред има бюджет с число или няма
+ * число. Когато има едновременно и бюджет и текст на задачата да се показват и
+ * двете в едно и също поле и само числата да влизат в сбора отдолу на всяка
+ * колона.**"
+ *
+ * Оттам трите случая и нито един повече: само име · само число · и двете,
+ * разделени с точка. Празната клетка си остава празна.
+ *
+ * СБОРЪТ ОТДОЛУ НЕ ЧЕТЕ ТУК. Той събира числата от данните, не от нарисуваното
+ * — затова името в клетката не може да влезе в него дори по невнимание. Това е
+ * същият урок, платен на 11.09: адрес „ул. Пробна 1" се четеше като „.1" и под
+ * текстова колона се появяваше сбор.
+ */
+export function litseNaTakta(ime: string, st: number | null): string {
+  const chislo = st === null || st === 0 ? '' : pishi(st);
+  if (ime === '') return chislo;
+  return chislo === '' ? ime : `${ime} · ${chislo}`;
 }

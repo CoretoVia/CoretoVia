@@ -162,44 +162,6 @@ export function zakachiDesniyaButonNaGlavata(koren: HTMLElement): void {
 }
 
 /**
- * ВЛАЧЕНЕТО на десния ръб · както в Ексел.
- *
- * Слушателите се закачат на документа само докато трае влаченето: мишката
- * често излиза извън тясната дръжка, а човек, който пусне бутона навън, иначе
- * би оставил таблицата да го следва завинаги.
- */
-export function zakachiVlacheneto(koren: HTMLElement): void {
-  koren.addEventListener('pointerdown', (e) => {
-    const drazhka = (e.target as HTMLElement | null)?.closest<HTMLElement>('[data-shirina]');
-    if (drazhka === null || drazhka === undefined) return;
-    const th = drazhka.closest('th');
-    const tabl = drazhka.closest('table.reshetka.redove');
-    if (!(th instanceof HTMLTableCellElement) || !(tabl instanceof HTMLTableElement)) return;
-    const tablitsa = tabl.dataset['reshetka'] ?? '';
-    const klyuch = th.dataset['kolona'] ?? '';
-    if (tablitsa === '' || klyuch === '') return;
-    e.preventDefault();
-
-    const nachalo = e.clientX;
-    const shirinaOtNachaloto = th.getBoundingClientRect().width;
-    document.body.classList.add('vlacha-shirina');
-
-    const mesti = (dvizhi: PointerEvent): void => {
-      const nova = Math.max(NAY_TYASNA, shirinaOtNachaloto + (dvizhi.clientX - nachalo));
-      zapomniShirinata(tablitsa, klyuch, nova);
-      sloziShirinite(tabl);
-    };
-    const pusni = (): void => {
-      document.removeEventListener('pointermove', mesti);
-      document.removeEventListener('pointerup', pusni);
-      document.body.classList.remove('vlacha-shirina');
-    };
-    document.addEventListener('pointermove', mesti);
-    document.addEventListener('pointerup', pusni);
-  });
-}
-
-/**
  * ЗАЛЕПЕНАТА ЛЯВА ЧАСТ · номерът и името остават, докато тактовете се движат.
  *
  * Негово, 11.09 (запис 195), точка 2: „**Ганта обхваща всички редове изцяло и
@@ -235,4 +197,143 @@ export function zalepiLyavata(koren: HTMLElement): void {
       otmestvane += shirina;
     }
   }
+}
+
+/**
+ * ШИРИНИТЕ НА ДЪРВОТО · всяка колона поотделно, а календарът — всички наведнъж.
+ *
+ * Негово, 12.09 (запис 199), точка 4, ДОСЛОВНО: „**Да може да се мести с мишката
+ * всяка колона колко е широка в таблицата за всяка отделно, а за календара
+ * местейки не местиш всички както в ексел когато ги маркираш.**"
+ *
+ * Тоест две различни правила върху една и съща таблица, и това е вярното: в
+ * лявата половина колоните са РАЗНИ неща и всяка иска своята ширина; в дясната
+ * са едно и също нещо — дни — и различни ширини там биха излъгали за времето.
+ *
+ * Тактовете вървят през една променлива на самата таблица (`--shirina-takt`),
+ * не през сто отделни ширини: една стойност, едно запомняне, един ред стил.
+ */
+const KLYUCH_NA_TAKTA = 'takt';
+
+/**
+ * ШИРИНИТЕ ПО ПОДРАЗБИРАНЕ · сборът им е около половин широк екран.
+ *
+ * Негово, 12.09 (запис 199): „Направи самите колони тесни за данните да се
+ * видят добре… но да се събират в половината екран. Да се вижда в останалата
+ * картина календарът."
+ *
+ * Числата са в пиксели, защото ширината на колона се влачи в пиксели и
+ * запомненото е в пиксели: две мерки за едно нещо се разминават при първото
+ * влачене.
+ */
+const SHIRINI_PO_PODRAZBIRANE: Readonly<Record<string, number>> = Object.freeze({
+  nomeratsiya: 48,
+  ime: 96,
+  sastoyanie: 80,
+  nomer: 42,
+  vid: 144,
+  ot: 128,
+  otsenka: 64,
+  plosht: 64,
+  tsena: 80,
+  byudzhet: 80,
+  otgovornik: 80,
+});
+/** денят в календара · всички дни носят ЕДНА ширина (негово, запис 199 т.4) */
+const SHIRINA_NA_TAKTA = 38;
+
+/**
+ * Слага ширините върху дървото · през `<colgroup>`, не през главите.
+ *
+ * Главата може да покрива ДВЕ колони (неговите „Задачи" и „Дата" са слети от
+ * две), а ширина, сложена върху такава глава, се разпределя както реши
+ * браузърът — и редът се разминава с главата си. `<col>` е по колона и няма
+ * какво да разпределя.
+ */
+export function sloziShiriniteNaDarvoto(koren: HTMLElement): void {
+  for (const tabl of koren.querySelectorAll<HTMLTableElement>('table.reshetka.darvo')) {
+    const tablitsa = tabl.dataset['reshetka'] ?? '';
+    if (tablitsa === '') continue;
+    const zapomneni = shirinite(tablitsa);
+    const shiriniNaKolonite: number[] = [];
+    for (const th of tabl.querySelectorAll<HTMLElement>('thead tr.glavi th')) {
+      // липсващият `colspan` значи ЕДНА колона · нула би изяла колоната мълчаливо
+      const kazano = th.getAttribute('colspan');
+      const broy = kazano === null ? 1 : Math.max(1, Number(kazano));
+      const takt = th.classList.contains('takt');
+      const klyuch = takt ? KLYUCH_NA_TAKTA : (th.dataset['glava'] ?? '');
+      const cyala =
+        zapomneni[klyuch] ?? (takt ? SHIRINA_NA_TAKTA : (SHIRINI_PO_PODRAZBIRANE[klyuch] ?? 80));
+      for (let i = 0; i < broy; i += 1) shiriniNaKolonite.push(Math.round(cyala / broy));
+    }
+    let grupa = tabl.querySelector('colgroup');
+    if (grupa === null) {
+      grupa = document.createElement('colgroup');
+      tabl.prepend(grupa);
+    }
+    while (grupa.children.length > shiriniNaKolonite.length) grupa.lastElementChild?.remove();
+    while (grupa.children.length < shiriniNaKolonite.length)
+      grupa.append(document.createElement('col'));
+    // ШИРИНАТА НА ТАБЛИЦАТА Е СБОРЪТ · инак браузърът смята своя `max-content`
+    // от съдържанието и РАЗДАВА разликата между колоните: зададените ширини
+    // стават предложение и всяка колона излиза по-широка от поисканото.
+    tabl.style.width = `${shiriniNaKolonite.reduce((a, x) => a + x, 0)}px`;
+    shiriniNaKolonite.forEach((px, i) => {
+      const col = grupa.children[i];
+      if (col instanceof HTMLTableColElement) col.style.width = `${px}px`;
+    });
+  }
+}
+/**
+ * ВЛАЧЕНЕТО на десния ръб · както в Ексел · за ДВЕТЕ таблици.
+ *
+ * Слушателите се закачат на документа само докато трае влаченето: мишката
+ * често излиза извън тясната дръжка, а човек, който пусне бутона навън, иначе
+ * би оставил таблицата да го следва завинаги.
+ *
+ * ДВЕ ПРАВИЛА, ЕДНО ВЛАЧЕНЕ (негово, 12.09 · запис 199 т.4): в решетката и в
+ * лявата половина на дървото всяка колона носи СВОЯТА ширина; в календара
+ * всички дни носят ЕДНА, защото са едно и също нещо и различни ширини там биха
+ * излъгали за времето. Двата случая се различават по дръжката, не по код:
+ * преписаното веднъж вече беше хванато от обход 8 на чистотата.
+ */
+export function zakachiVlacheneto(koren: HTMLElement): void {
+  koren.addEventListener('pointerdown', (e) => {
+    const drazhka = (e.target as HTMLElement | null)?.closest<HTMLElement>(
+      '[data-shirina], [data-shirina-darvo]',
+    );
+    if (drazhka === null || drazhka === undefined) return;
+    const darvo = drazhka.hasAttribute('data-shirina-darvo');
+    const th = drazhka.closest('th');
+    const tabl = drazhka.closest(darvo ? 'table.reshetka.darvo' : 'table.reshetka.redove');
+    if (!(th instanceof HTMLTableCellElement) || !(tabl instanceof HTMLTableElement)) return;
+    const tablitsa = tabl.dataset['reshetka'] ?? '';
+    const klyuch = darvo
+      ? th.classList.contains('takt')
+        ? KLYUCH_NA_TAKTA
+        : (th.dataset['glava'] ?? '')
+      : (th.dataset['kolona'] ?? '');
+    if (tablitsa === '' || klyuch === '') return;
+    e.preventDefault();
+
+    const nachalo = e.clientX;
+    const shirinaOtNachaloto = th.getBoundingClientRect().width;
+    document.body.classList.add('vlacha-shirina');
+
+    const mesti = (dvizhi: PointerEvent): void => {
+      const nova = Math.max(NAY_TYASNA, shirinaOtNachaloto + (dvizhi.clientX - nachalo));
+      zapomniShirinata(tablitsa, klyuch, nova);
+      if (darvo) {
+        sloziShiriniteNaDarvoto(koren);
+        zalepiLyavata(koren);
+      } else sloziShirinite(tabl);
+    };
+    const pusni = (): void => {
+      document.removeEventListener('pointermove', mesti);
+      document.removeEventListener('pointerup', pusni);
+      document.body.classList.remove('vlacha-shirina');
+    };
+    document.addEventListener('pointermove', mesti);
+    document.addEventListener('pointerup', pusni);
+  });
 }

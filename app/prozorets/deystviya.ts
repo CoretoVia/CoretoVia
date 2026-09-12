@@ -189,21 +189,6 @@ export function dumiteIIznosHTML(dumi: readonly DumaOtKnigata[]): Zapechatan {
     <details class="dumite-blok"><summary>думите му от Книгата</summary>${dumiteHTML(dumi)}</details>`;
 }
 
-export function gantIDumiHTML(
-  lenta: string,
-  dumi: readonly DumaOtKnigata[],
-  skrit = false,
-): Zapechatan {
-  return h`<div class="gant-blok" data-blok="gant" ${skrit ? 'hidden' : ''}>
-        <h2 class="lenta" translate="no">${lenta}</h2>
-        <div class="gant-skrol" data-gant-skrol></div>
-        <p class="pod-tablitsata" data-sverka="gant"></p>
-      </div>
-    </section>
-    ${iznosVestHTML()}
-    <details class="dumite-blok"><summary>думите му от Книгата</summary>${dumiteHTML(dumi)}</details>`;
-}
-
 /**
  * Дясното меню върху ред · пунктовете идват от каталога с предусловията върху
  * избрания ред (`porta.butoniZa`); какво прави пунктът решава прозорецът, а

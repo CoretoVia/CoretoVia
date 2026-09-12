@@ -18,6 +18,9 @@ const ZALEPENO = '[data-zalepeno="smetki"]';
 const EVRO_1200 = '1 200,00 €';
 const EVRO_MINUS_1500 = '-1 500,00 €';
 const EVRO_1500 = '1 500,00 €';
+/** бюджетът на „Дело Сондаж" · тук е РАЗХОД и влиза с минус */
+const EVRO_MINUS_250000 = '-250\u202F000,00\u202F€';
+const EVRO_250000 = '250\u202F000,00\u202F€';
 /** нулата се пише с нейния си знак · Трезорът я показва, не я крие */
 const EVRO_0 = '0,00 €';
 /**
@@ -246,6 +249,21 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   // след вноса страницата стои на ИИ · Трезорът живее в Сметки
   await p.goto(`${ADRES}#/smetki`);
   await p.waitForSelector('[data-zalepeno="smetki"]');
+  // ЧИСЛО, не праг: редът носи ТОЧНО толкова такт-клетки, колкото са главите
+  proveri(
+    'Гантът е ЕДНО ЦЯЛО с таблицата · всеки ред носи всички колони на такта',
+    await p.$eval(
+      '[data-reshetka="prihod"] tbody tr.red',
+      (e) => e.querySelectorAll('td.takt').length,
+    ),
+    await p.$$eval('[data-reshetka="prihod"] thead th.takt', (es) => es.length),
+  );
+  proveri(
+    'и отделна таблица за календара вече НЯМА',
+    (await p.$('[data-gant-skrol]')) === null,
+    true,
+  );
+
   proveri(
     'Трезорът стои на екрана и СЕ СМЯТА · изтеглено = дадено = вкарано · двете нули',
     await tekstNa(p, '[data-trezor]'),
@@ -262,21 +280,23 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'godina',
   );
   const koloniteNaKalendara = async (): Promise<number> =>
-    p.$$eval('[data-gant-skrol] thead th', (es) => es.length);
+    p.$$eval('[data-reshetka="prihod"] thead th.takt', (es) => es.length);
   const priGodina = await koloniteNaKalendara();
   await p.selectOption('[data-takt]', 'mesets');
   await p.waitForFunction(
-    (broy: number) => document.querySelectorAll('[data-gant-skrol] thead th').length !== broy,
+    (broy: number) =>
+      document.querySelectorAll('[data-reshetka="prihod"] thead th.takt').length !== broy,
     priGodina,
   );
   proveri(
-    'такт месец · календарът се мени от дванайсет колони на дни',
+    'такт месец · календарът В ТАБЛИЦАТА се мени от дванайсет колони на дни',
     (await koloniteNaKalendara()) > priGodina,
     true,
   );
   await p.selectOption('[data-takt]', 'godina');
   await p.waitForFunction(
-    (broy: number) => document.querySelectorAll('[data-gant-skrol] thead th').length === broy,
+    (broy: number) =>
+      document.querySelectorAll('[data-reshetka="prihod"] thead th.takt').length === broy,
     priGodina,
   );
 
@@ -310,4 +330,98 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
   await natisniButon(p, 'skriy-dela');
   await p.waitForSelector('tr.red.dvizhenie');
+
+  // ══ 4ж · ЕДИН РЕЖИМ ЗА ДВАТА ПРОЗОРЕЦА ═══════════════════════════════
+  // Негово, 12.09 (запис 202): „Календара има две нива за които говорихме. В
+  // едното състочние включват редовете с бюджет и редовете от Сметки, а
+  // другото включва само Задачите без да се вкарва в календара бюджета на
+  // всяко от тях което има… Двата бутона сменят и двата режима в Управление
+  // и в Сметки."
+  razdel = '4ж · двата режима на календара';
+  proveri(
+    'режим ПАРИ по подразбиране · лентата носи и името, и бюджета',
+    await p.$eval('tr.red.zadacha td.takt.lenta', (e) => (e as HTMLElement).innerText.trim()),
+    `Дело Сондаж · ${EVRO_250000}`,
+  );
+  await natisniButon(p, 'skriy-dela');
+  await p.waitForFunction(
+    () =>
+      document.querySelector('tr.red.zadacha td.takt.lenta')?.textContent?.trim() === 'Дело Сондаж',
+  );
+  proveri(
+    'режим ЗАДАЧИ · в календара остава САМО текстът · бюджетът не влиза',
+    `${await p.$eval('tr.red.zadacha td.takt.lenta', (e) => (e as HTMLElement).innerText.trim())} · сметки ${await p.$$eval('tr.red.dvizhenie', (es) => es.length)}`,
+    'Дело Сондаж · сметки 0',
+  );
+  await p.goto(`${ADRES}#/smetki`);
+  await p.waitForSelector(ZALEPENO);
+  proveri(
+    'СЪЩИЯТ режим е стигнал и до Сметки · секцията на задачите я няма',
+    `${await litseNaButona(p, 'skriy-dela')} · секции ${await p.$$eval('[data-sbor-zadachi]', (es) => es.length)}`,
+    'Покажи Задачи · секции 0',
+  );
+  await natisniButon(p, 'skriy-dela');
+  await p.waitForSelector('[data-sbor-zadachi]');
+  proveri(
+    'върнат в ПАРИ от бутона на Сметки · в календара стои БЮДЖЕТЪТ, не текстът',
+    await p.$eval('tr.red.zadacha td.takt.evro', (e) => (e as HTMLElement).innerText.trim()),
+    EVRO_MINUS_250000,
+  );
+  await p.goto(`${ADRES}#/upravlenie`);
+  await p.waitForSelector('tr.red.dvizhenie');
+  proveri(
+    'и бутонът в Управление се е върнал заедно с него · един режим, два бутона',
+    await litseNaButona(p, 'skriy-dela'),
+    'Скрий Сметки',
+  );
+
+  // ══ 4з · ФИЛТЪРЪТ В СМЕТКИ · падащо меню, както в Управление ═════════
+  // Негово, 12.09 (запис 199), точка 5: „В сметки да е същото."
+  razdel = '4з · филтърът в Сметки';
+  await p.goto(`${ADRES}#/smetki`);
+  await p.waitForSelector(ZALEPENO);
+  proveri(
+    'редът „филтър" стои под главите и в двете таблици · по едно меню на колона',
+    `${await p.$$eval('tr.filtar[data-filtar-red]', (es) => es.length)} · ${await p.$$eval('[data-reshetka="prihod"] tr.filtar td select', (es) => es.length)}`,
+    '2 · 6',
+  );
+  proveri(
+    'първото меню започва с „всички" · после въведеното',
+    (
+      await p.$$eval('[data-reshetka="prihod"] tr.filtar [data-filtar-smetki="0"] option', (es) =>
+        es.map((e) => e.textContent),
+      )
+    )[0],
+    'всички',
+  );
+  const vsichkiPrihod = await tekstNa(p, '[data-sverka="filtar-prihod"]');
+  proveri('без филтър сверката не се оплаква', vsichkiPrihod.includes('филтърът е включен'), false);
+  // Избира се СУМАТА на реда в Приход · тя я няма в нито един ред на Разходи,
+  // тъй че се вижда и че филтърът пипа ДВЕТЕ таблици с един избор.
+  await p.selectOption('[data-reshetka="prihod"] [data-filtar-smetki="5"]', EVRO_1200);
+  await p.waitForFunction(() =>
+    document.querySelector('[data-sverka="filtar-razhod"]')?.textContent?.startsWith('видими 0'),
+  );
+  proveri(
+    'един избор пипа ДВЕТЕ таблици · Приход остава, Разходи се изпразва',
+    `${await tekstNa(p, '[data-sverka="filtar-prihod"]')} · ${(
+      await tekstNa(p, '[data-sverka="filtar-razhod"]')
+    ).startsWith('видими 0')}`,
+    'видими 1 от 1 · филтърът е включен · true',
+  );
+  proveri(
+    'Приход си остава със сбора на видимия ред · само видимото се смята (запис 163)',
+    await tekstNa(p, '[data-sbor="prihod"]'),
+    EVRO_1200,
+  );
+  await p.selectOption('[data-reshetka="prihod"] [data-filtar-smetki="5"]', '');
+  await p.waitForFunction(() => {
+    const d = document.querySelector('[data-sverka="filtar-razhod"]');
+    return d !== null && !d.textContent?.startsWith('видими 0');
+  });
+  proveri(
+    'върнат на „всички" · Разходи се връща цял и сверката спира да се оплаква',
+    `${await tekstNa(p, '[data-sverka="filtar-prihod"]')} · ${await tekstNa(p, '[data-sbor="prihod"]')}`,
+    `${vsichkiPrihod} · ${EVRO_1200}`,
+  );
 }

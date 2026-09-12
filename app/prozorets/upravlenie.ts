@@ -35,7 +35,12 @@ import { kolonaNa, slyataNa } from '../../src/model/tablitsa.js';
 import { type Ogledalo, tablitsaVOgledaloto } from '../../src/ogledalo/ogledalo.js';
 import { type Red, redKato } from '../../src/ogledalo/tablitsa.js';
 import { darvoto, type RoditelVDarvoto } from '../../src/smetach/darvo.js';
-import { eFiltarPrazen, filtrirayDarvoto, type RedZaFiltar } from '../../src/smetach/filtar.js';
+import {
+  eFiltarPrazen,
+  filtrirayDarvoto,
+  type RedZaFiltar,
+  stoynostiteNaKolonata,
+} from '../../src/smetach/filtar.js';
 import {
   dumataNaButona,
   type KoeSeVizhda,
@@ -71,8 +76,10 @@ import { pishi } from '../../src/yadro/pari.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { otvoriChernova } from '../reshetka/chernova.js';
 import {
-  obshtotoNaButona,
+  glaviteNaTakta,
   lentaNaDeystviyata,
+  litseNaTakta,
+  obshtotoNaButona,
   zakachiTakta,
   zakachiTemite,
 } from '../reshetka/lenta-deystviya.js';
@@ -81,6 +88,7 @@ import { otvoriModel, zapaziModela } from '../reshetka/modeli.js';
 import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
 import { chetiEkranno, zapomniEkranno } from '../reshetka/pamet-ekran.js';
+import { dumataNaRezhima, obarniRezhima, parite } from '../reshetka/rezhim.js';
 import { pokazhiGreshka } from '../reshetka/redaktsiya.js';
 import { kletkaHTML, zakachiReshetkata } from '../reshetka/reshetka.js';
 import {
@@ -96,7 +104,6 @@ const PAMET = Object.freeze({
   takt: 'upravlenie.takt',
   period: 'upravlenie.period',
   vizhda: 'upravlenie.vizhda',
-  skriySmetki: 'upravlenie.skriySmetki',
   dnes: 'upravlenie.dnes',
 });
 const TABLITSA = 'zadachi';
@@ -154,10 +161,24 @@ function byudzhetaNa(r: RedNaEkrana): number {
  * Светофарът идва от срока: нормално · жълто седмица преди · червено два дни
  * преди · просрочено. „Спешно и Важно" е негова дума и слага свой клас.
  */
+/**
+ * КЛЕТКИТЕ НА ТАКТА · негово, 12.09 (запис 201): „Когато има едновременно и
+ * бюджет и текст на задачата да се показват и двете в едно и също поле."
+ *
+ * Затова първата клетка на лентата носи ЛИЦЕТО на реда — името, числото или
+ * двете. Сборът отдолу си остава по числата от данните; нарисуваното в
+ * клетката не влиза в него по никакъв път.
+ *
+ * И бюджетът вече може да го НЯМА · негово, 12.09 (запис 202): в режим
+ * „задачи" календарът носи само текста, „**без да се вкарва в календара
+ * бюджета на всяко от тях което има**". Затова числото идва като `null`, а
+ * не като нула: нулата е сума, липсата е решение.
+ */
 function taktKletkiHTML(
   r: RedNaEkrana,
   koloni: readonly KolonaNaTakta[],
   dnes: string,
+  byudzhet: number | null,
 ): readonly Zapechatan[] {
   // движението не е ЛЕНТА · то е една сума в един месец и пада в неговата колона
   if (r.vid === 'dvizhenie')
@@ -173,7 +194,9 @@ function taktKletkiHTML(
     const vatre = lenta !== null && i >= lenta.ot && i < lenta.ot + lenta.broy;
     if (!vatre) return h`<td class="takt${kol.dnes ? ' dnes' : ''}"></td>`;
     const klas = `takt lenta ${svetofar ?? 'normalno'}${r.speshno ? ' speshno' : ''}${kol.dnes ? ' dnes' : ''}`;
-    return h`<td class="${klas}" data-lenta="${r.id}">${i === lenta.ot ? r.ime : ''}</td>`;
+    return h`<td class="${klas}" data-lenta="${r.id}">${
+      i === lenta.ot ? litseNaTakta(r.ime, byudzhet) : ''
+    }</td>`;
   });
 }
 
@@ -196,6 +219,25 @@ interface RedNaEkrana {
   readonly ot: string;
   readonly do: string;
   readonly speshno: boolean;
+}
+
+/**
+ * КЪСОТО ИМЕ НА ЕДНА ГЛАВА · негово, 12.09 (запис 199): „имената на колоните ги
+ * направи съкратени и ако трябва да не се виждат целите, но да се събират в
+ * половината екран."
+ *
+ * Неговите глави са цели изречения („Задачи(нещо като състояние за Делата,
+ * Срещите и Преписките)"). Отрязва се при първата скоба — там свършва името и
+ * започва обяснението — и се спира на разумна дължина. ЦЯЛАТА глава, дословно
+ * негова, стои в подсказката: нищо не се губи, само не разтяга екрана.
+ */
+const NAY_DALGA_GLAVA = 12;
+
+function kratkaGlava(glava: string): string {
+  const bezSkobi = (glava.split('(')[0] ?? glava).trim();
+  return bezSkobi.length <= NAY_DALGA_GLAVA
+    ? bezSkobi
+    : `${bezSkobi.slice(0, NAY_DALGA_GLAVA).trim()}…`;
 }
 
 function redNaRoditel(
@@ -439,7 +481,10 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   const takt = chetiEkranno<Takt>(PAMET.takt, 'mesets');
   const period = chetiEkranno<SvoyPeriod | null>(PAMET.period, null);
   const vizhda = chetiEkranno<KoeSeVizhda>(PAMET.vizhda, { tablitsa: true, diagrama: true });
-  const skriySmetki = chetiEkranno<boolean>(PAMET.skriySmetki, false);
+  /** РЕЖИМЪТ е общ с Сметки · един бутон там го върти и тук (запис 202) */
+  const sPari = parite();
+  const skriySmetki = !sPari;
+  const imetoNaSmetkite = PROZORTSI.find((x) => x.klyuch === 'smetki')!.list;
   const filtar = chetiEkranno<(string | null)[]>(PAMET.filtar, []).map((f) => f ?? '');
   const smetki = chetiEkranno<Record<string, Smetka>>(PAMET.smetki, {});
   const kogato = new Date().toISOString();
@@ -527,9 +572,12 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   }
 
   // ═══ главите · подглавите · редът „филтър" ═══
+  // ДРЪЖКАТА на десния ръб · всяка колона поотделно (негово, запис 199 т.4)
   const glavi = oblik.map(
     (g) =>
-      h`<th colspan="${Math.max(1, koloniPodGlavata(g).length)}" data-glava="${g.kolona ?? 'nomeratsiya'}"${podskazka(g.pomosht)}>${g.glava}</th>`,
+      h`<th colspan="${Math.max(1, koloniPodGlavata(g).length)}" data-glava="${g.kolona ?? 'nomeratsiya'}"${podskazkaSDumi(
+        g.glava,
+      )}><span class="ime-glava">${kratkaGlava(g.glava)}</span><span class="shirina" data-shirina-darvo aria-hidden="true"></span></th>`,
   );
   /** сборът под всеки такт · бюджетът на задачите, които почват в него */
   /** колко задачи има на екрана и за колко от тях пада лента в този такт */
@@ -546,17 +594,14 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
     koloniNaTaktove,
     zadachiteNaEkrana
       .filter((r) => r.ot !== '')
-      .map((r) => ({ data: r.ot, chislo: byudzhetaNa(r) })),
+      .map((r) => ({ data: r.ot, chislo: sPari ? byudzhetaNa(r) : 0 })),
   ).map((s, i) => {
     const broy = pokrivashti[i] ?? 0;
     return h`<td class="takt evro" translate="no">${
       s.obhvat === 0 || s.sbor === 0 ? '' : pishi(s.sbor)
     }${broy === 0 ? '' : h`<span class="pokrivashti">${String(broy)}</span>`}</td>`;
   });
-  const glaviNaTaktovete = koloniNaTaktove.map(
-    (kol) =>
-      h`<th class="takt${kol.dnes ? ' dnes' : ''}"${podskazkaSDumi(kol.opis)}>${kol.nadpis}</th>`,
-  );
+  const glaviNaTaktovete = glaviteNaTakta(koloniNaTaktove);
   const podglaviNaTaktovete = koloniNaTaktove.map(
     (kol) => h`<th class="podglava takt${kol.dnes ? ' dnes' : ''}"></th>`,
   );
@@ -574,11 +619,27 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
       dumi === '' ? '' : podskazkaSDumi(dumi)
     }><span class="podglava-tekst">${dumi}</span></th>`;
   });
-  const redFiltar = oblik.map((g, j) =>
-    j === 0
-      ? h`<td class="filtar-duma" translate="no">филтър</td>`
-      : h`<td colspan="${Math.max(1, koloniPodGlavata(g).length)}"><input class="pole malak filtar" data-filtar="${j}" value="${filtar[j] ?? ''}" placeholder="филтър" aria-label="${`филтър под „${g.glava}"`}"></td>`,
-  );
+  /**
+   * ФИЛТЪРЪТ Е ПАДАЩО МЕНЮ ОТ ВЪВЕДЕНОТО · негово, 12.09 (запис 199):
+   * „Тези филтри да се махнат (не са филтри). Филтри да станат… падащи менюта с
+   * избор от въведените данни за конкретната колона."
+   *
+   * Свободното поле искаше човек да ЗНАЕ какво да напише и да го напише вярно.
+   * Менюто показва какво има: избираш от онова, което наистина стои в колоната.
+   * Стойностите идват от ВСИЧКИ редове, не от видимите — инак изборът се стеснява
+   * сам след първото избиране и няма как да се върнеш.
+   */
+  const redFiltar = oblik.map((g, j) => {
+    if (j === 0) return h`<td class="filtar-duma" translate="no">филтър</td>`;
+    const stoynosti = stoynostiteNaKolonata(zaFiltar, j);
+    const izbrano = filtar[j] ?? '';
+    return h`<td colspan="${Math.max(1, koloniPodGlavata(g).length)}"><select class="pole malak filtar" data-filtar="${j}" aria-label="${`филтър под „${g.glava}"`}">
+      <option value="">всички</option>
+      ${stoynosti.map(
+        (s) => h`<option value="${s}" ${s === izbrano ? 'selected' : ''}>${s}</option>`,
+      )}
+    </select></td>`;
+  });
 
   // ═══ полетата с цифри · бутоните ═══
   const poleta = poletataNaUpravlenie(o, dnes, kogato);
@@ -592,8 +653,10 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
     let duma = litse(b);
     if (b.klyuch === 'skriy-tablitsa') duma = dumataNaButona(vizhda, 'tablitsa');
     if (b.klyuch === 'skriy-diagrama') duma = dumataNaButona(vizhda, 'diagrama');
-    // ЕДИН бутон на прозорец (запис 193) · тук крие редовете на Сметки, не задачите
-    if (b.klyuch === 'skriy-dela') duma = skriySmetki ? 'Покажи Сметки' : 'Скрий Сметки';
+    // ЕДИН бутон на прозорец (запис 193) · тук крие редовете на Сметки, не задачите.
+    // Режимът обаче е ОБЩ с Сметки (запис 202) — двата бутона въртят едно и също.
+    // Името на другия прозорец идва ОТ НЕГО (К1): тук то не се преписва.
+    if (b.klyuch === 'skriy-dela') duma = dumataNaRezhima(imetoNaSmetkite);
     return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}"${podskazka(b.pomosht)}>${duma}</button>`;
   };
 
@@ -618,7 +681,7 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
             (r) =>
               h`<tr class="${r.klas}" data-id="${r.id}" data-tablitsa="${r.tablitsa}" data-nivo="${String(r.nivo)}" data-seq="${String(r.seq)}"${
                 r.roditelId === '' ? '' : h` data-roditel="${r.roditelId}"`
-              }>${r.tds}${taktKletkiHTML(r, koloniNaTaktove, dnes)}</tr>`,
+              }>${r.tds}${taktKletkiHTML(r, koloniNaTaktove, dnes, sPari ? byudzhetaNa(r) : null)}</tr>`,
           )}</tbody>
           <tfoot><tr class="sbor" data-sbor-red>${sborKletki}${sboroveNaTaktovete}</tr></tfoot>
         </table>
@@ -669,7 +732,7 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   for (const b of k.tyalo.querySelectorAll<HTMLButtonElement>('button[data-buton-ekran]')) {
     const opis = BUTONI_NA_UPRAVLENIE.find((x) => x.klyuch === b.dataset['butonEkran']);
     if (opis === undefined) continue;
-    b.addEventListener('click', () => deystvieNaButona(k, opis, b, vizhda, skriySmetki, takt));
+    b.addEventListener('click', () => deystvieNaButona(k, opis, b, vizhda, takt));
   }
 
   // ═══ дясното меню · задача под родител · изключи · върни · сторно ═══
@@ -711,7 +774,6 @@ function deystvieNaButona(
   b: ButonNaProzoretsa,
   el: HTMLButtonElement,
   vizhda: KoeSeVizhda,
-  skriySmetki: boolean,
   takt: Takt,
 ): void {
   const d = b.deystvie;
@@ -747,7 +809,8 @@ function deystvieNaButona(
       k.prerisuvay();
       return;
     case 'skriy-dela':
-      zapomniEkranno(PAMET.skriySmetki, !skriySmetki);
+      // едно решение, един дом · същият бутон в Сметки върти същия режим
+      obarniRezhima();
       k.prerisuvay();
       return;
     case 'skriy-tablitsa':
