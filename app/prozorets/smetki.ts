@@ -152,7 +152,22 @@ const KOLONI_NA_DDSA = [
   'plateni',
 ] as const;
 /** колоните на движението на екрана · неговите глави са дълги, тук стоят кратките */
-const KOLONI = ['kam', 'ime', 'funktsiya', 'sastoyanie', 'mesets', 'suma'] as const;
+/**
+ * КОЛОНИТЕ НА СЛЯТАТА ТАБЛИЦА · БЕЗ ВРЕМЕ.
+ *
+ * Негово, 13.09 (запис 204), ДОСЛОВНО: „**Редовете не показват време, това
+ * става в календара на един ред на всяка колона която е такт.**"
+ *
+ * Затова „месец / Дата" излиза от реда. Времето не изчезва — то СТАВА
+ * позиция: числото на реда пада в онази колона на такта, в която пада датата
+ * му, и това е по-точно от текст, защото се вижда спрямо всички останали.
+ *
+ * Колоната остава в Модела и в неговата Книга (`OBLIK_NA_SMETKI`) — оттам се
+ * чете и пише листът Сметки, и нито един негов адрес не мърда (К1). Излиза
+ * само от ЕКРАНА, и заедно с нея се мести и редакцията ѝ: клетката в
+ * календара, в която стои числото, отваря полето за месеца.
+ */
+const KOLONI = ['kam', 'ime', 'funktsiya', 'sastoyanie', 'suma'] as const;
 
 /** помощта на изведените по ключ · домът им е `src/smetach` · тук само се търси */
 const POMOSHT_NA_IZVEDENITE = new Map(IZVEDENITE_NA_SMETKITE.map((x) => [x.klyuch, x.pomosht]));
@@ -439,11 +454,33 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
    * бюджет в клетката стоят И името, И числото. Ред с пари носи само числото —
    * името му вече стои в своята колона, два пъти на един ред е шум.
    */
-  const taktNaReda = (data: string, suma: number, ime = ''): readonly Zapechatan[] => {
+  /**
+   * Клетките на такта за ЕДИН ред · и РЕДАКЦИЯТА НА ВРЕМЕТО живее в тях.
+   *
+   * Негово, 13.09 (запис 204): „това става в календара". Щом колоната с месеца
+   * излезе от реда, полето ѝ трябва да се появи там, където той сочи — на
+   * клетката с числото. Иначе месецът на записан ред би станал непоправим,
+   * а това е загуба на функция, не подредба (правило 30).
+   */
+  const taktNaReda = (
+    data: string,
+    suma: number,
+    ime = '',
+    id?: string,
+    samoGledane = false,
+  ): readonly Zapechatan[] => {
     const j = kolonataNa(data);
+    // Т33 · белегът се пише САМО когато редът не е за гледане · същият пазач,
+    // който стои и на всяка друга клетка (`kletkaHTML`)
+    const redakt =
+      id === undefined || samoGledane
+        ? ''
+        : h` data-redakt="${TABLITSA}·${id}·mesets" data-kolona="mesets" tabindex="0"${podskazkaSDumi(
+            'Времето на реда живее тук · натисни, за да смениш месеца му',
+          )}`;
     return koloniteNaGanta.map((kol, i) =>
       i === j
-        ? h`<td class="takt evro ${suma < 0 ? 'razhod' : 'prihod'}${kol.dnes ? ' dnes' : ''}" translate="no">${litseNaTakta(
+        ? h`<td class="takt evro ${suma < 0 ? 'razhod' : 'prihod'}${kol.dnes ? ' dnes' : ''}"${redakt} translate="no">${litseNaTakta(
             ime,
             suma,
           )}</td>`
@@ -496,7 +533,9 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
       return kletkaHTML(o, TABLITSA, kol, red, samoGledane);
     });
     return h`<tr class="red" data-id="${r.id}" data-tablitsa="${TABLITSA}" data-seq="${red.seq}">${tds}${
-      sTakt ? taktNaReda(r.data === '' ? denNaMeseca(r.mesets) : r.data, r.suma) : prazniTaktove
+      sTakt
+        ? taktNaReda(r.data === '' ? denNaMeseca(r.mesets) : r.data, r.suma, '', r.id, samoGledane)
+        : prazniTaktove
     }</tr>`;
   };
 
@@ -537,7 +576,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         ${prazniTaktove}
       </tr>${redove.map(
         (m) =>
-          h`<tr class="red dds" data-dds="${m.mesets}"><td class="kletka" colspan="${KOLONI.length - 2}" translate="no">ДДС ${m.mesets} · ${m.strana === 'razhod' ? 'за внасяне' : 'за възстановяване'}</td><td class="kletka tekst" translate="no">${m.mesets}</td><td class="kletka evro" translate="no">${pishi(m.suma)}</td>${prazniTaktove}</tr>`,
+          h`<tr class="red dds" data-dds="${m.mesets}"><td class="kletka" colspan="${KOLONI.length - 1}" translate="no">ДДС ${m.mesets} · ${m.strana === 'razhod' ? 'за внасяне' : 'за възстановяване'}</td><td class="kletka evro" translate="no">${pishi(m.suma)}</td>${prazniTaktove}</tr>`,
       )}`;
   };
 
@@ -575,7 +614,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         })}
       </tr>${zadachite.redove.map(
         (z) =>
-          h`<tr class="red zadacha" data-zadacha="${z.id}"><td class="kletka prazna"></td><td class="kletka tekst" translate="no">${z.ime}</td><td class="kletka prazna"></td><td class="kletka prazna"></td><td class="kletka tekst" translate="no">${z.data}</td><td class="kletka evro" translate="no">${pishi(
+          h`<tr class="red zadacha" data-zadacha="${z.id}"><td class="kletka prazna"></td><td class="kletka tekst" translate="no">${z.ime}</td><td class="kletka prazna"></td><td class="kletka prazna"></td><td class="kletka evro" translate="no">${pishi(
             -z.byudzhet_st,
           )}</td>${taktNaReda(z.data, -z.byudzhet_st)}</tr>`,
       )}`;

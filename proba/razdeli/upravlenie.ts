@@ -71,7 +71,9 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   proveri(
     'редът „филтър" под двете глави · и редът СБОР отдолу',
     `${await p.$$eval('[data-filtar]', (es) => es.length)} · ${await tekstNa(p, '[data-sbor-red] td:first-child')}`,
-    '10 · сбор',
+    // ДЕВЕТ, не десет: колоната с датата излезе от таблицата · времето е в
+    // календара (негово, 13.09 · запис 204)
+    '9 · сбор',
   );
   // негово, 11.09 (запис 195), точка 2: „Ганта обхваща всички редове изцяло и се
   // сливат двете" · сляти са, а лявата част СТОИ, докато тактовете се движат
@@ -168,7 +170,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
   proveri(
     'СБОР под Бюджет Дела · 250 000,00 €',
-    await tekstNa(p, '[data-sbor-stoynost="9"]'),
+    await tekstNa(p, '[data-sbor-stoynost="8"]'),
     EVRO_250000,
   );
 
@@ -201,14 +203,14 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   await p.waitForFunction(() =>
     document.querySelector('[data-sverka="darvo"]')?.textContent?.startsWith('видими 4 от 4'),
   );
-  await p.selectOption('[data-smetka="9"]', 'broy');
+  await p.selectOption('[data-smetka="8"]', 'broy');
   await p.waitForFunction(
-    () => document.querySelector('[data-sbor-stoynost="9"]')?.textContent?.trim() === '1',
+    () => document.querySelector('[data-sbor-stoynost="8"]')?.textContent?.trim() === '1',
   );
-  proveri('сметката „брой" под Бюджет Дела · 1', await tekstNa(p, '[data-sbor-stoynost="9"]'), '1');
-  await p.selectOption('[data-smetka="9"]', 'sbor');
+  proveri('сметката „брой" под Бюджет Дела · 1', await tekstNa(p, '[data-sbor-stoynost="8"]'), '1');
+  await p.selectOption('[data-smetka="8"]', 'sbor');
   await p.waitForFunction(
-    (evro) => document.querySelector('[data-sbor-stoynost="9"]')?.textContent?.trim() === evro,
+    (evro) => document.querySelector('[data-sbor-stoynost="8"]')?.textContent?.trim() === evro,
     EVRO_250000,
   );
   await p.selectOption('[data-takt]', 'godina');
