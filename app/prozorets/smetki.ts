@@ -93,6 +93,11 @@ const PAMET = Object.freeze({
   /** тактът и периодът · негово, запис 195 т.4 — тактът да го има и тук */
   takt: 'smetki.takt',
   period: 'smetki.period',
+  /** коя секция се гледа в подтаб Приходи · Разходи (негово, запис 143) */
+  sektsiyataNaPrihoda: 'smetki.sektsiyataNaPrihoda',
+  sektsiyataNaRazhoda: 'smetki.sektsiyataNaRazhoda',
+  /** пусната ли е Проверката · тя е ДЕЙСТВИЕ с бутон (негово, запис 144) */
+  proverkata: 'smetki.proverkata',
 });
 /** Кой бутон коя страна крие · неговите две клетки от лист Сметки (ред 12–13). */
 const STRANATA_NA_BUTONA: Readonly<Record<string, Strana | undefined>> = Object.freeze({
@@ -103,8 +108,27 @@ const STRANATA_NA_BUTONA: Readonly<Record<string, Strana | undefined>> = Object.
 /** прозорецът · името му живее САМО в `osnova.ts` (К1 · `tests/osemte.test.ts` обхожда и `app/`) */
 const PROZORETSAT = PROZORTSI.find((x) => x.klyuch === 'smetki')!;
 /** неговият „таб НАП" е ПОДТАБ на Сметки (05.09 т.2) · осемте прозореца остават осем */
+/**
+ * ПОДТАБОВЕТЕ на Сметки · неговите, поименно.
+ *
+ * Негово, 12.09 (запис 198): „Приходи, 2. Разходи 3. Проверки на Извлечения и
+ * Сметки. Няма нито едно от тях, добави ги развити по плана."
+ *
+ * И планът, който той сочи, е негов от 11.09 (запис 143): „Създаваш отделен
+ * Собствен Таб Приходи и отделен Собствен таб Разходи и в всеки за всеки ред
+ * има подтаб с таблица в него. Избират се от падащи менюта с името на всеки от
+ * редовете от Приход и падащи менюта с името на всеки от редовете за Разход. За
+ * Разходи всички редове фактури се обединяват с един таб." И (запис 144): „бутон
+ * Проверка в таба Проверки. С натискане на бутона в Таба Проверки се появява
+ * таблица за разминавания."
+ *
+ * Осемте прозореца си остават осем (К1): подтабът е изглед на един и същи лист.
+ */
 const PODTABOVE = [
   { klyuch: 'smetki', ime: PROZORETSAT.list },
+  { klyuch: 'prihodi', ime: 'Приходи' },
+  { klyuch: 'razhodi', ime: 'Разходи' },
+  { klyuch: 'proverki', ime: 'Проверки' },
   { klyuch: 'nap', ime: 'НАП' },
 ] as const;
 /** колоните на ДДС на екрана · месецът и неговите числа */
@@ -227,6 +251,9 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
    * ТРЕЗОРЪТ · Заданието го иска (M06-10) и той пита за него (запис 195 т.5).
    * Смята се от кеша на месеца; нищо не се въвежда (M06-P3).
    */
+  const izbranaPrihod = chetiEkranno<string>(PAMET.sektsiyataNaPrihoda, 'vsichki');
+  const izbranaRazhod = chetiEkranno<string>(PAMET.sektsiyataNaRazhoda, 'vsichki');
+  const proverkataEPusnata = chetiEkranno<boolean>(PAMET.proverkata, false);
   const takt = chetiEkranno<Takt>(PAMET.takt, 'godina');
   const period = chetiEkranno<SvoyPeriod | null>(PAMET.period, null);
   /** колко месеца стоят на екрана · средното на месец се дели точно на тях */
@@ -493,6 +520,113 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
     </section>`;
   };
 
+  /**
+   * ПОДТАБ НА ЕДНА СТРАНА · падащо меню с имената на редовете ѝ.
+   *
+   * Негово, 11.09 (запис 143): „Създаваш отделен Собствен Таб Приходи и отделен
+   * Собствен таб Разходи и в всеки за всеки ред има подтаб с таблица в него.
+   * Избират се от падащи менюта с името на всеки от редовете."
+   *
+   * И за Разходи, пак негово: „всички редове фактури се обединяват с един таб" —
+   * затова там има и един избор „Фактури · всички заедно", който събира всяка
+   * секция, чието име почва с „Фактури".
+   */
+  const stranataVSvoyPodtab = (
+    strana: Strana,
+    sektsii: readonly Sektsiya[],
+    izbrana: string,
+    pamet: string,
+  ): Zapechatan => {
+    const fakturi = sektsii.filter((x) => x.tekst.startsWith('Фактури'));
+    const izbrani =
+      izbrana === 'vsichki'
+        ? sektsii
+        : izbrana === 'fakturi'
+          ? fakturi
+          : sektsii.filter((x) => String(x.nomer) === izbrana);
+    const sbor = izbrani.reduce((a, x) => a + x.sbor, 0);
+    const imeto =
+      izbrana === 'vsichki'
+        ? `всички ${IMENA_NA_STRANITE[strana]}`
+        : izbrana === 'fakturi'
+          ? 'Фактури · всички заедно'
+          : (izbrani[0]?.tekst ?? 'няма такава секция');
+    return h`<section class="tablitsa-blok" data-blok="${strana}-podtab">
+      <div class="deystviya butoni-malki">
+        <label class="malak buton-grupa" data-izbor-na-sektsiya="${strana}">${IMENA_NA_STRANITE[strana]} <select class="pole malak" data-sektsiya-izbor="${pamet}">
+          <option value="vsichki" ${izbrana === 'vsichki' ? 'selected' : ''}>всички</option>
+          ${
+            fakturi.length === 0
+              ? ''
+              : h`<option value="fakturi" ${izbrana === 'fakturi' ? 'selected' : ''}>Фактури · всички заедно</option>`
+          }
+          ${sektsii.map(
+            (x) =>
+              h`<option value="${String(x.nomer)}" ${String(x.nomer) === izbrana ? 'selected' : ''}>${x.tekst}</option>`,
+          )}
+        </select></label>
+        <span class="vest" data-podtab-sverka="${strana}" translate="no">секции ${String(izbrani.length)} от ${String(sektsii.length)} · редове ${String(izbrani.reduce((a, x) => a + x.redove.length, 0))}</span>
+      </div>
+      <h2 class="lenta" translate="no">${imeto}</h2>
+      ${
+        izbrani.length === 0
+          ? h`<p class="vest" data-podtab-prazen="${strana}">няма нито една секция с това име</p>`
+          : h`<table class="reshetka smetki" data-reshetka="${strana}-podtab">
+        <thead><tr>${glaviHTML}</tr></thead>
+        <tbody class="tablitsa">${izbrani.map((sek) => sektsiyaHTML(sek))}</tbody>
+        <tfoot><tr class="sbor"><td colspan="${KOLONI.length - 1}">сбор на показаното</td><td class="evro" data-podtab-sbor="${strana}" translate="no">${pishi(sbor)}</td></tr></tfoot>
+      </table>`
+      }
+    </section>`;
+  };
+
+  /**
+   * ПОДТАБ ПРОВЕРКИ · бутон, който пуска таблицата на разминаванията.
+   *
+   * Негово, 11.09 (запис 144), ДОСЛОВНО: „**бутон Проверка в таба Проверки. С
+   * натискане на бутона в Таба Проверки се появява таблица за разминавания
+   * (обикновенно има забавяне 1 месец без Извлечения Банка от вкарване на
+   * Фактури Кеш, Фактури Карта и Заплати Кеш и Заплата Банка).**"
+   *
+   * ПРОВЕРКАТА Е ДЕЙСТВИЕ, НЕ ИЗГЛЕД. Таблицата не стои сама: тя се появява,
+   * когато той я поиска — така и забавянето от месец се чете като състояние на
+   * ДНЕШНАТА проверка, а не като нещо, което мига при всяко рисуване.
+   *
+   * Четенето на самите ИЗВЛЕЧЕНИЯ чака неговия файл (ход 11.3 · правило 30:
+   * нищо не се строи върху липсващ извор). Затова тук пише какво още не се
+   * проверява — вместо празна таблица, която изглежда като „всичко е наред".
+   */
+  const proverkiHTML = (): Zapechatan => {
+    const razminavaniya = nap.nahodki.filter((n) => n.nivo !== 'ДДС');
+    return h`<section class="tablitsa-blok" data-blok="proverki">
+      <h2 class="lenta" translate="no">Проверки на Извлечения и Сметки</h2>
+      <div class="deystviya butoni-malki">
+        <button type="button" class="malak" data-pusni-proverka${podskazkaSDumi(
+          'Пуска сверките върху Фактури и Контрагенти и показва разминаванията. Нищо не се записва.',
+        )}>${proverkataEPusnata ? 'Пусни пак' : 'Проверка'}</button>
+        <span class="vest" data-proverka-vest translate="no">${
+          proverkataEPusnata
+            ? `${razminavaniya.length} разминавания от ${nap.proverki} проверки`
+            : 'проверката не е пускана'
+        }</span>
+      </div>
+      <p class="pod-tablitsata" data-proverka-zabavyane>Обикновено има забавяне ОТ ЕДИН МЕСЕЦ, докато няма Извлечения от банка срещу вкараните Фактури Кеш, Фактури Карта, Заплати Кеш и Заплати Банка. Четенето на самите извлечения чака файл-мостра от него (ход 11.3) — дотогава тук се сверява само вкараното срещу сметките.</p>
+      ${
+        !proverkataEPusnata
+          ? h`<p class="vest" data-proverka-chaka>натисни „Проверка", за да се появи таблицата на разминаванията</p>`
+          : razminavaniya.length === 0
+            ? h`<p class="vest" data-proverka-nyama>няма разминавания · всички сверки на Фактури и Контрагенти затварят</p>`
+            : h`<table class="tablitsa" data-proverka-tablitsa>
+          <thead><tr><th>ниво</th><th>проверка</th><th>адрес</th><th>какво</th><th class="evro">разлика</th></tr></thead>
+          <tbody>${razminavaniya.map(
+            (n) =>
+              h`<tr class="red" data-razminavane="${n.proverka}"><td>${n.nivo}</td><td translate="no">${n.proverka}</td><td translate="no">${n.adres}</td><td translate="no">${n.kakvo}</td><td class="evro" translate="no">${n.razlika === 0 ? '' : pishi(n.razlika)}</td></tr>`,
+          )}</tbody>
+        </table>`
+      }
+    </section>`;
+  };
+
   sloji(
     k.tyalo,
     h`
@@ -528,7 +662,13 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
     ${
       podtab === 'nap'
         ? napHTML()
-        : h`<section class="tablitsa-blok" data-blok="nov">
+        : podtab === 'prihodi'
+          ? stranataVSvoyPodtab('prihod', s.prihod, izbranaPrihod, PAMET.sektsiyataNaPrihoda)
+          : podtab === 'razhodi'
+            ? stranataVSvoyPodtab('razhod', s.razhod, izbranaRazhod, PAMET.sektsiyataNaRazhoda)
+            : podtab === 'proverki'
+              ? proverkiHTML()
+              : h`<section class="tablitsa-blok" data-blok="nov">
       <h2 class="lenta" translate="no">Нов ред с пари</h2>
       <table class="reshetka smetki nov" data-reshetka="dvizheniya">
         <thead><tr>${vsichkiKoloni.map(
@@ -567,6 +707,20 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   );
 
   zakachiReshetkata(k);
+  // ═══ подтабовете Приходи · Разходи · Проверки (негово, запис 198) ═══
+  for (const izbor of k.tyalo.querySelectorAll<HTMLSelectElement>('[data-sektsiya-izbor]')) {
+    izbor.addEventListener('change', () => {
+      zapomniEkranno(izbor.dataset['sektsiyaIzbor'] ?? '', izbor.value);
+      k.prerisuvay();
+    });
+  }
+  k.tyalo
+    .querySelector<HTMLButtonElement>('[data-pusni-proverka]')
+    ?.addEventListener('click', () => {
+      // Проверката е ДЕЙСТВИЕ · пуска се с бутон и остава пусната, докато гледаш
+      zapomniEkranno(PAMET.proverkata, true);
+      k.prerisuvay();
+    });
   zakachiTemite(k.tyalo);
   zakachiTakta(
     k.tyalo,

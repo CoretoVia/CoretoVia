@@ -30,9 +30,9 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   await p.goto(`${ADRES}#/smetki`);
   await p.waitForSelector('[data-podtabove]');
   proveri(
-    'два подтаба · Сметки и НАП (негово, 05.09 т.2)',
+    'петте подтаба · неговите от записи 143 · 144 · 198',
     (await tekstoveNa(p, '[data-podtab]')).join(' · '),
-    'Сметки · НАП',
+    'Сметки · Приходи · Разходи · Проверки · НАП',
   );
   await p.click('[data-podtab="nap"]');
   await p.waitForSelector('[data-dds-forma]');
@@ -152,6 +152,63 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
       (await p.$('[data-nap-tablitsa="greshki"], [data-nap-prazna="greshki"]')) !== null
     }`,
     'true · true',
+  );
+
+  // ══ 5е · ПРИХОДИ · РАЗХОДИ · ПРОВЕРКИ · негово, 12.09 (запис 198) ══════
+  razdel = '5е · трите нови подтаба';
+  await p.click('[data-podtab="prihodi"]');
+  await p.waitForSelector('[data-sektsiya-izbor="smetki.sektsiyataNaPrihoda"]');
+  proveri(
+    'Приходи · падащото меню носи имената на редовете му',
+    (
+      await p.$$eval('[data-sektsiya-izbor="smetki.sektsiyataNaPrihoda"] option', (es) =>
+        es.map((e) => e.textContent?.trim() ?? ''),
+      )
+    ).join(' · '),
+    'всички · Наем Банка · Наем Кеш · Бизнес · Други',
+  );
+  await p.selectOption('[data-sektsiya-izbor="smetki.sektsiyataNaPrihoda"]', '1');
+  await p.waitForFunction(() =>
+    (document.querySelector('[data-podtab-sverka="prihod"]')?.textContent ?? '').startsWith(
+      'секции 1 от',
+    ),
+  );
+  proveri(
+    'избраната секция остава сама · и сборът е нейният',
+    await tekstNa(p, '[data-podtab-sverka="prihod"]'),
+    'секции 1 от 4 · редове 1',
+  );
+  await p.click('[data-podtab="razhodi"]');
+  await p.waitForSelector('[data-sektsiya-izbor="smetki.sektsiyataNaRazhoda"]');
+  proveri(
+    'Разходи · и обединеният избор за Фактури (негово, запис 143)',
+    (
+      await p.$$eval('[data-sektsiya-izbor="smetki.sektsiyataNaRazhoda"] option', (es) =>
+        es.map((e) => e.textContent?.trim() ?? ''),
+      )
+    ).includes('Фактури · всички заедно'),
+    true,
+  );
+  await p.click('[data-podtab="proverki"]');
+  await p.waitForSelector('[data-pusni-proverka]');
+  proveri(
+    'Проверката е ДЕЙСТВИЕ · таблицата я няма, докато не се натисне',
+    `${(await p.$('[data-proverka-chaka]')) !== null} · ${await tekstNa(p, '[data-proverka-vest]')}`,
+    'true · проверката не е пускана',
+  );
+  await p.click('[data-pusni-proverka]');
+  await p.waitForFunction(() =>
+    (document.querySelector('[data-proverka-vest]')?.textContent ?? '').includes('разминавания'),
+  );
+  proveri(
+    'натисната · разминаванията се появяват и се броят',
+    (await tekstNa(p, '[data-proverka-vest]')).includes('разминавания от'),
+    true,
+  );
+  proveri(
+    'и казва защо има забавяне от месец без Извлечения',
+    (await tekstNa(p, '[data-proverka-zabavyane]')).includes('ЕДИН МЕСЕЦ'),
+    true,
   );
   // подтабът се ПОМНИ · оставен на НАП, той чака следващия раздел на грешно място
   await p.click('[data-podtab="smetki"]');
