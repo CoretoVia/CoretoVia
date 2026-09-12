@@ -88,7 +88,7 @@ export function filtrirayDarvoto(
  * след „9", а не преди него.
  */
 export function stoynostiteNaKolonata(
-  redove: readonly RedZaFiltar[],
+  redove: readonly { readonly dumi: readonly string[] }[],
   j: number,
 ): readonly string[] {
   const vidyani = new Map<string, string>();

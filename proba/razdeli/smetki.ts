@@ -374,4 +374,54 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     await litseNaButona(p, 'skriy-dela'),
     'Скрий Сметки',
   );
+
+  // ══ 4з · ФИЛТЪРЪТ В СМЕТКИ · падащо меню, както в Управление ═════════
+  // Негово, 12.09 (запис 199), точка 5: „В сметки да е същото."
+  razdel = '4з · филтърът в Сметки';
+  await p.goto(`${ADRES}#/smetki`);
+  await p.waitForSelector(ZALEPENO);
+  proveri(
+    'редът „филтър" стои под главите и в двете таблици · по едно меню на колона',
+    `${await p.$$eval('tr.filtar[data-filtar-red]', (es) => es.length)} · ${await p.$$eval('[data-reshetka="prihod"] tr.filtar td select', (es) => es.length)}`,
+    '2 · 6',
+  );
+  proveri(
+    'първото меню започва с „всички" · после въведеното',
+    (
+      await p.$$eval('[data-reshetka="prihod"] tr.filtar [data-filtar-smetki="0"] option', (es) =>
+        es.map((e) => e.textContent),
+      )
+    )[0],
+    'всички',
+  );
+  const vsichkiPrihod = await tekstNa(p, '[data-sverka="filtar-prihod"]');
+  proveri('без филтър сверката не се оплаква', vsichkiPrihod.includes('филтърът е включен'), false);
+  // Избира се СУМАТА на реда в Приход · тя я няма в нито един ред на Разходи,
+  // тъй че се вижда и че филтърът пипа ДВЕТЕ таблици с един избор.
+  await p.selectOption('[data-reshetka="prihod"] [data-filtar-smetki="5"]', EVRO_1200);
+  await p.waitForFunction(() =>
+    document.querySelector('[data-sverka="filtar-razhod"]')?.textContent?.startsWith('видими 0'),
+  );
+  proveri(
+    'един избор пипа ДВЕТЕ таблици · Приход остава, Разходи се изпразва',
+    `${await tekstNa(p, '[data-sverka="filtar-prihod"]')} · ${(
+      await tekstNa(p, '[data-sverka="filtar-razhod"]')
+    ).startsWith('видими 0')}`,
+    'видими 1 от 1 · филтърът е включен · true',
+  );
+  proveri(
+    'Приход си остава със сбора на видимия ред · само видимото се смята (запис 163)',
+    await tekstNa(p, '[data-sbor="prihod"]'),
+    EVRO_1200,
+  );
+  await p.selectOption('[data-reshetka="prihod"] [data-filtar-smetki="5"]', '');
+  await p.waitForFunction(() => {
+    const d = document.querySelector('[data-sverka="filtar-razhod"]');
+    return d !== null && !d.textContent?.startsWith('видими 0');
+  });
+  proveri(
+    'върнат на „всички" · Разходи се връща цял и сверката спира да се оплаква',
+    `${await tekstNa(p, '[data-sverka="filtar-prihod"]')} · ${await tekstNa(p, '[data-sbor="prihod"]')}`,
+    `${vsichkiPrihod} · ${EVRO_1200}`,
+  );
 }

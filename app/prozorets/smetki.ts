@@ -34,11 +34,14 @@ import { type Pokazatel, pokazatelite } from '../../src/smetach/pokazateli.js';
 import { napTablitsite, type RedNaNap } from '../../src/smetach/nap-tablitsite.js';
 import { trezorat } from '../../src/smetach/trezor.js';
 import { zadachiteSByudzhet } from '../../src/smetach/zadachi-v-smetki.js';
-import { imeNaVrazkata } from '../../src/smetach/kletki.js';
+import { dumiNaKletka, imeNaVrazkata } from '../../src/smetach/kletki.js';
+import { eFiltarPrazen, stoynostiteNaKolonata } from '../../src/smetach/filtar.js';
+import { filtriraySektsiite } from '../../src/smetach/filtar-smetki.js';
 import {
   IMENA_NA_STRANITE,
   IZVEDENITE_NA_SMETKITE,
   keshatNaMeseca,
+  type RedVSektsiya,
   type Sektsiya,
   smetkite,
   type Strana,
@@ -89,6 +92,8 @@ const PAMET = Object.freeze({
   mesets: 'smetki.mesets',
   samoMeseca: 'smetki.samoMeseca',
   podtab: 'smetki.podtab',
+  /** редът „филтър" под главите · падащи менюта (запис 199 т.5) */
+  filtar: 'smetki.filtar',
   /** кои страни са скрити · ПОГЛЕД, не данни: нула събития, нула Журнал */
   skriti: 'smetki.skriti',
   /** тактът и периодът · негово, запис 195 т.4 — тактът да го има и тук */
@@ -243,6 +248,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const kesh = keshatNaMeseca(o, mesets, kogato);
   const v = vkarvaneto(o, kogato, samoMeseca ? (m) => m === mesets : undefined);
   const podtab = tekushtPodtab(PAMET.podtab, PODTABOVE);
+  const filtar = chetiEkranno<(string | null)[]>(PAMET.filtar, []).map((x) => x ?? '');
   /**
    * СКРИТИТЕ СТРАНИ · поглед, не данни (правило 23: скритото ПАК се смята).
    * Скриването пипа екрана и нищо друго — нито сбор, нито Журнал, нито износ.
@@ -277,11 +283,40 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const ddsMesetsi = dds.mesetsi.filter((m) => !samoMeseca || m.mesets === mesets);
   const ddsNa = (strana: Strana): readonly MesetsNaDdsa[] =>
     ddsMesetsi.filter((m) => m.strana === strana);
+  /**
+   * ДУМИТЕ НА ЕДИН РЕД · същите, които стоят на екрана.
+   *
+   * Филтърът сравнява с ВИДЯНОТО, не със записаното: човек избира „Ток" от
+   * менюто, защото го е прочел в колоната, а долу стои id на връзка или
+   * центове. Затова думите ги дава екранът, а машината само сравнява.
+   */
+  const dumiteNaReda = (r: RedVSektsiya): readonly string[] => {
+    if (tv === undefined) return [];
+    const red = redKato(tv, r.i);
+    return KOLONI.map((klyuch) =>
+      dumiNaKletka(o, TABLITSA, klyuch, red.kletki[klyuch] ?? null, red.kletki),
+    );
+  };
+  /**
+   * ФИЛТЪРЪТ Е ПАДАЩО МЕНЮ ОТ ВЪВЕДЕНОТО · негово, 12.09 (запис 199), т.5:
+   * „В сметки да е същото."
+   *
+   * Менютата се пълнят от ДВЕТЕ страни наведнъж, не всяка от своята: филтърът
+   * е един ред за целия лист, и меню, което се различава между двете таблици,
+   * би излъгало, че са два филтъра.
+   */
+  const vsichkiZaFiltar = [...s.prihod, ...s.razhod].flatMap((sek) =>
+    sek.redove.map((r) => ({ dumi: dumiteNaReda(r) })),
+  );
+  const fPrihod = filtriraySektsiite(s.prihod, filtar, (_sek, r) => dumiteNaReda(r));
+  const fRazhod = filtriraySektsiite(s.razhod, filtar, (_sek, r) => dumiteNaReda(r));
+
   // правило 3 · сборовете ПРЕД ЧОВЕКА минават през преградата за цели центове (ДЛ-Н4 · ход 9)
   const ddsSbor = (strana: Strana): Tsentove =>
     sabiri(...ddsNa(strana).map((m) => tsentove(m.suma)));
-  const sborPrihod = sabiri(tsentove(s.sborPrihod), ddsSbor('prihod'));
-  const sborRazhod = sabiri(tsentove(s.sborRazhod), ddsSbor('razhod'));
+  // сборът е върху ВИДИМИТЕ · негово, запис 163: скритото в Сметки не се смята
+  const sborPrihod = sabiri(tsentove(fPrihod.sbor), ddsSbor('prihod'));
+  const sborRazhod = sabiri(tsentove(fRazhod.sbor), ddsSbor('razhod'));
   const nap = nahodkiteNaNap(o, `${mesets}-01`, kogato);
   const nesvereni = [...s.prihod, ...s.razhod]
     .flatMap((x) => x.redove)
@@ -524,16 +559,47 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
       )}`;
   };
 
-  const stranaHTML = (strana: Strana, sektsii: readonly Sektsiya[], sbor: number): Zapechatan => h`
+  /**
+   * РЕДЪТ „ФИЛТЪР" · падащо меню под всяка глава, същото както в Управление.
+   *
+   * Стойностите идват от ВСИЧКИ редове, не от видимите — инак изборът се
+   * стеснява сам след първото избиране и няма как да се върнеш.
+   */
+  const redFiltar = KOLONI.map((klyuch, j) => {
+    const kol = kolonaNa(t, klyuch);
+    const stoynosti = stoynostiteNaKolonata(vsichkiZaFiltar, j);
+    const izbrano = filtar[j] ?? '';
+    return h`<td><select class="pole malak filtar" data-filtar-smetki="${String(j)}" aria-label="${`филтър под „${kol?.ime ?? klyuch}"`}">
+      <option value="">всички</option>
+      ${stoynosti.map(
+        (x) => h`<option value="${x}" ${x === izbrano ? 'selected' : ''}>${x}</option>`,
+      )}
+    </select></td>`;
+  });
+  const filtarNaTaktovete = koloniteNaGanta.map(() => h`<td class="takt"></td>`);
+
+  const stranaHTML = (
+    strana: Strana,
+    sektsii: readonly Sektsiya[],
+    sbor: number,
+    vidimi: number,
+    vsichki: number,
+  ): Zapechatan => h`
     <section class="tablitsa-blok darvo-blok" data-blok="${strana}">
       <h2 class="lenta" translate="no">${IMENA_NA_STRANITE[strana]}</h2>
       <table class="reshetka smetki darvo" data-reshetka="${strana}">
-        <thead><tr class="glavi">${glaviHTML}${glaviNaTaktovete}</tr></thead>
+        <thead>
+          <tr class="glavi">${glaviHTML}${glaviNaTaktovete}</tr>
+          <tr class="filtar" data-filtar-red>${redFiltar}${filtarNaTaktovete}</tr>
+        </thead>
         <tbody class="tablitsa">${sektsii.map((sek) => sektsiyaHTML(sek, false, true))}${ddsHTML(strana)}${
           strana === 'razhod' ? zadachiteHTML() : ''
         }</tbody>
         <tfoot><tr class="sbor"><td colspan="${KOLONI.length - 1}"${izvedena(strana)}>ОБЩ ${IMENA_NA_STRANITE[strana]}</td><td class="evro" data-sbor="${strana}" translate="no">${pishi(sbor)}</td>${sboroveNaTaktovete(sektsii)}</tr></tfoot>
       </table>
+      <p class="pod-tablitsata" data-sverka="${`filtar-${strana}`}">видими ${String(vidimi)} от ${String(
+        vsichki,
+      )}${eFiltarPrazen(filtar) ? '' : ' · филтърът е включен'}</p>
     </section>`;
 
   const butonHTML = (b: ButonNaProzoretsa): Zapechatan => {
@@ -785,9 +851,14 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
       podtab === 'nap'
         ? napHTML()
         : podtab === 'prihodi'
-          ? stranataVSvoyPodtab('prihod', s.prihod, izbranaPrihod, PAMET.sektsiyataNaPrihoda)
+          ? stranataVSvoyPodtab('prihod', fPrihod.sektsii, izbranaPrihod, PAMET.sektsiyataNaPrihoda)
           : podtab === 'razhodi'
-            ? stranataVSvoyPodtab('razhod', s.razhod, izbranaRazhod, PAMET.sektsiyataNaRazhoda)
+            ? stranataVSvoyPodtab(
+                'razhod',
+                fRazhod.sektsii,
+                izbranaRazhod,
+                PAMET.sektsiyataNaRazhoda,
+              )
             : podtab === 'proverki'
               ? proverkiHTML()
               : h`<section class="tablitsa-blok" data-blok="nov">
@@ -803,8 +874,8 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
     </section>
     <section class="smetki-tyalo" data-smetki>
       <div class="smetki-blokove">
-        ${skritite.includes('prihod') ? '' : stranaHTML('prihod', s.prihod, sborPrihod)}
-        ${skritite.includes('razhod') ? '' : stranaHTML('razhod', s.razhod, sborRazhod)}
+        ${skritite.includes('prihod') ? '' : stranaHTML('prihod', fPrihod.sektsii, sborPrihod, fPrihod.broyVidimi, fPrihod.broyVsichki)}
+        ${skritite.includes('razhod') ? '' : stranaHTML('razhod', fRazhod.sektsii, sborRazhod, fRazhod.broyVidimi, fRazhod.broyVsichki)}
         <section class="tablitsa-blok" data-blok="vkarvane">
           <h2 class="lenta" translate="no">Вкарване</h2>
           <p class="pod-tablitsata">Заплати Кеш · Фактури Кеш · Фактури Карта на едно място (негово, 05.09).</p>
@@ -832,6 +903,15 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   );
 
   zakachiReshetkata(k);
+  // ═══ редът „филтър" · един за целия лист, рисуван в двете таблици ═══
+  for (const izbor of k.tyalo.querySelectorAll<HTMLSelectElement>('[data-filtar-smetki]')) {
+    izbor.addEventListener('change', () => {
+      const nov = KOLONI.map((_kl, j) => filtar[j] ?? '');
+      nov[Number(izbor.dataset['filtarSmetki'])] = izbor.value;
+      zapomniEkranno(PAMET.filtar, nov);
+      k.prerisuvay();
+    });
+  }
   // ═══ подтабовете Приходи · Разходи · Проверки (негово, запис 198) ═══
   for (const izbor of k.tyalo.querySelectorAll<HTMLSelectElement>('[data-sektsiya-izbor]')) {
     izbor.addEventListener('change', () => {
