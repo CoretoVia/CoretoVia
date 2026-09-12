@@ -63,6 +63,7 @@ import { otvoriChernova } from '../reshetka/chernova.js';
 import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
 import { chetiEkranno, zapomniEkranno } from '../reshetka/pamet-ekran.js';
+import { dumataNaRezhima, obarniRezhima, parite } from '../reshetka/rezhim.js';
 import {
   glaviteNaTakta,
   lentaNaDeystviyata,
@@ -90,8 +91,6 @@ const PAMET = Object.freeze({
   podtab: 'smetki.podtab',
   /** кои страни са скрити · ПОГЛЕД, не данни: нула събития, нула Журнал */
   skriti: 'smetki.skriti',
-  /** един бутон крие задачите · негово, запис 193 */
-  skriyZadachi: 'smetki.skriyZadachi',
   /** тактът и периодът · негово, запис 195 т.4 — тактът да го има и тук */
   takt: 'smetki.takt',
   period: 'smetki.period',
@@ -249,8 +248,12 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
    * Скриването пипа екрана и нищо друго — нито сбор, нито Журнал, нито износ.
    */
   const skritite = chetiEkranno<readonly Strana[]>(PAMET.skriti, []);
-  /** един бутон крие задачите с бюджет · негово, запис 193 */
-  const skritiZadachi = chetiEkranno<boolean>(PAMET.skriyZadachi, false);
+  /**
+   * РЕЖИМЪТ е общ с Управление · негово, 12.09 (запис 202): „**Двата бутона
+   * сменят и двата режима в Управление и в Сметки.**" В „задачи" секцията на
+   * задачите с бюджет си отива оттук, както си отиват редовете на Сметки там.
+   */
+  const skritiZadachi = !parite();
   /**
    * ТРЕЗОРЪТ · Заданието го иска (M06-10) и той пита за него (запис 195 т.5).
    * Смята се от кеша на месеца; нищо не се въвежда (M06-P3).
@@ -517,7 +520,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         (z) =>
           h`<tr class="red zadacha" data-zadacha="${z.id}"><td class="kletka prazna"></td><td class="kletka tekst" translate="no">${z.ime}</td><td class="kletka prazna"></td><td class="kletka prazna"></td><td class="kletka tekst" translate="no">${z.data}</td><td class="kletka evro" translate="no">${pishi(
             -z.byudzhet_st,
-          )}</td>${taktNaReda(z.data, -z.byudzhet_st, z.ime)}</tr>`,
+          )}</td>${taktNaReda(z.data, -z.byudzhet_st)}</tr>`,
       )}`;
   };
 
@@ -541,9 +544,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
     const strana = STRANATA_NA_BUTONA[b.klyuch];
     const duma =
       b.klyuch === 'skriy-dela'
-        ? skritiZadachi
-          ? 'Покажи Задачи'
-          : 'Скрий Задачи'
+        ? dumataNaRezhima('Задачи')
         : strana !== undefined && skritite.includes(strana)
           ? `Покажи ${IMENA_NA_STRANITE[strana]}`
           : litse(b);
@@ -979,8 +980,8 @@ function deystvieNaButona(k: KonteksNaEkrana, b: ButonNaProzoretsa, el: HTMLElem
       k.prerisuvay();
       return;
     case 'skriy-dela':
-      // ЕДИН бутон · крие задачите с бюджет от календара и от сбора (запис 193)
-      zapomniEkranno(PAMET.skriyZadachi, !chetiEkranno<boolean>(PAMET.skriyZadachi, false));
+      // ЕДИН бутон · и той върти ОБЩИЯ режим, същия като в Управление (запис 202)
+      obarniRezhima();
       k.prerisuvay();
       return;
     case 'dobavyane': {

@@ -18,6 +18,9 @@ const ZALEPENO = '[data-zalepeno="smetki"]';
 const EVRO_1200 = '1 200,00 €';
 const EVRO_MINUS_1500 = '-1 500,00 €';
 const EVRO_1500 = '1 500,00 €';
+/** бюджетът на „Дело Сондаж" · тук е РАЗХОД и влиза с минус */
+const EVRO_MINUS_250000 = '-250\u202F000,00\u202F€';
+const EVRO_250000 = '250\u202F000,00\u202F€';
 /** нулата се пише с нейния си знак · Трезорът я показва, не я крие */
 const EVRO_0 = '0,00 €';
 /**
@@ -327,4 +330,48 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
   await natisniButon(p, 'skriy-dela');
   await p.waitForSelector('tr.red.dvizhenie');
+
+  // ══ 4ж · ЕДИН РЕЖИМ ЗА ДВАТА ПРОЗОРЕЦА ═══════════════════════════════
+  // Негово, 12.09 (запис 202): „Календара има две нива за които говорихме. В
+  // едното състочние включват редовете с бюджет и редовете от Сметки, а
+  // другото включва само Задачите без да се вкарва в календара бюджета на
+  // всяко от тях което има… Двата бутона сменят и двата режима в Управление
+  // и в Сметки."
+  razdel = '4ж · двата режима на календара';
+  proveri(
+    'режим ПАРИ по подразбиране · лентата носи и името, и бюджета',
+    await p.$eval('tr.red.zadacha td.takt.lenta', (e) => (e as HTMLElement).innerText.trim()),
+    `Дело Сондаж · ${EVRO_250000}`,
+  );
+  await natisniButon(p, 'skriy-dela');
+  await p.waitForFunction(
+    () =>
+      document.querySelector('tr.red.zadacha td.takt.lenta')?.textContent?.trim() === 'Дело Сондаж',
+  );
+  proveri(
+    'режим ЗАДАЧИ · в календара остава САМО текстът · бюджетът не влиза',
+    `${await p.$eval('tr.red.zadacha td.takt.lenta', (e) => (e as HTMLElement).innerText.trim())} · сметки ${await p.$$eval('tr.red.dvizhenie', (es) => es.length)}`,
+    'Дело Сондаж · сметки 0',
+  );
+  await p.goto(`${ADRES}#/smetki`);
+  await p.waitForSelector(ZALEPENO);
+  proveri(
+    'СЪЩИЯТ режим е стигнал и до Сметки · секцията на задачите я няма',
+    `${await litseNaButona(p, 'skriy-dela')} · секции ${await p.$$eval('[data-sbor-zadachi]', (es) => es.length)}`,
+    'Покажи Задачи · секции 0',
+  );
+  await natisniButon(p, 'skriy-dela');
+  await p.waitForSelector('[data-sbor-zadachi]');
+  proveri(
+    'върнат в ПАРИ от бутона на Сметки · в календара стои БЮДЖЕТЪТ, не текстът',
+    await p.$eval('tr.red.zadacha td.takt.evro', (e) => (e as HTMLElement).innerText.trim()),
+    EVRO_MINUS_250000,
+  );
+  await p.goto(`${ADRES}#/upravlenie`);
+  await p.waitForSelector('tr.red.dvizhenie');
+  proveri(
+    'и бутонът в Управление се е върнал заедно с него · един режим, два бутона',
+    await litseNaButona(p, 'skriy-dela'),
+    'Скрий Сметки',
+  );
 }

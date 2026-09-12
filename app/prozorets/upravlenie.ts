@@ -88,6 +88,7 @@ import { otvoriModel, zapaziModela } from '../reshetka/modeli.js';
 import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
 import { chetiEkranno, zapomniEkranno } from '../reshetka/pamet-ekran.js';
+import { dumataNaRezhima, obarniRezhima, parite } from '../reshetka/rezhim.js';
 import { pokazhiGreshka } from '../reshetka/redaktsiya.js';
 import { kletkaHTML, zakachiReshetkata } from '../reshetka/reshetka.js';
 import {
@@ -103,7 +104,6 @@ const PAMET = Object.freeze({
   takt: 'upravlenie.takt',
   period: 'upravlenie.period',
   vizhda: 'upravlenie.vizhda',
-  skriySmetki: 'upravlenie.skriySmetki',
   dnes: 'upravlenie.dnes',
 });
 const TABLITSA = 'zadachi';
@@ -168,12 +168,17 @@ function byudzhetaNa(r: RedNaEkrana): number {
  * Затова първата клетка на лентата носи ЛИЦЕТО на реда — името, числото или
  * двете. Сборът отдолу си остава по числата от данните; нарисуваното в
  * клетката не влиза в него по никакъв път.
+ *
+ * И бюджетът вече може да го НЯМА · негово, 12.09 (запис 202): в режим
+ * „задачи" календарът носи само текста, „**без да се вкарва в календара
+ * бюджета на всяко от тях което има**". Затова числото идва като `null`, а
+ * не като нула: нулата е сума, липсата е решение.
  */
 function taktKletkiHTML(
   r: RedNaEkrana,
   koloni: readonly KolonaNaTakta[],
   dnes: string,
-  byudzhet: number,
+  byudzhet: number | null,
 ): readonly Zapechatan[] {
   // движението не е ЛЕНТА · то е една сума в един месец и пада в неговата колона
   if (r.vid === 'dvizhenie')
@@ -476,7 +481,10 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   const takt = chetiEkranno<Takt>(PAMET.takt, 'mesets');
   const period = chetiEkranno<SvoyPeriod | null>(PAMET.period, null);
   const vizhda = chetiEkranno<KoeSeVizhda>(PAMET.vizhda, { tablitsa: true, diagrama: true });
-  const skriySmetki = chetiEkranno<boolean>(PAMET.skriySmetki, false);
+  /** РЕЖИМЪТ е общ с Сметки · един бутон там го върти и тук (запис 202) */
+  const sPari = parite();
+  const skriySmetki = !sPari;
+  const imetoNaSmetkite = PROZORTSI.find((x) => x.klyuch === 'smetki')!.list;
   const filtar = chetiEkranno<(string | null)[]>(PAMET.filtar, []).map((f) => f ?? '');
   const smetki = chetiEkranno<Record<string, Smetka>>(PAMET.smetki, {});
   const kogato = new Date().toISOString();
@@ -586,7 +594,7 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
     koloniNaTaktove,
     zadachiteNaEkrana
       .filter((r) => r.ot !== '')
-      .map((r) => ({ data: r.ot, chislo: byudzhetaNa(r) })),
+      .map((r) => ({ data: r.ot, chislo: sPari ? byudzhetaNa(r) : 0 })),
   ).map((s, i) => {
     const broy = pokrivashti[i] ?? 0;
     return h`<td class="takt evro" translate="no">${
@@ -645,8 +653,10 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
     let duma = litse(b);
     if (b.klyuch === 'skriy-tablitsa') duma = dumataNaButona(vizhda, 'tablitsa');
     if (b.klyuch === 'skriy-diagrama') duma = dumataNaButona(vizhda, 'diagrama');
-    // ЕДИН бутон на прозорец (запис 193) · тук крие редовете на Сметки, не задачите
-    if (b.klyuch === 'skriy-dela') duma = skriySmetki ? 'Покажи Сметки' : 'Скрий Сметки';
+    // ЕДИН бутон на прозорец (запис 193) · тук крие редовете на Сметки, не задачите.
+    // Режимът обаче е ОБЩ с Сметки (запис 202) — двата бутона въртят едно и също.
+    // Името на другия прозорец идва ОТ НЕГО (К1): тук то не се преписва.
+    if (b.klyuch === 'skriy-dela') duma = dumataNaRezhima(imetoNaSmetkite);
     return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}"${podskazka(b.pomosht)}>${duma}</button>`;
   };
 
@@ -671,7 +681,7 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
             (r) =>
               h`<tr class="${r.klas}" data-id="${r.id}" data-tablitsa="${r.tablitsa}" data-nivo="${String(r.nivo)}" data-seq="${String(r.seq)}"${
                 r.roditelId === '' ? '' : h` data-roditel="${r.roditelId}"`
-              }>${r.tds}${taktKletkiHTML(r, koloniNaTaktove, dnes, byudzhetaNa(r))}</tr>`,
+              }>${r.tds}${taktKletkiHTML(r, koloniNaTaktove, dnes, sPari ? byudzhetaNa(r) : null)}</tr>`,
           )}</tbody>
           <tfoot><tr class="sbor" data-sbor-red>${sborKletki}${sboroveNaTaktovete}</tr></tfoot>
         </table>
@@ -722,7 +732,7 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   for (const b of k.tyalo.querySelectorAll<HTMLButtonElement>('button[data-buton-ekran]')) {
     const opis = BUTONI_NA_UPRAVLENIE.find((x) => x.klyuch === b.dataset['butonEkran']);
     if (opis === undefined) continue;
-    b.addEventListener('click', () => deystvieNaButona(k, opis, b, vizhda, skriySmetki, takt));
+    b.addEventListener('click', () => deystvieNaButona(k, opis, b, vizhda, takt));
   }
 
   // ═══ дясното меню · задача под родител · изключи · върни · сторно ═══
@@ -764,7 +774,6 @@ function deystvieNaButona(
   b: ButonNaProzoretsa,
   el: HTMLButtonElement,
   vizhda: KoeSeVizhda,
-  skriySmetki: boolean,
   takt: Takt,
 ): void {
   const d = b.deystvie;
@@ -800,7 +809,8 @@ function deystvieNaButona(
       k.prerisuvay();
       return;
     case 'skriy-dela':
-      zapomniEkranno(PAMET.skriySmetki, !skriySmetki);
+      // едно решение, един дом · същият бутон в Сметки върти същия режим
+      obarniRezhima();
       k.prerisuvay();
       return;
     case 'skriy-tablitsa':
