@@ -763,12 +763,19 @@ describe('Т33 · нито един белег за редакция без па
     expect(faylove.length).toBeGreaterThan(20);
     const pishat = faylove.filter((f) => pishatBelega(readFileSync(f, 'utf8')).length > 0);
     // днес са ДВЕ: общата решетка и клетката „кам" в Сметки
-    expect(pishat.length).toBe(2);
+    // ТРИ са от 13.09 (запис 204): към общата решетка и клетката „кам" се добави
+    // клетката на КАЛЕНДАРА — там се пресели редакцията на времето, когато
+    // колоната с датата излезе от реда.
+    expect(pishat.length).toBe(3);
   });
 
   it('нито едно място не пише белега без пазач наблизо', async () => {
     const { readFileSync } = await import('node:fs');
-    for (const f of ['app/reshetka/reshetka.ts', 'app/prozorets/smetki.ts']) {
+    for (const f of [
+      'app/reshetka/reshetka.ts',
+      'app/prozorets/smetki.ts',
+      'app/prozorets/upravlenie.ts',
+    ]) {
       expect(bezPazach(readFileSync(f, 'utf8')), f).toEqual([]);
     }
   });

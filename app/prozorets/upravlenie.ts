@@ -53,6 +53,7 @@ import {
 import { dumiNaKletka, imeNaReda, tekstNaIzbora } from '../../src/smetach/kletki.js';
 import { tekstNaNomera } from '../../src/smetach/nomeratsiya.js';
 import { nomerNaSpeshnoto, poletataNaUpravlenie } from '../../src/smetach/polata.js';
+import { zashtoNeRedaktiraRedove } from '../../src/smetach/pravo.js';
 import {
   type DvizhenieVDarvoto,
   smetkiteVUpravlenie,
@@ -179,6 +180,7 @@ function taktKletkiHTML(
   koloni: readonly KolonaNaTakta[],
   dnes: string,
   byudzhet: number | null,
+  bezRedaktsiya = false,
 ): readonly Zapechatan[] {
   // движението не е ЛЕНТА · то е една сума в един месец и пада в неговата колона
   if (r.vid === 'dvizhenie')
@@ -194,7 +196,16 @@ function taktKletkiHTML(
     const vatre = lenta !== null && i >= lenta.ot && i < lenta.ot + lenta.broy;
     if (!vatre) return h`<td class="takt${kol.dnes ? ' dnes' : ''}"></td>`;
     const klas = `takt lenta ${svetofar ?? 'normalno'}${r.speshno ? ' speshno' : ''}${kol.dnes ? ' dnes' : ''}`;
-    return h`<td class="${klas}" data-lenta="${r.id}">${
+    // РЕДАКЦИЯТА НА ВРЕМЕТО е тук · колоната „Дата" излезе от реда (запис 204),
+    // и полето ѝ се мести там, където той сочи: върху лентата в календара.
+    // Т33 · белегът се пише САМО когато редовете изобщо се редактират
+    const redakt =
+      i === lenta.ot && r.vid === 'zadacha' && !bezRedaktsiya
+        ? h` data-redakt="zadachi·${r.id}·ot" data-kolona="ot" tabindex="0"${podskazkaSDumi(
+            'Началото и краят на задачата живеят тук · натисни, за да ги смениш',
+          )}`
+        : '';
+    return h`<td class="${klas}" data-lenta="${r.id}"${redakt}>${
       i === lenta.ot ? litseNaTakta(r.ime, byudzhet) : ''
     }</td>`;
   });
@@ -475,7 +486,15 @@ function redNaDvizhenie(d: DvizhenieVDarvoto, oblik: readonly GlavaNaOblika[]): 
 export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   const o = k.porta.ogledalo();
   const p = PROZORTSI.find((x) => x.klyuch === 'upravlenie')!;
-  const oblik = OBLIK_NA_UPRAVLENIE;
+  /**
+   * ИЗГЛЕДЪТ БЕЗ ВРЕМЕ · негово, 13.09 (запис 204): „Редовете не показват
+   * време, това става в календара."
+   *
+   * Филтрира се ИЗГЛЕДЪТ, не Моделът: `OBLIK_NA_UPRAVLENIE` е и подредбата на
+   * клетките в неговата Книга (`src/kniga/chetene.ts` · `pisane.ts`), и ако
+   * главата излезеше оттам, всеки негов адрес в Excel щеше да мръдне (К1).
+   */
+  const oblik = OBLIK_NA_UPRAVLENIE.filter((g) => g.kolona !== 'ot');
   const dnesNaMashinata = new Date().toISOString().slice(0, 10);
   const dnes = chetiEkranno<string | null>(PAMET.dnes, null) ?? dnesNaMashinata;
   const takt = chetiEkranno<Takt>(PAMET.takt, 'mesets');
@@ -484,6 +503,8 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   /** РЕЖИМЪТ е общ с Сметки · един бутон там го върти и тук (запис 202) */
   const sPari = parite();
   const skriySmetki = !sPari;
+  /** Т33 · правото стеснява ПРЕДИ белега · оста „редове" на неговата Длъжност */
+  const bezRedaktsiya = zashtoNeRedaktiraRedove(o, k.aktor()) !== null;
   const imetoNaSmetkite = PROZORTSI.find((x) => x.klyuch === 'smetki')!.list;
   const filtar = chetiEkranno<(string | null)[]>(PAMET.filtar, []).map((f) => f ?? '');
   const smetki = chetiEkranno<Record<string, Smetka>>(PAMET.smetki, {});
@@ -681,7 +702,7 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
             (r) =>
               h`<tr class="${r.klas}" data-id="${r.id}" data-tablitsa="${r.tablitsa}" data-nivo="${String(r.nivo)}" data-seq="${String(r.seq)}"${
                 r.roditelId === '' ? '' : h` data-roditel="${r.roditelId}"`
-              }>${r.tds}${taktKletkiHTML(r, koloniNaTaktove, dnes, sPari ? byudzhetaNa(r) : null)}</tr>`,
+              }>${r.tds}${taktKletkiHTML(r, koloniNaTaktove, dnes, sPari ? byudzhetaNa(r) : null, bezRedaktsiya)}</tr>`,
           )}</tbody>
           <tfoot><tr class="sbor" data-sbor-red>${sborKletki}${sboroveNaTaktovete}</tr></tfoot>
         </table>
@@ -737,6 +758,20 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
 
   // ═══ дясното меню · задача под родител · изключи · върни · сторно ═══
   const fizicheski = fizicheskiKletki(oblik);
+  /**
+   * ВРЕМЕТО ИЗЛЕЗЕ ОТ ТАБЛИЦАТА, НО НЕ И ОТ СЪЗДАВАНЕТО.
+   *
+   * Негово, 13.09 (запис 204), е за РЕДОВЕТЕ: „Редовете не показват време."
+   * Черновата не е ред с данни — тя е форма, и задача без начало и край не се
+   * създава. Затова двете полета застават в клетката на „Задачи", до вида и
+   * името, вместо да изчезнат заедно с главата си (правило 12: изключено ≠
+   * липсващо).
+   */
+  const kletkataNaVida = fizicheski.naKolonata.get('vid');
+  if (kletkataNaVida !== undefined) {
+    fizicheski.naKolonata.set('ot', kletkataNaVida);
+    fizicheski.naKolonata.set('do', kletkataNaVida);
+  }
   zakachiDyasnoMenyu(
     k,
     'upravlenie',

@@ -448,6 +448,47 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'Скрий Сметки',
   );
 
+  // ══ 4и · ВРЕМЕТО НЕ Е КОЛОНА · то е позиция в календара ══════════════
+  // Негово, 13.09 (запис 204): „Редовете не показват време, това става в
+  // календара на един ред на всяка колона която е такт. Когато се сменя такта
+  // на календара се събират сумите от дните на такта."
+  razdel = '4и · времето е в календара';
+  await p.goto(`${ADRES}#/smetki`);
+  await p.waitForSelector(ZALEPENO);
+  proveri(
+    'в реда НЯМА клетка с време · нито месец, нито дата',
+    await p.$$eval(
+      '[data-reshetka="prihod"] td.kletka[data-kolona="mesets"], [data-reshetka="prihod"] td.kletka[data-kolona="data"]',
+      (es) => es.length,
+    ),
+    0,
+  );
+  proveri(
+    'а времето се РЕДАКТИРА в календара · клетката с числото отваря месеца',
+    await p.$$eval('[data-reshetka="prihod"] td.takt[data-redakt$="·mesets"]', (es) => es.length),
+    1,
+  );
+  // при по-едър такт сумите на дните ВЪТРЕ в колоната се събират в нея
+  await p.selectOption('[data-takt]', 'den');
+  await p.waitForFunction(() =>
+    document.querySelector('[data-sverka="gant"]')?.textContent?.includes('такт ден'),
+  );
+  const priDen = await p.$$eval('[data-reshetka="prihod"] tfoot td.takt', (es) =>
+    es.map((e) => e.textContent?.trim() ?? '').filter((x) => x !== ''),
+  );
+  await p.selectOption('[data-takt]', 'godina');
+  await p.waitForFunction(() =>
+    document.querySelector('[data-sverka="gant"]')?.textContent?.includes('такт година'),
+  );
+  const priGodinata = await p.$$eval('[data-reshetka="prihod"] tfoot td.takt', (es) =>
+    es.map((e) => e.textContent?.trim() ?? '').filter((x) => x !== ''),
+  );
+  proveri(
+    'СЪЩАТА сума, събрана в по-малко колони · тактът мени колоните, не парите',
+    `${priDen.join(' ')} · ${priGodinata.join(' ')}`,
+    `${EVRO_1200} · ${EVRO_1200}`,
+  );
+
   // ══ 4з · ФИЛТЪРЪТ В СМЕТКИ · падащо меню, както в Управление ═════════
   // Негово, 12.09 (запис 199), точка 5: „В сметки да е същото."
   razdel = '4з · филтърът в Сметки';
@@ -456,7 +497,9 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   proveri(
     'редът „филтър" стои под главите и в двете таблици · по едно меню на колона',
     `${await p.$$eval('tr.filtar[data-filtar-red]', (es) => es.length)} · ${await p.$$eval('[data-reshetka="prihod"] tr.filtar td select', (es) => es.length)}`,
-    '2 · 6',
+    // ПЕТ колони, не шест: колоната с месеца излезе от таблицата · времето е в
+    // календара (негово, 13.09 · запис 204)
+    '2 · 5',
   );
   proveri(
     'първото меню започва с „всички" · после въведеното',
@@ -471,7 +514,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   proveri('без филтър сверката не се оплаква', vsichkiPrihod.includes('филтърът е включен'), false);
   // Избира се СУМАТА на реда в Приход · тя я няма в нито един ред на Разходи,
   // тъй че се вижда и че филтърът пипа ДВЕТЕ таблици с един избор.
-  await p.selectOption('[data-reshetka="prihod"] [data-filtar-smetki="5"]', EVRO_1200);
+  await p.selectOption('[data-reshetka="prihod"] [data-filtar-smetki="4"]', EVRO_1200);
   await p.waitForFunction(() =>
     document.querySelector('[data-sverka="filtar-razhod"]')?.textContent?.startsWith('видими 0'),
   );
@@ -487,7 +530,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     await tekstNa(p, '[data-sbor="prihod"]'),
     EVRO_1200,
   );
-  await p.selectOption('[data-reshetka="prihod"] [data-filtar-smetki="5"]', '');
+  await p.selectOption('[data-reshetka="prihod"] [data-filtar-smetki="4"]', '');
   await p.waitForFunction(() => {
     const d = document.querySelector('[data-sverka="filtar-razhod"]');
     return d !== null && !d.textContent?.startsWith('видими 0');
