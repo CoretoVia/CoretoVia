@@ -50,7 +50,8 @@ describe('изведените на Сметки · сборовете и кеш
     expect(kratko('vkarvane')).toContain(SEKTSIYA_ZAPLATI_KESH);
     expect(kratko('vkarvane')).toContain(SEKTSIYA_FAKTURI_KESH);
     // даденото е заплати + фактури · както `keshatNaMeseca` го смята
-    expect(kratko('kesh-dadeno')).toMatch(/^заплати \+ фактури/);
+    // негово, 13.09 (запис 203) т.3: даденото се СМЯТА от кеш секциите, не се пише
+    expect(kratko('kesh-dadeno')).toMatch(/^сборът на редовете/);
     for (const k of IZVEDENITE_NA_SMETKITE) expect(k.ime.length).toBeGreaterThan(0);
   });
 });
@@ -393,17 +394,34 @@ describe('кешът за месеца (негово, 05.09 т.2)', () => {
     expect(redKato(tv(), 0).kletki['izvlechenie']).toEqual({ stoynost_st: 170000 });
   });
 
-  it('сверката · дадено ↔ изтеглено ↔ вкараното по редовете · и нулата се записва', async () => {
+  /**
+   * ДАДЕНОТО СЕ СМЯТА · негово, 13.09 (запис 203), точка 3: „дадени за Заплати
+   * Кеш и дадени за Фактури Кеш се смятат в подтабовете и тук идват готови без
+   * възможност да се коригират."
+   *
+   * Оттам следва и че СВЕРКАТА Е ЕДНА. Дотук бяха две — „дадено ↔ изтеглено" и
+   * „дадено ↔ вкарано по редовете". Втората сравняваше въведено с въведено; щом
+   * даденото ИДВА от същите редове, тя стана тъждество и си отиде. Останалата е
+   * тъкмо тази, която правило 3 иска: банката срещу въведеното.
+   */
+  it('даденото се СМЯТА от кеш секциите · и сверката срещу банката остава една', async () => {
     const { iz, zapishi } = await otvori();
     const k0 = keshatNaMeseca(iz.ogledalo(), MESETS, KOGATO);
     expect([k0.dadeno, k0.izvlechenie, k0.vkarano]).toEqual([0, 0, 0]);
+    expect(k0.sverki.length).toBe(1);
     for (const s of k0.sverki) expect(s.nared, s.kakvo).toBe(true);
+    // записва се САМО изтегленото · двете дадени влизат като отпечатък и не се четат
     await zapishi('kesh1', 'smetki.zapishiKesh', {
       mesets: MESETS,
       zaplati: { stoynost_st: 150000 },
       fakturi: { stoynost_st: 25000 },
       izvlechenie: { stoynost_st: 175000 },
     });
+    const samoZapisano = keshatNaMeseca(iz.ogledalo(), MESETS, KOGATO);
+    expect(
+      [samoZapisano.zaplati, samoZapisano.fakturi, samoZapisano.dadeno],
+      'записаните числа НЕ се четат · даденото идва от редовете, а тях още ги няма',
+    ).toEqual([0, 0, 0]);
     const zaplati = nomerNaSektsiya(iz.ogledalo(), 'razhod', SEKTSIYA_ZAPLATI_KESH)!;
     await zapishi(
       'd1',
@@ -415,13 +433,14 @@ describe('кешът за месеца (негово, 05.09 т.2)', () => {
       }),
     );
     const k1 = keshatNaMeseca(iz.ogledalo(), MESETS, KOGATO);
+    // редът е РАЗХОД и се пази с минус · даденото е положително число
     expect([k1.zaplati, k1.fakturi, k1.dadeno, k1.izvlechenie, k1.vkarano]).toEqual([
-      150000, 25000, 175000, 175000, -150000,
+      150000, 0, 150000, 175000, -150000,
     ]);
-    expect(k1.sverki[0]?.nared).toBe(true);
-    // вкараното е 150 000 от дадени 175 000 → 25 000 още не са вкарани, и разликата се КАЗВА
-    expect(k1.sverki[1]?.nared).toBe(false);
-    expect(k1.sverki[1]?.razlika).toBe(-25000);
+    // изтеглени са 175 000, а по редовете са раздадени 150 000 → 25 000 стоят в касата
+    expect(k1.sverki.length).toBe(1);
+    expect(k1.sverki[0]?.nared).toBe(false);
+    expect(k1.sverki[0]?.razlika).toBe(25000);
   });
 
   it('месец, който не е ГГГГ-ММ, се отказва · и празният запис също', async () => {

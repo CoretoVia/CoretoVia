@@ -119,8 +119,8 @@ export const IZVEDENITE_NA_SMETKITE: readonly IzvedenaKolona[] = Object.freeze([
     klyuch: 'kesh-dadeno',
     ime: 'Кеш дадено',
     pomosht: pomosht(
-      'Даденото в брой за месеца: заплати плюс фактури от реда на кеша. Сверява се с изтегленото по извлечение и с вкараното по редовете; и двете сверки се записват и при нула.',
-      'заплати + фактури от реда на кеша за месеца',
+      'Даденото в брой за месеца · СМЯТА СЕ от редовете в двете кеш секции, не се пише (негово, 13.09). Сверява се с изтегленото по банковото извлечение, и разликата се записва и когато е нула.',
+      'сборът на редовете в Заплати Кеш и Фактури Кеш за месеца',
     ),
   },
   {
@@ -336,7 +336,19 @@ export function vkarvaneto(
 
 export interface Kesh {
   readonly mesets: string;
-  /** дадени кеш пари · неговите две (05.09 т.2) */
+  /**
+   * ДАДЕНИТЕ ПАРИ В БРОЙ · СМЯТАТ СЕ, не се пишат.
+   *
+   * Негово, 13.09 (запис 203), точка 3: „**дадени за Заплати Кеш и дадени за
+   * Фактури Кеш се смятат в подтабовете и тук идват готови без възможност да
+   * се коригират.**" Домът им са редовете в двете кеш секции на Разходи; тук
+   * само се събират. Дотук те бяха ВТОРИ независим път срещу същите редове —
+   * човек ги пишеше на ръка и сверката ги сравняваше. Той махна ръката, значи
+   * и сверката „дадено ↔ вкарано" си отива: тя стана тъждество.
+   *
+   * Втората СВЕРКА остава и тя е важната (правило 3): дадено ↔ ИЗТЕГЛЕНО по
+   * банковото извлечение — въведеното срещу банката, два наистина различни пътя.
+   */
   readonly zaplati: number;
   readonly fakturi: number;
   readonly dadeno: number;
@@ -345,6 +357,30 @@ export interface Kesh {
   /** вкараното по редовете · сборът на движенията в двете кеш секции за месеца */
   readonly vkarano: number;
   readonly sverki: readonly Sverka[];
+}
+
+/**
+ * НАТРУПАНИЯТ КЕШ · през ВСИЧКИ месеци · за Трезора.
+ *
+ * Негово, 13.09 (запис 203), точка 4: вноските „**се трупат**" в Трезора, и
+ * той показва „**всичко което притежаваме Кеш**". Каса не се води по месец —
+ * затова тук няма месец, а сбор по всички живи редове.
+ */
+export function natrupaniyatKesh(
+  o: Ogledalo,
+  kogato: string,
+): Pick<Kesh, 'izvlechenie' | 'dadeno'> {
+  const tv = o.tablitsi.get(TABLITSA_NA_KESHA);
+  let izvlechenie = 0;
+  if (tv !== undefined)
+    for (const i of zhiviteRedove(tv))
+      izvlechenie += tsentoveNa(o, TABLITSA_NA_KESHA, i, 'izvlechenie') ?? 0;
+  const s = smetkite(o, kogato);
+  const vSektsiyata = (tekst: string): number =>
+    s.razhod.find((x) => podravni(x.tekst) === podravni(tekst))?.sbor ?? 0;
+  const dadeno =
+    Math.abs(vSektsiyata(SEKTSIYA_ZAPLATI_KESH)) + Math.abs(vSektsiyata(SEKTSIYA_FAKTURI_KESH));
+  return { izvlechenie, dadeno };
 }
 
 /**
@@ -365,14 +401,15 @@ export function keshatNaMeseca(o: Ogledalo, mesets: string, kogato: string): Kes
   }
   const pole = (kolona: string): number =>
     i === undefined ? 0 : (tsentoveNa(o, TABLITSA_NA_KESHA, i, kolona) ?? 0);
-  const zaplati = pole('zaplati');
-  const fakturi = pole('fakturi');
   const izvlechenie = pole('izvlechenie');
-  const dadeno = zaplati + fakturi;
   const s = smetkite(o, kogato, (m) => m === mesets);
   const vSektsiyata = (tekst: string): number =>
     s.razhod.find((x) => podravni(x.tekst) === podravni(tekst))?.sbor ?? 0;
   const vkarano = vSektsiyata(SEKTSIYA_ZAPLATI_KESH) + vSektsiyata(SEKTSIYA_FAKTURI_KESH);
+  // редовете са РАЗХОД и се пазят с минус · дадените пари са положително число
+  const zaplati = Math.abs(vSektsiyata(SEKTSIYA_ZAPLATI_KESH));
+  const fakturi = Math.abs(vSektsiyata(SEKTSIYA_FAKTURI_KESH));
+  const dadeno = zaplati + fakturi;
   return {
     mesets,
     zaplati,
@@ -380,9 +417,8 @@ export function keshatNaMeseca(o: Ogledalo, mesets: string, kogato: string): Kes
     dadeno,
     izvlechenie,
     vkarano,
-    sverki: [
-      sverka(`кеш ${mesets} · дадено ↔ изтеглено`, dadeno, izvlechenie, kogato),
-      sverka(`кеш ${mesets} · дадено ↔ вкарано по редовете`, dadeno, Math.abs(vkarano), kogato),
-    ],
+    // ЕДНА сверка · другата стана тъждество, когато дадените пари почнаха да се
+    // смятат от същите редове, срещу които се сверяваха (негово, 13.09 т.3)
+    sverki: [sverka(`кеш ${mesets} · дадено ↔ изтеглено`, dadeno, izvlechenie, kogato)],
   };
 }

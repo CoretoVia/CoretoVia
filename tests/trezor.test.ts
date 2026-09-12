@@ -1,59 +1,96 @@
 /**
- * ТРЕЗОРЪТ · двете числа между банката, ръката и счетоводството.
+ * ТРЕЗОРЪТ · всичко, което притежаваме в БРОЙ.
  *
- * Заданието (M06-10 · M06-P3): „Трезор = изтеглено − дадено" и „Трезорът се
- * СМЯТА, не се въвежда." Негово, 11.09 (запис 195) т.5: „В Сметки къде е
- * Трезора".
+ * Негово, 13.09 (запис 203), точка 4, ДОСЛОВНО: „**Трезора се пълни главно от
+ * вноски СМР и те се трупат в него и показват само него, второ поле показва
+ * Изтеглено(изтеглено по извлечение от Карта само). Това е всичко което
+ * притежаваме Кеш и се дава в обща цифра и полето с име Общ Трезор.**"
  *
- * Тук се пази онова, което може да се сбърка тихо: посоката на изваждането и
- * това, че отрицателното е НАХОДКА, а не грешка в сметката — раздадено повече,
- * отколкото е изтеглено, е истинско състояние и се показва, не се скрива.
+ * Трите числа се пазят тук; как изглеждат на реда — в прохода.
  */
 
 import { describe, expect, it } from 'vitest';
-import type { Kesh } from '../src/smetach/smetki.js';
+import type { Prodazhbite, StranaNaProdazhba } from '../src/smetach/prodazhbi.js';
 import { trezorat } from '../src/smetach/trezor.js';
 
-const kesh = (dadeno: number, izvlechenie: number, vkarano: number): Kesh =>
-  ({
-    mesets: '2026-09',
-    zaplati: dadeno,
-    fakturi: 0,
-    dadeno,
-    izvlechenie,
-    vkarano,
-    sverki: [],
-  }) as Kesh;
+function strana(s: 'banka' | 'kesh', vneseno: number): StranaNaProdazhba {
+  return { strana: s, tsena: vneseno, vneseno, ostatak: 0 };
+}
 
-describe('трезорът', () => {
-  it('в каса = изтеглено − дадено · в ръце = дадено − вкарано', () => {
-    const t = trezorat(kesh(150_000, 200_000, 120_000));
-    expect(t.vKasa_st).toBe(50_000);
-    expect(t.vRatse_st).toBe(30_000);
+/** Продажби с една таблица и толкова редове, колкото са подадените страни. */
+function prodazhbi(redove: readonly (readonly StranaNaProdazhba[])[]): Prodazhbite {
+  return {
+    tablitsi: [
+      {
+        klyuch: 'prodazhbi',
+        ime: 'Продажби',
+        redove: redove.map((strani, i) => ({
+          i,
+          id: `p${i}`,
+          tablitsa: 'prodazhbi',
+          ime: `апартамент ${i}`,
+          kvadratura: 0,
+          tsena: 0,
+          tsenaPoStrani: 0,
+          strani,
+          platena: false,
+          zavarshena: false,
+          chaka: [],
+        })),
+        obshto: {},
+        kvadratura: 0,
+        platenite: 0,
+        zavarshenite: 0,
+        ostatak: 0,
+        sastoyanie: 'aktivna',
+        sverki: [],
+      },
+    ],
+    broy: redove.length,
+    tsena: 0,
+    vneseno: 0,
+    ostatak: 0,
+  };
+}
+
+describe('Трезорът', () => {
+  it('ВНОСКИТЕ В БРОЙ го пълнят · тези по банка не влизат', () => {
+    const t = trezorat(
+      { izvlechenie: 0, dadeno: 0 },
+      prodazhbi([[strana('banka', 100_000), strana('kesh', 25_000)], [strana('kesh', 15_000)]]),
+    );
+    expect(t.vnoski_st).toBe(40_000);
+    expect(t.obshto_st).toBe(40_000);
   });
 
-  it('вкараното е РАЗХОД и се пази с минус · чете се по модул', () => {
-    // без модула изваждането се обръща в събиране и трезорът показва двойно
-    expect(trezorat(kesh(150_000, 200_000, -120_000)).vRatse_st).toBe(30_000);
-    expect(trezorat(kesh(150_000, 200_000, -150_000)).vRatse_st).toBe(0);
+  it('изтегленото е второто поле · и влиза в общото', () => {
+    const t = trezorat({ izvlechenie: 198_000, dadeno: 0 }, prodazhbi([[strana('kesh', 25_000)]]));
+    expect(`${t.vnoski_st} · ${t.iztegleno_st} · ${t.obshto_st}`).toBe('25000 · 198000 · 223000');
   });
 
-  it('нулата е нула · месец без движение не лъже', () => {
-    const t = trezorat(kesh(0, 0, 0));
-    expect(t.vKasa_st).toBe(0);
-    expect(t.vRatse_st).toBe(0);
+  /**
+   * Пари, дадени за заплати и фактури, са ИЗЛЕЗЛИ от касата. Ако стояха в
+   * Трезора, щяхме да ги броим два пъти — веднъж като кеш, втори път като
+   * платен разход.
+   */
+  it('раздаденото ИЗЛИЗА от общото · и се чете по модул, защото е разход', () => {
+    const t = trezorat(
+      { izvlechenie: 198_000, dadeno: 148_000 },
+      prodazhbi([[strana('kesh', 25_000)]]),
+    );
+    expect(t.dadeno_st).toBe(148_000);
+    expect(t.obshto_st).toBe(75_000);
   });
 
-  it('раздадено повече от изтегленото дава ОТРИЦАТЕЛНО · това е находка, не грешка', () => {
-    const t = trezorat(kesh(200_000, 150_000, 0));
-    expect(t.vKasa_st).toBe(-50_000);
-    expect(t.vRatse_st).toBe(200_000);
+  it('празно навсякъде · трите числа са нула, не липсват', () => {
+    const t = trezorat({ izvlechenie: 0, dadeno: 0 }, prodazhbi([]));
+    expect(`${t.vnoski_st} · ${t.iztegleno_st} · ${t.obshto_st}`).toBe('0 · 0 · 0');
   });
 
-  it('всяко число носи формулата си с думи (правило 28)', () => {
-    const t = trezorat(kesh(1, 1, 1));
-    expect(t.formulaNaKasata).not.toBe('');
-    expect(t.formulaNaRatsete).not.toBe('');
-    expect(t.mesets).toBe('2026-09');
+  it('всяко число си носи формулата · подсказката не се пише два пъти', () => {
+    const t = trezorat({ izvlechenie: 0, dadeno: 0 }, prodazhbi([]));
+    expect(t.formulaNaVnoskite.length > 0).toBe(true);
+    expect(t.formulaNaIzteglenoto.length > 0).toBe(true);
+    expect(t.formulaNaObshtoto).toContain('вноски в брой + изтеглено − раздадено');
   });
 });

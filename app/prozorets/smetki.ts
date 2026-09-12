@@ -33,6 +33,8 @@ import { denNaMeseca, dvanaysetMeseca } from '../../src/smetach/kalendar.js';
 import { type Pokazatel, pokazatelite } from '../../src/smetach/pokazateli.js';
 import { napTablitsite, type RedNaNap } from '../../src/smetach/nap-tablitsite.js';
 import { trezorat } from '../../src/smetach/trezor.js';
+import { prodazhbite } from '../../src/smetach/prodazhbi.js';
+import { balansat } from '../../src/smetach/balans.js';
 import { zadachiteSByudzhet } from '../../src/smetach/zadachi-v-smetki.js';
 import { dumiNaKletka, imeNaVrazkata } from '../../src/smetach/kletki.js';
 import { eFiltarPrazen, stoynostiteNaKolonata } from '../../src/smetach/filtar.js';
@@ -40,7 +42,9 @@ import { filtriraySektsiite } from '../../src/smetach/filtar-smetki.js';
 import {
   IMENA_NA_STRANITE,
   IZVEDENITE_NA_SMETKITE,
+  type Kesh,
   keshatNaMeseca,
+  natrupaniyatKesh,
   type RedVSektsiya,
   type Sektsiya,
   smetkite,
@@ -273,7 +277,15 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const koloniNaMesetsite = koloniteNaSmetkite(takt, mesets, period).length;
   // ДДС · редът на всеки месец влиза в СМЕТКИ по знака си (негово, 05.09 т.2)
   const dds = ddsat(o, kogato);
-  const trezor = trezorat(kesh);
+  const trezor = trezorat(natrupaniyatKesh(o, kogato), prodazhbite(o, kogato));
+  /**
+   * БАЛАНСЪТ · негово, 13.09 (запис 203), точка 5: „Баланс който Смята Трезора
+   * + Банковото покритие от Извлеченията и Приходите и Разходите."
+   *
+   * Смята се върху ВСИЧКИ месеци, не върху гледания: балансът на парите не се
+   * мени, когато човек стесни погледа си до един месец.
+   */
+  const balans = balansat(smetkite(o, kogato), trezor.obshto_st);
   /**
    * ДВЕТЕ ТАБЛИЦИ НА НАП · негово, 11.09 (запис 195), точка 5.
    * Подредбата е СМЯТАНА, не екранна: платените най-отдолу, закъснелите и
@@ -327,6 +339,16 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
 
   // помощта на парите идва от изведените в `src/smetach` (един дом); броячите я казват тук
   const poleta: readonly { klyuch: string; ime: string; dumi: string; kak: Zapechatan }[] = [
+    {
+      klyuch: 'balans',
+      ime: 'Баланс',
+      dumi: pishi(balans.balans_st),
+      kak: podskazkaSDumi(
+        `${balans.zashto} Смята се: Общ Трезор ${pishi(balans.kesh_st)} + банката ${pishi(
+          balans.banka_st,
+        )} (приходите и разходите по въведеното). Средно на месец: ${pishi(balans.nameseets_st)}. Извлечения от банка още не се четат — банковото покритие идва от въведените движения (ход 11.3).`,
+      ),
+    },
     { klyuch: 'prihod', ime: 'Приход', dumi: pishi(sborPrihod), kak: izvedena('prihod') },
     { klyuch: 'razhod', ime: 'Разходи', dumi: pishi(sborRazhod), kak: izvedena('razhod') },
     {
@@ -578,6 +600,45 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   });
   const filtarNaTaktovete = koloniteNaGanta.map(() => h`<td class="takt"></td>`);
 
+  /**
+   * ЗАПИСЪТ ПО МЕСЕЦИ · негово, 13.09 (запис 203), точка 5, последното изречение:
+   * „Да има всеки месец запис колко е разликата между Приход и Разход и в Сметки
+   * за определения период."
+   *
+   * „За определения период" е тактът: показват се месеците, които падат В
+   * КОЛОНИТЕ на календара. Свиеш ли погледа до един месец, записът се свива с
+   * него — инак таблицата би казвала друго от онова, което календарът показва.
+   */
+  const razlikiteHTML = (): Zapechatan => {
+    const vPerioda = balans.mesetsi.filter((m) => kolonataNa(denNaMeseca(m.mesets)) >= 0);
+    if (vPerioda.length === 0) return h``;
+    const sbor = vPerioda.reduce((a, m) => a + m.razlika, 0);
+    return h`<section class="tablitsa-blok" data-blok="razliki">
+      <h2 class="lenta" translate="no">Разлика по месеци</h2>
+      <table class="reshetka smetki" data-reshetka="razliki">
+        <thead><tr class="glavi"><th>месец</th><th class="evro">Приход</th><th class="evro">Разходи</th><th class="evro">Разлика</th></tr></thead>
+        <tbody class="tablitsa">${vPerioda.map(
+          (m) =>
+            h`<tr class="red" data-razlika="${m.mesets}"><td class="kletka tekst" translate="no">${m.mesets}</td><td class="kletka evro" translate="no">${pishi(
+              m.prihod,
+            )}</td><td class="kletka evro" translate="no">${pishi(
+              m.razhod,
+            )}</td><td class="kletka evro" data-razlika-suma="${m.mesets}" translate="no">${pishi(
+              m.razlika,
+            )}</td></tr>`,
+        )}</tbody>
+        <tfoot><tr class="sbor"><td>ОБЩО за периода</td><td class="evro" translate="no">${pishi(
+          vPerioda.reduce((a, m) => a + m.prihod, 0),
+        )}</td><td class="evro" translate="no">${pishi(
+          vPerioda.reduce((a, m) => a + m.razhod, 0),
+        )}</td><td class="evro" data-razlika-sbor translate="no">${pishi(sbor)}</td></tr></tfoot>
+      </table>
+      <p class="pod-tablitsata" data-sverka="balans">средно на месец ${pishi(
+        balans.nameseets_st,
+      )} · ${balans.mesetsiZhivot === null ? 'парите не се изчерпват при това движение' : `парите стигат за ${String(balans.mesetsiZhivot)} месеца`}</p>
+    </section>`;
+  };
+
   const stranaHTML = (
     strana: Strana,
     sektsii: readonly Sektsiya[],
@@ -806,45 +867,79 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
     </section>`;
   };
 
+  /**
+   * ЗАТВОРЕНА КЛЕТКА НА ЛЕНТАТА · число, което се СМЯТА и не се пипа.
+   *
+   * Правило 29: полето носи вида си и правото си — попълва се, само се гледа,
+   * или се смята. Формата ѝ е същата като на клетките от първия ред (число
+   * отгоре, име отдолу), защото четирите ленти са една мрежа: колона под
+   * колона, без празни места (негово, 13.09, точка 2).
+   */
+  const zatvorenaKletka = (klyuch: string, ime: string, st: number, formula: string): Zapechatan =>
+    h`<span class="pole-s-tsifra zatvoreno" data-pole="${klyuch}"${podskazkaSDumi(
+      formula,
+    )}><span class="tsifra" data-tsifra="${klyuch}" translate="no">${pishi(
+      st,
+    )}</span><span class="ime">${ime}</span></span>`;
+  /**
+   * ДАДЕНИТЕ ПАРИ В БРОЙ · негово, 13.09 (запис 203), точка 3: „дадени за
+   * Заплати Кеш и дадени за Фактури Кеш се смятат в подтабовете и тук идват
+   * готови без възможност да се коригират."
+   */
+  const keshaZaGledane = h`${zatvorenaKletka('kesh-zaplati', 'дадени Заплати Кеш', kesh.zaplati, 'сборът на редовете в секция Заплати Кеш за месеца · смята се от подтабовете, не се пише')}${zatvorenaKletka('kesh-fakturi', 'дадени Фактури Кеш', kesh.fakturi, 'сборът на редовете в секция Фактури Кеш за месеца · смята се от подтабовете, не се пише')}`;
+  /** ТРЕЗОРЪТ · трите му числа · негово, 13.09 (запис 203), точка 4 */
+  const trezoraHTML = h`${zatvorenaKletka('trezor', 'Трезор', trezor.vnoski_st, trezor.formulaNaVnoskite)}${zatvorenaKletka('trezor-iztegleno', 'Изтеглено общо', trezor.iztegleno_st, trezor.formulaNaIzteglenoto)}${zatvorenaKletka('trezor-obshto', 'Общ Трезор', trezor.obshto_st, trezor.formulaNaObshtoto)}`;
+
   sloji(
     k.tyalo,
     h`
-    <div class="zalepeno" data-zalepeno="smetki">
-      <div class="poleta-s-tsifri" data-poleta>
+    <div class="zalepeno lenti" data-zalepeno="smetki">
+      <div class="lenta-red poleta-s-tsifri" data-poleta>
         ${poleta.map(
           (pl) =>
-            h`<div class="pole-s-tsifra" data-pole="${pl.klyuch}"${pl.kak}><span class="tsifra" data-tsifra="${pl.klyuch}" translate="no">${pl.dumi}</span><span class="ime">${pl.ime}</span></div>`,
+            // СВЕТОФАРЪТ пътува като белег, не като цвят: цветът е на стила,
+            // а тук стои ЗАЩО свети така (негово, 13.09, точка 5).
+            h`<div class="pole-s-tsifra" data-pole="${pl.klyuch}"${
+              pl.klyuch === 'balans' ? h` data-svetofar="${balans.svetofar}"` : ''
+            }${pl.kak}><span class="tsifra" data-tsifra="${pl.klyuch}" translate="no">${pl.dumi}</span><span class="ime">${pl.ime}</span></div>`,
         )}
       </div>
-      <form class="red-kesh" data-kesh-forma>
-        <label class="malak">месец <input class="pole malak" name="kesh-mesets" data-kesh-mesets value="${mesets}" size="7"></label>
-        <label class="malak">дадени за Заплати Кеш <input class="pole malak" name="kesh-zaplati" data-kesh-zaplati value="${kesh.zaplati === 0 ? '' : pishiVPole(kesh.zaplati)}" inputmode="decimal"></label>
-        <label class="malak">дадени за Фактури Кеш <input class="pole malak" name="kesh-fakturi" data-kesh-fakturi value="${kesh.fakturi === 0 ? '' : pishiVPole(kesh.fakturi)}" inputmode="decimal"></label>
-        <label class="malak">изтеглено по извлечение <input class="pole malak" name="kesh-izvlechenie" data-kesh-izvlechenie value="${kesh.izvlechenie === 0 ? '' : pishiVPole(kesh.izvlechenie)}" inputmode="decimal"></label>
-        <button type="submit" class="malak" data-kesh-zapishi>Запиши кеша</button>
-        <label class="otmetka malak"><input type="checkbox" name="samo-meseca" data-samo-meseca ${samoMeseca ? 'checked' : ''}> само този месец</label>
-        <span class="trezor" data-trezor${podskazkaSDumi(
-          `Трезорът се СМЯТА, не се въвежда. В каса: ${trezor.formulaNaKasata}. В ръце: ${trezor.formulaNaRatsete}.`,
-        )} translate="no">Трезор · в каса ${pishi(trezor.vKasa_st)} · в ръце ${pishi(trezor.vRatse_st)}</span>
-        <span class="vest" data-kesh-sverki${podskazka(POMOSHT_NA_SVERKATA)} translate="no">${kesh.sverki
-          .map((sv) => `${sv.kakvo}: ${sv.nared ? 'затваря' : `разлика ${pishi(sv.razlika)}`}`)
-          .join(' · ')}</span>
+      <!--
+        ПОДТАБОВЕТЕ СА ВТОРИЯТ РЕД · негово, 13.09 (запис 203), точка 1: „Реда
+        на подтабовете в Сметки да се качи на 2ро място."
+
+        Първо КОЛКО (числата), после КЪДЕ (подтабът), после КАКВО ВЪВЕЖДАМ
+        (кешът), накрая КАКВО МОГА (бутоните). Редът на четирите ленти е редът,
+        по който човек чете екрана.
+      -->
+      ${podtaboveHTML(PODTABOVE, podtab)}
+      <!--
+        РЕДЪТ НА КЕША · негово, 13.09 (запис 203), точка 3: „Тази секция да
+        стане на един ред."
+
+        Всяка клетка е с формата на клетка от първия ред — число отгоре, име
+        отдолу — и затова колоните на четирите ленти се подреждат една под
+        друга. Разликата е една и се вижда: клетка, в която се ПИШЕ, носи поле
+        и зелен ръб; затворената носи само число (правило 29 · ADR-010).
+      -->
+      <form class="lenta-red red-kesh" data-kesh-forma>
+        <label class="pole-s-tsifra vhod"><input class="pole malak" name="kesh-mesets" data-kesh-mesets value="${mesets}"><span class="ime">месец</span></label>
+        ${keshaZaGledane}
+        <label class="pole-s-tsifra vhod"><input class="pole malak" name="kesh-izvlechenie" data-kesh-izvlechenie value="${kesh.izvlechenie === 0 ? '' : pishiVPole(kesh.izvlechenie)}" inputmode="decimal"><span class="ime">изтеглено по извлечение</span></label>
+        <button type="submit" class="pole-s-tsifra deystvie" data-kesh-zapishi>Запиши кеша</button>
+        <label class="pole-s-tsifra otmetka"><input type="checkbox" name="samo-meseca" data-samo-meseca ${samoMeseca ? 'checked' : ''}><span class="ime">само този месец</span></label>
+        ${trezoraHTML}
+        <span class="pole-s-tsifra vest" data-kesh-sverki${podskazka(POMOSHT_NA_SVERKATA)} translate="no"><span class="tsifra">${kesh.sverki
+          .map((sv) => (sv.nared ? 'затваря' : pishi(sv.razlika)))
+          .join(
+            ' · ',
+          )}</span><span class="ime">${kesh.sverki.map((sv) => sv.kakvo).join(' · ')}</span></span>
       </form>
       ${lentaNaDeystviyata(
         BUTONI_NA_UPRAVLENIE,
         butonHTML,
         h`<button type="button" class="malak" data-dobavi-dvizhenie${podskazkaSDumi('отваря чернова под главата · Enter записва реда през Портата · знакът решава страната')}>Добави ред с пари</button>`,
       )}
-      <!--
-        ПОДТАБОВЕТЕ СА В СТАЦИОНАРНАТА ЧАСТ · негово, 12.09 (запис 200): „В
-        Сметки Сметки Приходи Разходи Проверки НАП да са над реда с имената на
-        колоните."
-
-        Дотук те стояха ПОД залепеното и се отвяваха заедно с тялото: скролнеш
-        ли до средата на Разходи, вече не се вижда в кой подтаб си. Мястото им е
-        при другите стационарни редове, над главите на таблицата.
-      -->
-      ${podtaboveHTML(PODTABOVE, podtab)}
     </div>
     <p class="greshka" data-greshka></p>
     ${
@@ -876,6 +971,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
       <div class="smetki-blokove">
         ${skritite.includes('prihod') ? '' : stranaHTML('prihod', fPrihod.sektsii, sborPrihod, fPrihod.broyVidimi, fPrihod.broyVsichki)}
         ${skritite.includes('razhod') ? '' : stranaHTML('razhod', fRazhod.sektsii, sborRazhod, fRazhod.broyVidimi, fRazhod.broyVsichki)}
+        ${razlikiteHTML()}
         <section class="tablitsa-blok" data-blok="vkarvane">
           <h2 class="lenta" translate="no">Вкарване</h2>
           <p class="pod-tablitsata">Заплати Кеш · Фактури Кеш · Фактури Карта на едно място (негово, 05.09).</p>
@@ -953,7 +1049,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   });
   k.tyalo.querySelector<HTMLFormElement>('[data-kesh-forma]')?.addEventListener('submit', (e) => {
     e.preventDefault();
-    void zapishiKesha(k);
+    void zapishiKesha(k, kesh);
   });
 
   // ═══ бутоните ═══
@@ -975,11 +1071,17 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
 
 /** Гантът на Сметки · всяко движение е една колона — месецът му. */
 
-function zapishiKesha(k: KonteksNaEkrana): Promise<void> {
+function zapishiKesha(k: KonteksNaEkrana, kesh: Kesh): Promise<void> {
+  // ПИШЕ СЕ САМО ИЗТЕГЛЕНОТО · дадените пари идват СМЕТНАТИ (негово, 13.09 т.3).
+  //
+  // Те пак влизат в записа, но не като въведени числа, а като ОТПЕЧАТЪК: листът
+  // Сметки в изнесената Книга трябва да ги показва, а Excel не смята вместо нас.
+  // Изворът им обаче е един (правило 14) — редовете в двете кеш секции; екранът
+  // чете оттам, не от този запис, тъй че отпечатъкът не може да остарее незабелязан.
   return zapishiOtForma(k, 'kesh', 'smetki.zapishiKesh', (pole, suma) => ({
     mesets: pole('mesets'),
-    zaplati: suma(pole('zaplati')),
-    fakturi: suma(pole('fakturi')),
+    zaplati: kesh.zaplati === 0 ? null : { stoynost_st: kesh.zaplati },
+    fakturi: kesh.fakturi === 0 ? null : { stoynost_st: kesh.fakturi },
     izvlechenie: suma(pole('izvlechenie')),
   }));
 }
