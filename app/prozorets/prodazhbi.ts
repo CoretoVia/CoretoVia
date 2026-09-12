@@ -111,7 +111,7 @@ export function narisuvayProdazhbi(k: KonteksNaEkrana): void {
     ];
     return h`${poleta.map(
       (x) =>
-        h`<div class="pole-tsifra"${podskazkaSDumi(x.kak)}><span class="tsifra" data-tsifra="${x.klyuch}" translate="no">${x.tekst}</span><span class="ime">${x.ime}</span></div>`,
+        h`<div class="pole-s-tsifra"${podskazkaSDumi(x.kak)}><span class="tsifra" data-tsifra="${x.klyuch}" translate="no">${x.tekst}</span><span class="ime">${x.ime}</span></div>`,
     )}`;
   };
 
@@ -209,7 +209,7 @@ export function narisuvayProdazhbi(k: KonteksNaEkrana): void {
     k.tyalo,
     h`
     <div class="zalepeno">
-      <div class="poleta" data-poleta>${poletaHTML()}</div>
+      <div class="poleta-s-tsifri" data-poleta>${poletaHTML()}</div>
       <div class="deystviya" data-deystviya>
         ${butoniteHTML(butoni)}
         <button type="button" class="vtorichen" data-zapazi-kniga>Запази книгата</button>

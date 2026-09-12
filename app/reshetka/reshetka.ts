@@ -24,9 +24,22 @@ import {
   tekstNaNomera,
 } from '../../src/smetach/nomeratsiya.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
-import { podskazka, podskazkaSDumi } from './podskazka.js';
+import { podskazkaSDumi } from './podskazka.js';
 import { h, type Zapechatan } from './shablon.js';
 import { fokusiraySled, zakachiRedaktsiya } from './redaktsiya.js';
+import {
+  prilozhiKolonite,
+  varniVsichkiKoloni,
+  zakachiDesniyaButonNaGlavata,
+  zakachiVlacheneto,
+  zalepiLyavata,
+} from './kolonite.js';
+import {
+  glavaSPodredbaHTML,
+  kletkaSOtmetkaHTML,
+  redSSboroveHTML,
+  zakachiPodredbaISbor,
+} from './podredba-sbor.js';
 import { zakachiZebrata } from './zebra.js';
 
 const SPRYANA_DUMA = ' · спряна';
@@ -70,12 +83,10 @@ export function reshetkaHTML(
   const tv = o.tablitsi.get(tablitsa);
   if (tv === undefined) return h``;
   const koloni = koloniNaReda(t);
-  const glava = h`<thead><tr>${koloni.map(
-    (k) => h`<th data-kolona="${k.klyuch}" class="${k.vid}"${podskazka(k.pomosht)}>${k.ime}</th>`,
-  )}</tr></thead>`;
+  const glava = h`<thead>${glavaSPodredbaHTML(koloni)}</thead>`;
   const redHTML = (i: number): Zapechatan => {
     const r = redKato(tv, i);
-    return h`<tr class="red${r.izklyuchen ? ' izklyuchen' : ''}" data-id="${r.id}" data-tablitsa="${tablitsa}" data-seq="${r.seq}">${koloni.map(
+    return h`<tr class="red${r.izklyuchen ? ' izklyuchen' : ''}" data-id="${r.id}" data-tablitsa="${tablitsa}" data-seq="${r.seq}">${kletkaSOtmetkaHTML(r.id)}${koloni.map(
       (k) => kletkaHTML(o, tablitsa, k, r),
     )}</tr>`;
   };
@@ -87,7 +98,7 @@ export function reshetkaHTML(
     for (const g of grupiPoImotIKategoriya(o, [tablitsa])) {
       const nomer = `${tekstNaNomera(g.imotNomer)}.${g.kategoriya}`;
       tyalo.push(
-        h`<tr class="grupata" data-grupa="${g.imotId}·${g.kategoriya}"><td colspan="${koloni.length}" translate="no">${nomer} · ${g.imotIme} · ${g.kategoriyaTekst}</td></tr>`,
+        h`<tr class="grupata" data-grupa="${g.imotId}·${g.kategoriya}"><td colspan="${koloni.length + 1}" translate="no">${nomer} · ${g.imotIme} · ${g.kategoriyaTekst}</td></tr>`,
       );
       for (const r of g.redove) tyalo.push(redHTML(r.i));
     }
@@ -99,7 +110,7 @@ export function reshetkaHTML(
   if (pokazhiIzklyuchenite) {
     for (let i = 0; i < tv.broy; i += 1) if (tv.izklyuchen[i] === 1) tyalo.push(redHTML(i));
   }
-  return h`<table class="reshetka" data-reshetka="${tablitsa}">${glava}<tbody class="tablitsa">${tyalo}</tbody></table><p class="pod-tablitsata" data-sverka="${tablitsa}">живи ${zhivi} · изключени ${izklyucheni} · всички ${tv.broy}</p>`;
+  return h`<table class="reshetka redove" data-reshetka="${tablitsa}">${glava}<tbody class="tablitsa">${tyalo}</tbody>${redSSboroveHTML(koloni)}</table><p class="pod-tablitsata skriti-koloni" data-skriti-koloni hidden>скрити колони: <span data-skriti-broy>0</span> · <button type="button" class="malak" data-varni-koloni="${tablitsa}">покажи всички</button></p><p class="pod-tablitsata" data-sverka="${tablitsa}">живи ${zhivi} · изключени ${izklyucheni} · всички ${tv.broy}</p>`;
 }
 
 /**
@@ -110,5 +121,16 @@ export function reshetkaHTML(
 export function zakachiReshetkata(k: KonteksNaEkrana): void {
   zakachiZebrata(k.tyalo);
   zakachiRedaktsiya(k.tyalo, k);
+  zakachiPodredbaISbor(k.tyalo);
+  zakachiVlacheneto(k.tyalo);
+  zakachiDesniyaButonNaGlavata(k.tyalo);
+  prilozhiKolonite(k.tyalo);
+  zalepiLyavata(k.tyalo);
+  k.tyalo.addEventListener('click', (e) => {
+    const buton = (e.target as HTMLElement | null)?.closest<HTMLElement>('[data-varni-koloni]');
+    if (buton === null || buton === undefined) return;
+    varniVsichkiKoloni(buton.dataset['varniKoloni'] ?? '');
+    prilozhiKolonite(k.tyalo);
+  });
   fokusiraySled(k.tyalo);
 }

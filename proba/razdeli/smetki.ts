@@ -1,7 +1,14 @@
 import { readFileSync } from 'node:fs';
 import { prochetiKniga } from '../../src/kniga/ooxml.ts';
 import type { KonteksNaProhoda } from '../yadro/kontekst.ts';
-import { poletaBezIme, tekstNa, tekstoveNa } from '../yadro/pomoshtni.ts';
+import {
+  litseNaButona,
+  natisniButon,
+  natisniVMenyu,
+  poletaBezIme,
+  tekstNa,
+  tekstoveNa,
+} from '../yadro/pomoshtni.ts';
 import { mesetsatNaProhoda } from '../yadro/kalendar.ts';
 import { ADRES } from '../yadro/server.ts';
 
@@ -11,6 +18,8 @@ const ZALEPENO = '[data-zalepeno="smetki"]';
 const EVRO_1200 = '1 200,00 €';
 const EVRO_MINUS_1500 = '-1 500,00 €';
 const EVRO_1500 = '1 500,00 €';
+/** нулата се пише с нейния си знак · Трезорът я показва, не я крие */
+const EVRO_0 = '0,00 €';
 /**
  * Месецът е ТЕКУЩИЯТ, не закован.
  *
@@ -56,7 +65,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   // Скриването пипа ЕКРАНА и нищо друго (правило 23: скритото ПАК се смята).
   // Затова тук се гледа блокът, а не сборът — и накрая всичко се връща, за да
   // не пренесе разделът състояние на следващия (памет на екрана е `ui.v1.`).
-  await p.click('[data-buton-ekran="skriy-prihodi"]');
+  await natisniButon(p, 'skriy-prihodi');
   await p.waitForFunction(() => document.querySelector('[data-blok="prihod"]') === null);
   proveri(
     'Скрий Приходи маха блока · и Разходите остават',
@@ -65,11 +74,11 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
   proveri(
     'бутонът вече казва ПОКАЖИ · лицето му е действието, не миналото',
-    await tekstNa(p, '[data-buton-ekran="skriy-prihodi"]'),
+    await litseNaButona(p, 'skriy-prihodi'),
     'Покажи ПРИХОД',
   );
   // ПОСЛЕДНАТА видима страна не се скрива · и отказът се КАЗВА (правило 12)
-  await p.click('[data-buton-ekran="skriy-razhodi"]');
+  await natisniButon(p, 'skriy-razhodi');
   await p.waitForFunction(() =>
     /Последната видима страна/.test(document.querySelector('[data-greshka]')?.textContent ?? ''),
   );
@@ -78,7 +87,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     await p.$$eval('[data-blok="prihod"], [data-blok="razhod"]', (es) => es.length),
     1,
   );
-  await p.click('[data-buton-ekran="skriy-prihodi"]');
+  await natisniButon(p, 'skriy-prihodi');
   await p.waitForSelector('[data-blok="prihod"]');
   proveri(
     'Покажи Приходи връща блока · двете страни са пак на екрана',
@@ -95,9 +104,11 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
 
   // ══ 4б · движение · знакът решава страната ═══════════════════════════
   razdel = '4б · движение';
-  await p.click('[data-dobavi-dvizhenie]');
+  await natisniVMenyu(p, '[data-dobavi-dvizhenie]');
   await p.waitForSelector('tr.chernova[data-chernova="dvizheniya"]');
   const ch = 'tr.chernova[data-chernova="dvizheniya"]';
+  // родителят · първият Имот в списъка · оттук редът се вижда и в Управление (запис 193)
+  await p.selectOption(`${ch} select[data-kolona="kam"]`, { index: 1 });
   await p.selectOption(`${ch} select[data-kolona="sektsiya"]`, '1');
   await p.selectOption(`${ch} select[data-kolona="funktsiya"]`, '3');
   await p.fill(`${ch} input[data-kolona="mesets"]`, MESETS);
@@ -119,7 +130,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
 
   // разход в ПРИХОДНА секция · отказът е с думи (правило 20)
-  await p.click('[data-dobavi-dvizhenie]');
+  await natisniVMenyu(p, '[data-dobavi-dvizhenie]');
   await p.waitForSelector(ch);
   await p.selectOption(`${ch} select[data-kolona="sektsiya"]`, '1');
   await p.selectOption(`${ch} select[data-kolona="funktsiya"]`, '3');
@@ -179,10 +190,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
 
   // ══ 4г · Книгата · листът Сметки ═════════════════════════════════════
   razdel = '4г · Книгата';
-  const [svalyane] = await Promise.all([
-    p.waitForEvent('download'),
-    p.click('[data-buton-ekran="svali-fayl"]'),
-  ]);
+  const [svalyane] = await Promise.all([p.waitForEvent('download'), natisniButon(p, 'svali-fayl')]);
   const pat = (await svalyane.path()) ?? '';
   await p.waitForFunction(() =>
     (document.querySelector('[data-iznos-vest]')?.textContent ?? '').startsWith(
@@ -232,4 +240,74 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     await tekstNa(p, '[data-otchet-vest]'),
     '0 предложения · 0 находки · 0 бележки',
   );
+
+  // ══ 4з · ТРЕЗОРЪТ · Заданието M06-10 · негово, запис 195 т.5 ══════════
+  razdel = '4з · Трезорът';
+  // след вноса страницата стои на ИИ · Трезорът живее в Сметки
+  await p.goto(`${ADRES}#/smetki`);
+  await p.waitForSelector('[data-zalepeno="smetki"]');
+  proveri(
+    'Трезорът стои на екрана и СЕ СМЯТА · изтеглено = дадено = вкарано · двете нули',
+    await tekstNa(p, '[data-trezor]'),
+    `Трезор · в каса ${EVRO_0} · в ръце ${EVRO_0}`,
+  );
+
+  // ══ 4ж · ТАКТЪТ И В СМЕТКИ · негово, 11.09 (запис 195), точка 4 ═══════
+  razdel = '4ж · тактът в Сметки';
+  await p.goto(`${ADRES}#/smetki`);
+  await p.waitForSelector('[data-zalepeno="smetki"]');
+  proveri(
+    'Сметки също има избор на такт · и той започва от година',
+    await p.$eval('[data-takt]', (e) => (e as HTMLSelectElement).value),
+    'godina',
+  );
+  const koloniteNaKalendara = async (): Promise<number> =>
+    p.$$eval('[data-gant-skrol] thead th', (es) => es.length);
+  const priGodina = await koloniteNaKalendara();
+  await p.selectOption('[data-takt]', 'mesets');
+  await p.waitForFunction(
+    (broy: number) => document.querySelectorAll('[data-gant-skrol] thead th').length !== broy,
+    priGodina,
+  );
+  proveri(
+    'такт месец · календарът се мени от дванайсет колони на дни',
+    (await koloniteNaKalendara()) > priGodina,
+    true,
+  );
+  await p.selectOption('[data-takt]', 'godina');
+  await p.waitForFunction(
+    (broy: number) => document.querySelectorAll('[data-gant-skrol] thead th').length === broy,
+    priGodina,
+  );
+
+  // ══ 4е · СМЕТКИТЕ В УПРАВЛЕНИЕ · и ЕДИН бутон, който ги крие ══════════
+  // Негово, 11.09 (запис 193): „В Управление има същия бутон който обаче крие
+  // само редовете на сметки /скрий Сметки/."
+  razdel = '4е · сметките в Управление';
+  await p.goto(`${ADRES}#/upravlenie`);
+  await p.waitForSelector('[data-zalepeno="upravlenie"]');
+  proveri(
+    'движението стои в дървото · под своя Имот',
+    (await tekstoveNa(p, 'tr.red.dvizhenie td[data-kolona="suma"]')).join(' · '),
+    EVRO_1200,
+  );
+  proveri(
+    'сверката го брои и казва колко са без родител',
+    await tekstNa(p, '[data-sverka="smetki"]'),
+    'сметки 1 от 2 · без родител 1',
+  );
+  proveri(
+    'бутонът казва „Скрий Сметки", не „Скрий Дела"',
+    await litseNaButona(p, 'skriy-dela'),
+    'Скрий Сметки',
+  );
+  await natisniButon(p, 'skriy-dela');
+  await p.waitForFunction(() => document.querySelectorAll('tr.red.dvizhenie').length === 0);
+  proveri(
+    'натиснат · редовете ги няма и сверката го КАЗВА',
+    `${await tekstNa(p, '[data-sverka="smetki"]')} · ${await litseNaButona(p, 'skriy-dela')}`,
+    'сметки 0 от 2 · без родител 1 · скрити · Покажи Сметки',
+  );
+  await natisniButon(p, 'skriy-dela');
+  await p.waitForSelector('tr.red.dvizhenie');
 }

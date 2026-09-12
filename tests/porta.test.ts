@@ -68,7 +68,6 @@ describe('Портата', () => {
       kletki: {
         ime: { tekst: 'Герман' },
         sastoyanie: { nomer: 1 },
-        nomer: null,
         plosht: null,
         tsena: null,
         papka: null,

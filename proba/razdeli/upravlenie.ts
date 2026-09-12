@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { napishiKniga, prochetiKniga } from '../../src/kniga/ooxml.ts';
 import { opisOtProcheten } from '../yadro/kniga.ts';
 import type { KonteksNaProhoda } from '../yadro/kontekst.ts';
-import { tekstNa, tekstoveNa } from '../yadro/pomoshtni.ts';
+import { litseNaButona, natisniButon, tekstNa, tekstoveNa } from '../yadro/pomoshtni.ts';
 import { denOtMesetsa } from '../yadro/kalendar.ts';
 import { ADRES } from '../yadro/server.ts';
 
@@ -25,6 +25,9 @@ const EVRO_250000 = '250\u202F000,00\u202F€';
  */
 
 /** 3 · Управление · полетата и бутоните · задача от десния бутон · филтър · сбор · Гант · Книгата · вносът */
+/** новият ред в текста на възел · сивият пункт носи причината си на втори ред */
+const NOV_RED = new RegExp(String.fromCharCode(10), 'g');
+
 export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   const { stranitsa: p, broyach } = ctx;
   let razdel = '—';
@@ -64,6 +67,21 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'редът „филтър" под двете глави · и редът СБОР отдолу',
     `${await p.$$eval('[data-filtar]', (es) => es.length)} · ${await tekstNa(p, '[data-sbor-red] td:first-child')}`,
     '10 · сбор',
+  );
+  // негово, 11.09 (запис 195), точка 2: „Ганта обхваща всички редове изцяло и се
+  // сливат двете" · сляти са, а лявата част СТОИ, докато тактовете се движат
+  proveri(
+    'номерът и името са ЗАЛЕПЕНИ вляво · и второто се лепи, където свършва първото',
+    await p.evaluate(() => {
+      const glavi = [
+        ...document.querySelectorAll('table.reshetka.darvo thead tr:first-child th'),
+      ].slice(0, 2);
+      const kak = glavi.map((th) => getComputedStyle(th).position).join(' · ');
+      const otmestvane = (glavi[1] as HTMLElement | undefined)?.style.left ?? '';
+      const shirinaNaParvoto = Math.round(glavi[0]?.getBoundingClientRect().width ?? 0);
+      return `${kak} · ${otmestvane === `${shirinaNaParvoto}px` ? 'лепнато точно' : otmestvane}`;
+    }),
+    'sticky · sticky · лепнато точно',
   );
   proveri(
     'Гантът е до таблицата · без ленти',
@@ -131,7 +149,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
   proveri(
     'Гантът · една лента · червена, защото е Спешно и Важно',
-    await p.$eval('[data-gant] rect.gant-lenta', (e) => e.classList.contains('speshno')),
+    await p.$eval('td.takt.lenta', (e) => e.classList.contains('speshno')),
     true,
   );
   proveri(
@@ -160,8 +178,8 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'видими 2 от 4 · родители 3 · задачи 1 · сираци 0 · филтърът е включен',
   );
   proveri(
-    'Гантът следва филтъра · една лента върху два реда',
-    await p.$$eval('[data-gant] line.gant-red', (es) => es.length),
+    'календарът следва филтъра · редовете са едни и същи в двете половини',
+    (await p.$$('[data-reshetka="zadachi"] tbody tr.red')).length,
     2,
   );
   await p.fill('[data-filtar="4"]', '');
@@ -191,27 +209,23 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     ),
     '72',
   );
-  await p.click('[data-buton-ekran="skriy-diagrama"]');
-  await p.waitForSelector('[data-blok="gant"][hidden]', { state: 'attached' });
+  await natisniButon(p, 'skriy-diagrama');
+  await p.waitForSelector('[data-reshetka="zadachi"].bez-taktove');
   proveri(
     'Скрий Диаграма · бутонът вече казва „Покажи Диаграма"',
-    await tekstNa(p, '[data-buton-ekran="skriy-diagrama"]'),
+    await litseNaButona(p, 'skriy-diagrama'),
     'Покажи Диаграма',
   );
-  await p.click('[data-buton-ekran="skriy-tablitsa"]');
+  await natisniButon(p, 'skriy-tablitsa');
   await p.waitForFunction((s) => (document.querySelector(s)?.textContent ?? '') !== '', GRESHKA);
   proveri(
     'последният изглед не се скрива · и отказът се казва',
     await tekstNa(p, GRESHKA),
     'Последният изглед не се скрива — иначе секцията остава празна.',
   );
-  await p.click('[data-buton-ekran="skriy-diagrama"]');
-  await p.waitForSelector('[data-blok="gant"]:not([hidden])');
-  proveri(
-    'Покажи Диаграма я връща',
-    await tekstNa(p, '[data-buton-ekran="skriy-diagrama"]'),
-    'Скрий Диаграма',
-  );
+  await natisniButon(p, 'skriy-diagrama');
+  await p.waitForSelector('[data-reshetka="zadachi"]:not(.bez-taktove)');
+  proveri('Покажи Диаграма я връща', await litseNaButona(p, 'skriy-diagrama'), 'Скрий Диаграма');
 
   // ══ 3г · „Свалифайл" = Книгата · листът Управление ═══════════════════
   // ══ 3в2 · неговите Отвори и Запази · моделът е ИМЕНУВАН поглед ══════
@@ -226,7 +240,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     (globalThis as unknown as { prompt: (a?: string, b?: string) => string }).prompt = () =>
       'Годишен преглед';
   });
-  await p.click('[data-buton-ekran="zapazi"]');
+  await natisniButon(p, 'zapazi');
   await p.waitForFunction(() =>
     (document.querySelector('[data-greshka]')?.textContent ?? '').includes('е записан'),
   );
@@ -237,7 +251,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
   // погледът се разваля · после моделът го връща
   await p.selectOption('[data-takt]', 'den');
-  await p.click('[data-buton-ekran="otvori"]');
+  await natisniButon(p, 'otvori');
   await p.waitForSelector('[data-menyu]');
   const punktove = await tekstoveNa(p, '[data-menyu] button');
   proveri(
@@ -254,7 +268,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     await p.$eval('[data-takt]', (e) => (e as HTMLSelectElement).value),
     'godina',
   );
-  await p.click('[data-buton-ekran="otvori"]');
+  await natisniButon(p, 'otvori');
   await p.waitForSelector('[data-menyu]');
   await p.click('[data-menyu] [data-tochka=""]');
   await p.waitForFunction(() =>
@@ -267,10 +281,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
 
   razdel = '3г · Книгата';
-  const [svalyane] = await Promise.all([
-    p.waitForEvent('download'),
-    p.click('[data-buton-ekran="svali-fayl"]'),
-  ]);
+  const [svalyane] = await Promise.all([p.waitForEvent('download'), natisniButon(p, 'svali-fayl')]);
   const pat = (await svalyane.path()) ?? '';
   await p.waitForFunction(() =>
     (document.querySelector('[data-iznos-vest]')?.textContent ?? '').startsWith(
@@ -361,5 +372,34 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'Управление · две задачи под Гара Яна · отворени 2',
     `${await tekstNa(p, '[data-sverka="darvo"]')} · ${await tekstNa(p, '[data-tsifra="otvoreni"]')}`,
     'видими 5 от 5 · родители 3 · задачи 2 · сираци 0 · 2',
+  );
+  // ══ 3е · ИЗСКАЧАЩИЯТ ПРОЗОРЕЦ ЗА СЪЗДАВАНЕ · негово, запис 195 т.11 ════
+  razdel = '3е · изскачащият прозорец';
+  await natisniButon(p, 'dobavyane');
+  await p.waitForSelector('[data-menyu]');
+  proveri(
+    'менюто дава петте му неща · Кредитът е сив',
+    // сивият пункт носи причината си на втори ред · тук се чете като едно
+    (await tekstoveNa(p, '[data-menyu] button')).map((x) => x.replace(NOV_RED, ' ')).join(' · '),
+    'Имот · Обект · Задача · Среща · Кредит идва с ход 11б',
+  );
+  await p.click('[data-menyu] [data-tochka="imot"]');
+  await p.waitForSelector('dialog[data-izskachasht="imoti"]');
+  proveri(
+    'прозорецът е МОДАЛЕН · и няма поле за № (номерът се дава)',
+    `${await p.$eval(
+      'dialog[data-izskachasht="imoti"]',
+      (e) => (e as HTMLDialogElement).open,
+    )} · ${(await p.$('dialog[data-izskachasht="imoti"] input[data-kolona="nomer"]')) === null}`,
+    'true · true',
+  );
+  await p.fill('dialog[data-izskachasht="imoti"] input[data-kolona="ime"]', 'Панчарево');
+  await p.selectOption('dialog[data-izskachasht="imoti"] select[data-kolona="sastoyanie"]', '1');
+  await p.click('[data-izskachasht-sazday]');
+  await p.waitForSelector('dialog[data-izskachasht="imoti"]', { state: 'detached' });
+  proveri(
+    'Имотът е създаден ОТ ПРОЗОРЕЦА · дървото го показва',
+    (await tekstoveNa(p, 'tr.red.roditel td[data-kolona="ime"]')).includes('Панчарево'),
+    true,
   );
 }

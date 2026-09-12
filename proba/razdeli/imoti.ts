@@ -13,28 +13,20 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   const proveri = (kakvo: string, vidyano: unknown, ochakvano: unknown): boolean =>
     broyach.proveri(razdel, kakvo, vidyano, ochakvano);
 
-  // ══ 1а · откриване с имейл ═══════════════════════════════════════════
+  // ══ 1а · Книгата е открита ОТ ВРАТАТА · негово, запис 190 ════════════
   razdel = '1а · откриване';
   await p.goto(`${ADRES}#/profil`);
-  await p.waitForSelector('[data-otkriy]');
+  await p.waitForSelector('[data-sektsiya="stopanin"]');
   proveri('осемте прозореца са в лентата', (await tekstoveNa(p, '[data-prozorets]')).length, 8);
+  proveri(
+    'Стопанинът е този, който е влязъл пръв',
+    await tekstNa(p, '[data-stopanin]'),
+    'proba@example.bg',
+  );
   await p.goto(`${ADRES}#/imoti`);
   await p.waitForSelector('[data-buton="imoti.sazdayImot"]');
   proveri(
-    'бутоните са сиви преди откриването и казват защо',
-    await p.$eval(
-      '[data-buton="imoti.sazdayImot"]',
-      (e) => `${(e as HTMLButtonElement).disabled} · ${e.getAttribute('data-podskazka')}`,
-    ),
-    'true · Книгата не е открита — първо Стопанинът.',
-  );
-  await p.goto(`${ADRES}#/profil`);
-  await p.waitForSelector('[data-otkriy]');
-  await p.fill('[data-imeyl]', 'proba@example.bg');
-  await p.click('[data-otkriy-buton]');
-  await p.waitForSelector('[data-reshetka="imoti"]');
-  proveri(
-    'Книгата е открита',
+    'Книгата е открита още от вратата',
     await tekstNa(p, '[data-vest]'),
     '1 събития в Журнала · proba@example.bg',
   );
@@ -135,6 +127,13 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   proveri('едно Escape затваря черновата', await p.$('[data-chernova="imoti"]'), null);
   await p.click('[data-buton="imoti.sazdayImot"]');
   await p.waitForSelector('[data-chernova="imoti"] input[data-kolona="ime"]');
+  // негово, 11.09 (запис 195), точка 10: „Номер на Имот не се пише а се дава,
+  // а номер на обект е задължение да се въведе."
+  proveri(
+    'черновата на ИМОТ няма ПОЛЕ за № · клетката стои, но не приема писане',
+    await p.$('[data-chernova="imoti"] input[data-kolona="nomer"]'),
+    null,
+  );
   await p.fill('[data-chernova="imoti"] input[data-kolona="ime"]', 'Студентски Град');
   await p.selectOption('[data-chernova="imoti"] select[data-kolona="sastoyanie"]', '2');
   await p.press('[data-chernova="imoti"] input[data-kolona="ime"]', 'Enter');
@@ -224,6 +223,19 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
 
   // ══ 1г · Запази книгата · файлът се чете в прохода ═══════════════════
+  await p.click('[data-buton="imoti.dobaviObekt"]');
+  await p.waitForSelector('[data-chernova="obekti"] input[data-kolona="nomer"]');
+  proveri(
+    'черновата на ОБЕКТ иска № · и то е задължително',
+    await p.$eval(
+      '[data-chernova="obekti"] input[data-kolona="nomer"]',
+      (e) => (e as HTMLInputElement).required,
+    ),
+    true,
+  );
+  await p.keyboard.press('Escape');
+  await p.waitForSelector('[data-chernova="obekti"]', { state: 'detached' });
+
   razdel = '1г · Запази книгата';
   const [svalyane] = await Promise.all([
     p.waitForEvent('download'),

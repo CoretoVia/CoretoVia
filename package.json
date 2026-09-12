@@ -15,6 +15,8 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "proba": "npm run build && node proba/prohod.ts",
+    "start": "npm run build && node proba/demo.ts",
+    "demo": "npm run build && node proba/demo.ts",
     "chistota": "node stroezh/chistota.mjs",
     "chestnost": "node stroezh/chestnost.mjs",
     "sloeve": "depcruise --config .dependency-cruiser.cjs src app",

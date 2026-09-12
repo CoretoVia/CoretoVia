@@ -27,6 +27,7 @@ import {
   dayPravoNadRedove,
   KNIGA,
   knigaZaTest,
+  nomerNaSektsiya,
   STOPANIN,
   VERIGA_NA_SLUZHITEL,
   USTROYSTVO,
@@ -70,10 +71,10 @@ async function nashata() {
   const { iz, zapishi } = await otvori();
   await zapishi('k0', 'stopanin.otkriy', { imeyl: STOPANIN });
   await zapishi('i1', 'imoti.sazdayImot', {
-    kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 2 }, nomer: null, ...PRAZEN },
+    kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 2 }, ...PRAZEN },
   });
   await zapishi('i2', 'imoti.sazdayImot', {
-    kletki: { ime: { tekst: 'Студентски Град' }, sastoyanie: { nomer: 2 }, nomer: null, ...PRAZEN },
+    kletki: { ime: { tekst: 'Студентски Град' }, sastoyanie: { nomer: 2 }, ...PRAZEN },
   });
   await zapishi('o1', 'imoti.dobaviObekt', {
     kletki: {
@@ -147,10 +148,32 @@ describe('неподвижната точка', () => {
     expect(otchet.sluzhebno?.kursor?.seq).toBe(6);
   });
 
+  it('движение ПОД Имот се връща само на себе си · родителят не пише в чужда колона', async () => {
+    const { iz, zapishi } = await nashata();
+    // неговата глава за състоянието на Имота е СЪЩАТА колона като името на
+    // движението. Докато движенията бяха без родител, сблъсъкът мълчеше.
+    await zapishi('d1', 'smetki.dobaviDvizhenie', {
+      kletki: {
+        kam: { tekst: 'imot:i1' },
+        ime: null,
+        sektsiya: { nomer: nomerNaSektsiya(iz.ogledalo(), 'prihod', 'Наем Банка') },
+        sektsiyaR: null,
+        funktsiya: { nomer: 3 },
+        sastoyanie: null,
+        mesets: { tekst: '2026-09' },
+        data: null,
+        suma: { stoynost_st: 120000 },
+      },
+    });
+    const otchet = await sveriListove(iz, listove(iz));
+    expect(otchet.predlozheniya).toEqual([]);
+    expect(otchet.nahodki).toEqual([]);
+  });
+
   it('NFD „й" от друга клавиатура не е промяна · NFC още при четенето', async () => {
     const { iz, zapishi } = await nashata();
     await zapishi('i3', 'imoti.sazdayImot', {
-      kletki: { ime: { tekst: 'Бойчиновци' }, sastoyanie: { nomer: 1 }, nomer: null, ...PRAZEN },
+      kletki: { ime: { tekst: 'Бойчиновци' }, sastoyanie: { nomer: 1 }, ...PRAZEN },
     });
     const l = listove(iz);
     const imoti = l.find((x) => x.ime === IMOTI)!;
@@ -229,7 +252,7 @@ describe('променена Книга', () => {
     ]);
     // втори жив Имот с това име · вече не се знае кой
     await zapishi('i3', 'imoti.sazdayImot', {
-      kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 1 }, nomer: null, ...PRAZEN },
+      kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 1 }, ...PRAZEN },
     });
     const l2 = listove(iz);
     const imoti2 = l2.find((x) => x.ime === IMOTI)!;
@@ -490,7 +513,7 @@ describe('променена Книга', () => {
       const r = await otvori();
       await r.zapishi('k0', 'stopanin.otkriy', { imeyl: STOPANIN });
       await r.zapishi('i1', 'imoti.sazdayImot', {
-        kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 2 }, nomer: null, ...PRAZEN },
+        kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 2 }, ...PRAZEN },
       });
       await r.zapishi('o1', 'imoti.dobaviObekt', {
         kletki: {
@@ -541,7 +564,7 @@ describe('променена Книга', () => {
     const { iz, zapishi } = await nashata();
     const l = listove(iz);
     await zapishi('i3', 'imoti.sazdayImot', {
-      kletki: { ime: { tekst: 'Панчарево' }, sastoyanie: { nomer: 2 }, nomer: null, ...PRAZEN },
+      kletki: { ime: { tekst: 'Панчарево' }, sastoyanie: { nomer: 2 }, ...PRAZEN },
     });
     const otchet = await sveriListove(iz, l);
     expect(otchet.predlozheniya).toEqual([]);
@@ -556,7 +579,7 @@ describe('променена Книга', () => {
   it('две живи с едно име · връзка по име е грешка · Бизнес с ключ при преименуван Имот пази родителя си', async () => {
     const { iz, zapishi } = await nashata();
     await zapishi('i3', 'imoti.sazdayImot', {
-      kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 1 }, nomer: null, ...PRAZEN },
+      kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 1 }, ...PRAZEN },
     });
     const l = listove(iz);
     const imoti = l.find((x) => x.ime === IMOTI)!;

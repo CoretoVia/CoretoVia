@@ -453,15 +453,32 @@ const IMOTI: Tablitsa = Object.freeze({
         'избор от номенклатурата Състояние на Имот · клетката пази номера',
       ),
     ),
-    chislo(
-      'nomer',
-      '№',
-      false,
-      pomosht(
-        'Неговото число за Имота, отделно от смятания номер на реда. Пише се на ръка и не участва в номерацията на Имотите — те се броят по реда на създаване.',
-        'цяло число · пише се · не влиза в смятания номер',
+    /**
+     * НОМЕРЪТ НА ИМОТА СЕ ДАВА, НЕ СЕ ПИШЕ.
+     *
+     * Негово, 11.09 (запис 195), точка 10, ДОСЛОВНО: „**Номер на Имот не се пише
+     * а се дава, а номер на обект е задължение да се въведе.**"
+     *
+     * И собственият му лист го казва още преди това: в колона A стои даденият
+     * номер („1", „2"), а в неговата „№" на D6 стои „0" — поле, което той сам
+     * не пълни. Затова колоната остава на мястото си в таблицата (тя е негова
+     * глава), но е ЗАТВОРЕНА: гледа се, не се пише (правило 29 · ADR-010).
+     *
+     * Номерът на ОБЕКТА срещу това е задължителен и си остава такъв — без него
+     * два обекта от един вид в една сграда не се различават.
+     */
+    {
+      ...chislo(
+        'nomer',
+        '№',
+        false,
+        pomosht(
+          'Номерът на Имота се ДАВА от програмата по реда на създаване и стои в първата колона; тук не се пише. Номерът на Обекта, обратно, се въвежда на ръка и е задължителен.',
+          'дава се от програмата · не се пише · номерът стои в първата колона',
+        ),
       ),
-    ),
+      zatvorena: true,
+    },
     ...obshtiteKoloni('адрес гугъл'),
   ],
   nomeratsiya: nomeratsiya({ ot: 'broyach' }),
@@ -830,6 +847,19 @@ const DVIZHENIYA_KOLONI: readonly Kolona[] = [
     kratko: 'месец',
   },
   {
+    klyuch: 'data',
+    ime: 'дата',
+    vid: 'data',
+    pomosht: pomosht(
+      'Денят на парите, ако се знае — по избор. Попълнен ли е, редът пада точно на него в календара; празен ли е, пада на първия ден от месеца си. Месецът остава задължителен, защото по него се сверява кешът и ДДС.',
+      'дата от календара · по избор · решава деня в календара',
+    ),
+    zadalzhitelna: false,
+    zatvorena: false,
+    nashaDuma: true,
+    kratko: 'дата',
+  },
+  {
     klyuch: 'suma',
     ime: 'Бюджет Дела/ Бюджет Сметки',
     vid: 'evro',
@@ -853,7 +883,10 @@ const DVIZHENIYA: Tablitsa = Object.freeze({
   prozorets: 'smetki',
   sashtnost: 'dvizhenie',
   koloni: DVIZHENIYA_KOLONI,
-  slyati: [{ kolona: 'funktsiya', opashka: 'sastoyanie', razdelitel: ' / ' }],
+  slyati: [
+    { kolona: 'funktsiya', opashka: 'sastoyanie', razdelitel: ' / ' },
+    { kolona: 'mesets', opashka: 'data', razdelitel: ' / ' },
+  ],
   podglava: {
     funktsiya:
       'Вид Задачи: Дело, Среща, Преписка и Вид Сметка: Сметнато, Вкарано (поле за това), Прочетено(Сверено.)',
@@ -1335,6 +1368,49 @@ export interface ButonNaProzoretsa {
   readonly deystvie: DeystvieNaButon;
 }
 
+/**
+ * ТЕМИТЕ НА БУТОНИТЕ · четвъртият ред на всеки прозорец.
+ *
+ * Негово, `zadanie/12-dopalneniya-08-09.md` (О1), ДОСЛОВНО: „Всички бутони се
+ * разделят на теми с падащи менюта, колкото са темите в таба." И 09.09: „В
+ * началния главен хедър на всеки таб да има също падащи менюта по теми за
+ * бутоните." И 11.09 (запис 193): „Създаването е отделно падащо меню
+ * навсякъде. Тук се събират и такта и датата."
+ *
+ * Темата е ДАННИ за бутона, както са и лицето и помощта му — затова живее тук,
+ * до каталога, а не в екрана, който я рисува. Така я четат и екранът, и
+ * проходът, без да пипат нито един възел на страницата.
+ */
+export interface TemaNaButonite {
+  readonly klyuch: string;
+  /** лицето на менюто · негова дума, където я има */
+  readonly ime: string;
+  /** ключовете на бутоните в темата · в реда, в който стоят в менюто */
+  readonly klyuchove: readonly string[];
+}
+
+export const TEMI_NA_BUTONITE: readonly TemaNaButonite[] = Object.freeze([
+  { klyuch: 'sazdavane', ime: 'Създаване', klyuchove: ['dobavyane', 'dobavyane-na-sastoyanie'] },
+  {
+    klyuch: 'izgled',
+    ime: 'Изглед',
+    klyuchove: ['skriy-tablitsa', 'skriy-diagrama', 'skriy-dela', 'skriy-prihodi', 'skriy-razhodi'],
+  },
+  { klyuch: 'model', ime: 'Модел', klyuchove: ['otvori', 'zapazi', 'obnovi'] },
+  { klyuch: 'fayl', ime: 'Файл', klyuchove: ['svali-fayl'] },
+]);
+
+/** Ключовете, които стоят ОТКРИТИ на реда · такта и датата (запис 193). */
+export const OTKRITITE: readonly string[] = Object.freeze(['takt', 'period', 'nachalo-sega']);
+
+/** Бутон без тема и без открито място · празен списък значи, че редът е цял. */
+export function butoniBezTema(butoni: readonly ButonNaProzoretsa[]): readonly string[] {
+  const vTema = new Set(TEMI_NA_BUTONITE.flatMap((t) => t.klyuchove));
+  return butoni
+    .map((b) => b.klyuch)
+    .filter((klyuch) => !vTema.has(klyuch) && !OTKRITITE.includes(klyuch));
+}
+
 export const BUTONI_NA_UPRAVLENIE: readonly ButonNaProzoretsa[] = [
   {
     klyuch: 'otvori',
@@ -1385,8 +1461,8 @@ export const BUTONI_NA_UPRAVLENIE: readonly ButonNaProzoretsa[] = [
     klyuch: 'skriy-dela',
     ime: 'Скрий Дела',
     pomosht: pomosht(
-      'Скрива и показва редовете-задачи в дървото, за да останат само Имотите, Обектите и Бизнесите. Поглед, не данни: нищо не се записва и сборовете не се менят. От Сметки води към Управление.',
-      'скрива/показва задачите в дървото · поглед, не данни',
+      'ЕДИН бутон на прозорец. В Управление крие и показва редовете на Сметки под всеки Имот, Обект и Бизнес — поглед, нищо не се записва. В Сметки крие задачите с бюджет и ги ИЗКЛЮЧВА от сбора, защото там те са пари.',
+      'в Управление крие редовете на Сметки · в Сметки крие задачите и ги вади от сбора',
     ),
     deystvie: { vid: 'ekran', klyuch: 'skriy-dela' },
   },

@@ -46,7 +46,7 @@ async function otvori() {
   return { k, iz };
 }
 
-const PRAZEN_IMOT = { nomer: null, plosht: null, tsena: null, papka: null, adres: null };
+const PRAZEN_IMOT = { plosht: null, tsena: null, papka: null, adres: null };
 const PRAZEN_OBEKT = { plosht: null, tsena: null, papka: null, adres: null };
 
 function uspeh<T>(r: T | Otkaz): T {
@@ -394,7 +394,7 @@ describe('задачата на Управление (ADR-005)', () => {
       /не е дата ГГГГ-ММ-ДД/,
     );
     expect(otkaz(zadacha('imot:k2', { vid: { nomer: 9 } }))).toMatch(/Няма № 9 в „Вид на задача"/);
-    expect(otkaz(zadacha('imot:k2', { ime: null }))).toMatch(/kletki\.ime: очаква се object/);
+    expect(otkaz(zadacha('imot:k2', { ime: null }))).toMatch(/„име на задачата" е задължително/);
   });
 
   it('датата се проверява по КАЛЕНДАРА · „2026-02-31" е отказ на Вратата · 29.02 на високосна минава', async () => {

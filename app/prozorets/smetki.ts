@@ -29,7 +29,11 @@ import {
 import { slotNaKolonata } from '../../src/model/kolona.js';
 import { kolonaNa } from '../../src/model/tablitsa.js';
 import { redKato } from '../../src/ogledalo/tablitsa.js';
-import { broyPokrivashti, lentaNa, sboroveVKolonite } from '../../src/smetach/gant.js';
+import { denNaMeseca, dvanaysetMeseca, kalendar } from '../../src/smetach/kalendar.js';
+import { type Pokazatel, pokazatelite } from '../../src/smetach/pokazateli.js';
+import { napTablitsite, type RedNaNap } from '../../src/smetach/nap-tablitsite.js';
+import { trezorat } from '../../src/smetach/trezor.js';
+import { zadachiteSByudzhet } from '../../src/smetach/zadachi-v-smetki.js';
 import { imeNaVrazkata } from '../../src/smetach/kletki.js';
 import {
   IMENA_NA_STRANITE,
@@ -46,15 +50,27 @@ import { pomosht } from '../../src/model/pomosht.js';
 import { ZASHTO_I_NULATA } from '../../src/yadro/sverka.js';
 import { nahodkiteNaNap, NIVA } from '../../src/smetach/nahodki-nap.js';
 import { mozheDaRedaktira } from '../../src/smetach/pravo.js';
-import { koloniNaTakta } from '../../src/smetach/vreme.js';
+import {
+  type KolonaNaTakta,
+  koloniNaTakta,
+  type SvoyPeriod,
+  type Takt,
+} from '../../src/smetach/vreme.js';
 import { pishi, pishiVPole, sabiri, type Tsentove, tsentove } from '../../src/yadro/pari.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { otvoriChernova } from '../reshetka/chernova.js';
-import { gantSVG, type RedNaGanta } from '../reshetka/gant-svg.js';
+import { kalendarHTML } from '../reshetka/kalendar-tablitsa.js';
 import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
 import { chetiEkranno, zapomniEkranno } from '../reshetka/pamet-ekran.js';
+import {
+  obshtotoNaButona,
+  lentaNaDeystviyata,
+  zakachiTakta,
+  zakachiTemite,
+} from '../reshetka/lenta-deystviya.js';
 import { podtaboveHTML, tekushtPodtab, zakachiPodtabove } from '../reshetka/podtabove.js';
+import { sazdavaneOtButona } from '../reshetka/sazdavaneto.js';
 import { pokazhiGreshka } from '../reshetka/redaktsiya.js';
 import { kletkaHTML, zakachiReshetkata } from '../reshetka/reshetka.js';
 import {
@@ -72,6 +88,16 @@ const PAMET = Object.freeze({
   podtab: 'smetki.podtab',
   /** кои страни са скрити · ПОГЛЕД, не данни: нула събития, нула Журнал */
   skriti: 'smetki.skriti',
+  /** един бутон крие задачите · негово, запис 193 */
+  skriyZadachi: 'smetki.skriyZadachi',
+  /** тактът и периодът · негово, запис 195 т.4 — тактът да го има и тук */
+  takt: 'smetki.takt',
+  period: 'smetki.period',
+  /** коя секция се гледа в подтаб Приходи · Разходи (негово, запис 143) */
+  sektsiyataNaPrihoda: 'smetki.sektsiyataNaPrihoda',
+  sektsiyataNaRazhoda: 'smetki.sektsiyataNaRazhoda',
+  /** пусната ли е Проверката · тя е ДЕЙСТВИЕ с бутон (негово, запис 144) */
+  proverkata: 'smetki.proverkata',
 });
 /** Кой бутон коя страна крие · неговите две клетки от лист Сметки (ред 12–13). */
 const STRANATA_NA_BUTONA: Readonly<Record<string, Strana | undefined>> = Object.freeze({
@@ -82,8 +108,27 @@ const STRANATA_NA_BUTONA: Readonly<Record<string, Strana | undefined>> = Object.
 /** прозорецът · името му живее САМО в `osnova.ts` (К1 · `tests/osemte.test.ts` обхожда и `app/`) */
 const PROZORETSAT = PROZORTSI.find((x) => x.klyuch === 'smetki')!;
 /** неговият „таб НАП" е ПОДТАБ на Сметки (05.09 т.2) · осемте прозореца остават осем */
+/**
+ * ПОДТАБОВЕТЕ на Сметки · неговите, поименно.
+ *
+ * Негово, 12.09 (запис 198): „Приходи, 2. Разходи 3. Проверки на Извлечения и
+ * Сметки. Няма нито едно от тях, добави ги развити по плана."
+ *
+ * И планът, който той сочи, е негов от 11.09 (запис 143): „Създаваш отделен
+ * Собствен Таб Приходи и отделен Собствен таб Разходи и в всеки за всеки ред
+ * има подтаб с таблица в него. Избират се от падащи менюта с името на всеки от
+ * редовете от Приход и падащи менюта с името на всеки от редовете за Разход. За
+ * Разходи всички редове фактури се обединяват с един таб." И (запис 144): „бутон
+ * Проверка в таба Проверки. С натискане на бутона в Таба Проверки се появява
+ * таблица за разминавания."
+ *
+ * Осемте прозореца си остават осем (К1): подтабът е изглед на един и същи лист.
+ */
 const PODTABOVE = [
   { klyuch: 'smetki', ime: PROZORETSAT.list },
+  { klyuch: 'prihodi', ime: 'Приходи' },
+  { klyuch: 'razhodi', ime: 'Разходи' },
+  { klyuch: 'proverki', ime: 'Проверки' },
   { klyuch: 'nap', ime: 'НАП' },
 ] as const;
 /** колоните на ДДС на екрана · месецът и неговите числа */
@@ -98,7 +143,6 @@ const KOLONI_NA_DDSA = [
 ] as const;
 /** колоните на движението на екрана · неговите глави са дълги, тук стоят кратките */
 const KOLONI = ['kam', 'ime', 'funktsiya', 'sastoyanie', 'mesets', 'suma'] as const;
-const SHIRINA_NA_TAKTA = 36;
 
 /** помощта на изведените по ключ · домът им е `src/smetach` · тук само се търси */
 const POMOSHT_NA_IZVEDENITE = new Map(IZVEDENITE_NA_SMETKITE.map((x) => [x.klyuch, x.pomosht]));
@@ -136,6 +180,54 @@ interface RedNaEkrana {
   readonly ime: string;
 }
 
+/**
+ * ДАННИТЕ ЗА КОЕФИЦИЕНТИТЕ · под таблицата и диаграмата.
+ *
+ * Негово, 11.09 (запис 194): „Събери основните данни необходими за
+ * изчисляване на коефициентите от отчети. Искам под таблицата и диаграмата да
+ * дадеш всички данни които може да се съберат от Приходи и Разходи."
+ *
+ * Всяко число стои с ФОРМУЛАТА си (правило 28): екранът казва откъде идва, а
+ * не само колко е. Оттук нататък Отчетите стъпват върху видяно, не върху
+ * обещано.
+ */
+function blokatNaPokazatelite(spisak: readonly Pokazatel[]): Zapechatan {
+  return h`<section class="sektsiya" data-sektsiya="pokazateli">
+      <h2 class="lenta">Данни за коефициентите</h2>
+      <p class="pod-tablitsata">Събрано от Приход и Разход за показания период · всяко число носи формулата си при задържане.</p>
+      <div class="poleta-s-tsifri" data-pokazateli>${spisak.map(
+        (x) =>
+          h`<div class="pole-s-tsifra" data-pokazatel="${x.klyuch}"${podskazka(
+            pomosht(
+              `Данните за коефициентите идват от Приход и Разход, не се въвеждат на ръка · „${x.ime}" се смята при всяко рисуване.`,
+              x.formula,
+            ),
+          )}><span class="tsifra" translate="no">${x.stoynost}</span><span class="ime">${x.ime}</span><span class="formula">${x.formula}</span></div>`,
+      )}</div>
+    </section>`;
+}
+
+/**
+ * КОЛОНИТЕ НА КАЛЕНДАРА В СМЕТКИ · по такта, не заковани.
+ *
+ * Негово, 11.09 (запис 195), точка 4: тактът да го има и в Сметки. Дотук тук
+ * стояха дванайсет месеца, закована в кода — не можеше да се свие до един
+ * месец, нито да се разпъне.
+ *
+ * Котвата остава ПОКАЗАНИЯТ МЕСЕЦ, не днешният ден: по него се сверяват кешът
+ * и ДДС, и ако календарът тръгне от друго място, горната лента и долният ред
+ * биха говорили за различни периоди.
+ */
+function koloniteNaSmetkite(
+  takt: Takt,
+  mesets: string,
+  period: SvoyPeriod | null,
+): readonly KolonaNaTakta[] {
+  if (takt === 'svoy' && period !== null) return koloniNaTakta('svoy', `${mesets}-01`, period);
+  if (takt === 'godina' || takt === 'svoy')
+    return koloniNaTakta('svoy', `${mesets}-01`, dvanaysetMeseca(mesets));
+  return koloniNaTakta(takt, `${mesets}-01`);
+}
 export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const o = k.porta.ogledalo();
   const p = PROZORTSI.find((x) => x.klyuch === 'smetki')!;
@@ -153,8 +245,28 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
    * Скриването пипа екрана и нищо друго — нито сбор, нито Журнал, нито износ.
    */
   const skritite = chetiEkranno<readonly Strana[]>(PAMET.skriti, []);
+  /** един бутон крие задачите с бюджет · негово, запис 193 */
+  const skritiZadachi = chetiEkranno<boolean>(PAMET.skriyZadachi, false);
+  /**
+   * ТРЕЗОРЪТ · Заданието го иска (M06-10) и той пита за него (запис 195 т.5).
+   * Смята се от кеша на месеца; нищо не се въвежда (M06-P3).
+   */
+  const izbranaPrihod = chetiEkranno<string>(PAMET.sektsiyataNaPrihoda, 'vsichki');
+  const izbranaRazhod = chetiEkranno<string>(PAMET.sektsiyataNaRazhoda, 'vsichki');
+  const proverkataEPusnata = chetiEkranno<boolean>(PAMET.proverkata, false);
+  const takt = chetiEkranno<Takt>(PAMET.takt, 'godina');
+  const period = chetiEkranno<SvoyPeriod | null>(PAMET.period, null);
+  /** колко месеца стоят на екрана · средното на месец се дели точно на тях */
+  const koloniNaMesetsite = koloniteNaSmetkite(takt, mesets, period).length;
   // ДДС · редът на всеки месец влиза в СМЕТКИ по знака си (негово, 05.09 т.2)
   const dds = ddsat(o, kogato);
+  const trezor = trezorat(kesh);
+  /**
+   * ДВЕТЕ ТАБЛИЦИ НА НАП · негово, 11.09 (запис 195), точка 5.
+   * Подредбата е СМЯТАНА, не екранна: платените най-отдолу, закъснелите и
+   * надплатените в отделната таблица за грешки.
+   */
+  const napDvete = napTablitsite(dds, `${mesets}-01`);
   const ddsMesetsi = dds.mesetsi.filter((m) => !samoMeseca || m.mesets === mesets);
   const ddsNa = (strana: Strana): readonly MesetsNaDdsa[] =>
     ddsMesetsi.filter((m) => m.strana === strana);
@@ -310,20 +422,42 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
     </section>`;
 
   const butonHTML = (b: ButonNaProzoretsa): Zapechatan => {
-    const d = b.deystvie;
-    if (d.vid === 'idva')
-      return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}" disabled${podskazkaSDumi(d.dumi ?? `идва с ход ${d.hod}`)}>${litse(b)}</button>`;
+    const obshto = obshtotoNaButona(b, takt, period);
+    if (obshto !== null) return obshto;
     // СКРИЙ ↔ ПОКАЖИ · бутонът казва какво ще СТАНЕ, не какво е било. Неговата
     // дума остава в `ime`; на лицето стои действието, при задържане — помощта.
     const strana = STRANATA_NA_BUTONA[b.klyuch];
     const duma =
       b.klyuch === 'skriy-dela'
-        ? 'Дела · в Управление'
+        ? skritiZadachi
+          ? 'Покажи Задачи'
+          : 'Скрий Задачи'
         : strana !== undefined && skritite.includes(strana)
           ? `Покажи ${IMENA_NA_STRANITE[strana]}`
           : litse(b);
     return h`<button type="button" class="malak" data-buton-ekran="${b.klyuch}"${podskazka(b.pomosht)}>${duma}</button>`;
   };
+
+  /**
+   * ЕДИН РИСУВАЧ ЗА ДВЕТЕ ТАБЛИЦИ · те са едни и същи колони с различен подбор.
+   *
+   * Видът на реда носи цвета: платеното е затъмнено, чакащото свети, а
+   * закъснялото и надплатеното са в другата таблица (негово, запис 195 т.5).
+   */
+  const redoveNaNapHTML = (
+    spisak: readonly RedNaNap[],
+    koya: string,
+    kogatoNyama: string,
+  ): Zapechatan =>
+    spisak.length === 0
+      ? h`<p class="vest" data-nap-prazna="${koya}">${kogatoNyama}</p>`
+      : h`<table class="tablitsa nap-mesetsi" data-nap-tablitsa="${koya}">
+          <thead><tr><th>месец</th><th class="evro">дължимо</th><th class="evro">декларирано</th><th class="evro">платено</th><th class="evro">остатък</th><th>какво</th></tr></thead>
+          <tbody>${spisak.map(
+            (r) =>
+              h`<tr class="red ${r.vid}" data-nap-mesets="${r.mesets}"><td translate="no">${r.mesets}</td><td class="evro" translate="no">${pishi(r.dalzhimo)}</td><td class="evro" translate="no">${pishi(r.deklarirano)}</td><td class="evro" translate="no">${pishi(r.plateno)}</td><td class="evro" translate="no">${pishi(r.ostatak)}</td><td>${r.kakvo}</td></tr>`,
+          )}</tbody>
+        </table>`;
 
   /** Подтабът НАП · ДДС по месеци и таблицата с находки (негово, 05.09 т.2). */
   const napHTML = (): Zapechatan => {
@@ -365,6 +499,11 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         <tbody class="tablitsa">${redove}</tbody>
         <tfoot><tr class="sbor"><td colspan="${KOLONI_NA_DDSA.length}">натрупване</td><td class="evro" data-dds-dalzhimo translate="no"${izvedena('dalzhimo', POMOSHT_NA_DDSA)}>${pishi(dds.dalzhimo)}</td><td class="evro" data-dds-ostatak translate="no"${izvedena('ostatak', POMOSHT_NA_DDSA)}>${pishi(dds.ostatak)}</td></tr></tfoot>
       </table>
+      <h2 class="lenta" translate="no">Дължимо към НАП</h2>
+      <p class="pod-tablitsata" data-nap-neizlyazlo>За ${napDvete.minaliyatMesets} не е излязло ${pishi(napDvete.neizlyazlo_st)} · смята се с месец назад, защото числата от счетоводството идват така. Гледани месеци ${String(napDvete.ogledani)}.</p>
+      ${redoveNaNapHTML(napDvete.tekushti, 'tekushti', 'няма месец, който да чака плащане')}
+      <h2 class="lenta" translate="no">Грешки · неплатени над месец, надплатени, разминаващи се</h2>
+      ${redoveNaNapHTML(napDvete.greshki, 'greshki', 'няма нито една')}
       <h2 class="lenta" translate="no">Находки от сверките</h2>
       <p class="pod-tablitsata" data-nap-obobshtenie>${nap.nahodki.length} находки от ${nap.proverki} проверки на три нива: ${NIVA.join(' · ')}. Няма връзка с НАП (негово) — това е инструмент за счетоводителя. Износът за Микроинвест чака файл-мостра от него.</p>
       ${
@@ -377,6 +516,113 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
             h`<tr class="red" data-nahodka="${n.proverka}"><td>${n.nivo}</td><td translate="no">${n.proverka}</td><td translate="no">${n.adres}</td><td translate="no">${n.kakvo}</td></tr>`,
         )}</tbody>
       </table>`
+      }
+    </section>`;
+  };
+
+  /**
+   * ПОДТАБ НА ЕДНА СТРАНА · падащо меню с имената на редовете ѝ.
+   *
+   * Негово, 11.09 (запис 143): „Създаваш отделен Собствен Таб Приходи и отделен
+   * Собствен таб Разходи и в всеки за всеки ред има подтаб с таблица в него.
+   * Избират се от падащи менюта с името на всеки от редовете."
+   *
+   * И за Разходи, пак негово: „всички редове фактури се обединяват с един таб" —
+   * затова там има и един избор „Фактури · всички заедно", който събира всяка
+   * секция, чието име почва с „Фактури".
+   */
+  const stranataVSvoyPodtab = (
+    strana: Strana,
+    sektsii: readonly Sektsiya[],
+    izbrana: string,
+    pamet: string,
+  ): Zapechatan => {
+    const fakturi = sektsii.filter((x) => x.tekst.startsWith('Фактури'));
+    const izbrani =
+      izbrana === 'vsichki'
+        ? sektsii
+        : izbrana === 'fakturi'
+          ? fakturi
+          : sektsii.filter((x) => String(x.nomer) === izbrana);
+    const sbor = izbrani.reduce((a, x) => a + x.sbor, 0);
+    const imeto =
+      izbrana === 'vsichki'
+        ? `всички ${IMENA_NA_STRANITE[strana]}`
+        : izbrana === 'fakturi'
+          ? 'Фактури · всички заедно'
+          : (izbrani[0]?.tekst ?? 'няма такава секция');
+    return h`<section class="tablitsa-blok" data-blok="${strana}-podtab">
+      <div class="deystviya butoni-malki">
+        <label class="malak buton-grupa" data-izbor-na-sektsiya="${strana}">${IMENA_NA_STRANITE[strana]} <select class="pole malak" data-sektsiya-izbor="${pamet}">
+          <option value="vsichki" ${izbrana === 'vsichki' ? 'selected' : ''}>всички</option>
+          ${
+            fakturi.length === 0
+              ? ''
+              : h`<option value="fakturi" ${izbrana === 'fakturi' ? 'selected' : ''}>Фактури · всички заедно</option>`
+          }
+          ${sektsii.map(
+            (x) =>
+              h`<option value="${String(x.nomer)}" ${String(x.nomer) === izbrana ? 'selected' : ''}>${x.tekst}</option>`,
+          )}
+        </select></label>
+        <span class="vest" data-podtab-sverka="${strana}" translate="no">секции ${String(izbrani.length)} от ${String(sektsii.length)} · редове ${String(izbrani.reduce((a, x) => a + x.redove.length, 0))}</span>
+      </div>
+      <h2 class="lenta" translate="no">${imeto}</h2>
+      ${
+        izbrani.length === 0
+          ? h`<p class="vest" data-podtab-prazen="${strana}">няма нито една секция с това име</p>`
+          : h`<table class="reshetka smetki" data-reshetka="${strana}-podtab">
+        <thead><tr>${glaviHTML}</tr></thead>
+        <tbody class="tablitsa">${izbrani.map((sek) => sektsiyaHTML(sek))}</tbody>
+        <tfoot><tr class="sbor"><td colspan="${KOLONI.length - 1}">сбор на показаното</td><td class="evro" data-podtab-sbor="${strana}" translate="no">${pishi(sbor)}</td></tr></tfoot>
+      </table>`
+      }
+    </section>`;
+  };
+
+  /**
+   * ПОДТАБ ПРОВЕРКИ · бутон, който пуска таблицата на разминаванията.
+   *
+   * Негово, 11.09 (запис 144), ДОСЛОВНО: „**бутон Проверка в таба Проверки. С
+   * натискане на бутона в Таба Проверки се появява таблица за разминавания
+   * (обикновенно има забавяне 1 месец без Извлечения Банка от вкарване на
+   * Фактури Кеш, Фактури Карта и Заплати Кеш и Заплата Банка).**"
+   *
+   * ПРОВЕРКАТА Е ДЕЙСТВИЕ, НЕ ИЗГЛЕД. Таблицата не стои сама: тя се появява,
+   * когато той я поиска — така и забавянето от месец се чете като състояние на
+   * ДНЕШНАТА проверка, а не като нещо, което мига при всяко рисуване.
+   *
+   * Четенето на самите ИЗВЛЕЧЕНИЯ чака неговия файл (ход 11.3 · правило 30:
+   * нищо не се строи върху липсващ извор). Затова тук пише какво още не се
+   * проверява — вместо празна таблица, която изглежда като „всичко е наред".
+   */
+  const proverkiHTML = (): Zapechatan => {
+    const razminavaniya = nap.nahodki.filter((n) => n.nivo !== 'ДДС');
+    return h`<section class="tablitsa-blok" data-blok="proverki">
+      <h2 class="lenta" translate="no">Проверки на Извлечения и Сметки</h2>
+      <div class="deystviya butoni-malki">
+        <button type="button" class="malak" data-pusni-proverka${podskazkaSDumi(
+          'Пуска сверките върху Фактури и Контрагенти и показва разминаванията. Нищо не се записва.',
+        )}>${proverkataEPusnata ? 'Пусни пак' : 'Проверка'}</button>
+        <span class="vest" data-proverka-vest translate="no">${
+          proverkataEPusnata
+            ? `${razminavaniya.length} разминавания от ${nap.proverki} проверки`
+            : 'проверката не е пускана'
+        }</span>
+      </div>
+      <p class="pod-tablitsata" data-proverka-zabavyane>Обикновено има забавяне ОТ ЕДИН МЕСЕЦ, докато няма Извлечения от банка срещу вкараните Фактури Кеш, Фактури Карта, Заплати Кеш и Заплати Банка. Четенето на самите извлечения чака файл-мостра от него (ход 11.3) — дотогава тук се сверява само вкараното срещу сметките.</p>
+      ${
+        !proverkataEPusnata
+          ? h`<p class="vest" data-proverka-chaka>натисни „Проверка", за да се появи таблицата на разминаванията</p>`
+          : razminavaniya.length === 0
+            ? h`<p class="vest" data-proverka-nyama>няма разминавания · всички сверки на Фактури и Контрагенти затварят</p>`
+            : h`<table class="tablitsa" data-proverka-tablitsa>
+          <thead><tr><th>ниво</th><th>проверка</th><th>адрес</th><th>какво</th><th class="evro">разлика</th></tr></thead>
+          <tbody>${razminavaniya.map(
+            (n) =>
+              h`<tr class="red" data-razminavane="${n.proverka}"><td>${n.nivo}</td><td translate="no">${n.proverka}</td><td translate="no">${n.adres}</td><td translate="no">${n.kakvo}</td><td class="evro" translate="no">${n.razlika === 0 ? '' : pishi(n.razlika)}</td></tr>`,
+          )}</tbody>
+        </table>`
       }
     </section>`;
   };
@@ -398,28 +644,38 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         <label class="malak">изтеглено по извлечение <input class="pole malak" name="kesh-izvlechenie" data-kesh-izvlechenie value="${kesh.izvlechenie === 0 ? '' : pishiVPole(kesh.izvlechenie)}" inputmode="decimal"></label>
         <button type="submit" class="malak" data-kesh-zapishi>Запиши кеша</button>
         <label class="otmetka malak"><input type="checkbox" name="samo-meseca" data-samo-meseca ${samoMeseca ? 'checked' : ''}> само този месец</label>
+        <span class="trezor" data-trezor${podskazkaSDumi(
+          `Трезорът се СМЯТА, не се въвежда. В каса: ${trezor.formulaNaKasata}. В ръце: ${trezor.formulaNaRatsete}.`,
+        )} translate="no">Трезор · в каса ${pishi(trezor.vKasa_st)} · в ръце ${pishi(trezor.vRatse_st)}</span>
         <span class="vest" data-kesh-sverki${podskazka(POMOSHT_NA_SVERKATA)} translate="no">${kesh.sverki
           .map((sv) => `${sv.kakvo}: ${sv.nared ? 'затваря' : `разлика ${pishi(sv.razlika)}`}`)
           .join(' · ')}</span>
       </form>
-      <div class="deystviya butoni-malki" data-butoni>
-        ${BUTONI_NA_UPRAVLENIE.map(butonHTML)}
-        <button type="button" class="malak" data-dobavi-dvizhenie${podskazkaSDumi('отваря чернова под главата · Enter записва реда през Портата · знакът решава страната')}>Добави ред с пари</button>
-      </div>
+      ${lentaNaDeystviyata(
+        BUTONI_NA_UPRAVLENIE,
+        butonHTML,
+        h`<button type="button" class="malak" data-dobavi-dvizhenie${podskazkaSDumi('отваря чернова под главата · Enter записва реда през Портата · знакът решава страната')}>Добави ред с пари</button>`,
+      )}
     </div>
     ${podtaboveHTML(PODTABOVE, podtab)}
     <p class="greshka" data-greshka></p>
     ${
       podtab === 'nap'
         ? napHTML()
-        : h`<section class="tablitsa-blok" data-blok="nov">
+        : podtab === 'prihodi'
+          ? stranataVSvoyPodtab('prihod', s.prihod, izbranaPrihod, PAMET.sektsiyataNaPrihoda)
+          : podtab === 'razhodi'
+            ? stranataVSvoyPodtab('razhod', s.razhod, izbranaRazhod, PAMET.sektsiyataNaRazhoda)
+            : podtab === 'proverki'
+              ? proverkiHTML()
+              : h`<section class="tablitsa-blok" data-blok="nov">
       <h2 class="lenta" translate="no">Нов ред с пари</h2>
       <table class="reshetka smetki nov" data-reshetka="dvizheniya">
         <thead><tr>${vsichkiKoloni.map(
           (kol) =>
             h`<th data-kolona="${kol.klyuch}" class="${kol.vid}"${podskazka(kol.pomosht)}>${kol.kratko ?? kol.ime}</th>`,
         )}</tr></thead>
-        <tbody class="tablitsa"></tbody>
+        <tbody class="tablitsa"><tr class="prazen-red"><td colspan="${String(vsichkiKoloni.length)}">Тук се отваря черновата. Натисни „Добави ред с пари" горе и редът се пише в тази таблица; записаният ред застава в секцията си долу.</td></tr></tbody>
       </table>
       <p class="pod-tablitsata">Знакът решава страната: приходът е +, разходът е − (правило 16).</p>
     </section>
@@ -445,13 +701,37 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         </section>
         <p class="pod-tablitsata" data-sverka="smetki"${podskazka(POMOSHT_NA_SVERKATA)}>движения ${s.broyDvizheniya} · без секция ${s.bezSektsiya.length} · сверката ${s.sverka.nared ? 'затваря' : `не затваря (${s.sverka.razlika})`}${samoMeseca ? ` · само ${mesets}` : ''}</p>
       </div>
-      ${gantIDumiHTML(p.lenti[2] ?? '', DUMI_OT_KNIGATA.smetki)}`
+      ${gantIDumiHTML(p.lenti[2] ?? '', DUMI_OT_KNIGATA.smetki)}
+    ${blokatNaPokazatelite(pokazatelite(s, koloniNaMesetsite))}`
     }`,
   );
 
   zakachiReshetkata(k);
+  // ═══ подтабовете Приходи · Разходи · Проверки (негово, запис 198) ═══
+  for (const izbor of k.tyalo.querySelectorAll<HTMLSelectElement>('[data-sektsiya-izbor]')) {
+    izbor.addEventListener('change', () => {
+      zapomniEkranno(izbor.dataset['sektsiyaIzbor'] ?? '', izbor.value);
+      k.prerisuvay();
+    });
+  }
+  k.tyalo
+    .querySelector<HTMLButtonElement>('[data-pusni-proverka]')
+    ?.addEventListener('click', () => {
+      // Проверката е ДЕЙСТВИЕ · пуска се с бутон и остава пусната, докато гледаш
+      zapomniEkranno(PAMET.proverkata, true);
+      k.prerisuvay();
+    });
+  zakachiTemite(k.tyalo);
+  zakachiTakta(
+    k.tyalo,
+    { takt: PAMET.takt, period: PAMET.period },
+    zapomniEkranno,
+    k.prerisuvay,
+    (dumi) => pokazhiGreshka(k.tyalo, dumi),
+  );
   zakachiPodtabove(k.tyalo, PAMET.podtab, k.prerisuvay);
-  if (podtab === 'smetki') narisuvayGanta(k, [...s.prihod, ...s.razhod], mesets);
+  if (podtab === 'smetki')
+    narisuvayKalendara(k, [...s.prihod, ...s.razhod], mesets, skritiZadachi, takt, period);
   k.tyalo.querySelector<HTMLFormElement>('[data-dds-forma]')?.addEventListener('submit', (e) => {
     e.preventDefault();
     void zapishiDdsa(k);
@@ -477,7 +757,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   for (const b of k.tyalo.querySelectorAll<HTMLButtonElement>('button[data-buton-ekran]')) {
     const opis = BUTONI_NA_UPRAVLENIE.find((x) => x.klyuch === b.dataset['butonEkran']);
     if (opis === undefined) continue;
-    b.addEventListener('click', () => deystvieNaButona(k, opis));
+    b.addEventListener('click', () => deystvieNaButona(k, opis, b));
   }
   k.tyalo
     .querySelector<HTMLButtonElement>('[data-dobavi-dvizhenie]')
@@ -491,52 +771,61 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
 }
 
 /** Гантът на Сметки · всяко движение е една колона — месецът му. */
-function narisuvayGanta(k: KonteksNaEkrana, sektsii: readonly Sektsiya[], mesets: string): void {
+/**
+ * КАЛЕНДАРЪТ на Сметки · ТАБЛИЦА с цифри, не картина.
+ *
+ * Негово, 11.09 (записи 145 · 147 · 149): цифрата със знака в клетката · общ
+ * сбор под колоните · сбор на реда за периода. Редовете са СЕКЦИИТЕ, както в
+ * Книгата му; числата им се събират по месец в колоната на такта.
+ */
+function narisuvayKalendara(
+  k: KonteksNaEkrana,
+  sektsii: readonly Sektsiya[],
+  mesets: string,
+  skritiZadachi: boolean,
+  takt: Takt,
+  period: SvoyPeriod | null,
+): void {
   const skrol = k.tyalo.querySelector<HTMLElement>('[data-gant-skrol]');
   if (!skrol) return;
-  const koloni = koloniNaTakta('godina', `${mesets}-01`);
-  const tabl = k.tyalo.querySelectorAll<HTMLTableElement>('[data-reshetka]');
-  const gore =
-    k.tyalo.querySelector<HTMLElement>('.smetki-blokove')?.getBoundingClientRect().top ?? 0;
-  const redove: RedNaGanta[] = [];
-  const chislaPoData: { data: string; chislo: number }[] = [];
-  for (const tb of tabl) {
-    if (tb.dataset['reshetka'] === 'vkarvane') continue;
-    for (const tr of tb.querySelectorAll<HTMLElement>('tbody tr.red')) {
-      const r = tr.getBoundingClientRect();
-      const id = tr.dataset['id'] ?? '';
-      const sek = sektsii.find((x) => x.redove.some((y) => y.id === id));
-      const red = sek?.redove.find((y) => y.id === id);
-      const kogaMu = red?.mesets ?? '';
-      redove.push({
-        id,
-        ime: `${sek?.tekst ?? ''} · ${kogaMu}`,
-        y: r.top - gore,
-        visina: r.height,
-        lenta:
-          kogaMu === '' ? null : lentaNa({ id, ot: `${kogaMu}-01`, do: `${kogaMu}-01` }, koloni),
-        svetofar: null,
-        speshno: false,
-      });
-      if (red !== undefined && kogaMu !== '')
-        chislaPoData.push({ data: `${kogaMu}-01`, chislo: red.suma_st });
-    }
-  }
-  const lenti = redove.map((r) => r.lenta).filter((l) => l !== null);
-  sloji(
-    skrol,
-    gantSVG({
-      koloni,
-      redove,
-      visinaNaGlavata: 24,
-      sborove: sboroveVKolonite(koloni, chislaPoData),
-      pokrivashti: broyPokrivashti(koloni, lenti),
-      shirinaNaKolonata: SHIRINA_NA_TAKTA,
-    }),
-  );
+  const koloni = koloniteNaSmetkite(takt, mesets, period);
+  /**
+   * ЗАДАЧИТЕ С БЮДЖЕТ влизат в календара на Сметки · и само те.
+   *
+   * Негово, 11.09 (запис 163): „Скриването на Задачите с Бюджет(само те се
+   * пренасят от Управление в Сметки, това е важно) от Управление в Сметки ще ги
+   * изключва от изчисленията". Бюджетът е планиран РАЗХОД, затова влиза с минус
+   * (правило 16 · знакът се смята, не се записва).
+   */
+  const zadachite = zadachiteSByudzhet(k.porta.ogledalo());
+  const redoveNaKalendara = [
+    ...sektsii.map((s) => ({
+      id: `${s.strana}-${s.nomer}`,
+      ime: s.spryana ? `${s.tekst} · спряна` : s.tekst,
+      // датата решава деня; без нея — първият ден на месеца (запис 195 т.3)
+      chisla: s.redove.map((r) => ({
+        data: r.data === '' ? denNaMeseca(r.mesets) : r.data,
+        chislo: r.suma_st,
+      })),
+    })),
+    ...(skritiZadachi
+      ? []
+      : zadachite.redove.map((z) => ({
+          id: `zadacha-${z.id}`,
+          ime: `Задача · ${z.ime}`,
+          chisla: [{ data: z.data, chislo: -z.byudzhet_st }],
+        }))),
+  ];
+  const kal = kalendar(redoveNaKalendara, koloni);
+  sloji(skrol, kalendarHTML(kal));
   const sverka = k.tyalo.querySelector('[data-sverka="gant"]');
   if (sverka)
-    sverka.textContent = `ленти ${lenti.length} · движения ${redove.length} · колони ${koloni.length}`;
+    sverka.textContent =
+      `редове ${kal.redove.length} · колони ${koloni.length} · период ${pishi(kal.vsichko)}` +
+      ` · задачи с бюджет ${skritiZadachi ? 'скрити' : String(zadachite.redove.length)}` +
+      (zadachite.bezData.length === 0
+        ? ''
+        : ` · бюджет без дата не влиза: ${zadachite.bezData.join(' · ')}`);
 }
 
 function zapishiKesha(k: KonteksNaEkrana): Promise<void> {
@@ -602,7 +891,7 @@ function prevklyuchiStranata(k: KonteksNaEkrana, strana: Strana): void {
   k.prerisuvay();
 }
 
-function deystvieNaButona(k: KonteksNaEkrana, b: ButonNaProzoretsa): void {
+function deystvieNaButona(k: KonteksNaEkrana, b: ButonNaProzoretsa, el: HTMLElement): void {
   const d = b.deystvie;
   switch (d.vid) {
     case 'kniga':
@@ -624,9 +913,15 @@ function deystvieNaButona(k: KonteksNaEkrana, b: ButonNaProzoretsa): void {
       k.prerisuvay();
       return;
     case 'skriy-dela':
-    case 'dobavyane':
-      location.hash = '#/upravlenie';
+      // ЕДИН бутон · крие задачите с бюджет от календара и от сбора (запис 193)
+      zapomniEkranno(PAMET.skriyZadachi, !chetiEkranno<boolean>(PAMET.skriyZadachi, false));
+      k.prerisuvay();
       return;
+    case 'dobavyane': {
+      // създаването е в ИЗСКАЧАЩ прозорец и е едно и също навсякъде (записи 193 · 195)
+      sazdavaneOtButona(k, el);
+      return;
+    }
     case 'skriy-prihodi':
     case 'skriy-razhodi':
       prevklyuchiStranata(k, STRANATA_NA_BUTONA[d.klyuch]!);

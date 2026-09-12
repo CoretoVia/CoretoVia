@@ -199,7 +199,7 @@ describe('пробването и изпълнението', () => {
         ...OBSHTO,
         vid: 'nov-red',
         tablitsa: 'imoti',
-        kletki: { ime: { tekst: 'Панчарево' }, sastoyanie: { nomer: 2 }, ...PRAZEN, nomer: null },
+        kletki: { ime: { tekst: 'Панчарево' }, sastoyanie: { nomer: 2 }, ...PRAZEN },
         nomerVKnigata: null,
       },
       {
@@ -277,7 +277,7 @@ describe('пробването и изпълнението', () => {
         ...OBSHTO,
         vid: 'nov-red',
         tablitsa: 'imoti',
-        kletki: { ime: { tekst: 'Панчарево' }, sastoyanie: { nomer: 4 }, ...PRAZEN, nomer: null },
+        kletki: { ime: { tekst: 'Панчарево' }, sastoyanie: { nomer: 4 }, ...PRAZEN },
         nomerVKnigata: null,
         zavisiOt: [0],
       },

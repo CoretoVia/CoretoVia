@@ -17,7 +17,9 @@
  */
 
 import type { Otchet } from '../../src/kniga/sverchik.js';
-import { AGENTI, GLAVI_NA_AGENTITE, statusNaAgenta } from '../../src/model/agenti.js';
+import { type Agent, AGENTI, GLAVI_NA_AGENTITE, statusNaAgenta } from '../../src/model/agenti.js';
+import type { Ogledalo } from '../../src/ogledalo/ogledalo.js';
+import type { PayloadKnigaVnesena } from '../../src/sabitiya/tovari.js';
 import { DUMI_OT_KNIGATA } from '../../src/model/dumi-ot-knigata.js';
 import { PROZORTSI } from '../../src/model/osnova.js';
 import { DUMI_NA_VIDA, type Predlozhenie } from '../../src/model/predlozhenie.js';
@@ -193,6 +195,31 @@ function otchetHTML(pr: Prochit): Zapechatan {
     <p class="vest" data-vnos-vest translate="no">${pr.vest}</p>`;
 }
 
+/**
+ * ВРЕМЕТО И ОТЧЕТЪТ на агента · неговите две глави от Книгата, които дотук
+ * стояха ПРАЗНИ при всичките пет реда — два голи стълба през цялата таблица.
+ *
+ * Работи само Сверчикът (№ 1); за него двете клетки идват от последната
+ * разписка за внос. Останалите четирима чакат ход 11а и го КАЗВАТ (правило 12),
+ * вместо да мълчат с празна клетка.
+ */
+function posledenVnos(o: Ogledalo): PayloadKnigaVnesena | undefined {
+  return o.vnasyaniya.at(-1);
+}
+
+function vremetoMu(a: Agent, o: Ogledalo): string {
+  if (a.nomer !== 1) return '—';
+  const v = posledenVnos(o);
+  return v === undefined ? 'още не е викан' : v.vnesenoNa.slice(0, 16).replace('T', ' ');
+}
+
+function otchetatMu(a: Agent, o: Ogledalo): string {
+  if (a.nomer !== 1) return 'идва с ход 11а';
+  const v = posledenVnos(o);
+  if (v === undefined) return 'няма прочетена Книга';
+  return `предложени ${v.predlozheni} · приети ${v.prieti} · отказани ${v.otkazani} · находки ${v.nahodki}`;
+}
+
 export function narisuvayII(k: KonteksNaEkrana): void {
   const o = k.porta.ogledalo();
   const p = PROZORTSI.find((x) => x.klyuch === 'ii')!;
@@ -207,14 +234,11 @@ export function narisuvayII(k: KonteksNaEkrana): void {
         <thead><tr>${glavi}</tr></thead>
         <tbody class="tablitsa">${AGENTI.map(
           (a) =>
-            h`<tr class="red" data-agent="${a.nomer}"><td class="nomer">${a.nomer}</td><td translate="no">${a.agent}</td><td translate="no">${a.dlazhnost}</td><td translate="no">${a.zadacha}</td><td data-status>${statusNaAgenta(a)}</td><td></td><td></td></tr>`,
+            h`<tr class="red" data-agent="${a.nomer}"><td class="nomer">${a.nomer}</td><td translate="no">${a.agent}</td><td translate="no">${a.dlazhnost}</td><td translate="no">${a.zadacha}</td><td data-status>${statusNaAgenta(a)}</td><td data-vreme translate="no">${vremetoMu(a, o)}</td><td data-otchet-agent>${otchetatMu(a, o)}</td></tr>`,
         )}</tbody>
       </table>
       <h2 class="lenta" translate="no">${p.lenti[1] ?? ''}</h2>
-      <table class="reshetka agenti" data-agenti="neaktivni">
-        <thead><tr>${glavi}</tr></thead>
-        <tbody class="tablitsa"></tbody>
-      </table>
+      <p class="vest" data-agenti="neaktivni">Празна, както е в Книгата. Тук ще стоят агентите, които Стопанинът е спрял — спирането идва с ход 11а заедно с Уменията.</p>
     </section>
     <section class="sektsiya" data-sektsiya="vnos">
       <h2>Прочети Книгата</h2>

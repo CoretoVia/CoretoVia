@@ -27,10 +27,14 @@ body {
   line-height: 1.45;
 }
 
+/* ЦЕЛИЯТ ЕКРАН · негово, 11.09 (запис 193): „мястото е ценно. Няма празни
+   пространства." Осемдесетте рема бяха мярка за ЧЕТИВО — текст на колона; тук
+   се гледа таблица с двайсет колони и календар до нея, и всеки отрязан рем е
+   колона по-малко на екрана. */
 .ekran {
-  max-width: 80rem;
+  max-width: none;
   margin: 0 auto;
-  padding: 1rem 1rem 4rem;
+  padding: 0.5rem 1rem 0;
 }
 
 .glava {
@@ -71,12 +75,12 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem;
-  margin: 0.75rem 0 1rem;
+  margin: 0.3rem 0 0;
   border-bottom: 1px solid var(--linija);
 }
 
 .lenta-prozortsi a {
-  padding: 0.4rem 0.7rem;
+  padding: 0.25rem 0.7rem;
   color: var(--sivo);
   text-decoration: none;
   border-bottom: 2px solid transparent;
@@ -203,14 +207,18 @@ button.vtorichen {
   background: var(--hartiya);
 }
 
+/* ПЛЪТНОСТТА · негово, 11.09 (запис 192): „да няма загубено място между
+   колоните и да са събрани редовете". Дотук всяка клетка носеше 0,3rem нагоре
+   и 0,5rem встрани — при двайсет колони това е цял екран, изхабен за въздух. */
 .tablitsa th,
 .tablitsa td,
 .reshetka th,
 .reshetka td {
   text-align: left;
-  padding: 0.3rem 0.5rem;
+  padding: 0.1rem 0.2rem;
   border-bottom: 1px solid var(--linija);
   vertical-align: middle;
+  line-height: 1.25;
 }
 
 .reshetka th {
@@ -350,6 +358,12 @@ button.vtorichen {
   line-height: 1.35;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
   white-space: normal;
+  /* ПОДСКАЗКАТА НЕ ХВАЩА МИШКАТА · тя е обяснение, не преграда.
+     Находка от 12.09: в падащото меню подсказката на един пункт лягаше върху
+     следващия и той просто не се натискаше — ръката удряше в облаче с текст.
+     Проходът го хвана („intercepts pointer events"); окото не би го хванало,
+     защото облачето изчезва точно когато човек се сети да погледне. */
+  pointer-events: none;
 }
 
 /* Начало е подробното · повече място, за да не става кула */
@@ -444,7 +458,7 @@ details.sverki summary {
   top: 0;
   z-index: 5;
   background: var(--fon);
-  padding: 0.35rem 0 0.4rem;
+  padding: 0.25rem 0 0.3rem;
   border-bottom: 1px solid var(--linija);
 }
 
@@ -452,7 +466,7 @@ details.sverki summary {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.25rem;
 }
 
 .pole-s-tsifra {
@@ -520,15 +534,24 @@ label.malak.buton-grupa .pole.malak {
   gap: 0.75rem;
 }
 
+/* ДВЕТЕ ПОЛОВИНИ · негово, 11.09 (запис 192): „Искам календара да заема
+   половината от екрана и да има скрол по хоризонтала. За таблицата до
+   календара да няма загубено място между колоните и да са събрани редовете и
+   да има също скрол."
+
+   Затова и двете страни са `flex: 1 1 0` — делят мястото по равно — и всяка
+   носи СВОЙ хоризонтален скрол, вместо да бута другата навън. `min-width: 0`
+   е задължителен: без него flex-дете с широка таблица отказва да се свие и
+   половината става цялото. */
 .darvo-blok {
-  flex: 0 1 auto;
+  flex: 1 1 0;
   min-width: 0;
   overflow-x: auto;
 }
 
 .gant-blok {
-  flex: 1 1 24rem;
-  min-width: 12rem;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .gant-skrol {
@@ -699,7 +722,7 @@ label.malak.buton-grupa .pole.malak {
 }
 
 .smetki-blokove {
-  flex: 1 1 32rem;
+  flex: 1 1 0;
   min-width: 0;
   overflow-x: auto;
 }
@@ -784,4 +807,695 @@ label.malak.buton-grupa .pole.malak {
 .reshetka.struktura .malak {
   padding: 0.1rem 0.35rem;
   font-size: 0.8rem;
+}
+
+/* ═══ Б1 · КОЖАТА · класовете, които кодът пишеше, а стилът не познаваше ═══
+
+   Измерено на 11.09.2026: четиринайсет класа стояха в HTML без нито едно
+   правило. Следствията се виждаха с просто око — календарът беше безцветен,
+   таблицата на Продажби (20 колони) излизаше извън страницата, а редът с
+   цифрите там беше гол текст, докато същият ред в Управление е в рамки.
+
+   ЗАЩО СЕЛЕКТОРИТЕ СА ДЪЛГИ: правилата по-горе са писани преди тези и някои
+   от тях са по-специфични (`.reshetka.smetki tr.grupata.sektsiya td` е
+   0·4·2). Стил, добавен накрая с по-нисък тегловен ред, се подрежда наопаки
+   и `biome` го вали (`noDescendingSpecificity`) — затова всяко правило тук
+   стига до същата тежест, вместо да се надява на реда на редовете. */
+
+/* ПРЕГЛЕДЪТ · широка таблица се плъзга настрани, а не чупи страницата.
+   Негово, 08.09 (запис 64⑦): „и за таблицата, и за диаграмата хоризонталния
+   скрол. Важно е това." */
+.ekran .pregled {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.ekran .pregled .reshetka.prodazhbi tbody td,
+.ekran .pregled .reshetka.prodazhbi thead th {
+  white-space: nowrap;
+}
+.ekran .pregled .reshetka.prodazhbi tfoot .sbor td,
+.ekran .sektsiya .reshetka.kalkulator tfoot .sbor td {
+  font-weight: 600;
+  border-top: 2px solid var(--linija);
+  background: var(--zeleno-svetlo);
+}
+.ekran .sektsiya .reshetka.kalkulator {
+  margin-bottom: 1rem;
+}
+
+/* СЪСТОЯНИЕТО НА ПРОДАЖБАТА се вижда · платеното е зелено, сметнатото е сиво */
+.ekran .pregled .reshetka tbody td.platena,
+.ekran .pregled .reshetka tbody td.zavarshena {
+  color: var(--zeleno);
+  font-weight: 600;
+}
+.ekran .pregled .reshetka tbody td.smetnata {
+  color: var(--sivo);
+  background: var(--zebra);
+}
+
+/* КАЛЕНДАРЪТ С ЦИФРИТЕ · негово, 11.09 (запис 145): „да се показва цифрата с
+   занака - или +". Знакът има и ЦВЯТ: приходът е зелен, разходът червен,
+   нулата изобщо не се пише. */
+.ekran .gant-skrol .reshetka.kalendar {
+  font-variant-numeric: tabular-nums;
+}
+.ekran .gant-skrol .reshetka.kalendar thead th.ime,
+.ekran .gant-skrol .reshetka.kalendar tbody th.ime {
+  text-align: left;
+  white-space: nowrap;
+  position: sticky;
+  left: 0;
+  background: var(--hartiya);
+  z-index: 1;
+}
+.ekran .gant-skrol .reshetka.kalendar tbody td.evro,
+.ekran .gant-skrol .reshetka.kalendar thead th.evro {
+  text-align: right;
+  white-space: nowrap;
+}
+.ekran .gant-skrol .reshetka.kalendar tbody td.prihod {
+  color: var(--zeleno);
+}
+.ekran .gant-skrol .reshetka.kalendar tbody td.razhod {
+  color: var(--cherveno);
+}
+.ekran .gant-skrol .reshetka.kalendar tbody td.nula {
+  color: var(--sivo);
+}
+.ekran .gant-skrol .reshetka.kalendar tbody td.period,
+.ekran .gant-skrol .reshetka.kalendar tfoot td.period {
+  font-weight: 600;
+  border-right: 2px solid var(--linija);
+  background: var(--zeleno-svetlo);
+}
+.ekran .gant-skrol .reshetka.kalendar thead th.dnes,
+.ekran .gant-skrol .reshetka.kalendar tbody td.dnes {
+  background: var(--zhalto);
+}
+.ekran .gant-skrol .reshetka.kalendar tfoot .sbor td {
+  font-weight: 600;
+  border-top: 2px solid var(--linija);
+}
+
+/* ГЛАВАТА НЕ СЕ ЗАЛЕПВА ТУК · и това е находка, не пропуск.
+
+   Залепването иска онзи, който СКРОЛВА, да е страницата. Но негово, 08.09
+   (запис 64) и 11.09 (запис 192): таблицата има ХОРИЗОНТАЛЕН скрол, а
+   контейнер с overflow-x става собствен скролер и по двете оси — тогава
+   главата се лепи за него, не за екрана, и не мърда никога. Двете му
+   искания се бият на ниво браузър.
+
+   Изходът е известен и записан: скролерът да е ДОКУМЕНТЪТ, а не div
+   (docs/dokladi/09-tablitsata-i-diagramata-CHASTICHEN.md). Това е
+   пренареждане на целия екран, не два реда стил — затова стои като ред в
+   дълга, а не като мъртво правило, което изглежда, че работи. */
+
+/* КЛЕТКИТЕ ПО ВИД · текстът и връзката вляво, празната се вижда, че е празна */
+.ekran .smetki-blokove .reshetka tbody td.kletka.tekst,
+.ekran .smetki-blokove .reshetka tbody td.kletka.vrazka {
+  text-align: left;
+}
+.ekran .smetki-blokove .reshetka tbody td.kletka.prazna {
+  background: var(--zebra);
+}
+
+/* ПРАЗНИЯТ РЕД · таблица, която чака чернова, КАЗВА какво чака, вместо да зее
+   с глави над нищо (Б2 · 11.09.2026). Отвори ли се черновата, редът се скрива. */
+.ekran .tablitsa-blok .reshetka.smetki tbody tr.prazen-red td {
+  color: var(--sivo);
+  font-style: italic;
+  text-align: left;
+}
+.ekran .tablitsa-blok .reshetka.smetki tbody:has(tr.chernova) tr.prazen-red {
+  display: none;
+}
+
+/* БАЗОВИЯТ РЕД · картина от Книгата, не записан ред · личи, че не е негов запис */
+.ekran .tablitsa-blok .reshetka.redove tbody tr.red.bazov td {
+  color: var(--sivo);
+  font-style: italic;
+  background: var(--zebra);
+}
+
+/* ГЛАВИТЕ НА ДЪРВОТО · двата реда заглавия и третото ниво */
+.ekran .darvo-blok .reshetka.darvo thead tr.glavi th {
+  font-weight: 600;
+}
+.ekran .darvo-blok .reshetka.darvo thead tr.podglavi th {
+  font-weight: 400;
+  font-size: 0.85em;
+  color: var(--sivo);
+}
+.ekran .darvo-blok .reshetka.darvo tbody tr.zadacha.nivo-2 td:first-child {
+  padding-left: 2.5rem;
+}
+
+/* ПРОЗОРЕЦЪТ ВЪРХУ ЕКРАНА · негово, 08.09 (запис 21): „да се отварят
+   прозорците… като прозорец върху екрана както в Клод" */
+main.prozorets {
+  display: block;
+}
+.prozorets-tyalo {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* ═══ Б3 · ПЕЧАТЪТ · на среща „разпечатай ми това" не бива да получава отказ.
+   Бутонът му обещава ПДФ (`osnova.ts`); печатът през браузъра го затваря без
+   нито една нова библиотека (правило 9 остава непокътнато). ═══ */
+@media print {
+  body {
+    background: #ffffff;
+    font-size: 11px;
+  }
+  /* на хартия няма прозорец, който да държи височина · листът расте надолу */
+  .ekran {
+    max-width: none;
+    padding: 0;
+    height: auto;
+    display: block;
+  }
+  .ekran > .prozorets {
+    overflow: visible;
+  }
+  .zalepeno {
+    position: static;
+  }
+  .lenta-prozortsi,
+  .buton-grupa,
+  .podtabove,
+  .podskazka,
+  button {
+    display: none;
+  }
+  .ekran .pregled,
+  .ekran .smetki-blokove,
+  .ekran .darvo-blok {
+    overflow: visible;
+  }
+  .ekran .pregled .reshetka.prodazhbi thead tr th,
+  .ekran .smetki-blokove .reshetka.smetki thead tr th {
+    position: static;
+  }
+  .ekran .gant-skrol .reshetka.kalendar thead th.ime,
+  .ekran .gant-skrol .reshetka.kalendar tbody th.ime {
+    position: static;
+  }
+  .reshetka tr,
+  .tablitsa-blok,
+  .sektsiya {
+    page-break-inside: avoid;
+  }
+}
+
+/* ═══ Б5 · ФИЛТЪРЪТ, СБОРЪТ И ОТМЕТКАТА „брой" ═══
+   Негово, 08.09 (запис 64⑨): „най-долният ред дава сумите… отгоре е филтърът".
+   Отметката е негова от 11.09 (запис 163): махната, редът остава на екрана, но
+   излиза от сметката. */
+.ekran .tablitsa-blok .reshetka.redove thead tr th.broy-kolona,
+.ekran .tablitsa-blok .reshetka.redove tbody tr td.broy-kolona,
+.ekran .tablitsa-blok .reshetka.redove tfoot tr td.broy-kolona {
+  width: 2.2rem;
+  text-align: center;
+  color: var(--sivo);
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+.ekran .tablitsa-blok .reshetka.redove thead tr.filtar th {
+  padding: 0.15rem 0.25rem;
+  background: var(--fon);
+}
+.ekran .tablitsa-blok .reshetka.redove thead tr.filtar th .pole {
+  width: 100%;
+  min-width: 3.5rem;
+  padding: 0.1rem 0.25rem;
+  font-size: 0.8rem;
+}
+.ekran .tablitsa-blok .reshetka.redove tbody tr.red.ne-broi td.kletka {
+  color: var(--sivo);
+  text-decoration: line-through;
+}
+.ekran .tablitsa-blok .reshetka.redove tfoot tr.sbor td[data-sbor-kolona] {
+  font-weight: 600;
+  border-top: 2px solid var(--linija);
+  background: var(--zeleno-svetlo);
+}
+
+/* ═══ ПОДРЕДБАТА В ГЛАВАТА · негово, 11.09 (запис 192): „Филтър значи да ги
+   сортираш бе профан. Сортираш по име по цифри." Главата е БУТОН, а не поле:
+   натискаш я и редовете се подреждат; стрелката казва посоката. ═══ */
+.ekran .tablitsa-blok .reshetka.redove thead th .glava-podredba,
+.ekran .darvo-blok .reshetka.redove thead th .glava-podredba {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.2rem;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ekran .tablitsa-blok .reshetka.redove thead th .glava-podredba:hover,
+.ekran .tablitsa-blok .reshetka.redove thead th .glava-podredba:focus-visible {
+  color: var(--zeleno);
+  text-decoration: underline;
+}
+.ekran .tablitsa-blok .reshetka.redove thead th .strelka {
+  font-size: 0.7em;
+  color: var(--zeleno);
+}
+
+/* ═══ КОЛОНИТЕ КАТО В ЕКСЕЛ · негово, 11.09 (запис 193): „колоната да се мести
+   ширината като на ексел… мястото е ценно. Няма празни пространства." ═══ */
+.ekran .tablitsa-blok .reshetka.redove thead tr th[data-kolona] {
+  position: relative;
+}
+.ekran .tablitsa-blok .reshetka.redove thead th .drazhka {
+  position: absolute;
+  top: 0;
+  right: -2px;
+  width: 5px;
+  height: 100%;
+  cursor: col-resize;
+  touch-action: none;
+}
+.ekran .tablitsa-blok .reshetka.redove thead th .drazhka:hover {
+  background: var(--zeleno);
+}
+body.vlacha-shirina {
+  cursor: col-resize;
+  user-select: none;
+}
+.ekran .skriti-koloni {
+  color: var(--sivo);
+}
+
+/* ═══ ЕДИН РЕД · таблицата и календарът са едно, както в MS Project ═══
+   Негово, 11.09 (запис 194): „Искам да се сливат редовете на таблицата и на
+   календара, са еднакви редове… както изглежда в МС Проджект." Тактовете са
+   КОЛОНИ на същата таблица; дотук вдясно стоеше SVG, подравнен с мерене. */
+.ekran .darvo-blok .reshetka.darvo td.takt,
+.ekran .darvo-blok .reshetka.darvo th.takt {
+  width: 2.4rem;
+  min-width: 2.4rem;
+  text-align: center;
+  font-size: 0.7rem;
+  border-left: 1px solid var(--linija);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.ekran .darvo-blok .reshetka.darvo th.takt.dnes,
+.ekran .darvo-blok .reshetka.darvo td.takt.dnes {
+  background: var(--zhalto);
+}
+/* СМЕТКИТЕ В КАЛЕНДАРА НА УПРАВЛЕНИЕ · движението не е лента, а една сума в
+   един месец: клетката му е числова и дясно подравнена, за да се чете в колона. */
+.ekran .darvo-blok .reshetka.darvo td.takt.dvizhenie {
+  background: var(--zeleno-svetlo);
+  text-align: right;
+  padding-right: 0.2rem;
+  font-variant-numeric: tabular-nums;
+}
+.ekran .darvo-blok .reshetka.darvo td.takt.lenta {
+  background: var(--zeleno);
+  color: var(--hartiya);
+  text-align: left;
+  padding-left: 0.25rem;
+}
+.ekran .darvo-blok .reshetka.darvo td.takt.lenta.zhalto {
+  background: #caa63a;
+}
+.ekran .darvo-blok .reshetka.darvo td.takt.lenta.cherveno,
+.ekran .darvo-blok .reshetka.darvo td.takt.lenta.prosrocheno,
+.ekran .darvo-blok .reshetka.darvo td.takt.lenta.speshno {
+  background: var(--cherveno);
+}
+/* „Скрий Диаграма" крие КОЛОНИТЕ на такта, а не съседен блок */
+.ekran .darvo-blok .reshetka.darvo.bez-taktove td.takt,
+.ekran .darvo-blok .reshetka.darvo.bez-taktove th.takt {
+  display: none;
+}
+/* РЕДЪТ НА ЕДНО ДВИЖЕНИЕ · негово, 11.09 (запис 193): Сметките стоят под своя
+   Имот, Обект или Бизнес и се крият с ЕДИН бутон. Редът е поглед, не вход —
+   затова е в курсив и по-блед, а само парите носят цвета на страната си. */
+.ekran .darvo-blok .reshetka.darvo tbody tr.red.dvizhenie td.kletka {
+  font-style: italic;
+  color: var(--sivo);
+}
+.ekran .darvo-blok .reshetka.darvo tbody tr.red.dvizhenie td.kletka.prihod {
+  color: var(--zeleno);
+  font-style: normal;
+}
+.ekran .darvo-blok .reshetka.darvo tbody tr.red.dvizhenie td.kletka.razhod {
+  color: var(--cherveno);
+  font-style: normal;
+}
+.ekran .darvo-blok .reshetka.darvo tfoot td.takt .pokrivashti {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--sivo);
+}
+
+/* ФОРМУЛАТА СЕ ВИЖДА · негово, 25.08 (И96 т.5): „всички коефициенти изредени с
+   формулата на един ред и под нея сметките за периода на параметри и
+   коефициенти". Затова тя стои НА плочката, не само в подсказката. */
+.ekran [data-pokazateli] .pole-s-tsifra .formula {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--sivo);
+  line-height: 1.2;
+}
+
+/* ═══ ЧЕТИРИТЕ СТАЦИОНАРНИ РЕДА · негово, 11.09 (запис 193) ═══
+
+   „Щом не става заради залепения хедър, да го направим не залепен хедър а като
+   3 ленти както говорихме. 1ви ред да показва информацията както сега. 2ри ред
+   да е по близко до 1ви ред, 3ти ред да се доближи също до 2ри. 4ти ред се
+   правят падащи менюта с бутони… Всички тези 4 реда да са стационарни без
+   хедъри. Така вкарваш хоризонталния скрол."
+
+   Страницата НЕ се движи: екранът е висок колкото прозореца на браузъра, а
+   единственото, което се движи, е ТЯЛОТО на таба. Оттам следва всичко останало —
+   четирите реда горе стоят, без да ги „лепим", и хоризонталният скрол на
+   таблицата и календара работи, защото никой не го надбягва.
+
+   Редовете са: 1 · главата с името и вестта · 2 · осемте таба · 3 · полетата с
+   цифри · 4 · менютата по теми, такта и датата. */
+.ekran {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ekran > .glava,
+.ekran > .lenta-prozortsi {
+  flex: 0 0 auto;
+}
+
+.ekran > .prozorets {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding-bottom: 2rem;
+}
+
+/* ЧЕТВЪРТИЯТ РЕД · „Всички бутони се разделят на теми с падащи менюта, колкото
+   са темите в таба" (негово, zadanie/12 · О1). Менюто е <details>: отваря се без
+   нито един ред скрипт, а кутията виси НАД съдържанието, вместо да го бута. */
+.ekran .deystviya .tema {
+  position: relative;
+}
+
+.ekran .deystviya .tema > summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  min-height: 1.8rem;
+  font-size: 0.8rem;
+  border: 1px solid var(--linija);
+  border-radius: 6px;
+  background: var(--hartiya);
+  color: var(--mastilo);
+  user-select: none;
+}
+
+.ekran .deystviya .tema > summary::-webkit-details-marker {
+  display: none;
+}
+
+.ekran .deystviya .tema > summary::after {
+  content: "▾";
+  color: var(--sivo);
+  font-size: 0.7rem;
+}
+
+.ekran .deystviya .tema[open] > summary {
+  border-color: var(--zeleno);
+  color: var(--zeleno);
+}
+
+.ekran .deystviya .tema > .tochki {
+  position: absolute;
+  top: calc(100% + 0.2rem);
+  left: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.2rem;
+  min-width: 13rem;
+  padding: 0.3rem;
+  background: var(--hartiya);
+  border: 1px solid var(--linija);
+  border-radius: 6px;
+  box-shadow: 0 3px 10px rgb(31 42 37 / 12%);
+}
+
+.ekran .deystviya .tema > .tochki > button {
+  max-width: none;
+  text-align: left;
+}
+
+.ekran .deystviya .otkriti {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* ПОДГЛАВАТА НЕ РАЗТЯГА КОЛОНАТА · негово, 11.09 (запис 195), точка 8: „Не
+   искам растояния между колоните." Обяснението му от ред 18 стои на два реда и
+   толкова; цялото се чете при задържане на мишката. */
+.ekran .darvo-blok .reshetka.darvo thead tr.podglavi th .podglava-tekst {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 13rem;
+  white-space: normal;
+}
+
+/* ГЛАВАТА НЕ РАЗТЯГА КОЛОНАТА · неговите заглавия са цели изречения („Задачи
+   (нещо като състояние за Делата, Срещите и Преписките)"). Пуснати свободно, те
+   решаваха ширината и изяждаха половин екран, а календарът оставаше отвъд ръба.
+   Цялото заглавие се чете при задържане; ширината се влачи като в Ексел. */
+.ekran .darvo-blok .reshetka.darvo thead tr.glavi th {
+  max-width: 11rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ЗАЛЕПЕНАТА ЛЯВА ЧАСТ · номерът и името остават, докато тактовете се движат
+   наляво (негово, запис 195 т.2 · `docs/24`). Фонът е плътен, инак редовете
+   отдолу минават под тях; `left` се мери и се пише от `zalepiLyavata`. */
+.ekran .darvo-blok .reshetka.darvo .zalepena-kolona {
+  position: sticky;
+  z-index: 2;
+  background: var(--hartiya);
+}
+.ekran .darvo-blok .reshetka.darvo thead .zalepena-kolona,
+.ekran .darvo-blok .reshetka.darvo tfoot .zalepena-kolona {
+  background: var(--fon);
+}
+.ekran .darvo-blok .reshetka.darvo tr.zebra .zalepena-kolona {
+  background: var(--zebra);
+}
+.ekran .darvo-blok .reshetka.darvo tr.roditel .zalepena-kolona {
+  background: var(--zeleno);
+}
+.ekran .darvo-blok .reshetka.darvo tr.roditel.nivo-1 .zalepena-kolona {
+  background: var(--zeleno-svetlo);
+}
+.ekran .darvo-blok .reshetka.darvo .zalepena-kolona.posledna-zalepena {
+  border-right: 2px solid var(--linija);
+}
+
+/* ТРЕЗОРЪТ · Заданието (M06-10) иска ПОЛЕ, което сглобява числата между
+   банката, ръката и счетоводството. Стои в реда на кеша, до сверките му,
+   защото от същите три числа се смята и се чете заедно с тях. */
+.ekran .red-kesh .trezor {
+  font-weight: 600;
+  color: var(--zeleno);
+  white-space: nowrap;
+}
+
+/* ИЗСКАЧАЩИЯТ ПРОЗОРЕЦ ЗА СЪЗДАВАНЕ · негово, 11.09 (запис 195) т.11:
+   „Създаването на Имот, Обект, Задачи, Срещи да става в искачащ прозорец", и
+   08.09 (запис 21): „като прозорец върху екрана както в Клод". Това е
+   `<dialog>` на браузъра — затъмнението, капанът на фокуса и Escape идват
+   готови, без нито една библиотека (правило 9). */
+.izskachasht {
+  border: 1px solid var(--linija);
+  border-radius: 10px;
+  padding: 0;
+  max-width: 32rem;
+  width: calc(100vw - 3rem);
+  background: var(--hartiya);
+  color: var(--mastilo);
+  box-shadow: 0 12px 40px rgb(31 42 37 / 25%);
+}
+
+.izskachasht::backdrop {
+  background: rgb(31 42 37 / 35%);
+}
+
+.izskachasht .izskachasht-forma {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.9rem 1rem 1rem;
+}
+
+.izskachasht .poleta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.izskachasht .pole-red {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.izskachasht .pole-v-prozoretsa {
+  width: 100%;
+  max-width: none;
+}
+
+.izskachasht .pole-red .ime {
+  color: var(--sivo);
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (width <= 30rem) {
+  .izskachasht .pole-red {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ЗАДЪЛЖИТЕЛНОТО ПОЛЕ се вижда ПРЕДИ натискането · правило 29: полето само
+   казва дали се попълва. Чертата отляво е тиха и не яде място, а място няма
+   (негово, запис 193 · мястото е ценно). */
+input.pole:required,
+select.pole:required {
+  border-left: 2px solid var(--zeleno);
+}
+
+/* СЕДМИЧНАТА ПРОГРАМА · седем дни, днешният отбелязан, натрупаното с цвят.
+   Негово, 11.09 (запис 195) т.7: „седмичната програма, не днешната а
+   седмичната… се трупа, докато не се отбележи, че е свършена задачата." */
+.sedmitsata .sedmitsata-tablitsa {
+  width: 100%;
+}
+
+.sedmitsata .sedmitsata-tablitsa .den {
+  width: 11rem;
+  white-space: nowrap;
+  color: var(--sivo);
+}
+
+.sedmitsata .sedmitsata-tablitsa tr.dnes {
+  background: var(--zhalto);
+}
+
+.sedmitsata .sedmitsata-tablitsa tr.dnes .den {
+  color: var(--mastilo);
+  font-weight: 600;
+}
+
+.sedmitsata .zadacha-v-denya {
+  display: inline-block;
+  margin-right: 0.4rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  background: var(--zeleno-svetlo);
+}
+
+.sedmitsata .zadacha-v-denya.natrupana {
+  background: var(--cherveno);
+  color: var(--hartiya);
+}
+
+.sedmitsata .prazna-duma {
+  color: var(--sivo);
+}
+
+/* ДВЕТЕ ТАБЛИЦИ НА НАП · негово, 11.09 (запис 195) т.5: „платените се сортират
+   най отдолу с затъмнен цвят а тези които не са излезли светят". Подредбата е
+   смятана; тук е само цветът. */
+.ekran .nap-mesetsi {
+  width: 100%;
+}
+
+.ekran .nap-mesetsi tr.platen {
+  color: var(--sivo);
+  background: var(--zebra);
+}
+
+.ekran .nap-mesetsi tr.chaka {
+  background: var(--zhalto);
+  font-weight: 600;
+}
+
+.ekran .nap-mesetsi tr.zakasnyal,
+.ekran .nap-mesetsi tr.nadplaten,
+.ekran .nap-mesetsi tr.razminava {
+  color: var(--cherveno);
+}
+
+/* ВЛИЗАНЕТО · един имейл, нищо повече. Негово, 11.09 (запис 190): „Просто
+   влизаш, няма роли, няма Стопанин… Влизане с имейл." Екранът е сам на
+   страницата, защото преди него няма какво да се покаже. */
+.vlizane {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.vlizane .vlizane-forma {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 26rem;
+  padding: 1.4rem 1.5rem 1.6rem;
+  background: var(--hartiya);
+  border: 1px solid var(--linija);
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgb(31 42 37 / 10%);
+}
+
+.vlizane .vlizane-forma h1 {
+  margin: 0;
+  color: var(--zeleno);
+  font-size: 1.6rem;
+  letter-spacing: 0.02em;
+}
+
+.vlizane .pole-red {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.vlizane .pole-red .ime {
+  color: var(--sivo);
+  font-size: 0.85rem;
 }

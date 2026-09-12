@@ -32,6 +32,14 @@ export interface ShemaJSON {
   readonly items?: ShemaJSON;
   readonly minItems?: number;
   readonly description?: string;
+  /**
+   * НЕГОВОТО име на колоната · за отказ с ДУМИ (правило 12).
+   *
+   * Без него отказът за празна задължителна клетка излизаше такъв:
+   * „товарът.kletki.sastoyanie: очаква се object, а е null." Вярно по
+   * същество и напълно безполезно за човека пред екрана.
+   */
+  readonly ime?: string;
 }
 
 /** Строг обект · всички ключове задължителни · нищо непознато. */
@@ -101,7 +109,7 @@ export function shemaNaReda(t: Tablitsa, rezhim: 'sazdavane' | 'popravka'): Shem
     const sh = shemaNaKletka(k);
     if (sh === undefined) continue;
     const zadalzhitelna = rezhim === 'sazdavane' && k.zadalzhitelna;
-    properties[k.klyuch] = zadalzhitelna ? sh : poIzbor(sh);
+    properties[k.klyuch] = { ...(zadalzhitelna ? sh : poIzbor(sh)), ime: k.ime };
     required.push(k.klyuch);
   }
   return { type: 'object', properties, required, additionalProperties: false };

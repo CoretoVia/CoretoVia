@@ -1026,8 +1026,18 @@ const listSmetki: PisachNaList = (o, p, imeNaNastroykite, podtablitsi, kogato) =
       if (tvR !== undefined && ir !== undefined) {
         const negov = redKato(tvR, ir);
         red[0] = tekstNaNomera(nomerNaRed(o, opisNaRoditelya.klyuch, ir));
+        // РОДИТЕЛЯТ НЕ ПИШЕ В КОЛОНА, КОЯТО Е НА ДВИЖЕНИЕТО.
+        //
+        // Неговата глава за състоянието на Имота носи ДВЕ неща: състоянието
+        // на родителя и името на реда на движението. Докато движенията бяха
+        // без родител, това не личеше. Щом движението получи Имот,
+        // състоянието му падаше в колоната на името — и при връщане Книгата
+        // предлагаше да кръсти реда със състоянието. Тоест износ → внос
+        // спираше да е нула: точката преставаше да е неподвижна.
+        //
+        // Затова колона със свое име за движение се пълни САМО от движението.
         for (const [j, g] of oblik.entries())
-          if (g.ot === 'roditel')
+          if (g.ot === 'roditel' && g.dvizhenie === undefined)
             red[sh.nachalo[j]!] = roditelKletka(o, g, opisNaRoditelya.klyuch, negov);
       }
     }

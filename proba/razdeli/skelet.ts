@@ -6,6 +6,8 @@ const MOSTRA = fileURLToPath(new URL('../../tests/mostri/Coretovia-mostra.xlsx',
 
 /** 0 · скелетът · страницата · хранилището · осемте прозореца · Книгата се чете в браузъра */
 import { tishina } from '../yadro/tishina.ts';
+import { ADRES } from '../yadro/server.ts';
+import { IMEYLAT_NA_PROHODA } from '../yadro/pomoshtni.ts';
 
 /** Отваря Профил след ново зареждане · котвата се чете ВЕДНЪЖ, при тръгване. */
 async function otvoriProfilNanovo(p: KonteksNaProhoda['stranitsa']): Promise<void> {
@@ -21,10 +23,32 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     broyach.proveri(razdel, kakvo, vidyano, ochakvano);
 
   // ══ 0а · страницата ═══════════════════════════════════════════════════
-  razdel = '0а · страницата';
-  await otvori(p);
+  razdel = '0а · вратата';
+  // негово, 11.09 (запис 190): „Просто влизаш… Влизане с имейл." Преди имейла
+  // програмата не рисува нито един прозорец — това е първото, което се проверява.
+  await p.goto(ADRES);
+  await p.waitForSelector('[data-vlizane]');
   proveri('заглавието', await p.title(), 'Coretovia');
-  proveri('Книгата е празна', await tekstNa(p, '[data-vest]'), 'Книгата е празна · 0 събития');
+  proveri(
+    'без имейл няма нито един прозорец · само вратата',
+    `${(await p.$('[data-prozortsi]')) === null} · ${(await p.$('[data-vlizane-imeyl]')) !== null}`,
+    'true · true',
+  );
+  await p.fill('[data-vlizane-imeyl]', 'не-е-имейл');
+  await p.click('[data-vlizane-vlez]');
+  proveri(
+    'грешният имейл се КАЗВА · и вратата остава',
+    await tekstNa(p, '[data-vlizane-greshka]'),
+    'Това не прилича на имейл.',
+  );
+  await otvori(p);
+  proveri(
+    'влязохме · и празната Книга се ОТКРИ със същия имейл',
+    await tekstNa(p, '[data-vest]'),
+    `1 събития в Журнала · ${IMEYLAT_NA_PROHODA}`,
+  );
+  await p.click('[data-prozorets="profil"]');
+  await p.waitForSelector('[data-kotva]');
   proveri(
     'хранилището докладва',
     (await tekstNa(p, '[data-hranilishte]')).startsWith('постоянство:'),
@@ -37,9 +61,9 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
   proveri('полетата на формата имат име', await poletaBezIme(p), 0);
   proveri(
-    'котва още няма',
-    await tekstNa(p, '[data-kotva]'),
-    'Котва още няма на този браузър · захваща се при първия запис.',
+    'котвата се захвана при откриването',
+    (await tekstNa(p, '[data-kotva]')).startsWith('Котва още няма'),
+    false,
   );
 
   // САМОЛИЧНОСТТА · свой ключ на устройството (ADR-024 §1).
@@ -69,9 +93,9 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     (document.querySelector('[data-veriga]')?.textContent ?? '').includes('Веригата'),
   );
   proveri(
-    'празната верига е цяла',
+    'веригата е цяла · с първото звено от откриването',
     await tekstNa(p, '[data-veriga]'),
-    'Веригата е цяла · 0 от 0 звена.',
+    'Веригата е цяла · 1 от 1 звена.',
   );
 
   // ══ 0в · осемте прозореца ═════════════════════════════════════════════
@@ -133,9 +157,9 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   const slivaniya = await tekstoveNa(p, '[data-list="ИмотиОбектиБизнеси"] td:last-child');
   proveri('слетите клетки на Имотите са четири', slivaniya[0], '4');
   proveri(
-    'Журналът не е пипнат от четенето',
+    'Журналът не е пипнат от четенето · остава при своето едно събитие',
     await tekstNa(p, '[data-vest]'),
-    'Книгата е празна · 0 събития',
+    `1 събития в Журнала · ${IMEYLAT_NA_PROHODA}`,
   );
 }
 

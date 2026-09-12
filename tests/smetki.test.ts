@@ -83,7 +83,7 @@ async function otvori() {
   };
   await zapishi('k0', 'stopanin.otkriy', { imeyl: STOPANIN });
   await zapishi('i1', 'imoti.sazdayImot', {
-    kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 2 }, nomer: null, ...PRAZEN },
+    kletki: { ime: { tekst: 'Гара Яна' }, sastoyanie: { nomer: 2 }, ...PRAZEN },
   });
   await zapishi('o1', 'imoti.dobaviObekt', {
     kletki: {
@@ -107,6 +107,7 @@ const dvizhenie = (oshte: Record<string, unknown>) => ({
     funktsiya: { nomer: 3 },
     sastoyanie: null,
     mesets: { tekst: MESETS },
+    data: null,
     suma: null,
     ...oshte,
   },
@@ -161,6 +162,7 @@ describe('знакът решава страната (правило 20)', () =>
           sektsiya: { nomer: 1 },
           suma: { stoynost_st: 100 },
           mesets: { tekst: '09.2026' },
+          data: null,
         }),
       ),
     ).toMatch(/не е месец ГГГГ-ММ/);
@@ -321,6 +323,7 @@ describe('секциите и сборовете', () => {
         kam: { tekst: 'obekt:o1' },
         sektsiya: { nomer: naem },
         mesets: { tekst: '2026-10' },
+        data: null,
         suma: { stoynost_st: 90000 },
       }),
     );

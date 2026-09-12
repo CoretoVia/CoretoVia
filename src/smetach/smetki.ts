@@ -153,6 +153,15 @@ export interface RedVSektsiya {
   readonly id: string;
   readonly suma_st: number;
   readonly mesets: string;
+  /**
+   * ДЕНЯТ НА ПАРИТЕ · `ГГГГ-ММ-ДД` · празен, когато не е попълнен.
+   *
+   * Негово, 11.09 (запис 195), точка 3: „Да има дата на всяка цифра." Датата е
+   * ПО ИЗБОР: празна ли е, редът пада на първия ден от месеца си, както беше
+   * винаги — месецът остава задължителен, защото по него се сверяват кешът и
+   * ДДС, а те са месечни по негова дума.
+   */
+  readonly data: string;
 }
 
 export interface Sektsiya {
@@ -217,7 +226,8 @@ export function smetkite(
       if (prezMeseca !== undefined && !prezMeseca(mesets)) continue;
       broyDvizheniya += 1;
       const suma_st = tsentoveNa(o, TABLITSA_NA_DVIZHENIYATA, i, 'suma') ?? 0;
-      const red: RedVSektsiya = { i, id: tv.id[i] ?? '', suma_st, mesets };
+      const data = tekstNa(o, TABLITSA_NA_DVIZHENIYATA, i, 'data');
+      const red: RedVSektsiya = { i, id: tv.id[i] ?? '', suma_st, mesets, data };
       let namerena = false;
       for (const strana of ['prihod', 'razhod'] as const) {
         const k = kletkaNa(tv, i, KOLONA_NA_SEKTSIYATA[strana]);

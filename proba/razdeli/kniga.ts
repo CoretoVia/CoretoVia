@@ -58,9 +58,16 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'работи · без мрежа · чист код · идва с ход 11а · идва с ход 11а · идва с ход 11а · идва с ход 11а',
   );
   proveri(
-    '„Неактивни агенти" е празна, както при него',
-    await p.$$eval('[data-agenti="neaktivni"] tbody tr', (es) => es.length),
-    0,
+    '„Неактивни агенти" КАЗВА, че е празна, вместо да зее с таблица без редове',
+    (await tekstNa(p, '[data-agenti="neaktivni"]')).startsWith('Празна, както е в Книгата.'),
+    true,
+  );
+  proveri(
+    'Сверчикът има време и отчет · двете клетки не са празни',
+    await p.$eval('[data-agenti="aktivni"] tr.red [data-otchet-agent]', (e) =>
+      (e.textContent ?? '').trim(),
+    ),
+    'няма прочетена Книга',
   );
   proveri('няма прочетена Книга', await tekstNa(p, '[data-otchet-vest]'), 'няма прочетена Книга');
   proveri('няма разписки', await tekstNa(p, '[data-vnasyaniya-nyama]'), 'още няма');

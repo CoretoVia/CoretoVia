@@ -9,7 +9,7 @@
 import type { KlyuchNaProzorets } from '../src/model/klyuchove.js';
 import { proveriModela } from '../src/model/model.js';
 import { MODEL, PROZORTSI } from '../src/model/osnova.js';
-import { tekstNaPomoshtta } from '../src/model/pomosht.js';
+import { pomosht, tekstNaPomoshtta } from '../src/model/pomosht.js';
 import { otvoriDnevnik } from '../src/nositel/dnevnik-indexeddb.js';
 import { sha256NaBaytove, sha256Web } from '../src/nositel/hash-web.js';
 import { samolichnosttaKazva } from '../src/nositel/samolichnost-web.js';
@@ -36,6 +36,7 @@ import { narisuvayProzorets } from './prozorets/prozortsite.js';
 import { zatvoriMenyuto } from './reshetka/menyu.js';
 import {
   izborNaStepenHTML,
+  podskazka,
   podskazkaSDumi,
   skriyPodskazkata,
   stepenNaPomoshtta,
@@ -43,6 +44,7 @@ import {
   zakachiPodskazkite,
 } from './reshetka/podskazka.js';
 import { h, nashSkript, sloji } from './reshetka/shablon.js';
+import { narisuvayVlizaneto } from './reshetka/vlizane.js';
 import { chetiEkranno, zapomniEkranno } from './reshetka/pamet-ekran.js';
 
 const KNIGA = 'coretovia';
@@ -55,6 +57,12 @@ const KNIGA = 'coretovia';
  */
 const VALUTA_NA_KNIGATA = 'EUR';
 /** имейлът на този, който пише · научава се при откриването · удобство на устройството */
+/** Помощта на бутона за печат · защо съществува и какво прави (правило 31). */
+const POMOSHT_NA_PECHATA = pomosht(
+  'Хартията е единственото, което остава на масата след среща · екранът се печата такъв, какъвто се вижда, без лентата с прозорците и без бутоните.',
+  'печата текущия прозорец · таблиците не се режат по средата на ред',
+);
+
 const PAMET_AKTOR = 'aktor';
 
 /**
@@ -174,6 +182,44 @@ async function tragni(ekran: HTMLElement): Promise<void> {
   // зазидало приложението завинаги само за четене (ADR-020 §5).
   const dumiteZaKotvata = kotvataKazva(kotva, KNIGA, await dnevnik.posledno(KNIGA));
 
+  /**
+   * ВРАТАТА · без имейл програмата не рисува нито един прозорец.
+   *
+   * Негово, 11.09 (запис 190): „Просто влизаш, няма роли, няма Стопанин…
+   * Влизане с имейл." Дотук откриването живееше в таб Профил — тоест зад
+   * екран, до който човек стига, СЛЕД като програмата вече е поискала да
+   * пише. Първата крачка не бива да е в третата стая.
+   *
+   * Няма парола, няма акаунт, няма доставчик и няма нито един байт навън:
+   * имейлът казва само КОЙ ПИШЕ в Журнала (правило 4 · подписът покрива
+   * `actor`).
+   */
+  if (aktor.trim() === '') {
+    narisuvayVlizaneto(ekran, {
+      knigataEOtkrita: parvo !== undefined,
+      stopaninat: parvo?.actor ?? '',
+      vlez: async (imeyl) => {
+        // КОЙ ПИШЕ се знае ПРЕДИ записа · командата „открий" сверява товара си
+        // срещу актьора и отказва, ако не съвпадат. При отказ имейлът се връща
+        // назад: човек, който не е влязъл, не бива да остане записан наполовина.
+        const predi = aktor;
+        aktor = imeyl;
+        if (parvo === undefined) {
+          const r = await porta.izpalni(crypto.randomUUID(), 'stopanin.otkriy', { imeyl });
+          if ('otkaz' in r) {
+            aktor = predi;
+            return r.zashto.join(' ');
+          }
+        }
+        zapomniEkranno(PAMET_AKTOR, imeyl);
+        // екранът се строи наново ОТ НАЧАЛОТО · оттук нататък има кой да пише
+        await tragni(ekran);
+        return '';
+      },
+    });
+    return;
+  }
+
   sloji(
     ekran,
     h`
@@ -186,6 +232,13 @@ async function tragni(ekran: HTMLElement): Promise<void> {
       <h1 data-ime tabindex="0">Coretovia</h1>
       <p class="vest" data-vest></p>
       ${izborNaStepenHTML()}
+      <!--
+        ПЕЧАТЪТ · негово, лист Управление: бутонът „Свалифайл" обещава „различни
+        таблици в ПДФ и в Ексел". Excel-ът го дава „Запази книгата"; ПДФ-ът го
+        дава браузърът, без нито една нова библиотека (правило 9). Стилът за
+        хартия е в app/stil.css под media print.
+      -->
+      <button type="button" class="vtorichen" data-pechat${podskazka(POMOSHT_NA_PECHATA)}>Печат</button>
       <!--
         ПАЗАЧЪТ НА ИСТОРИЯТА · стои В ГЛАВАТА, не в панел.
         Правило 31 вече отсъди веднъж: „предупреждение в панел, който човек не е
@@ -327,6 +380,9 @@ async function tragni(ekran: HTMLElement): Promise<void> {
   window.addEventListener('hashchange', narisuvay);
   porta.abonirai(narisuvay);
   // подсказките и изборът на степен · веднъж, върху корена; тялото се сменя при всяко рисуване
+  ekran.querySelector<HTMLButtonElement>('[data-pechat]')?.addEventListener('click', () => {
+    window.print();
+  });
   zakachiPodskazkite(ekran);
   zakachiIzboraNaStepen(ekran, narisuvay);
   narisuvay();

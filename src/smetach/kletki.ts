@@ -62,6 +62,20 @@ function stoynostNaIzbora(
 }
 
 /** ТЕКСТЪТ на избора · без екранни думи · за Книгата и за сравнение. */
+/**
+ * ТЕКСТЪТ НА ЕДНА КЛЕТКА по номер на ред · празен низ, когато я няма.
+ *
+ * Домът е ЕДИН (правило 14): дотук същите пет реда живееха два пъти — веднъж
+ * при задачите, които влизат в Сметки, и веднъж при сметките, които влизат в
+ * Управление. Обход 8 на чистотата ги хвана при второто им раждане.
+ */
+export function tekstNaKletka(o: Ogledalo, tablitsa: string, i: number, kolona: string): string {
+  const tv = o.tablitsi.get(tablitsa);
+  if (tv === undefined) return '';
+  const kletka = kletkaNa(tv, i, kolona);
+  return kletka !== null && 'tekst' in kletka ? kletka.tekst : '';
+}
+
 export function tekstNaIzbora(
   o: Ogledalo,
   tablitsa: string,

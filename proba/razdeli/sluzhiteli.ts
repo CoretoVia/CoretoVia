@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { prochetiKniga } from '../../src/kniga/ooxml.ts';
 import type { KonteksNaProhoda } from '../yadro/kontekst.ts';
-import { tekstNa, tekstoveNa } from '../yadro/pomoshtni.ts';
+import { natisniButon, tekstNa, tekstoveNa } from '../yadro/pomoshtni.ts';
 import { ADRES } from '../yadro/server.ts';
 
 const LIST = 'Служители';
@@ -9,6 +9,9 @@ const STOPANINAT = 'proba@example.bg';
 const POMOSHTNIK = 'pomoshtnik@example.bg';
 
 /** 6 · Служители · четирите му блока · достъпът на Длъжността · Профилът */
+/** новият ред в текста на възел · сивият пункт носи причината си на втори ред */
+const NOV_RED_S = new RegExp(String.fromCharCode(10), 'g');
+
 export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   const { stranitsa: p, broyach } = ctx;
   let razdel = '—';
@@ -202,10 +205,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
 
   // ══ 6е · Книгата носи листа · и се чете обратно без предложения ══════
   razdel = '6е · Книгата';
-  const [svalyane] = await Promise.all([
-    p.waitForEvent('download'),
-    p.click('[data-buton-ekran="svali-fayl"]'),
-  ]);
+  const [svalyane] = await Promise.all([p.waitForEvent('download'), natisniButon(p, 'svali-fayl')]);
   const pat = (await svalyane.path()) ?? '';
   await p.waitForFunction(() =>
     (document.querySelector('[data-iznos-vest]')?.textContent ?? '').startsWith(
@@ -237,4 +237,30 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     await tekstNa(p, '[data-otchet-vest]'),
     '0 предложения · 0 находки · 0 бележки',
   );
+
+  // ══ 6ж · СЕДМИЧНАТА ПРОГРАМА · негово, 11.09 (запис 195), точка 7 ══════
+  razdel = '6ж · седмичната програма';
+  await p.goto(`${ADRES}#/sluzhiteli`);
+  await p.waitForSelector('tr.red[data-tablitsa="sluzhiteli"]');
+  await p.click('tr.red[data-tablitsa="sluzhiteli"]', { button: 'right' });
+  await p.waitForSelector('[data-menyu]');
+  proveri(
+    'десният бутон върху служител дава седмицата и раздаването',
+    (await tekstoveNa(p, '[data-menyu] button')).map((x) => x.replace(NOV_RED_S, ' ')).join(' · '),
+    'Седмичната програма · Дай задача · 1 без отговорник · Редактирай данните · с двойно натискане в клетката клетката се отваря с натискане върху нея',
+  );
+  await p.click('[data-menyu] [data-tochka="sedmitsata"]');
+  await p.waitForSelector('dialog[data-sedmitsa]');
+  proveri(
+    'седмицата е СЕДЕМ дни, от понеделник',
+    (await tekstoveNa(p, 'dialog[data-sedmitsa] tr.red .den')).length,
+    7,
+  );
+  proveri(
+    'и казва колко се трупат от миналото',
+    (await tekstNa(p, '[data-sedmitsa-sverka]')).startsWith('натрупани от минали дни'),
+    true,
+  );
+  await p.click('[data-sedmitsa-zatvori]');
+  await p.waitForSelector('dialog[data-sedmitsa]', { state: 'detached' });
 }
