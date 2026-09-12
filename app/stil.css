@@ -1073,9 +1073,29 @@ main.prozorets {
 
 /* ═══ КОЛОНИТЕ КАТО В ЕКСЕЛ · негово, 11.09 (запис 193): „колоната да се мести
    ширината като на ексел… мястото е ценно. Няма празни пространства." ═══ */
+/* Дръжката се позиционира спрямо главата · но ЗАЛЕПЕНАТА глава вече е
+   `sticky` и тя също е контейнер за абсолютното: `relative` върху нея би
+   отлепило лявата половина. Проходът го хвана веднага. */
+.ekran .tablitsa-blok.darvo-blok .reshetka.darvo thead tr th:not(.zalepena-kolona) {
+  position: relative;
+}
 .ekran .tablitsa-blok .reshetka.redove thead tr th[data-kolona] {
   position: relative;
 }
+
+/* ДРЪЖКАТА В ДЪРВОТО · същият десен ръб · негово, запис 199 т.4. В лявата
+   половина всяка колона носи своята ширина; в календара дръжката е само на
+   ПЪРВИЯ ден и мести всички наведнъж, защото те са едно и също нещо. */
+.ekran .tablitsa-blok.darvo-blok .reshetka.darvo thead tr th .shirina {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
+  touch-action: none;
+}
+
 .ekran .tablitsa-blok .reshetka.redove thead th .drazhka {
   position: absolute;
   top: 0;
@@ -1094,6 +1114,72 @@ body.vlacha-shirina {
 }
 .ekran .skriti-koloni {
   color: var(--sivo);
+}
+
+/* ═══ ПОЛОВИН ЕКРАН ЗА ТАБЛИЦАТА, ПОЛОВИН ЗА КАЛЕНДАРА ═══
+   Негово, 12.09 (запис 199): „Направи самите колони тесни за данните да се
+   видят добре, а имената на колоните ги направи съкратени и ако трябва да не се
+   виждат целите, но да се събират в половината екран. Да се вижда в останалата
+   картина календарът."
+
+   `table-layout: fixed` е разликата: при него ширината се СЛУША, вместо да се
+   пресмята от най-дългата дума. Дотук една дълга клетка разтягаше цялата колона
+   и календарът оставаше отвъд ръба. */
+.ekran .darvo-blok .reshetka.darvo {
+  table-layout: fixed;
+  /*
+   * ШИРИНАТА Е СБОРЪТ НА КОЛОНИТЕ, не сто на сто от блока.
+   *
+   * При  таблицата се разтяга до контейнера и РАЗДАВА остатъка
+   * между колоните — тоест зададените ширини стават предложение и всяка
+   * колона става по-широка от поисканото. Точно това криеше календара:
+   * тринайсетте колони на таблицата изяждаха целия екран.
+   */
+}
+
+.ekran .darvo-blok .reshetka.darvo thead tr.glavi th {
+  overflow: hidden;
+}
+
+/* Името се реже САМО в своя си блок · дръжката отдясно стои извън рязането,
+   инак тя влиза в сметката за многоточието и то яде началото на думата. */
+.ekran .darvo-blok .reshetka.darvo thead tr.glavi th .ime-glava {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ekran .tablitsa-blok.darvo-blok .reshetka.darvo tbody tr.red td.kletka {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* КАЛЕНДАРЪТ · всички колони с ЕДНА ширина · негово, запис 199 т.4: „за
+   календара местиш една, местиш всички, както в Ексел когато ги маркираш". */
+/* ПАДАЩОТО МЕНЮ СТОИ В СВОЯТА КОЛОНА · негово, 12.09 (запис 199).
+
+   Без това менюто е широко колкото най-дългата си дума и ПРЕЛИВА върху
+   съседните колони: при  клетката си остава тясна, а
+   съдържанието ляга отгоре — главите изглеждат разместени, макар да са на
+   място. Изглеждаше като счупена таблица; беше един липсващ ред стил. */
+.ekran .darvo-blok .reshetka.darvo thead tr.filtar td select.filtar {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+}
+
+/* Подглавата също стои в колоната си · нейният текст е негов и е дълъг. */
+.ekran .darvo-blok .reshetka.darvo thead tr.podglavi th .podglava-tekst {
+  max-width: 100%;
+}
+
+/* КАЛЕНДАРЪТ · ширината идва от `<col>`; тук стои само че текстът не пренася. */
+.ekran .darvo-blok .reshetka.darvo th.takt,
+.ekran .darvo-blok .reshetka.darvo td.takt {
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 /* ═══ ЕДИН РЕД · таблицата и календарът са едно, както в MS Project ═══

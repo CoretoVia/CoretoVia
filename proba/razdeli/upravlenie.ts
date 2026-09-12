@@ -167,13 +167,21 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
 
   // ══ 3в · филтърът · сметката · тактът · скриването ═══════════════════
   razdel = '3в · филтър · сбор · такт';
-  await p.fill('[data-filtar="4"]', 'сон');
-  await p.press('[data-filtar="4"]', 'Enter');
+  // негово, 12.09 (запис 199): филтърът е падащо меню от ВЪВЕДЕНОТО в колоната —
+  // избира се готова стойност, вместо да се познава как е изписана
+  proveri(
+    'менюто под „Задачи" носи онова, което наистина стои в колоната',
+    (
+      await p.$$eval('[data-filtar="4"] option', (es) => es.map((e) => e.textContent?.trim() ?? ''))
+    ).join(' · '),
+    'всички · Дело / Сондаж',
+  );
+  await p.selectOption('[data-filtar="4"]', 'Дело / Сондаж');
   await p.waitForFunction(() =>
     document.querySelector('[data-sverka="darvo"]')?.textContent?.startsWith('видими 2 от 4'),
   );
   proveri(
-    'филтър „сон" · остават задачата и Имотът ѝ · филтърът се казва',
+    'избрана „Дело / Сондаж" · остават задачата и Имотът ѝ · филтърът се казва',
     await tekstNa(p, '[data-sverka="darvo"]'),
     'видими 2 от 4 · родители 3 · задачи 1 · сираци 0 · филтърът е включен',
   );
@@ -182,8 +190,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     (await p.$$('[data-reshetka="zadachi"] tbody tr.red')).length,
     2,
   );
-  await p.fill('[data-filtar="4"]', '');
-  await p.press('[data-filtar="4"]', 'Enter');
+  await p.selectOption('[data-filtar="4"]', '');
   await p.waitForFunction(() =>
     document.querySelector('[data-sverka="darvo"]')?.textContent?.startsWith('видими 4 от 4'),
   );

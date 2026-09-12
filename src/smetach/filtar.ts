@@ -75,3 +75,30 @@ export function filtrirayDarvoto(
   for (const [i, v] of vidim.entries()) if (v) vidimi.push(i);
   return { vidimi, broyVidimi: vidimi.length, broySkriti: redove.length - vidimi.length };
 }
+
+/**
+ * СТОЙНОСТИТЕ, КОИТО НАИСТИНА СТОЯТ В ЕДНА КОЛОНА · за падащото меню.
+ *
+ * Негово, 12.09 (запис 199), ДОСЛОВНО: „**Филтри да станат… падащи менюта с
+ * избор от въведените данни за конкретната колона.**"
+ *
+ * Тоест менюто НЕ е номенклатура и не е списък от Модела: то е онова, което
+ * наистина е въведено в тази колона. Празните не влизат — празно не се избира,
+ * а списъкът е подреден по български с числата като числа, за да стои „10"
+ * след „9", а не преди него.
+ */
+export function stoynostiteNaKolonata(
+  redove: readonly RedZaFiltar[],
+  j: number,
+): readonly string[] {
+  const vidyani = new Map<string, string>();
+  for (const r of redove) {
+    const duma = (r.dumi[j] ?? '').trim();
+    if (duma === '') continue;
+    // еднакви по същество думи се сливат · показва се първата, както е въведена
+    if (!vidyani.has(svedi(duma))) vidyani.set(svedi(duma), duma);
+  }
+  return [...vidyani.values()].sort((a, b) =>
+    new Intl.Collator('bg', { numeric: true }).compare(a, b),
+  );
+}

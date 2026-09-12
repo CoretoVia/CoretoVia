@@ -29,6 +29,7 @@ import { h, type Zapechatan } from './shablon.js';
 import { fokusiraySled, zakachiRedaktsiya } from './redaktsiya.js';
 import {
   prilozhiKolonite,
+  sloziShiriniteNaDarvoto,
   varniVsichkiKoloni,
   zakachiDesniyaButonNaGlavata,
   zakachiVlacheneto,
@@ -125,6 +126,7 @@ export function zakachiReshetkata(k: KonteksNaEkrana): void {
   zakachiVlacheneto(k.tyalo);
   zakachiDesniyaButonNaGlavata(k.tyalo);
   prilozhiKolonite(k.tyalo);
+  sloziShiriniteNaDarvoto(k.tyalo);
   zalepiLyavata(k.tyalo);
   k.tyalo.addEventListener('click', (e) => {
     const buton = (e.target as HTMLElement | null)?.closest<HTMLElement>('[data-varni-koloni]');

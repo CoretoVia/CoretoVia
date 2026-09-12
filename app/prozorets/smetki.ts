@@ -656,8 +656,17 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         butonHTML,
         h`<button type="button" class="malak" data-dobavi-dvizhenie${podskazkaSDumi('отваря чернова под главата · Enter записва реда през Портата · знакът решава страната')}>Добави ред с пари</button>`,
       )}
+      <!--
+        ПОДТАБОВЕТЕ СА В СТАЦИОНАРНАТА ЧАСТ · негово, 12.09 (запис 200): „В
+        Сметки Сметки Приходи Разходи Проверки НАП да са над реда с имената на
+        колоните."
+
+        Дотук те стояха ПОД залепеното и се отвяваха заедно с тялото: скролнеш
+        ли до средата на Разходи, вече не се вижда в кой подтаб си. Мястото им е
+        при другите стационарни редове, над главите на таблицата.
+      -->
+      ${podtaboveHTML(PODTABOVE, podtab)}
     </div>
-    ${podtaboveHTML(PODTABOVE, podtab)}
     <p class="greshka" data-greshka></p>
     ${
       podtab === 'nap'

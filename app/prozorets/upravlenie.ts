@@ -35,7 +35,12 @@ import { kolonaNa, slyataNa } from '../../src/model/tablitsa.js';
 import { type Ogledalo, tablitsaVOgledaloto } from '../../src/ogledalo/ogledalo.js';
 import { type Red, redKato } from '../../src/ogledalo/tablitsa.js';
 import { darvoto, type RoditelVDarvoto } from '../../src/smetach/darvo.js';
-import { eFiltarPrazen, filtrirayDarvoto, type RedZaFiltar } from '../../src/smetach/filtar.js';
+import {
+  eFiltarPrazen,
+  filtrirayDarvoto,
+  type RedZaFiltar,
+  stoynostiteNaKolonata,
+} from '../../src/smetach/filtar.js';
 import {
   dumataNaButona,
   type KoeSeVizhda,
@@ -196,6 +201,25 @@ interface RedNaEkrana {
   readonly ot: string;
   readonly do: string;
   readonly speshno: boolean;
+}
+
+/**
+ * КЪСОТО ИМЕ НА ЕДНА ГЛАВА · негово, 12.09 (запис 199): „имената на колоните ги
+ * направи съкратени и ако трябва да не се виждат целите, но да се събират в
+ * половината екран."
+ *
+ * Неговите глави са цели изречения („Задачи(нещо като състояние за Делата,
+ * Срещите и Преписките)"). Отрязва се при първата скоба — там свършва името и
+ * започва обяснението — и се спира на разумна дължина. ЦЯЛАТА глава, дословно
+ * негова, стои в подсказката: нищо не се губи, само не разтяга екрана.
+ */
+const NAY_DALGA_GLAVA = 12;
+
+function kratkaGlava(glava: string): string {
+  const bezSkobi = (glava.split('(')[0] ?? glava).trim();
+  return bezSkobi.length <= NAY_DALGA_GLAVA
+    ? bezSkobi
+    : `${bezSkobi.slice(0, NAY_DALGA_GLAVA).trim()}…`;
 }
 
 function redNaRoditel(
@@ -527,9 +551,12 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
   }
 
   // ═══ главите · подглавите · редът „филтър" ═══
+  // ДРЪЖКАТА на десния ръб · всяка колона поотделно (негово, запис 199 т.4)
   const glavi = oblik.map(
     (g) =>
-      h`<th colspan="${Math.max(1, koloniPodGlavata(g).length)}" data-glava="${g.kolona ?? 'nomeratsiya'}"${podskazka(g.pomosht)}>${g.glava}</th>`,
+      h`<th colspan="${Math.max(1, koloniPodGlavata(g).length)}" data-glava="${g.kolona ?? 'nomeratsiya'}"${podskazkaSDumi(
+        g.glava,
+      )}><span class="ime-glava">${kratkaGlava(g.glava)}</span><span class="shirina" data-shirina-darvo aria-hidden="true"></span></th>`,
   );
   /** сборът под всеки такт · бюджетът на задачите, които почват в него */
   /** колко задачи има на екрана и за колко от тях пада лента в този такт */
@@ -554,8 +581,10 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
     }${broy === 0 ? '' : h`<span class="pokrivashti">${String(broy)}</span>`}</td>`;
   });
   const glaviNaTaktovete = koloniNaTaktove.map(
-    (kol) =>
-      h`<th class="takt${kol.dnes ? ' dnes' : ''}"${podskazkaSDumi(kol.opis)}>${kol.nadpis}</th>`,
+    (kol, i) =>
+      h`<th class="takt${kol.dnes ? ' dnes' : ''}"${podskazkaSDumi(kol.opis)}>${kol.nadpis}${
+        i === 0 ? h`<span class="shirina" data-shirina-darvo aria-hidden="true"></span>` : ''
+      }</th>`,
   );
   const podglaviNaTaktovete = koloniNaTaktove.map(
     (kol) => h`<th class="podglava takt${kol.dnes ? ' dnes' : ''}"></th>`,
@@ -574,11 +603,27 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
       dumi === '' ? '' : podskazkaSDumi(dumi)
     }><span class="podglava-tekst">${dumi}</span></th>`;
   });
-  const redFiltar = oblik.map((g, j) =>
-    j === 0
-      ? h`<td class="filtar-duma" translate="no">филтър</td>`
-      : h`<td colspan="${Math.max(1, koloniPodGlavata(g).length)}"><input class="pole malak filtar" data-filtar="${j}" value="${filtar[j] ?? ''}" placeholder="филтър" aria-label="${`филтър под „${g.glava}"`}"></td>`,
-  );
+  /**
+   * ФИЛТЪРЪТ Е ПАДАЩО МЕНЮ ОТ ВЪВЕДЕНОТО · негово, 12.09 (запис 199):
+   * „Тези филтри да се махнат (не са филтри). Филтри да станат… падащи менюта с
+   * избор от въведените данни за конкретната колона."
+   *
+   * Свободното поле искаше човек да ЗНАЕ какво да напише и да го напише вярно.
+   * Менюто показва какво има: избираш от онова, което наистина стои в колоната.
+   * Стойностите идват от ВСИЧКИ редове, не от видимите — инак изборът се стеснява
+   * сам след първото избиране и няма как да се върнеш.
+   */
+  const redFiltar = oblik.map((g, j) => {
+    if (j === 0) return h`<td class="filtar-duma" translate="no">филтър</td>`;
+    const stoynosti = stoynostiteNaKolonata(zaFiltar, j);
+    const izbrano = filtar[j] ?? '';
+    return h`<td colspan="${Math.max(1, koloniPodGlavata(g).length)}"><select class="pole malak filtar" data-filtar="${j}" aria-label="${`филтър под „${g.glava}"`}">
+      <option value="">всички</option>
+      ${stoynosti.map(
+        (s) => h`<option value="${s}" ${s === izbrano ? 'selected' : ''}>${s}</option>`,
+      )}
+    </select></td>`;
+  });
 
   // ═══ полетата с цифри · бутоните ═══
   const poleta = poletataNaUpravlenie(o, dnes, kogato);

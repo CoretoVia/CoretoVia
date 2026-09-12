@@ -10,8 +10,9 @@ import {
   eFiltarPrazen,
   filtrirayDarvoto,
   minavaFiltara,
-  type RedZaFiltar,
+  stoynostiteNaKolonata,
   svedi,
+  type RedZaFiltar,
 } from '../src/smetach/filtar.js';
 
 describe('думата под колоната', () => {
@@ -69,5 +70,38 @@ describe('дървото · родителят остава заради дец�
     const f = filtrirayDarvoto(redove, ['', 'няма такъв']);
     expect(f.vidimi).toEqual([]);
     expect(f.broySkriti).toBe(8);
+  });
+});
+
+/**
+ * СТОЙНОСТИТЕ ЗА ПАДАЩОТО МЕНЮ · негово, 12.09 (запис 199): „падащи менюта с
+ * избор от въведените данни за конкретната колона."
+ *
+ * Тук се пази онова, което може да се сбърка тихо: празното да влезе като
+ * избор, едно и също име да се появи два пъти заради главна буква, и числата
+ * да се подредят като текст („10" преди „9").
+ */
+describe('стойностите за падащото меню', () => {
+  const redove = [
+    { nivo: 0 as const, dumi: ['1', 'Гара Яна', 'УПИ'] },
+    { nivo: 2 as const, dumi: ['10', 'гара яна', ''] },
+    { nivo: 2 as const, dumi: ['9', 'Бяла къща', 'ПИ'] },
+    { nivo: 2 as const, dumi: ['', '', ''] },
+  ];
+
+  it('дава САМО въведеното · без празните', () => {
+    expect(stoynostiteNaKolonata(redove, 2)).toEqual(['ПИ', 'УПИ']);
+  });
+
+  it('едно и също име не влиза два пъти · показва се както е въведено първо', () => {
+    expect(stoynostiteNaKolonata(redove, 1)).toEqual(['Бяла къща', 'Гара Яна']);
+  });
+
+  it('числата се подреждат като ЧИСЛА · „10" след „9"', () => {
+    expect(stoynostiteNaKolonata(redove, 0)).toEqual(['1', '9', '10']);
+  });
+
+  it('колона, която я няма, дава празно · не хвърля', () => {
+    expect(stoynostiteNaKolonata(redove, 99)).toEqual([]);
   });
 });
