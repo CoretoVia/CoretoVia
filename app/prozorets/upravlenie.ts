@@ -76,8 +76,9 @@ import { pishi } from '../../src/yadro/pari.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { otvoriChernova } from '../reshetka/chernova.js';
 import {
-  obshtotoNaButona,
+  glaviteNaTakta,
   lentaNaDeystviyata,
+  obshtotoNaButona,
   zakachiTakta,
   zakachiTemite,
 } from '../reshetka/lenta-deystviya.js';
@@ -580,12 +581,7 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
       s.obhvat === 0 || s.sbor === 0 ? '' : pishi(s.sbor)
     }${broy === 0 ? '' : h`<span class="pokrivashti">${String(broy)}</span>`}</td>`;
   });
-  const glaviNaTaktovete = koloniNaTaktove.map(
-    (kol, i) =>
-      h`<th class="takt${kol.dnes ? ' dnes' : ''}"${podskazkaSDumi(kol.opis)}>${kol.nadpis}${
-        i === 0 ? h`<span class="shirina" data-shirina-darvo aria-hidden="true"></span>` : ''
-      }</th>`,
-  );
+  const glaviNaTaktovete = glaviteNaTakta(koloniNaTaktove);
   const podglaviNaTaktovete = koloniNaTaktove.map(
     (kol) => h`<th class="podglava takt${kol.dnes ? ' dnes' : ''}"></th>`,
   );

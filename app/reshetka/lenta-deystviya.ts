@@ -31,6 +31,7 @@ import {
 } from '../../src/model/osnova.js';
 import {
   IMENA_NA_TAKTOVETE,
+  type KolonaNaTakta,
   type SvoyPeriod,
   type Takt,
   TAKTOVE,
@@ -180,4 +181,20 @@ export function obshtotoNaButona(
       d.dumi ?? `идва с ход ${d.hod}`,
     )}>${b.ime.split('(')[0]!.trim()}</button>`;
   return kontroliteNaTakta(b, takt, period);
+}
+
+/**
+ * ГЛАВИТЕ НА ТАКТА · едни и същи в Управление и в Сметки.
+ *
+ * Негово, 12.09 (запис 199): в двата прозореца календарът е част от таблицата,
+ * значи и главите му са едни. Дръжката за ширина стои САМО на първия ден —
+ * местиш един, местиш всички (т.4), защото дните са едно и също нещо.
+ */
+export function glaviteNaTakta(koloni: readonly KolonaNaTakta[]): readonly Zapechatan[] {
+  return koloni.map(
+    (kol, i) =>
+      h`<th class="takt${kol.dnes ? ' dnes' : ''}"${podskazkaSDumi(kol.opis)}>${kol.nadpis}${
+        i === 0 ? h`<span class="shirina" data-shirina-darvo aria-hidden="true"></span>` : ''
+      }</th>`,
+  );
 }

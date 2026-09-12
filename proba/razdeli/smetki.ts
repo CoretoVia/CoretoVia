@@ -246,6 +246,21 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   // след вноса страницата стои на ИИ · Трезорът живее в Сметки
   await p.goto(`${ADRES}#/smetki`);
   await p.waitForSelector('[data-zalepeno="smetki"]');
+  // ЧИСЛО, не праг: редът носи ТОЧНО толкова такт-клетки, колкото са главите
+  proveri(
+    'Гантът е ЕДНО ЦЯЛО с таблицата · всеки ред носи всички колони на такта',
+    await p.$eval(
+      '[data-reshetka="prihod"] tbody tr.red',
+      (e) => e.querySelectorAll('td.takt').length,
+    ),
+    await p.$$eval('[data-reshetka="prihod"] thead th.takt', (es) => es.length),
+  );
+  proveri(
+    'и отделна таблица за календара вече НЯМА',
+    (await p.$('[data-gant-skrol]')) === null,
+    true,
+  );
+
   proveri(
     'Трезорът стои на екрана и СЕ СМЯТА · изтеглено = дадено = вкарано · двете нули',
     await tekstNa(p, '[data-trezor]'),
@@ -262,21 +277,23 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'godina',
   );
   const koloniteNaKalendara = async (): Promise<number> =>
-    p.$$eval('[data-gant-skrol] thead th', (es) => es.length);
+    p.$$eval('[data-reshetka="prihod"] thead th.takt', (es) => es.length);
   const priGodina = await koloniteNaKalendara();
   await p.selectOption('[data-takt]', 'mesets');
   await p.waitForFunction(
-    (broy: number) => document.querySelectorAll('[data-gant-skrol] thead th').length !== broy,
+    (broy: number) =>
+      document.querySelectorAll('[data-reshetka="prihod"] thead th.takt').length !== broy,
     priGodina,
   );
   proveri(
-    'такт месец · календарът се мени от дванайсет колони на дни',
+    'такт месец · календарът В ТАБЛИЦАТА се мени от дванайсет колони на дни',
     (await koloniteNaKalendara()) > priGodina,
     true,
   );
   await p.selectOption('[data-takt]', 'godina');
   await p.waitForFunction(
-    (broy: number) => document.querySelectorAll('[data-gant-skrol] thead th').length === broy,
+    (broy: number) =>
+      document.querySelectorAll('[data-reshetka="prihod"] thead th.takt').length === broy,
     priGodina,
   );
 
