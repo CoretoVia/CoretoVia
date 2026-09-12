@@ -1413,13 +1413,226 @@ body.vlacha-shirina {
   border-right: 2px solid var(--linija);
 }
 
-/* ТРЕЗОРЪТ · Заданието (M06-10) иска ПОЛЕ, което сглобява числата между
-   банката, ръката и счетоводството. Стои в реда на кеша, до сверките му,
-   защото от същите три числа се смята и се чете заедно с тях. */
-.ekran .red-kesh .trezor {
+/* ═══ ЧЕТИРИТЕ ЛЕНТИ НА СМЕТКИ · ЕДНА МРЕЖА ═══════════════════════════════
+
+   Негово, 13.09 (запис 203), точка 2, ДОСЛОВНО: „Най отгоре първите 4 реда с
+   бутоните и информацията и подтабовете и информацията с хелпа на всеки ред да
+   са с еднаква височина и да са в симетрия колоните на бутони и полета с
+   информация и подтабовете на пръв ред. Искам да направиш всичко
+   структурирано и удобно и бързо разбираемо като използваш симетрията и
+   цветовете правилно без празни пространства."
+
+   Оттам три правила, и трите машинни, не на око:
+
+   1. ЕДНА ШИРИНА НА КОЛОНАТА за четирите ленти (`--shirina-na-kletkata`).
+      Мрежата е `auto-fill`, тъй че колоните на всяка лента падат на едни и
+      същи места и клетките стоят една под друга.
+   2. ЕДНА ВИСОЧИНА на клетката (`--visochina-na-lentata`) — независимо дали
+      вътре стои число, поле, бутон или таб.
+   3. БЕЗ ПРАЗНИ ПРОСТРАНСТВА: последната клетка на всяка лента се разтяга до
+      десния край (`grid-column: auto / -1`). Разстоянието между клетките е
+      един пиксел от фона на лентата — линия, не празнина.
+*/
+.zalepeno.lenti {
+  --shirina-na-kletkata: 8.5rem;
+  --visochina-na-lentata: 2.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0;
+  background: var(--linija);
+  border-bottom: 1px solid var(--linija);
+}
+
+.zalepeno.lenti > .lenta-red,
+.zalepeno.lenti > .podtabove,
+.zalepeno.lenti > .deystviya {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--shirina-na-kletkata), 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--linija);
+}
+
+/* последната клетка поема остатъка · инак вдясно зее празно */
+.zalepeno.lenti > .lenta-red > :last-child,
+.zalepeno.lenti > .podtabove > :last-child,
+.zalepeno.lenti > .deystviya > :last-child {
+  grid-column: auto / -1;
+}
+
+/* ОТКРИТИТЕ КОНТРОЛИ не са клетка · те са ТРИ клетки (такт · период · начало) */
+.zalepeno.lenti .otkriti {
+  display: contents;
+}
+
+/* ЕДНА КЛЕТКА · какъвто и да е обитателят ѝ */
+.zalepeno.lenti .pole-s-tsifra,
+.zalepeno.lenti .podtab,
+.ekran .zalepeno.lenti .tema > summary,
+.zalepeno.lenti .buton-grupa,
+.ekran .zalepeno.lenti .otkriti > button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  min-height: var(--visochina-na-lentata);
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  padding: 0.15rem 0.45rem;
+  border: 0;
+  border-radius: 0;
+  background: var(--hartiya);
+  text-align: left;
+}
+
+.zalepeno.lenti .tsifra {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zalepeno.lenti .ime {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ЦВЕТЪТ КАЗВА КАКВО Е ЧИСЛОТО · приходът расте, разходът яде (правило 16) */
+.zalepeno.lenti [data-pole="prihod"] .tsifra,
+.zalepeno.lenti [data-pole="trezor"] .tsifra,
+.zalepeno.lenti [data-pole="trezor-obshto"] .tsifra {
+  color: var(--zeleno);
+}
+
+.zalepeno.lenti [data-pole="razhod"] .tsifra,
+.zalepeno.lenti [data-pole="nahodki"] .tsifra,
+.zalepeno.lenti [data-pole="nesvereni"] .tsifra {
+  color: var(--cherveno);
+}
+
+/* ═══ СВЕТОФОРЪТ НА БАЛАНСА ═══════════════════════════════════════════════
+
+   Негово, 13.09 (запис 203), точка 5: „Да има цветове които се сменят според
+   стойността. Червена като опасност… Жълто за предприемане на продажби…
+   Зелено когато всичко е наред."
+
+   ПРАГОВЕТЕ НЕ СА ТУК. Кое е шест и кое дванайсет месеца се решава в
+   `src/smetach/balans.ts` и пътува дотук като `data-svetofar` — стилът
+   оцветява, не преценява. Инак утре числото щеше да живее на две места. */
+.zalepeno.lenti [data-svetofar] {
+  border-left: 4px solid var(--zeleno);
+}
+
+.zalepeno.lenti [data-svetofar="zeleno"] {
+  background: var(--zeleno-svetlo);
+}
+
+.zalepeno.lenti [data-svetofar="zhalto"] {
+  border-left-color: #c99a00;
+  background: var(--zhalto);
+}
+
+.zalepeno.lenti [data-svetofar="cherveno"] {
+  border-left-color: var(--cherveno);
+  background: #fdeaea;
+}
+
+.zalepeno.lenti [data-svetofar] .tsifra {
+  font-size: 1.2rem;
+  color: var(--zeleno);
+}
+
+.zalepeno.lenti [data-svetofar="zhalto"] .tsifra {
+  color: #8a6b00;
+}
+
+.zalepeno.lenti [data-svetofar="cherveno"] .tsifra {
+  color: var(--cherveno);
+}
+
+/* КЛЕТКА, В КОЯТО СЕ ПИШЕ · жълта, както е и досега редът на кеша */
+.zalepeno.lenti .pole-s-tsifra.vhod {
+  background: var(--zhalto);
+}
+
+.ekran .zalepeno.lenti .lenta-red .pole-s-tsifra.vhod .pole {
+  min-width: 0;
+  padding: 0 0.1rem;
+  border: 0;
+  border-bottom: 1px solid var(--zeleno);
+  border-radius: 0;
+  background: transparent;
+  font-size: 1.05rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ЗАТВОРЕНАТА КЛЕТКА се РАЗПОЗНАВА · тя се смята и не се пипа (правило 29) */
+.zalepeno.lenti .pole-s-tsifra.zatvoreno {
+  background: var(--zebra);
+}
+
+.zalepeno.lenti .pole-s-tsifra.deystvie {
+  align-items: center;
+  justify-content: center;
+  background: var(--zeleno);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.zalepeno.lenti .pole-s-tsifra.otmetka {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--mastilo);
+  margin: 0;
+}
+
+.zalepeno.lenti .pole-s-tsifra.vest .tsifra {
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--zeleno);
-  white-space: nowrap;
+}
+
+/* ПОДТАБЪТ е клетка с ЕДИН ред · и заема две колони, защото е име, не число */
+.zalepeno.lenti .podtab {
+  grid-column: span 2;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+.zalepeno.lenti .podtab.tekusht {
+  background: var(--zeleno);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* БУТОНЪТ-ТЕМА е клетка · менюто му си остава кутия НАД съдържанието */
+.ekran .zalepeno.lenti .tema > summary {
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.zalepeno.lenti .buton-grupa {
+  grid-column: span 2;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--sivo);
+}
+
+.ekran .zalepeno.lenti .deystviya .otkriti .buton-grupa .pole {
+  min-width: 0;
+  padding: 0.1rem 0.2rem;
 }
 
 /* ИЗСКАЧАЩИЯТ ПРОЗОРЕЦ ЗА СЪЗДАВАНЕ · негово, 11.09 (запис 195) т.11:

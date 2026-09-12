@@ -22,6 +22,7 @@ const EVRO_1500 = '1 500,00 €';
 const EVRO_MINUS_250000 = '-250\u202F000,00\u202F€';
 const EVRO_250000 = '250\u202F000,00\u202F€';
 /** нулата се пише с нейния си знак · Трезорът я показва, не я крие */
+const EVRO_MINUS_300 = '-300,00\u202F€';
 const EVRO_0 = '0,00 €';
 /**
  * Месецът е ТЕКУЩИЯТ, не закован.
@@ -44,14 +45,30 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   await p.goto(`${ADRES}#/smetki`);
   await p.waitForSelector(ZALEPENO);
   proveri(
-    'десетте полета с цифри на Сметки · и двете за ДДС и НАП (резен 3б)',
-    (await tekstoveNa(p, `${ZALEPENO} [data-pole] .ime`)).join(' · '),
-    'Приход · Разходи · Резултат · Кеш дадено · Кеш изтеглено · Кеш вкарано · движения · несверени · ДДС остатък · находки НАП',
+    'единайсетте полета с цифри · и БАЛАНСЪТ е първото (негово, 13.09 т.5)',
+    (await tekstoveNa(p, `${ZALEPENO} [data-poleta] [data-pole] .ime`)).join(' · '),
+    'Баланс · Приход · Разходи · Резултат · Кеш дадено · Кеш изтеглено · Кеш вкарано · движения · несверени · ДДС остатък · находки НАП',
   );
+  // негово, 13.09 (запис 203), точка 1: „Реда на подтабовете в Сметки да се
+  // качи на 2ро място." Първо КОЛКО, после КЪДЕ, после КАКВО ВЪВЕЖДАМ, накрая
+  // КАКВО МОГА.
   proveri(
-    'вторият ред е за КЕШ · с трите му числа и сверката',
+    'ЧЕТИРИТЕ ЛЕНТИ в реда му · числа · подтабове · кеш · бутони',
+    (
+      await p.$$eval(`${ZALEPENO} > *`, (es) =>
+        es.map((e) =>
+          e.getAttribute('data-poleta') === null ? e.className.split(' ')[0] : 'poleta',
+        ),
+      )
+    ).join(' · '),
+    'poleta · podtabove · lenta-red · deystviya',
+  );
+  // негово, 13.09 (запис 203), точка 3: редът на кеша е ЕДИН ред, и в него се
+  // пишат само две неща — месецът и изтегленото по извлечение.
+  proveri(
+    'в реда на кеша се ПИШАТ само две неща · останалото се смята',
     await p.$$eval('[data-kesh-forma] input.pole', (es) => es.length),
-    4,
+    2,
   );
   proveri(
     'третият ред са бутоните · неговите четиринайсет плюс „Добави ред с пари"',
@@ -172,12 +189,21 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
 
   // ══ 4в · кешът за месеца · сверката в края на месеца ═════════════════
   razdel = '4в · кешът';
+  // „дадени за Заплати Кеш" вече НЕ се пише · то идва сметнато от секцията,
+  // където горният раздел вкара реда за заплати (негово, 13.09, точка 3)
+  proveri(
+    'дадените пари са ЗАТВОРЕНА клетка · няма поле за писане',
+    await p.$$eval('[data-kesh-forma] [data-pole="kesh-zaplati"] input', (es) => es.length),
+    0,
+  );
   await p.fill('[data-kesh-mesets]', MESETS);
-  await p.fill('[data-kesh-zaplati]', '1500');
   await p.fill('[data-kesh-izvlechenie]', '1500');
   await p.click('[data-kesh-zapishi]');
+  // ЧАКА СЕ ИЗТЕГЛЕНОТО, не даденото: даденото вече Е 1 500 преди записа, защото
+  // се смята от секцията, и чакане по него би минало, преди Портата да е върнала.
   await p.waitForFunction(
-    (evro) => document.querySelector('[data-tsifra="kesh-dadeno"]')?.textContent?.trim() === evro,
+    (evro) =>
+      document.querySelector('[data-tsifra="kesh-izvlechenie"]')?.textContent?.trim() === evro,
     EVRO_1500,
   );
   proveri('Кеш дадено', await tekstNa(p, '[data-tsifra="kesh-dadeno"]'), EVRO_1500);
@@ -185,10 +211,42 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   proveri('Кеш вкарано (по редовете)', await tekstNa(p, '[data-tsifra="kesh-vkarano"]'), EVRO_1500);
   proveri('полетата на двете форми имат име', await poletaBezIme(p), 0);
   const sverki = await tekstNa(p, '[data-kesh-sverki]');
+  // ЕДНА сверка · другата стана тъждество, когато дадените пари почнаха да се
+  // смятат от същите редове, срещу които се сверяваха (негово, 13.09 т.3)
   proveri(
-    'и двете сверки затварят · дадено ↔ изтеглено ↔ вкарано по редовете',
+    'сверката банка ↔ въведено затваря · и тя е една, защото другата стана тъждество',
     `${sverki.split('затваря').length - 1} · ${sverki.includes('разлика')}`,
-    '2 · false',
+    '1 · false',
+  );
+
+  // ══ 4в2 · БАЛАНСЪТ и записът по месеци · негово, 13.09 (запис 203) т.5 ═
+  razdel = '4в2 · Балансът';
+  // приход 1 200 · разход −1 500 · кешът е нула → балансът е под нулата, и това е
+  // ЧЕРВЕНО веднага, без да се пита за колко месеца стигат парите
+  proveri(
+    'Балансът носи СВЕТОФАР · и той се решава от ЧИСЛАТА, не от стила',
+    `${await p.$eval('[data-pole="balans"]', (e) => e.getAttribute('data-svetofar'))} · ${await tekstNa(
+      p,
+      '[data-tsifra="balans"]',
+    )}`,
+    `cherveno · ${EVRO_MINUS_300}`,
+  );
+  proveri(
+    'подсказката му КАЗВА формулата · и че извлечения още не се четат',
+    (await p.$eval('[data-pole="balans"]', (e) => e.getAttribute('data-podskazka') ?? '')).includes(
+      'Извлечения от банка още не се четат',
+    ),
+    true,
+  );
+  proveri(
+    'записът по месеци стои под двете страни · един ред на месец',
+    await p.$$eval('[data-reshetka="razliki"] tbody tr.red', (es) => es.length),
+    1,
+  );
+  proveri(
+    'и разликата за месеца е приход + разход',
+    await tekstNa(p, `[data-razlika-suma="${MESETS}"]`),
+    EVRO_MINUS_300,
   );
 
   // ══ 4г · Книгата · листът Сметки ═════════════════════════════════════
@@ -264,10 +322,25 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     true,
   );
 
+  // негово, 13.09 (запис 203), точка 4: „Трезора се пълни главно от вноски СМР…
+  // второ поле показва Изтеглено… и се дава в обща цифра и полето с име Общ Трезор."
   proveri(
-    'Трезорът стои на екрана и СЕ СМЯТА · изтеглено = дадено = вкарано · двете нули',
-    await tekstNa(p, '[data-trezor]'),
-    `Трезор · в каса ${EVRO_0} · в ръце ${EVRO_0}`,
+    'ТРЕЗОРЪТ е три числа · вноски в брой · изтеглено · и общото, което държим',
+    `${await tekstNa(p, '[data-tsifra="trezor"]')} · ${await tekstNa(
+      p,
+      '[data-tsifra="trezor-iztegleno"]',
+    )} · ${await tekstNa(p, '[data-tsifra="trezor-obshto"]')}`,
+    `${EVRO_0} · ${EVRO_1500} · ${EVRO_0}`,
+  );
+  proveri(
+    'и трите имена стоят под числата · човек чете какво гледа',
+    (
+      await tekstoveNa(
+        p,
+        '[data-pole="trezor"] .ime, [data-pole="trezor-iztegleno"] .ime, [data-pole="trezor-obshto"] .ime',
+      )
+    ).join(' · '),
+    'Трезор · Изтеглено общо · Общ Трезор',
   );
 
   // ══ 4ж · ТАКТЪТ И В СМЕТКИ · негово, 11.09 (запис 195), точка 4 ═══════
