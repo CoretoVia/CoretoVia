@@ -44,6 +44,7 @@ import {
   zakachiPodskazkite,
 } from './reshetka/podskazka.js';
 import { h, nashSkript, sloji } from './reshetka/shablon.js';
+import { narisuvayVlizaneto } from './reshetka/vlizane.js';
 import { chetiEkranno, zapomniEkranno } from './reshetka/pamet-ekran.js';
 
 const KNIGA = 'coretovia';
@@ -180,6 +181,44 @@ async function tragni(ekran: HTMLElement): Promise<void> {
   // зареждане, а `vazstanovi` няма нито един викащ. Едно фалшиво разминаване би
   // зазидало приложението завинаги само за четене (ADR-020 §5).
   const dumiteZaKotvata = kotvataKazva(kotva, KNIGA, await dnevnik.posledno(KNIGA));
+
+  /**
+   * ВРАТАТА · без имейл програмата не рисува нито един прозорец.
+   *
+   * Негово, 11.09 (запис 190): „Просто влизаш, няма роли, няма Стопанин…
+   * Влизане с имейл." Дотук откриването живееше в таб Профил — тоест зад
+   * екран, до който човек стига, СЛЕД като програмата вече е поискала да
+   * пише. Първата крачка не бива да е в третата стая.
+   *
+   * Няма парола, няма акаунт, няма доставчик и няма нито един байт навън:
+   * имейлът казва само КОЙ ПИШЕ в Журнала (правило 4 · подписът покрива
+   * `actor`).
+   */
+  if (aktor.trim() === '') {
+    narisuvayVlizaneto(ekran, {
+      knigataEOtkrita: parvo !== undefined,
+      stopaninat: parvo?.actor ?? '',
+      vlez: async (imeyl) => {
+        // КОЙ ПИШЕ се знае ПРЕДИ записа · командата „открий" сверява товара си
+        // срещу актьора и отказва, ако не съвпадат. При отказ имейлът се връща
+        // назад: човек, който не е влязъл, не бива да остане записан наполовина.
+        const predi = aktor;
+        aktor = imeyl;
+        if (parvo === undefined) {
+          const r = await porta.izpalni(crypto.randomUUID(), 'stopanin.otkriy', { imeyl });
+          if ('otkaz' in r) {
+            aktor = predi;
+            return r.zashto.join(' ');
+          }
+        }
+        zapomniEkranno(PAMET_AKTOR, imeyl);
+        // екранът се строи наново ОТ НАЧАЛОТО · оттук нататък има кой да пише
+        await tragni(ekran);
+        return '';
+      },
+    });
+    return;
+  }
 
   sloji(
     ekran,

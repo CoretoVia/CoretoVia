@@ -1457,3 +1457,45 @@ select.pole:required {
 .ekran .nap-mesetsi tr.razminava {
   color: var(--cherveno);
 }
+
+/* ВЛИЗАНЕТО · един имейл, нищо повече. Негово, 11.09 (запис 190): „Просто
+   влизаш, няма роли, няма Стопанин… Влизане с имейл." Екранът е сам на
+   страницата, защото преди него няма какво да се покаже. */
+.vlizane {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.vlizane .vlizane-forma {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 26rem;
+  padding: 1.4rem 1.5rem 1.6rem;
+  background: var(--hartiya);
+  border: 1px solid var(--linija);
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgb(31 42 37 / 10%);
+}
+
+.vlizane .vlizane-forma h1 {
+  margin: 0;
+  color: var(--zeleno);
+  font-size: 1.6rem;
+  letter-spacing: 0.02em;
+}
+
+.vlizane .pole-red {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.vlizane .pole-red .ime {
+  color: var(--sivo);
+  font-size: 0.85rem;
+}

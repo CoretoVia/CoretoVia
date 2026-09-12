@@ -10,8 +10,23 @@ import type { Page } from 'playwright-core';
 import { ADRES } from './server.ts';
 
 /** Отваря страницата и чака екранът да се нарисува. */
+/** Имейлът на прохода · същият при всяко пускане, за да е повторяем. */
+export const IMEYLAT_NA_PROHODA = 'proba@example.bg';
+
+/**
+ * Отваря приложението · и минава ПРЕЗ вратата, ако тя стои.
+ *
+ * Негово, 11.09 (запис 190): „Просто влизаш… Влизане с имейл." Оттам нататък
+ * нито един прозорец не се рисува, преди да се каже кой пише — и проходът
+ * минава по същия път, по който минава и ръката.
+ */
 export async function otvori(p: Page): Promise<void> {
   await p.goto(ADRES);
+  await p.waitForSelector('[data-vlizane], [data-vest]');
+  if ((await p.$('[data-vlizane]')) !== null) {
+    await p.fill('[data-vlizane-imeyl]', IMEYLAT_NA_PROHODA);
+    await p.click('[data-vlizane-vlez]');
+  }
   await p.waitForSelector('[data-vest]');
 }
 
@@ -50,7 +65,14 @@ const KUTIYATA = '[role="tooltip"]';
  */
 export async function podskazkataNa(p: Page, izbor: string): Promise<string> {
   await p.hover(izbor);
-  await p.waitForSelector(`${KUTIYATA}:not([hidden])`);
+  // спъне ли се, ИМЕТО на възела трябва да е в грешката · инак се търси наслуки
+  try {
+    await p.waitForSelector(`${KUTIYATA}:not([hidden])`);
+  } catch (greshka) {
+    throw new Error(
+      `подсказката на ${izbor} не се появи · ${String(greshka).split(String.fromCharCode(10))[0]}`,
+    );
+  }
   const tekst = await p.$eval(KUTIYATA, (e) => e.textContent ?? '');
   await p.mouse.move(0, 0);
   await p.waitForSelector(KUTIYATA, { state: 'hidden' });

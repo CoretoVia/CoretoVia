@@ -13,28 +13,20 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   const proveri = (kakvo: string, vidyano: unknown, ochakvano: unknown): boolean =>
     broyach.proveri(razdel, kakvo, vidyano, ochakvano);
 
-  // ══ 1а · откриване с имейл ═══════════════════════════════════════════
+  // ══ 1а · Книгата е открита ОТ ВРАТАТА · негово, запис 190 ════════════
   razdel = '1а · откриване';
   await p.goto(`${ADRES}#/profil`);
-  await p.waitForSelector('[data-otkriy]');
+  await p.waitForSelector('[data-sektsiya="stopanin"]');
   proveri('осемте прозореца са в лентата', (await tekstoveNa(p, '[data-prozorets]')).length, 8);
+  proveri(
+    'Стопанинът е този, който е влязъл пръв',
+    await tekstNa(p, '[data-stopanin]'),
+    'proba@example.bg',
+  );
   await p.goto(`${ADRES}#/imoti`);
   await p.waitForSelector('[data-buton="imoti.sazdayImot"]');
   proveri(
-    'бутоните са сиви преди откриването и казват защо',
-    await p.$eval(
-      '[data-buton="imoti.sazdayImot"]',
-      (e) => `${(e as HTMLButtonElement).disabled} · ${e.getAttribute('data-podskazka')}`,
-    ),
-    'true · Книгата не е открита — първо Стопанинът.',
-  );
-  await p.goto(`${ADRES}#/profil`);
-  await p.waitForSelector('[data-otkriy]');
-  await p.fill('[data-imeyl]', 'proba@example.bg');
-  await p.click('[data-otkriy-buton]');
-  await p.waitForSelector('[data-reshetka="imoti"]');
-  proveri(
-    'Книгата е открита',
+    'Книгата е открита още от вратата',
     await tekstNa(p, '[data-vest]'),
     '1 събития в Журнала · proba@example.bg',
   );

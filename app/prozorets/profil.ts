@@ -75,19 +75,16 @@ export function narisuvayProfil(k: KonteksNaEkrana): void {
   sloji(
     k.tyalo,
     h`
-    ${
-      otkrita
-        ? h`<section class="sektsiya" data-sektsiya="stopanin"><h2>Стопанин</h2><p data-stopanin translate="no">${o.stopanin}</p></section>`
-        : h`<section class="sektsiya" data-sektsiya="otkrivane">
-            <h2>Открий Книгата</h2>
-            <p>Книгата е празна. Първото събитие е Стопанинът — имейлът на този, който я открива. Записва се веднъж.</p>
-            <form data-otkriy class="red-poleta">
-              <input type="email" class="pole" name="imeyl" autocomplete="email" data-imeyl placeholder="имейл" required value="${k.aktor()}">
-              <button type="submit" data-otkriy-buton>Открий Книгата</button>
-            </form>
-            <p class="greshka" data-greshka></p>
-          </section>`
-    }
+    <!--
+      ОТКРИВАНЕТО СИ ОТИДЕ ОТТУК · то е на ВРАТАТА · app/reshetka/vlizane.ts
+
+      Негово, 11.09 (запис 190): „Просто влизаш… Влизане с имейл." Оттам нататък
+      Книгата се открива с имейла, с който човек влиза, и този екран вече няма
+      как да се покаже на празна Книга — до него се стига само отвътре. Форма,
+      която не може да се появи, е по-лоша от липсваща: тя обещава втори път
+      нещо, което вече е станало (правило 12 · правило 13).
+    -->
+    <section class="sektsiya" data-sektsiya="stopanin"><h2>Стопанин</h2><p data-stopanin translate="no">${o.stopanin}</p></section>
     ${otkrita ? lichniteMiDanni(k) : ''}
     ${dumiteHTML(DUMI_OT_KNIGATA.profil)}
     <section class="sektsiya" data-sektsiya="hranilishte">
@@ -126,19 +123,6 @@ export function narisuvayProfil(k: KonteksNaEkrana): void {
       </table>
     </section>`,
   );
-
-  k.tyalo.querySelector<HTMLFormElement>('[data-otkriy]')?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const imeyl = k.tyalo.querySelector<HTMLInputElement>('[data-imeyl]')?.value.trim() ?? '';
-    k.zadayAktor(imeyl);
-    const r = await k.porta.izpalni(crypto.randomUUID(), 'stopanin.otkriy', { imeyl });
-    const greshka = k.tyalo.querySelector('[data-greshka]');
-    if ('otkaz' in r) {
-      if (greshka) greshka.textContent = r.zashto.join(' ');
-      return;
-    }
-    location.hash = '#/imoti';
-  });
 
   k.tyalo
     .querySelector<HTMLButtonElement>('[data-mostra]')
