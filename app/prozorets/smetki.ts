@@ -66,6 +66,7 @@ import { chetiEkranno, zapomniEkranno } from '../reshetka/pamet-ekran.js';
 import {
   glaviteNaTakta,
   lentaNaDeystviyata,
+  litseNaTakta,
   obshtotoNaButona,
   zakachiTakta,
   zakachiTemite,
@@ -373,11 +374,19 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
     koloniteNaGanta.findIndex((kol) => den >= kol.ot && den <= kol.do);
 
   /** Клетките на такта за ЕДИН ред с пари · сумата пада в деня си. */
-  const taktNaReda = (data: string, suma: number): readonly Zapechatan[] => {
+  /**
+   * Клетките на такта за ЕДИН ред · негово, 12.09 (запис 201): при задача с
+   * бюджет в клетката стоят И името, И числото. Ред с пари носи само числото —
+   * името му вече стои в своята колона, два пъти на един ред е шум.
+   */
+  const taktNaReda = (data: string, suma: number, ime = ''): readonly Zapechatan[] => {
     const j = kolonataNa(data);
     return koloniteNaGanta.map((kol, i) =>
       i === j
-        ? h`<td class="takt evro ${suma < 0 ? 'razhod' : 'prihod'}${kol.dnes ? ' dnes' : ''}" translate="no">${pishi(suma)}</td>`
+        ? h`<td class="takt evro ${suma < 0 ? 'razhod' : 'prihod'}${kol.dnes ? ' dnes' : ''}" translate="no">${litseNaTakta(
+            ime,
+            suma,
+          )}</td>`
         : h`<td class="takt${kol.dnes ? ' dnes' : ''}"></td>`,
     );
   };
@@ -508,7 +517,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         (z) =>
           h`<tr class="red zadacha" data-zadacha="${z.id}"><td class="kletka prazna"></td><td class="kletka tekst" translate="no">${z.ime}</td><td class="kletka prazna"></td><td class="kletka prazna"></td><td class="kletka tekst" translate="no">${z.data}</td><td class="kletka evro" translate="no">${pishi(
             -z.byudzhet_st,
-          )}</td>${taktNaReda(z.data, -z.byudzhet_st)}</tr>`,
+          )}</td>${taktNaReda(z.data, -z.byudzhet_st, z.ime)}</tr>`,
       )}`;
   };
 

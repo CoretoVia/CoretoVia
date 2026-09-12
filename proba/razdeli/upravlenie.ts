@@ -64,6 +64,11 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'видими 3 от 3 · родители 3 · задачи 0 · сираци 0',
   );
   proveri(
+    'Гантът е до таблицата · без ленти',
+    (await tekstNa(p, '[data-sverka="gant"]')).startsWith('ленти 0 ·'),
+    true,
+  );
+  proveri(
     'редът „филтър" под двете глави · и редът СБОР отдолу',
     `${await p.$$eval('[data-filtar]', (es) => es.length)} · ${await tekstNa(p, '[data-sbor-red] td:first-child')}`,
     '10 · сбор',
@@ -83,11 +88,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     }),
     'sticky · sticky · лепнато точно',
   );
-  proveri(
-    'Гантът е до таблицата · без ленти',
-    (await tekstNa(p, '[data-sverka="gant"]')).startsWith('ленти 0 ·'),
-    true,
-  );
+  // негово, 12.09 (запис 201): „Когато има едновременно и бюджет и текст на
 
   // ══ 3б · десен бутон върху Имот → Дело „Сондаж" под него · Гантът · полетата ═
   razdel = '3б · задача от десния бутон';
@@ -138,7 +139,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     `25000000 · ${EVRO_250000}`,
   );
   proveri(
-    'полетата · Спешно и Важно 1 · отворени 1 · Бюджет Дела 250 000,00 €',
+    `Дело Сондаж · ${EVRO_250000}`,
     `${await tekstNa(p, '[data-tsifra="speshni"]')} · ${await tekstNa(p, '[data-tsifra="otvoreni"]')} · ${await tekstNa(p, '[data-tsifra="byudzhet"]')}`,
     `1 · 1 · ${EVRO_250000}`,
   );
@@ -151,6 +152,12 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'Гантът · една лента · червена, защото е Спешно и Важно',
     await p.$eval('td.takt.lenta', (e) => e.classList.contains('speshno')),
     true,
+  );
+  // негово, 12.09 (запис 201): затова клетката носи и името, и числото
+  proveri(
+    'лентата носи И името, И бюджета · в едно и също поле',
+    await p.$eval('tr.red.zadacha td.takt.lenta', (e) => (e as HTMLElement).innerText.trim()),
+    `Дело Сондаж · ${EVRO_250000}`,
   );
   proveri(
     'сверката на Ганта',

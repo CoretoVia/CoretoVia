@@ -78,6 +78,7 @@ import { otvoriChernova } from '../reshetka/chernova.js';
 import {
   glaviteNaTakta,
   lentaNaDeystviyata,
+  litseNaTakta,
   obshtotoNaButona,
   zakachiTakta,
   zakachiTemite,
@@ -160,10 +161,19 @@ function byudzhetaNa(r: RedNaEkrana): number {
  * Светофарът идва от срока: нормално · жълто седмица преди · червено два дни
  * преди · просрочено. „Спешно и Важно" е негова дума и слага свой клас.
  */
+/**
+ * КЛЕТКИТЕ НА ТАКТА · негово, 12.09 (запис 201): „Когато има едновременно и
+ * бюджет и текст на задачата да се показват и двете в едно и също поле."
+ *
+ * Затова първата клетка на лентата носи ЛИЦЕТО на реда — името, числото или
+ * двете. Сборът отдолу си остава по числата от данните; нарисуваното в
+ * клетката не влиза в него по никакъв път.
+ */
 function taktKletkiHTML(
   r: RedNaEkrana,
   koloni: readonly KolonaNaTakta[],
   dnes: string,
+  byudzhet: number,
 ): readonly Zapechatan[] {
   // движението не е ЛЕНТА · то е една сума в един месец и пада в неговата колона
   if (r.vid === 'dvizhenie')
@@ -179,7 +189,9 @@ function taktKletkiHTML(
     const vatre = lenta !== null && i >= lenta.ot && i < lenta.ot + lenta.broy;
     if (!vatre) return h`<td class="takt${kol.dnes ? ' dnes' : ''}"></td>`;
     const klas = `takt lenta ${svetofar ?? 'normalno'}${r.speshno ? ' speshno' : ''}${kol.dnes ? ' dnes' : ''}`;
-    return h`<td class="${klas}" data-lenta="${r.id}">${i === lenta.ot ? r.ime : ''}</td>`;
+    return h`<td class="${klas}" data-lenta="${r.id}">${
+      i === lenta.ot ? litseNaTakta(r.ime, byudzhet) : ''
+    }</td>`;
   });
 }
 
@@ -659,7 +671,7 @@ export function narisuvayUpravlenie(k: KonteksNaEkrana): void {
             (r) =>
               h`<tr class="${r.klas}" data-id="${r.id}" data-tablitsa="${r.tablitsa}" data-nivo="${String(r.nivo)}" data-seq="${String(r.seq)}"${
                 r.roditelId === '' ? '' : h` data-roditel="${r.roditelId}"`
-              }>${r.tds}${taktKletkiHTML(r, koloniNaTaktove, dnes)}</tr>`,
+              }>${r.tds}${taktKletkiHTML(r, koloniNaTaktove, dnes, byudzhetaNa(r))}</tr>`,
           )}</tbody>
           <tfoot><tr class="sbor" data-sbor-red>${sborKletki}${sboroveNaTaktovete}</tr></tfoot>
         </table>
