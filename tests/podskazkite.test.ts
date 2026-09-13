@@ -61,7 +61,7 @@ const DNES = '2026-09-11';
  *
  *   prozortsi  · `tests/osemte.test.ts` · 8
  *   tablitsi   · `grep -c "^const [A-Z0-9_]*: Tablitsa" src/model/osnova.ts` · 12
- *   koloni     · `TABLITSI.reduce((a, t) => a + t.koloni.length, 0)` · 112
+ *   koloni     · `TABLITSI.reduce((a, t) => a + t.koloni.length, 0)` · 113
  *   komandi    · `tests/katalog.test.ts` · 30
  *   butoni     · `grep -c "^    klyuch: '" …` в `BUTONI_NA_UPRAVLENIE` · 14
  *   glavi      · `OBLIK_NA_UPRAVLENIE` 11 + `OBLIK_NA_SMETKI` 10 · 21
@@ -74,8 +74,8 @@ const DNES = '2026-09-11';
 const PIN = Object.freeze({
   prozortsi: 8,
   tablitsi: 12,
-  koloni: 112,
-  komandi: 30,
+  koloni: 113,
+  komandi: 32,
   butoni: 14,
   glavi: 21,
   poleta: 8,
@@ -85,7 +85,7 @@ const PIN = Object.freeze({
   smetkiIzvedeni: 8,
 });
 /** Сборът е ЕДНО число · пин с ръка · сумата на редовете горе. */
-const PIN_VSICHKI = 227;
+const PIN_VSICHKI = 230;
 
 interface Nositel {
   /** къде стои · за находката */

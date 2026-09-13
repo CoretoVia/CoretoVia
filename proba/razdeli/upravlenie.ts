@@ -98,9 +98,11 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   await p.click(garaYana, { button: 'right' });
   await p.waitForSelector('[data-menyu]');
   proveri(
-    'менюто · Добави Задача · Изключи · Върни · Сторно · Голямо дело (сиво)',
+    'менюто · Добави Задача · Изключи · Върни · СВЪРШЕНА · Върни в работа · Сторно · Голямо дело',
     (await tekstoveNa(p, '[data-tochka]')).map((t) => t.split('\n')[0]).join(' · '),
-    'Добави Задача · Изключи реда · Върни реда · Сторно на последната промяна · Голямо дело',
+    // негово, 13.09 (запис 206): „Задачата се потвърждава през приложението от
+    // десния бутон." Оттам са двата нови пункта.
+    'Добави Задача · Изключи реда · Върни реда · Свършена · Върни в работа · Сторно на последната промяна · Голямо дело',
   );
   proveri(
     'Голямото дело казва кога идва · видимо в самия пункт',
@@ -172,6 +174,43 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'СБОР под Бюджет Дела · 250 000,00 €',
     await tekstNa(p, '[data-sbor-stoynost="8"]'),
     EVRO_250000,
+  );
+
+  // ══ 3б2 · ПОТВЪРЖДАВАНЕТО ОТ ДЕСНИЯ БУТОН · негово, 13.09 (запис 206) ═══
+  // „Задачата се потвърждава през приложението от десния бутон." Клетката е
+  // ЗАТВОРЕНА и НЕ Е колона в реда (запис 204: „Редовете не показват време") —
+  // потвърдената задача носи БЕЛЕГ на реда си.
+  razdel = '3б2 · Свършена от десния бутон';
+  const zadachata = `${garaYana} + tr.red.zadacha`;
+  await p.click(zadachata, { button: 'right' });
+  await p.waitForSelector('[data-menyu]');
+  proveri(
+    'върху ЗАДАЧА „Свършена" е разрешена, а „Върни в работа" е сива и КАЗВА защо',
+    (await tekstoveNa(p, '[data-tochka="red.svarshena"], [data-tochka="red.nesvarshena"]')).join(
+      ' · ',
+    ),
+    `Свършена · Върни в работа
+Задачата не е потвърдена за свършена.`,
+  );
+  await p.click('[data-tochka="red.svarshena"]');
+  await p.waitForSelector('tr.red.zadacha.svarshena');
+  proveri(
+    'потвърдената задача носи БЕЛЕГ на реда · време в клетка НЯМА (запис 204)',
+    `${await p.$$eval('tr.red.zadacha.svarshena', (es) => es.length)} · ${await p.$$eval(
+      'tr.red.zadacha td[data-kolona="svarshena"]',
+      (es) => es.length,
+    )}`,
+    '1 · 0',
+  );
+  // и обратно · Журналът пази и двете
+  await p.click(zadachata, { button: 'right' });
+  await p.waitForSelector('[data-menyu]');
+  await p.click('[data-tochka="red.nesvarshena"]');
+  await p.waitForFunction(() => document.querySelectorAll('tr.red.zadacha.svarshena').length === 0);
+  proveri(
+    'върнатата в работа задача си сваля белега',
+    await p.$$eval('tr.red.zadacha.svarshena', (es) => es.length),
+    0,
   );
 
   // ══ 3в · филтърът · сметката · тактът · скриването ═══════════════════

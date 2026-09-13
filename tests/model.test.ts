@@ -117,6 +117,7 @@ describe('основата на резен 1', () => {
       ['otsenka', 'izbor', false],
       ['byudzhet', 'evro', false],
       ['otgovornik', 'vrazka', false],
+      ['svarshena', 'data', false],
     ]);
     expect(z.koloni[0]?.vrazka).toEqual(['imoti', 'obekti', 'biznesi']);
     expect(z.koloni.map((k) => k.kratko)).toEqual([
@@ -128,6 +129,7 @@ describe('основата на резен 1', () => {
       undefined,
       undefined,
       'Отговорник',
+      'Свършена',
     ]);
     // слятата клетка · две колони в една · опашката няма своя колона в Книгата
     expect(z.slyati).toEqual([
@@ -141,7 +143,11 @@ describe('основата на резен 1', () => {
       'otsenka',
       'byudzhet',
       'otgovornik',
+      'svarshena',
     ]);
+    // „Свършена" е ЗАТВОРЕНА · пълни се от десния бутон, не от клетката (запис 206)
+    expect(z.koloni.find((k) => k.klyuch === 'svarshena')?.zatvorena).toBe(true);
+    expect(z.koloni.find((k) => k.klyuch === 'svarshena')?.nashaDuma).toBe(true);
     // отговорникът е НАША колона · сочи към хората от листа Служители (негово, 05.09)
     expect(z.koloni.find((k) => k.klyuch === 'otgovornik')?.vrazka).toEqual([
       'stopani',

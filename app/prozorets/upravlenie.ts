@@ -230,6 +230,15 @@ interface RedNaEkrana {
   readonly ot: string;
   readonly do: string;
   readonly speshno: boolean;
+  /**
+   * ДЕНЯТ НА ПОТВЪРЖДАВАНЕТО · празен, докато задачата не е свършена.
+   *
+   * Негово, 13.09 (запис 206): „Задачата се потвърждава през приложението от
+   * десния бутон." И негово, 13.09 (запис 204): „Редовете не показват време."
+   * Двете заедно значат едно: денят НЕ става колона в реда — той е БЕЛЕГ върху
+   * него, който казва „приключена", и стои цял в подсказката.
+   */
+  readonly svarshena: string;
 }
 
 /**
@@ -316,6 +325,7 @@ function redNaRoditel(
     ot: '',
     do: '',
     speshno: false,
+    svarshena: '',
     tds,
     klas,
     seq: red.seq,
@@ -372,8 +382,9 @@ function redNaZadacha(
     do: tekst('do'),
     speshno:
       speshnoNomer !== null && ots !== undefined && 'nomer' in ots && ots.nomer === speshnoNomer,
+    svarshena: tekst('svarshena'),
     tds,
-    klas: 'red zadacha nivo-2',
+    klas: `red zadacha nivo-2${tekst('svarshena') === '' ? '' : ' svarshena'}`,
     seq: red.seq,
     roditelId,
   };
@@ -476,6 +487,7 @@ function redNaDvizhenie(d: DvizhenieVDarvoto, oblik: readonly GlavaNaOblika[]): 
     ot: d.data === '' ? `${d.mesets}-01` : d.data,
     do: '',
     speshno: false,
+    svarshena: '',
     tds,
     klas: 'red dvizhenie nivo-2',
     seq: d.i,

@@ -10,7 +10,9 @@
  */
 
 import { slotNaKolonata } from '../model/kolona.js';
-import type { Model } from '../model/model.js';
+import { type Model, tablitsata } from '../model/model.js';
+import { kolonaNa } from '../model/tablitsa.js';
+import { eData } from '../yadro/data.js';
 import { eKletka, slotNaKletka } from '../model/kletka.js';
 import { DEYSTVIYA, type PromyanaNaStrukturata, zashtoNeMozhe } from '../model/struktura.js';
 
@@ -33,6 +35,21 @@ export const TIP = Object.freeze({
    * щом днешният Модел не го признае. Сега тя има история като всичко друго.
    */
   strukturaPromenena: 'СтруктураПроменена',
+  /**
+   * ЕДИНАЙСЕТИЯТ ТИП · негово, 13.09 (запис 206), ДОСЛОВНО: „**Задачата се
+   * потвърждава през приложението от десния бутон.**"
+   *
+   * ЗАЩО СВОЙ ТИП, А НЕ „РедЗаписан": колоната „Свършена" е ЗАТВОРЕНА (правило
+   * 29 · неговата дума е, че в таблицата не се пипа). Затворена колона няма слот
+   * в схемата и „РедЗаписан" я ОТКАЗВА — така и трябва, инак затвореността щеше
+   * да е учтива молба. Огледалото обаче ѝ пази стълб (`slotPoVida`, не
+   * `slotNaKolonata`) точно за такъв случай: „кой може да ПИШЕ решават Вратата и
+   * регистърът, не строителят на Огледалото".
+   *
+   * Тоест затворената клетка има ЕДИН писач, назован поименно — този тип. Точно
+   * това искаше той: не поле, а действие.
+   */
+  zadachaPotvardena: 'ЗадачаПотвърдена',
 } as const);
 
 export type TipSabitie = (typeof TIP)[keyof typeof TIP];
@@ -150,6 +167,19 @@ export const SABITIYA: Readonly<Record<TipSabitie, Proverka>> = Object.freeze({
     const n: string[] = [];
     proveriAdresNaRed(p, model, n);
     if (typeof p['izklyuchen'] !== 'boolean') n.push('„izklyuchen" трябва да е да/не.');
+    return n;
+  },
+
+  [TIP.zadachaPotvardena]: (p, model) => {
+    const n: string[] = [];
+    proveriAdresNaRed(p, model, n);
+    const den = p['den'];
+    if (den !== null && !eData(den))
+      n.push('Денят на потвърждаване трябва да е дата ГГГГ-ММ-ДД или празно.');
+    // таблицата ТРЯБВА да има какво да потвърди · отказът е с думи (правило 12)
+    const t = typeof p['tablitsa'] === 'string' ? p['tablitsa'] : '';
+    if (t !== '' && kolonaNa(tablitsata(model, t), 'svarshena') === undefined)
+      n.push(`Таблица ${t} няма колона Свършена — само задача се потвърждава.`);
     return n;
   },
 

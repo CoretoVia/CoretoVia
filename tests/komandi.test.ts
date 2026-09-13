@@ -459,6 +459,10 @@ describe('задачата на Управление (ADR-005)', () => {
       ['upravlenie.dobaviZadacha', true, true],
       ['red.izklyuchi', false, false],
       ['red.varni', false, false],
+      // двата пункта стоят и върху Имот, но СИВИ · само задача се потвърждава
+      // (негово, 13.09 · запис 206) · отказът е с думи, не с изчезване (правило 12)
+      ['red.svarshena', false, false],
+      ['red.nesvarshena', false, false],
       ['obshto.storno', true, false],
     ]);
     expect(naImota[0]?.tovar).toEqual({
@@ -478,7 +482,19 @@ describe('задачата на Управление (ADR-005)', () => {
     expect(desni('zadachi', 'zadacha:z1').map((b) => b.klyuch)).toEqual([
       'red.izklyuchi',
       'red.varni',
+      'red.svarshena',
+      'red.nesvarshena',
       'obshto.storno',
+    ]);
+    // ВЪРХУ ЗАДАЧА · „Свършена" е разрешена, „Върни в работа" е сива и казва защо
+    const naZadachata = desni('zadachi', 'zadacha:z1');
+    expect(
+      naZadachata.filter((b) => b.klyuch.startsWith('red.')).map((b) => [b.klyuch, b.razreshena]),
+    ).toEqual([
+      ['red.izklyuchi', true],
+      ['red.varni', false],
+      ['red.svarshena', true],
+      ['red.nesvarshena', false],
     ]);
     // в прозореца Имоти задачата не се предлага · командата е на Управление
     expect(

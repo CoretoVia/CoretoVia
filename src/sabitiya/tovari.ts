@@ -66,6 +66,18 @@ export interface PayloadRedIzklyuchen {
   readonly izklyuchen: boolean;
 }
 
+/**
+ * ЕДИНАЙСЕТИЯТ ТИП · потвърждаването на задача от десния бутон (запис 206).
+ *
+ * `den` е ДЕНЯТ на потвърждаването, а `null` връща задачата в работа. Празното
+ * е състояние, не липса: то значи „несвършена" и се чете точно така навсякъде.
+ */
+export interface PayloadZadachaPotvardena {
+  readonly tablitsa: string;
+  readonly id: string;
+  readonly den: string | null;
+}
+
 /** Къде е стигнала една верига · подписаните полета, по които dryRun ↔ izpalni се сравняват. */
 export interface Kursor {
   readonly veriga: string;

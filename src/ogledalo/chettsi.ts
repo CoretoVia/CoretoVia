@@ -15,6 +15,7 @@ import type {
   PayloadRedIzklyuchen,
   PayloadRedZapisan,
   PayloadStopaninZapisan,
+  PayloadZadachaPotvardena,
   PayloadStoynostSpryana,
   PayloadStoynostZapisana,
 } from '../sabitiya/tovari.js';
@@ -62,6 +63,14 @@ export const CHETTSI: Readonly<Record<TipSabitie, Chetets>> = Object.freeze({
   [TIP.redIzklyuchen]: (s, st) => {
     const p = tovar<PayloadRedIzklyuchen>(s);
     st.tablitsa(p.tablitsa).izklyuchi(p.id, veriga(s), s.seq, p.izklyuchen);
+  },
+
+  [TIP.zadachaPotvardena]: (s, st) => {
+    const p = tovar<PayloadZadachaPotvardena>(s);
+    // `zapishi` слива САМО подадения ключ · другите клетки на реда не се пипат
+    st.tablitsa(p.tablitsa).zapishi(p.id, veriga(s), s.seq, {
+      svarshena: p.den === null ? null : { tekst: p.den },
+    });
   },
 
   [TIP.modelZapisan]: (s, st) => {

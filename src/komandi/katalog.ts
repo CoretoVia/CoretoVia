@@ -8,7 +8,13 @@
 import { type Pomosht, tekstNaPomoshtta } from '../model/pomosht.js';
 import type { Komanda, Myasto } from './komanda.js';
 import { imotiDobaviBiznes, imotiDobaviObekt, imotiSazdayImot } from './prozortsi/imoti.js';
-import { redIzklyuchi, redPopraviKletka, redVarni } from './prozortsi/red.js';
+import {
+  redIzklyuchi,
+  redNesvarshena,
+  redPopraviKletka,
+  redSvarshena,
+  redVarni,
+} from './prozortsi/red.js';
 import { smetkiDobaviDvizhenie, smetkiZapishiDds, smetkiZapishiKesh } from './prozortsi/smetki.js';
 import {
   sluzhiteliDobaviDlazhnost,
@@ -70,6 +76,8 @@ export const KATALOG: readonly KoyaDaE[] = Object.freeze([
   redPopraviKletka,
   redIzklyuchi,
   redVarni,
+  redSvarshena,
+  redNesvarshena,
   obshtoStorno,
   knigaIznesi,
   knigaVnesi,

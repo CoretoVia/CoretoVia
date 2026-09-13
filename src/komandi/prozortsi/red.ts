@@ -25,7 +25,7 @@ import {
   PREDLOZHENIE,
   type Predlozhenie,
 } from '../../model/predlozhenie.js';
-import { shemaNaReda, strogObekt } from '../../model/shema.js';
+import { poIzbor, shemaNaReda, strogObekt } from '../../model/shema.js';
 import { kolonaNa, type Tablitsa } from '../../model/tablitsa.js';
 import { kletkaNa, redKato, zhiviteRedove } from '../../ogledalo/tablitsa.js';
 import { proveriTovar, TIP } from '../../sabitiya/registar.js';
@@ -560,6 +560,8 @@ export const redPopraviKletka = Object.freeze(popraviKletka);
 interface TovarRed {
   readonly tablitsa: string;
   readonly id: string;
+  /** денят на потвърждаване · само при „Свършена" · `null` връща задачата в работа */
+  readonly den?: string | null;
 }
 
 /** Живите деца на ред · редовете в таблици с родител тази, сочещи този id. */
@@ -586,6 +588,20 @@ function zhiviDetsa(
     if (broy > 0) rez.push({ tablitsa: t.klyuch, broy });
   }
   return rez;
+}
+
+/**
+ * РЕДЪТ, СЪЩНОСТТА МУ И ИМЕТО МУ · трите неща, с които почва всеки `dryRun`
+ * върху съществуващ ред.
+ *
+ * Изнесени, защото обход 8 на чистотата ги хвана преписани — и с право: щом
+ * утре `redat` почне да връща нещо друго при липсващ ред, двете места ще се
+ * разминат мълчаливо.
+ */
+function redatSImeto(v: TovarRed, k: Kontekst) {
+  const r = redat(v, k);
+  if (typeof r === 'string') throw new Error(r);
+  return { r, s: sashtnost(r.t.sashtnost, v.id), ime: imeNaReda(k.ogledalo, v.tablitsa, v.id) };
 }
 
 function komandaZaIzklyuchvane(izklyuchen: boolean): Komanda<TovarRed> {
@@ -663,10 +679,7 @@ function komandaZaIzklyuchvane(izklyuchen: boolean): Komanda<TovarRed> {
       },
     ],
     dryRun: (v, k) => {
-      const r = redat(v, k);
-      if (typeof r === 'string') throw new Error(r);
-      const s = sashtnost(r.t.sashtnost, v.id);
-      const ime = imeNaReda(k.ogledalo, v.tablitsa, v.id);
+      const { s, ime } = redatSImeto(v, k);
       return predvaritelno(
         k,
         klyuch,
@@ -694,3 +707,104 @@ function komandaZaIzklyuchvane(izklyuchen: boolean): Komanda<TovarRed> {
 
 export const redIzklyuchi = komandaZaIzklyuchvane(true);
 export const redVarni = komandaZaIzklyuchvane(false);
+
+/**
+ * СВЪРШЕНА · и обратното · НЕГОВОТО ДЕЙСТВИЕ ОТ ДЕСНИЯ БУТОН.
+ *
+ * Негово, 11.09 (запис 195) т.7: „**Ако не е изпълнена се пренастройва за
+ * следващщия ден и се трупа, докато не се отбележи, че е свършена задачата.**"
+ * И на въпроса под коя негова глава да застане отметката, 13.09 (запис 206),
+ * ДОСЛОВНО: „**Задачата се потвърждава през приложението от десния бутон.**"
+ *
+ * Тоест той не иска клетка, която се пипа — иска ДЕЙСТВИЕ. Затова колоната
+ * `svarshena` е ЗАТВОРЕНА (правило 29) и единственият път до нея е този пункт.
+ *
+ * ДЕНЯТ ИДВА ОТ КОНТЕКСТА, не от човека: потвърждаването е „сега", а дата,
+ * която се пише на ръка, е дата, която може да излъже. Върнатата задача чисти
+ * клетката — не пише „не", защото празното вече значи несвършена.
+ */
+function komandaZaSvarshena(svarshena: boolean): Komanda<TovarRed> {
+  const klyuch = svarshena ? 'red.svarshena' : 'red.nesvarshena';
+  const pomoshtta = svarshena
+    ? pomosht(
+        'Потвърждава, че задачата е свършена, и записва деня. Оттам нататък тя спира да се ' +
+          'трупа в седмичната програма на отговорника си. Клетката не се пише на ръка — само оттук.',
+        'записва днешния ден в колоната Свършена · спира трупането',
+      )
+    : pomosht(
+        'Връща задачата в работа: изчиства деня на потвърждаването и тя пак се трупа, докато ' +
+          'не бъде потвърдена отново. Журналът пази и двете, нищо не се трие.',
+        'изчиства колоната Свършена · задачата се връща в работа',
+      );
+  const komanda: Komanda<TovarRed> = {
+    klyuch,
+    ime: svarshena ? 'Свършена' : 'Върни в работа',
+    pomosht: pomoshtta,
+    // САМО Управление · задачи има само там, и пункт, който другаде винаги е сив,
+    // е шум в менюто, не любезност
+    prozortsi: ['upravlenie'],
+    stepen: 'pishe',
+    myasto: 'desen-buton',
+    koyMozhe: vratataNaRedovete(),
+    proizvezhda: [TIP.zadachaPotvardena],
+    // ДЕНЯТ ВЛИЗА В ТОВАРА, не се вади в dryRun · така dryRun остава чиста функция
+    // на (Огледало · komandaId · товар), както обещава `komanda.ts`.
+    shema: strogObekt({
+      tablitsa: TABLITSA,
+      id: ID,
+      den: poIzbor({ type: 'string', minLength: 10, maxLength: 10 }),
+    }),
+    otIzbora: (izbran: Izbran, k: Kontekst) => ({
+      tablitsa: izbran.tablitsa,
+      id: izbran.id,
+      den: svarshena ? k.sega.slice(0, 10) : null,
+    }),
+    predusloviya: [
+      {
+        // Пунктът стои в менюто на ВСЯКА таблица (така е и с Изключи/Върни), но
+        // само задачите имат какво да потвърдят. Отказът се КАЗВА (правило 12).
+        ime: 'таблицата има колона Свършена',
+        proveri: (v, k) =>
+          kolonaNa(tablitsata(k.model, v.tablitsa), 'svarshena') === undefined
+            ? 'Само задача се потвърждава за свършена — този ред не е задача.'
+            : null,
+      },
+      {
+        ime: 'състоянието се мени',
+        proveri: (v, k) => {
+          const r = redat(v, k);
+          if (typeof r === 'string') return r;
+          const veche = r.staro['svarshena'] ?? null;
+          if (svarshena && veche !== null) return 'Задачата вече е потвърдена за свършена.';
+          if (!svarshena && veche === null) return 'Задачата не е потвърдена за свършена.';
+          return null;
+        },
+      },
+    ],
+    dryRun: (v, k) => {
+      const { r, s, ime } = redatSImeto(v, k);
+      const den = typeof v.den === 'string' ? v.den : null;
+      const beshe = r.staro['svarshena'] ?? null;
+      return predvaritelno(
+        k,
+        klyuch,
+        [
+          {
+            type: TIP.zadachaPotvardena,
+            sashtnost: s,
+            payload: { tablitsa: v.tablitsa, id: v.id, den },
+            expectedRev: revNa(k, s),
+          },
+        ],
+        [razlika('Свършена', beshe !== null && 'tekst' in beshe ? beshe.tekst : '', den ?? '')],
+        svarshena
+          ? `„${ime}" е потвърдена за свършена на ${den ?? ''}.`
+          : `„${ime}" се връща в работа.`,
+      );
+    },
+  };
+  return Object.freeze(komanda);
+}
+
+export const redSvarshena = komandaZaSvarshena(true);
+export const redNesvarshena = komandaZaSvarshena(false);

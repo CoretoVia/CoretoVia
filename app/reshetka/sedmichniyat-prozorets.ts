@@ -42,7 +42,7 @@ function otvoriSedmitsata(k: KonteksNaEkrana, chovek: string, dnes: string): voi
                         h`<span class="zadacha-v-denya${z.natrupana ? ' natrupana' : ''}"${
                           z.natrupana
                             ? podskazkaSDumi(
-                                `Краят ѝ (${z.do === '' ? z.ot : z.do}) е минал, а тя не е затворена — затова стои на днешния ден и ще стои, докато не се затвори.`,
+                                `Краят ѝ (${z.do === '' ? z.ot : z.do}) е минал, а тя не е потвърдена за свършена — затова стои на днешния ден и ще стои, докато не я потвърдиш с десния бутон върху реда ѝ в Управление.`,
                               )
                             : ''
                         } translate="no">${z.ime === '' ? z.id : z.ime}</span>`,
