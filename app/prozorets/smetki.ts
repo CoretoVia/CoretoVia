@@ -61,6 +61,8 @@ import {
   IMENA_NA_TAKTOVETE,
   type KolonaNaTakta,
   koloniNaTakta,
+  mesetsatEVPerioda,
+  periodatNaKolonite,
   type SvoyPeriod,
   type Takt,
 } from '../../src/smetach/vreme.js';
@@ -263,9 +265,30 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const kogato = new Date().toISOString();
   const mesets = chetiEkranno<string>(PAMET.mesets, mesetsatSega());
   const samoMeseca = chetiEkranno<boolean>(PAMET.samoMeseca, false);
-  const s = smetkite(o, kogato, samoMeseca ? (m) => m === mesets : undefined);
+  const takt = chetiEkranno<Takt>(PAMET.takt, 'godina');
+  const period = chetiEkranno<SvoyPeriod | null>(PAMET.period, null);
+  /**
+   * КАЛЕНДАРЪТ РЕШАВА ОБХВАТА · негово, 13.09 (запис 205), ДОСЛОВНО: „Да има и
+   * според вкарания период, а ако е сега периода да е за периода на такта. Това
+   * така да влиае на останалите изчисления и да се съобраазява изцяло в сметките
+   * с календара."
+   *
+   * Затова обхватът не е втора настройка, а СЛЕДСТВИЕ: чете се от самите колони
+   * на календара. Щом колоните са там, там са и парите — и двете не могат да се
+   * разминат, защото идват от едно място (правило 14).
+   *
+   * Отметката „само този месец" остава като бърз начин да свиеш до гледания
+   * месец; тя СТЕСНЯВА периода, не го заменя.
+   */
+  const koloniteNaGanta = koloniteNaSmetkite(takt, mesets, period);
+  const periodatNaEkrana = periodatNaKolonite(koloniteNaGanta);
+  const vObhvata = (m: string): boolean =>
+    samoMeseca ? m === mesets : periodatNaEkrana === null || mesetsatEVPerioda(m, periodatNaEkrana);
+  const s = smetkite(o, kogato, vObhvata);
+  /** ВСИЧКИТЕ пари · оттук идва натрупаният Баланс, който не се мени с погледа */
+  const vsichkiteSmetki = smetkite(o, kogato);
   const kesh = keshatNaMeseca(o, mesets, kogato);
-  const v = vkarvaneto(o, kogato, samoMeseca ? (m) => m === mesets : undefined);
+  const v = vkarvaneto(o, kogato, vObhvata);
   const podtab = tekushtPodtab(PAMET.podtab, PODTABOVE);
   const filtar = chetiEkranno<(string | null)[]>(PAMET.filtar, []).map((x) => x ?? '');
   /**
@@ -286,21 +309,30 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
   const izbranaPrihod = chetiEkranno<string>(PAMET.sektsiyataNaPrihoda, 'vsichki');
   const izbranaRazhod = chetiEkranno<string>(PAMET.sektsiyataNaRazhoda, 'vsichki');
   const proverkataEPusnata = chetiEkranno<boolean>(PAMET.proverkata, false);
-  const takt = chetiEkranno<Takt>(PAMET.takt, 'godina');
-  const period = chetiEkranno<SvoyPeriod | null>(PAMET.period, null);
-  /** колко месеца стоят на екрана · средното на месец се дели точно на тях */
-  const koloniNaMesetsite = koloniteNaSmetkite(takt, mesets, period).length;
+  /**
+   * КОЛКО РАЗЛИЧНИ МЕСЕЦА покрива календарът · не колко са колоните му.
+   *
+   * Средното НА МЕСЕЦ се дели на месеци. При такт „ден" колоните са ЧАСОВЕ, при
+   * седмица и месец — ДНИ; делението на тях даваше „среден приход на месец",
+   * който е приход на час. Числото изглеждаше правдоподобно и точно затова
+   * лъжеше най-тихо.
+   */
+  const mesetsiNaEkrana = new Set(koloniteNaGanta.map((kol) => kol.ot.slice(0, 7))).size;
   // ДДС · редът на всеки месец влиза в СМЕТКИ по знака си (негово, 05.09 т.2)
   const dds = ddsat(o, kogato);
   const trezor = trezorat(natrupaniyatKesh(o, kogato), prodazhbite(o, kogato));
   /**
-   * БАЛАНСЪТ · негово, 13.09 (запис 203), точка 5: „Баланс който Смята Трезора
-   * + Банковото покритие от Извлеченията и Приходите и Разходите."
+   * БАЛАНСЪТ · ДВА ОБХВАТА, и това е цялата идея (записи 203 т.5 и 205).
    *
-   * Смята се върху ВСИЧКИ месеци, не върху гледания: балансът на парите не се
-   * мени, когато човек стесни погледа си до един месец.
+   * Числото е НАТРУПАНО — „общ сбор на всичко и текущия Баланс на парите" не се
+   * мени, когато човек свие календара. ПОСОКАТА (средното, месеците живот,
+   * цветът) идва от месеците В ПЕРИОДА: „при темпото на този период за колко ми
+   * стигат парите".
    */
-  const balans = balansat(smetkite(o, kogato), trezor.obshto_st);
+  // ВНОСКИТЕ, не Общ Трезор: изтегленото е преместване банка → каса, а
+  // раздаденото вече стои между движенията като разход. Общият Трезор носи
+  // и двете и щеше да ги вкара в баланса втори път.
+  const balans = balansat(vsichkiteSmetki, s, trezor.vnoski_st);
   /**
    * ДВЕТЕ ТАБЛИЦИ НА НАП · негово, 11.09 (запис 195), точка 5.
    * Подредбата е СМЯТАНА, не екранна: платените най-отдолу, закъснелите и
@@ -359,9 +391,17 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
       ime: 'Баланс',
       dumi: pishi(balans.balans_st),
       kak: podskazkaSDumi(
-        `${balans.zashto} Смята се: Общ Трезор ${pishi(balans.kesh_st)} + банката ${pishi(
+        `${balans.zashto} ЧИСЛОТО е натрупано: вноски в брой ${pishi(
+          balans.vnoskiVBroy_st,
+        )} + банката ${pishi(
           balans.banka_st,
-        )} (приходите и разходите по въведеното). Средно на месец: ${pishi(balans.nameseets_st)}. Извлечения от банка още не се четат — банковото покритие идва от въведените движения (ход 11.3).`,
+        )} (приходите и разходите по въведеното). ЦВЕТЪТ е за периода на календара: приход − разход ${pishi(
+          balans.zaPerioda_st,
+        )}, средно на месец ${pishi(balans.nameseets_st)}${
+          balans.mesetsiZhivot === null
+            ? ''
+            : `, парите стигат за ${String(balans.mesetsiZhivot)} месеца`
+        }. Извлечения от банка още не се четат — банковото покритие идва от въведените движения (ход 11.3).`,
       ),
     },
     { klyuch: 'prihod', ime: 'Приход', dumi: pishi(sborPrihod), kak: izvedena('prihod') },
@@ -384,11 +424,15 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
       dumi: pishi(kesh.izvlechenie),
       kak: izvedena('kesh-izvlechenie'),
     },
+    // „Кеш вкарано" си отиде на 13.09: откакто ДАДЕНОТО се смята от същите
+    // редове, двете клетки показваха едно и също число, едната без знака.
+    // Освободеното място отива на онова, което наистина липсваше — РАЗЛИКАТА
+    // между даденото и изтегленото, тоест колко още стои между банката и ръката.
     {
-      klyuch: 'kesh-vkarano',
-      ime: 'Кеш вкарано',
-      dumi: pishi(Math.abs(kesh.vkarano)),
-      kak: izvedena('kesh-vkarano'),
+      klyuch: 'kesh-razlika',
+      ime: 'Кеш разлика',
+      dumi: pishi(kesh.dadeno - kesh.izvlechenie),
+      kak: izvedena('kesh-razlika'),
     },
     {
       klyuch: 'dvizheniya',
@@ -440,7 +484,6 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
    * ред, който смени височината си. Сега тактовете са КОЛОНИ на същия ред —
    * както е и в Управление (ход 88), и както е в самата му Книга.
    */
-  const koloniteNaGanta = koloniteNaSmetkite(takt, mesets, period);
   /** задачите с бюджет · само те влизат в Сметки (негово, запис 163) */
   const zadachite = zadachiteSByudzhet(o);
 
@@ -600,14 +643,17 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
    */
   const zadachiteHTML = (): Zapechatan => {
     if (skritiZadachi || zadachite.redove.length === 0) return h``;
-    const sborNaZadachite = zadachite.redove.reduce((a, z) => a - z.byudzhet_st, 0);
+    // правило 3 · сборът ПРЕД ЧОВЕКА минава през преградата за цели центове
+    const sborNaZadachite = sabiri(...zadachite.redove.map((z) => tsentove(-z.byudzhet_st)));
     return h`<tr class="grupata sektsiya" data-sektsiya="razhod·задачи">
         <td colspan="${KOLONI.length - 1}" translate="no">Задачи с бюджет</td>
         <td class="evro" data-sbor-zadachi translate="no">${pishi(sborNaZadachite)}</td>
         ${koloniteNaGanta.map((kol, i) => {
-          const sbor = zadachite.redove
-            .filter((z) => kolonataNa(z.data) === i)
-            .reduce((a, z) => a - z.byudzhet_st, 0);
+          const sbor = sabiri(
+            ...zadachite.redove
+              .filter((z) => kolonataNa(z.data) === i)
+              .map((z) => tsentove(-z.byudzhet_st)),
+          );
           return h`<td class="takt evro${kol.dnes ? ' dnes' : ''}" translate="no">${
             sbor === 0 ? '' : pishi(sbor)
           }</td>`;
@@ -649,9 +695,12 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
    * него — инак таблицата би казвала друго от онова, което календарът показва.
    */
   const razlikiteHTML = (): Zapechatan => {
-    const vPerioda = balans.mesetsi.filter((m) => kolonataNa(denNaMeseca(m.mesets)) >= 0);
-    if (vPerioda.length === 0) return h``;
-    const sbor = vPerioda.reduce((a, m) => a + m.razlika, 0);
+    // `balans.mesetsi` ВЕЧЕ е за периода · филтърът тук беше втори и по-лош:
+    // питаше в коя колона пада ПЪРВОТО число на месеца, тъй че при такт „ден"
+    // (колоните са часове от няколко дни) цялата таблица изчезваше, а при
+    // „седмица" оставаше грешният месец. Един обхват, един дом (правило 14).
+    const vPerioda = balans.mesetsi;
+    const sbor = sabiri(...vPerioda.map((m) => tsentove(m.razlika)));
     return h`<section class="tablitsa-blok" data-blok="razliki">
       <h2 class="lenta" translate="no">Разлика по месеци</h2>
       <table class="reshetka smetki" data-reshetka="razliki">
@@ -667,16 +716,50 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
             )}</td></tr>`,
         )}</tbody>
         <tfoot><tr class="sbor"><td>ОБЩО за периода</td><td class="evro" translate="no">${pishi(
-          vPerioda.reduce((a, m) => a + m.prihod, 0),
+          sabiri(...vPerioda.map((m) => tsentove(m.prihod))),
         )}</td><td class="evro" translate="no">${pishi(
-          vPerioda.reduce((a, m) => a + m.razhod, 0),
+          sabiri(...vPerioda.map((m) => tsentove(m.razhod))),
         )}</td><td class="evro" data-razlika-sbor translate="no">${pishi(sbor)}</td></tr></tfoot>
       </table>
+      ${
+        vPerioda.length === 0
+          ? h`<p class="vest" data-razliki-nyama>В периода на календара няма нито един месец с движения · смени такта или периода горе.</p>`
+          : ''
+      }
       <p class="pod-tablitsata" data-sverka="balans">средно на месец ${pishi(
         balans.nameseets_st,
       )} · ${balans.mesetsiZhivot === null ? 'парите не се изчерпват при това движение' : `парите стигат за ${String(balans.mesetsiZhivot)} месеца`}</p>
     </section>`;
   };
+
+  /**
+   * БЮДЖЕТ БЕЗ ДАТА · негово, 11.09 (запис 145), ДОСЛОВНО: „Бюджет без дата не
+   * се приема и дава сигнал с цвят на полето което да се попълни."
+   *
+   * Половината стоеше построена и невикана: `zadachiteSByudzhet` връща имената
+   * на тези задачи от резен насам, а никой не ги показваше. Значи задача с
+   * бюджет и без нито една дата ТИХО изчезваше от Сметки — парите ѝ ги нямаше
+   * в сбора и никъде не пишеше защо. Построено без викащ е дълг (правило 30),
+   * а мълчалив отказ е обратното на правило 12.
+   */
+  const bezDataHTML = (): Zapechatan =>
+    zadachite.bezData.length === 0
+      ? h``
+      : h`<p class="vest lipsva-data" data-bez-data translate="no">Извън сметките: ${String(
+          zadachite.bezData.length,
+        )} задач${zadachite.bezData.length === 1 ? 'а' : 'и'} с бюджет, но без нито една дата — ${zadachite.bezData.join(
+          ' · ',
+        )}. Бюджет без дата не влиза в календара и в сбора; попълни Начало в Управление.</p>`;
+
+  /** Колко реда падат ИЗВЪН колоните на календара · те са в сбора, но не се виждат. */
+  const izvanKalendara = (sektsii: readonly Sektsiya[]): number =>
+    sektsii.reduce(
+      (a, sek) =>
+        a +
+        sek.redove.filter((r) => kolonataNa(r.data === '' ? denNaMeseca(r.mesets) : r.data) < 0)
+          .length,
+      0,
+    );
 
   const stranaHTML = (
     strana: Strana,
@@ -697,9 +780,20 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         }</tbody>
         <tfoot><tr class="sbor"><td colspan="${KOLONI.length - 1}"${izvedena(strana)}>ОБЩ ${IMENA_NA_STRANITE[strana]}</td><td class="evro" data-sbor="${strana}" translate="no">${pishi(sbor)}</td>${sboroveNaTaktovete(sektsii)}</tr></tfoot>
       </table>
+      <!--
+        И КОЛКО РЕДА НЕ ПАДАТ В НИТО ЕДНА КОЛОНА. Обхватът на сметките е по МЕСЕЦ,
+        а колоната на календара е по ДЕН — при такт „ден" или „седмица" месецът е
+        в периода, но денят на реда може да е извън показаните дни. Тогава сумата
+        влиза в ОБЩ, а не се вижда никъде в календара. Мълчаливото изпускане е
+        най-лошият изход; тук то се БРОИ и се казва (правило 12 · правило 7).
+      -->
       <p class="pod-tablitsata" data-sverka="${`filtar-${strana}`}">видими ${String(vidimi)} от ${String(
         vsichki,
-      )}${eFiltarPrazen(filtar) ? '' : ' · филтърът е включен'}</p>
+      )}${eFiltarPrazen(filtar) ? '' : ' · филтърът е включен'}${
+        izvanKalendara(sektsii) === 0
+          ? ''
+          : ` · извън колоните на календара ${String(izvanKalendara(sektsii))}`
+      }</p>
     </section>`;
 
   const butonHTML = (b: ButonNaProzoretsa): Zapechatan => {
@@ -823,7 +917,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         : izbrana === 'fakturi'
           ? fakturi
           : sektsii.filter((x) => String(x.nomer) === izbrana);
-    const sbor = izbrani.reduce((a, x) => a + x.sbor, 0);
+    const sbor = sabiri(...izbrani.map((x) => tsentove(x.sbor)));
     const imeto =
       izbrana === 'vsichki'
         ? `всички ${IMENA_NA_STRANITE[strana]}`
@@ -1010,6 +1104,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
       <div class="smetki-blokove">
         ${skritite.includes('prihod') ? '' : stranaHTML('prihod', fPrihod.sektsii, sborPrihod, fPrihod.broyVidimi, fPrihod.broyVsichki)}
         ${skritite.includes('razhod') ? '' : stranaHTML('razhod', fRazhod.sektsii, sborRazhod, fRazhod.broyVidimi, fRazhod.broyVsichki)}
+        ${bezDataHTML()}
         ${razlikiteHTML()}
         <section class="tablitsa-blok" data-blok="vkarvane">
           <h2 class="lenta" translate="no">Вкарване</h2>
@@ -1033,7 +1128,7 @@ export function narisuvaySmetki(k: KonteksNaEkrana): void {
         takt
       ].toLocaleLowerCase('bg')} · колони ${String(koloniteNaGanta.length)}</p>
       ${dumiteIIznosHTML(DUMI_OT_KNIGATA.smetki)}
-    ${blokatNaPokazatelite(pokazatelite(s, koloniNaMesetsite))}`
+    ${blokatNaPokazatelite(pokazatelite(s, mesetsiNaEkrana))}`
     }`,
   );
 
@@ -1198,6 +1293,19 @@ function deystvieNaButona(k: KonteksNaEkrana, b: ButonNaProzoretsa, el: HTMLElem
   }
   switch (d.klyuch) {
     case 'obnovi':
+      k.prerisuvay();
+      return;
+    /**
+     * НАЧАЛО СЕГА · връща погледа на текущия месец и разваля своя период.
+     *
+     * Бутонът стои ОТКРИТ на четвъртата лента във всеки прозорец (`OTKRITITE` в
+     * `osnova.ts`), но тук нямаше случай и натискането му вадеше червена грешка
+     * „още няма действие". Обещание, което лентата дава, а прозорецът не спазва.
+     */
+    case 'nachalo-sega':
+      zapomniEkranno(PAMET.mesets, mesetsatSega());
+      zapomniEkranno(PAMET.period, null);
+      if (chetiEkranno<Takt>(PAMET.takt, 'godina') === 'svoy') zapomniEkranno(PAMET.takt, 'godina');
       k.prerisuvay();
       return;
     case 'skriy-dela':

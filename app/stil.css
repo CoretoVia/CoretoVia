@@ -1448,20 +1448,51 @@ body.vlacha-shirina {
 .zalepeno.lenti > .podtabove,
 .zalepeno.lenti > .deystviya {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--shirina-na-kletkata), 1fr));
+  /* AUTO-FIT, не auto-fill · измерено в браузъра, не преценено на око.
+
+     `auto-fill` държи ПРАЗНИТЕ тракове и те заемат място: при 1920px лентите
+     свършваха на 1597 · 1452 · 1452 · 1307, а редът стига до 1904 — дупка от
+     161 до 451 пиксела в цвета на линията. `auto-fit` срива празните тракове и
+     `1fr` разпъва останалите: дупка 0 при 1440 · 1560 · 1920.
+
+     ЦЕНАТА, казана честно: клетките на четирите ленти вече не падат ЕДНА ПОД
+     ДРУГА, защото лентите имат различен брой клетки (11 · 5 · 8 · 7). Двете
+     му искания — „симетрия колоните" и „без празни пространства" — не могат
+     да се изпълнят наведнъж при различен брой клетки. Избрано е второто,
+     защото дупката се вижда, а разминатата колона — не. */
+  grid-template-columns: repeat(auto-fit, minmax(var(--shirina-na-kletkata), 1fr));
+  align-items: stretch;
   gap: 1px;
   margin: 0;
   padding: 0;
   border: 0;
+  /* и ЗАОБЛЯНЕТО се нулира · редът на кеша идва със свои 6px от .red-kesh, и
+     без това една от четирите ленти имаше отрязани ъгли, а другите три — прави */
+  border-radius: 0;
   background: var(--linija);
 }
 
-/* последната клетка поема остатъка · инак вдясно зее празно */
-.zalepeno.lenti > .lenta-red > :last-child,
-.zalepeno.lenti > .podtabove > :last-child,
-.zalepeno.lenti > .deystviya > :last-child {
-  grid-column: auto / -1;
-}
+/* ПОСЛЕДНАТА КЛЕТКА ПОЕМА ОСТАТЪКА · инак вдясно зее празно (негово, запис 203).
+
+   Две уговорки, и двете платени с гледане:
+
+   1. `.otkriti` е `display: contents` — прозрачна обвивка, не клетка. Правило
+      върху нея не стига до мрежата, тъй че последната клетка на лентата с
+      бутоните е последното ДЕТЕ на нея.
+   2. Селекторът трябва да е ПО-СПЕЦИФИЧЕН от онези, които после дават
+      `grid-column: span 2` (подтабът и буто-групата). При равна специфичност
+      печели по-късното правило, и остатъкът пак щеше да зее.
+*/
+/* ОСТАТЪКЪТ ВДЯСНО НЕ СЕ ПЪЛНИ С ЕДНА КЛЕТКА · пробвано и измерено, не работи.
+
+   `grid-column: auto / -1` и `grid-column-end: -1` изглеждат като „разтегни до
+   края", но при начало `auto` спанът е ЕДИН трак (CSS Grid §8.3) — клетката се
+   разполага автоматично и краят се игнорира. Пълнеж с `::after` пък се пренася
+   на ВТОРИ ред, щом клетките запълнят всички тракове: измерено, лента от 43px
+   ставаше 87px с празна ивица под нея, точно каквото поправката гонеше.
+
+   Работещото е `auto-fit` горе. Тук не стои нищо нарочно, и това е бележката
+   защо — за да не се върне същата поправка утре. */
 
 /* ОТКРИТИТЕ КОНТРОЛИ не са клетка · те са ТРИ клетки (такт · период · начало) */
 .zalepeno.lenti .otkriti {
@@ -1489,14 +1520,18 @@ body.vlacha-shirina {
   text-align: left;
 }
 
+/* РЕДОВАТА ВИСОЧИНА се свива, кутията НЕ се вдига · инак `min-height` става
+   пожелание и четирите ленти излизат с четири различни височини */
 .zalepeno.lenti .tsifra {
   overflow: hidden;
+  line-height: 1.15;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .zalepeno.lenti .ime {
   overflow: hidden;
+  line-height: 1.1;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -1509,9 +1544,21 @@ body.vlacha-shirina {
 }
 
 .zalepeno.lenti [data-pole="razhod"] .tsifra,
-.zalepeno.lenti [data-pole="nahodki"] .tsifra,
+.zalepeno.lenti [data-pole="nap-nahodki"] .tsifra,
 .zalepeno.lenti [data-pole="nesvereni"] .tsifra {
   color: var(--cherveno);
+}
+
+/* БЮДЖЕТ БЕЗ ДАТА · негово, 11.09 (запис 145): „дава сигнал с цвят на полето
+   което да се попълни." Сигналът е жълт, не червен: това не е грешка, а
+   недовършено — числото го има, липсва му денят. */
+.ekran .vest.lipsva-data {
+  margin: 0.4rem 0;
+  padding: 0.4rem 0.6rem;
+  border-left: 4px solid #c99a00;
+  border-radius: 4px;
+  background: var(--zhalto);
+  color: var(--mastilo);
 }
 
 /* ═══ СВЕТОФОРЪТ НА БАЛАНСА ═══════════════════════════════════════════════
@@ -1560,7 +1607,13 @@ body.vlacha-shirina {
 }
 
 .ekran .zalepeno.lenti .lenta-red .pole-s-tsifra.vhod .pole {
+  /* `.red-kesh .pole.malak` го заковаваше на 7rem, а `.pole.malak` му даваше
+     `min-height: 1.8rem` · първото свиваше клетката, второто вдигаше цялата
+     лента на кеша над другите три. В мрежата височината и ширината се решават
+     от реда, не от полето. */
+  width: 100%;
   min-width: 0;
+  min-height: 0;
   padding: 0 0.1rem;
   border: 0;
   border-bottom: 1px solid var(--zeleno);
@@ -1579,6 +1632,9 @@ body.vlacha-shirina {
 .zalepeno.lenti .pole-s-tsifra.deystvie {
   align-items: center;
   justify-content: center;
+  /* без това единственият надпис в четирите ленти на 15px стърчи над всички
+     останали (0,75–0,85rem) — точно обратното на симетрия */
+  font-size: 0.85rem;
   background: var(--zeleno);
   color: #fff;
   font-weight: 600;

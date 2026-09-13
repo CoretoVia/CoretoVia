@@ -1,23 +1,22 @@
 /**
- * БАЛАНСЪТ НА ПАРИТЕ В СИСТЕМАТА · и трите му цвята.
+ * БАЛАНСЪТ НА ПАРИТЕ В СИСТЕМАТА · двата обхвата и трите му цвята.
  *
  * Негово, 13.09 (запис 203), точка 5: „**Баланс който Смята Трезора + Банковото
- * покритие… Червена като опасност и преди РАЗХОДИТЕ ЗА 6 МЕСЕЦА… Жълто за
- * предприемане на продажби когато сумата падне до 12 месеца… Зелено когато
- * всичко е наред… Да има всеки месец запис колко е разликата между Приход и
- * Разход.**"
+ * покритие… Червена като опасност и преди РАЗХОДИТЕ ЗА 6 МЕСЕЦА… Да има всеки
+ * месец запис колко е разликата между Приход и Разход.**"
  *
- * Праговете са ЧИСЛА, не настроение — затова стоят тук, а не в CSS.
+ * И поправката, 13.09 (запис 205): „**под 12 — жълто, иначе зелено. Това се
+ * променя на жълто е когато си на загуба, а когато си на печалба е зелено. Да
+ * има и според вкарания период, а ако е сега периода да е за периода на
+ * такта.**"
+ *
+ * Двата обхвата са цялата идея и се пазят тук: БАЛАНСЪТ е натрупан, ПОСОКАТА е
+ * за периода. Прагът е ЧИСЛО, не настроение — затова стои в кода, не в CSS.
  */
 
 import { describe, expect, it } from 'vitest';
-import {
-  balansat,
-  MESETSI_CHERVENO,
-  MESETSI_ZHALTO,
-  mesetsiteNaBalansa,
-} from '../src/smetach/balans.js';
 import type { SmetkiZaBalansa } from '../src/smetach/balans.js';
+import { balansat, MESETSI_CHERVENO, mesetsiteNaBalansa } from '../src/smetach/balans.js';
 import type { RedVSektsiya, Sektsiya } from '../src/smetach/smetki.js';
 
 function red(i: number, mesets: string, suma_st: number): RedVSektsiya {
@@ -35,7 +34,7 @@ function sektsiya(strana: 'prihod' | 'razhod', redove: readonly RedVSektsiya[]):
   };
 }
 
-/** Сметки с толкова месеца, колкото са подадените двойки приход · разход. */
+/** Сметки с толкова месеца, колкото са подадените тройки месец · приход · разход. */
 function smetki(po: readonly (readonly [string, number, number])[]): SmetkiZaBalansa {
   const prihod = sektsiya(
     'prihod',
@@ -73,80 +72,106 @@ describe('месечният запис на разликата', () => {
   });
 });
 
-describe('светофарът на Баланса', () => {
-  /** По 100 000 на месец надолу · три месеца · и толкова кеш, колкото поискаме. */
-  const tri = (kesh: number) =>
-    balansat(
-      smetki([
-        ['2026-07', 100_000, -200_000],
-        ['2026-08', 100_000, -200_000],
-        ['2026-09', 100_000, -200_000],
-      ]),
-      kesh,
-    );
+describe('двата обхвата на Баланса', () => {
+  const VSICHKO = smetki([
+    ['2026-05', 500_000, -100_000],
+    ['2026-06', 500_000, -100_000],
+    ['2026-07', 100_000, -200_000],
+    ['2026-08', 100_000, -200_000],
+  ]);
+  /** същите Сметки, свити до последните два месеца · това вижда календарът */
+  const V_PERIODA = smetki([
+    ['2026-07', 100_000, -200_000],
+    ['2026-08', 100_000, -200_000],
+  ]);
 
-  it('балансът е КЕШЪТ плюс банката · и банката е приход + разход', () => {
-    const b = tri(1_000_000);
-    expect(`${b.kesh_st} · ${b.banka_st} · ${b.balans_st}`).toBe('1000000 · -300000 · 700000');
+  /**
+   * Балансът е СЪСТОЯНИЕ, не отчет: парите не изчезват, защото човек е свил
+   * календара до два месеца. Затова той се смята от ВСИЧКИ Сметки, а посоката —
+   * от онези в периода.
+   */
+  it('БАЛАНСЪТ е натрупан · не се мени със свиването на календара', () => {
+    const shirok = balansat(VSICHKO, VSICHKO, 0);
+    const tesen = balansat(VSICHKO, V_PERIODA, 0);
+    expect(shirok.balans_st).toBe(tesen.balans_st);
+    expect(tesen.balans_st).toBe(600_000);
+  });
+
+  it('ПОСОКАТА е за периода · средното и записът идват само от неговите месеци', () => {
+    const b = balansat(VSICHKO, V_PERIODA, 0);
+    expect(b.mesetsi.map((m) => m.mesets)).toEqual(['2026-07', '2026-08']);
+    expect(b.zaPerioda_st).toBe(-200_000);
     expect(b.nameseets_st).toBe(-100_000);
   });
 
-  /** Двата прага са НЕГОВИ числа · шест и дванайсет · и стоят пинати тук. */
-  it('праговете са шест и дванайсет месеца · негови, дословно', () => {
-    expect(MESETSI_CHERVENO).toBe(6);
-    expect(MESETSI_ZHALTO).toBe(12);
-    // точно на прага НЕ е под него · шест месеца живот е още жълто, не червено
-    expect(tri(900_000).mesetsiZhivot).toBe(MESETSI_CHERVENO);
-    expect(tri(900_000).svetofar).toBe('zhalto');
-    // точно дванайсет е вече зелено
-    expect(tri(1_500_000).mesetsiZhivot).toBe(MESETSI_ZHALTO);
-    expect(tri(1_500_000).svetofar).toBe('zeleno');
+  it('целият период дава друга посока от свития · и това е смисълът', () => {
+    expect(balansat(VSICHKO, VSICHKO, 0).nameseets_st).toBe(150_000);
+    expect(balansat(VSICHKO, V_PERIODA, 0).nameseets_st).toBe(-100_000);
   });
 
-  it('под ШЕСТ месеца живот · ЧЕРВЕНО', () => {
-    const b = tri(800_000);
-    // 800 000 − 300 000 = 500 000 · при −100 000 на месец стигат за 5 месеца
+  it('кешът влиза в баланса, но не и в посоката', () => {
+    const b = balansat(VSICHKO, V_PERIODA, 1_000_000);
+    expect(`${b.vnoskiVBroy_st} · ${b.banka_st} · ${b.balans_st}`).toBe(
+      '1000000 · 600000 · 1600000',
+    );
+    expect(b.nameseets_st).toBe(-100_000);
+  });
+});
+
+describe('светофарът на Баланса', () => {
+  const ZAGUBA: readonly (readonly [string, number, number])[] = [
+    ['2026-08', 100_000, -200_000],
+    ['2026-09', 100_000, -200_000],
+  ];
+  const PECHALBA: readonly (readonly [string, number, number])[] = [['2026-09', 300_000, -100_000]];
+  const nazaguba = (kesh: number) => balansat(smetki(ZAGUBA), smetki(ZAGUBA), kesh);
+  const napechalba = (kesh: number) => balansat(smetki(PECHALBA), smetki(PECHALBA), kesh);
+
+  /**
+   * Негово, 13.09 (запис 205): „под 12 — жълто, иначе зелено. Това се променя на
+   * жълто е когато си на загуба, а когато си на печалба е зелено."
+   *
+   * Тоест дванайсетте месеца ги няма вече. Останалият праг е един и е негов.
+   */
+  it('прагът е ЕДИН и е шест месеца · дванайсетте си отидоха с думата му', () => {
+    expect(MESETSI_CHERVENO).toBe(6);
+  });
+
+  it('ЗАГУБА · ЖЪЛТО · дори когато парите стигат за дълго', () => {
+    // 2 000 000 кеш − 200 000 банка = 1 800 000 · при −100 000 на месец стигат за 18
+    const b = nazaguba(2_000_000);
+    expect(`${b.mesetsiZhivot} · ${b.svetofar}`).toBe('18 · zhalto');
+    expect(b.zashto).toContain('ЗАГУБА');
+  });
+
+  it('ПЕЧАЛБА · ЗЕЛЕНО · и няма число за живот, защото парите не се изчерпват', () => {
+    const b = napechalba(0);
+    expect(`${b.mesetsiZhivot} · ${b.svetofar}`).toBe('null · zeleno');
+    expect(b.zashto).toContain('ПЕЧАЛБА');
+  });
+
+  it('под ШЕСТ месеца живот · ЧЕРВЕНОТО гази жълтото', () => {
+    // 700 000 кеш − 200 000 банка = 500 000 · при −100 000 на месец стигат за 5
+    const b = nazaguba(700_000);
     expect(`${b.mesetsiZhivot} · ${b.svetofar}`).toBe('5 · cherveno');
     expect(b.zashto).toContain('ОПАСНО');
   });
 
-  it('под ДВАНАЙСЕТ месеца живот · ЖЪЛТО · моментът за продажби', () => {
-    const b = tri(1_300_000);
-    expect(`${b.mesetsiZhivot} · ${b.svetofar}`).toBe('10 · zhalto');
-    expect(b.zashto).toContain('продажби');
-  });
-
-  it('дванайсет месеца и нагоре · ЗЕЛЕНО', () => {
-    expect(tri(1_600_000).svetofar).toBe('zeleno');
-  });
-
-  it('положителна разлика · парите не се изчерпват · няма число за живот', () => {
-    const b = balansat(
-      smetki([
-        ['2026-08', 300_000, -100_000],
-        ['2026-09', 300_000, -100_000],
-      ]),
-      0,
-    );
-    expect(b.mesetsiZhivot).toBe(null);
-    expect(b.svetofar).toBe('zeleno');
-  });
-
   /** Баланс под нулата е опасност веднага · без значение каква е посоката. */
-  it('баланс ПОД НУЛАТА е червено, дори когато разликата е положителна', () => {
-    const b = balansat(
-      smetki([
-        ['2026-08', 300_000, -100_000],
-        ['2026-09', 300_000, -100_000],
-      ]),
-      -1_000_000,
-    );
-    expect(`${b.balans_st} · ${b.svetofar}`).toBe('-600000 · cherveno');
+  it('баланс ПОД НУЛАТА е червено, дори при печалба', () => {
+    const b = napechalba(-1_000_000);
+    expect(`${b.balans_st} · ${b.svetofar}`).toBe('-800000 · cherveno');
     expect(b.zashto).toContain('под нулата');
   });
 
+  it('на НУЛА · нито печалба, нито загуба · зелено, защото балансът не намалява', () => {
+    const nanula = smetki([['2026-09', 100_000, -100_000]]);
+    const b = balansat(nanula, nanula, 500_000);
+    expect(`${b.nameseets_st} · ${b.svetofar}`).toBe('0 · zeleno');
+  });
+
   it('празни Сметки · нула баланс, нула средно, зелено без обещания', () => {
-    const b = balansat(smetki([]), 0);
+    const b = balansat(smetki([]), smetki([]), 0);
     expect(`${b.balans_st} · ${b.nameseets_st} · ${b.mesetsiZhivot} · ${b.svetofar}`).toBe(
       '0 · 0 · null · zeleno',
     );

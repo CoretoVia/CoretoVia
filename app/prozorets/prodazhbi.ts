@@ -37,6 +37,7 @@ import { KOLONI_NA_OTSENKATA, otsenkata } from '../../src/smetach/kalkulator/sto
 import { pishi } from '../../src/yadro/pari.js';
 import type { KonteksNaEkrana } from '../kontekst.js';
 import { zakachiButonite } from '../reshetka/chernova.js';
+import { sazdavaneOtButona } from '../reshetka/sazdavaneto.js';
 import { podskazka, podskazkaSDumi } from '../reshetka/podskazka.js';
 import { h, sloji, type Zapechatan } from '../reshetka/shablon.js';
 import { kletkaHTML, zakachiReshetkata } from '../reshetka/reshetka.js';
@@ -212,6 +213,18 @@ export function narisuvayProdazhbi(k: KonteksNaEkrana): void {
       <div class="poleta-s-tsifri" data-poleta>${poletaHTML()}</div>
       <div class="deystviya" data-deystviya>
         ${butoniteHTML(butoni)}
+        <!--
+          СЪЗДАВАНЕТО Е И ТУК · негово, 11.09 (запис 195) т.11: „Създаването на
+          Имот, Обект, Задачи, Срещи да става в искачащ прозорец КОГАТО
+          РЕДАКТИРАШ РЕД НА НАЕМ ИЛИ ПРОДАЖБА." И запис 193: „Създаването е
+          отделно падащо меню НАВСЯКЪДЕ."
+
+          Дотук прозорецът се стигаше само от Управление и Сметки — тоест точно
+          в случая, за който е построен (пишеш ред на продажба и Обектът още го
+          няма), човек трябваше да излезе, да го създаде другаде и да почне реда
+          отначало.
+        -->
+        <button type="button" class="malak" data-sazdavane>Създаване</button>
         <button type="button" class="vtorichen" data-zapazi-kniga>Запази книгата</button>
       </div>
     </div>
@@ -227,4 +240,7 @@ export function narisuvayProdazhbi(k: KonteksNaEkrana): void {
   zakachiReshetkata(k);
 
   zakachiButonite(k, 'prodazhbi', TABLITSA_NA_BUTONA);
+  k.tyalo
+    .querySelector<HTMLButtonElement>('[data-sazdavane]')
+    ?.addEventListener('click', (e) => sazdavaneOtButona(k, e.currentTarget as HTMLElement));
 }

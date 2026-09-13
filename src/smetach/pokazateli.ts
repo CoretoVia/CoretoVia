@@ -20,7 +20,7 @@
  *      обяснява откъде идва, а не само колко е.
  */
 
-import { pishi } from '../yadro/pari.js';
+import { deliZakragleno, pishi } from '../yadro/pari.js';
 import type { Smetki } from './smetki.js';
 
 export interface Pokazatel {
@@ -43,8 +43,9 @@ function dyal(chislitel: number, znamenatel: number): string {
 /**
  * Данните от Приходи и Разходи · всичко, което може да се събере днес.
  *
- * `mesetsi` е броят месеци, които екранът показва — средното на месец е
- * различно число за тримесечие и за година, и мълчаливото „12" би излъгало.
+ * `mesetsi` е броят РАЗЛИЧНИ месеци, които календарът покрива — не броят на
+ * колоните му. При такт „ден" колоните са часове, при седмица и месец са дни;
+ * делението на тях даваше „среден приход на месец", който е приход на час.
  */
 export function pokazatelite(s: Smetki, mesetsi: number): readonly Pokazatel[] {
   const prihod = s.sborPrihod;
@@ -108,16 +109,16 @@ export function pokazatelite(s: Smetki, mesetsi: number): readonly Pokazatel[] {
     {
       klyuch: 'sredno-prihod',
       ime: 'Среден приход на месец',
-      stoynost: mesetsi === 0 ? '—' : pishi(Math.round(prihod / mesetsi)),
-      formula: 'приход ÷ броя показани месеци',
-      st: mesetsi === 0 ? null : Math.round(prihod / mesetsi),
+      stoynost: mesetsi === 0 ? '—' : pishi(deliZakragleno(prihod, mesetsi)),
+      formula: 'приход ÷ броя РАЗЛИЧНИ месеци в календара',
+      st: mesetsi === 0 ? null : deliZakragleno(prihod, mesetsi),
     },
     {
       klyuch: 'sredno-razhod',
       ime: 'Среден разход на месец',
-      stoynost: mesetsi === 0 ? '—' : pishi(Math.round(razhod / mesetsi)),
-      formula: 'разход ÷ броя показани месеци',
-      st: mesetsi === 0 ? null : Math.round(razhod / mesetsi),
+      stoynost: mesetsi === 0 ? '—' : pishi(deliZakragleno(razhod, mesetsi)),
+      formula: 'разход ÷ броя РАЗЛИЧНИ месеци в календара',
+      st: mesetsi === 0 ? null : deliZakragleno(razhod, mesetsi),
     },
     {
       klyuch: 'nay-goliam-prihod',

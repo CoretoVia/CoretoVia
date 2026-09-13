@@ -47,9 +47,9 @@ export const PROVERKI: readonly ProverkaNaNap[] = [
   { klyuch: 'dds-plateno', nivo: 'ДДС', kakvo: 'платеното не е декларираното — остава остатък' },
   { klyuch: 'dds-lipsva', nivo: 'ДДС', kakvo: 'месец с движения, но без ред за ДДС' },
   {
-    klyuch: 'fakturi-kesh',
+    klyuch: 'kesh-izvlechenie',
     nivo: 'Фактури',
-    kakvo: 'дадените кеш пари не са вкарани по редовете',
+    kakvo: 'дадените кеш пари не са колкото изтегленото по банковото извлечение',
   },
   {
     klyuch: 'fakturi-schetovodstvo',
@@ -158,12 +158,24 @@ export function nahodkiteNaNap(o: Ogledalo, dnes: string, kogato: string): Otche
   // ═══ Фактури ═══
   for (const mesets of mesetsiteNaDvizheniyata(o)) {
     const kesh = keshatNaMeseca(o, mesets, kogato);
-    const razlika = kesh.dadeno - Math.abs(kesh.vkarano);
-    if (kesh.dadeno !== 0 && razlika !== 0)
+    /**
+     * ДАДЕНО ↔ ИЗТЕГЛЕНО · банката срещу въведеното (правило 3).
+     *
+     * Дотук тук стоеше „дадено ↔ вкарано по редовете". От 13.09 (запис 203 т.3)
+     * даденото СЕ СМЯТА от същите редове, срещу които се сверяваше — тоест
+     * проверката стана тъждество: не можеше да намери нищо, но се броеше в
+     * „находки НАП" и в „N разминавания от M проверки". Проверка, която не може
+     * да не мине, е по-лоша от липсваща: тя показва зелено без да е гледала.
+     *
+     * Останалата сверка е ИСТИНСКИЯТ втори път: парите в брой, които са дадени,
+     * срещу онова, което банковото извлечение казва, че е изтеглено.
+     */
+    const razlika = kesh.dadeno - kesh.izvlechenie;
+    if ((kesh.dadeno !== 0 || kesh.izvlechenie !== 0) && razlika !== 0)
       dobavi(
-        'fakturi-kesh',
+        'kesh-izvlechenie',
         mesets,
-        `дадени ${kesh.dadeno / 100} ≠ вкарани ${Math.abs(kesh.vkarano) / 100}`,
+        `дадени ${kesh.dadeno / 100} ≠ изтеглени по извлечение ${kesh.izvlechenie / 100}`,
         razlika,
       );
     const m = poMesets.get(mesets);

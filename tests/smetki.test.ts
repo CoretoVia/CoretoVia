@@ -40,7 +40,7 @@ describe('изведените на Сметки · сборовете и кеш
       'vkarvane',
       'kesh-dadeno',
       'kesh-izvlechenie',
-      'kesh-vkarano',
+      'kesh-razlika',
     ]);
     const kratko = (klyuch: string): string =>
       IZVEDENITE_NA_SMETKITE.find((k) => k.klyuch === klyuch)!.pomosht.kratko;

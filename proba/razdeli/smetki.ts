@@ -47,7 +47,7 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   proveri(
     'единайсетте полета с цифри · и БАЛАНСЪТ е първото (негово, 13.09 т.5)',
     (await tekstoveNa(p, `${ZALEPENO} [data-poleta] [data-pole] .ime`)).join(' · '),
-    'Баланс · Приход · Разходи · Резултат · Кеш дадено · Кеш изтеглено · Кеш вкарано · движения · несверени · ДДС остатък · находки НАП',
+    'Баланс · Приход · Разходи · Резултат · Кеш дадено · Кеш изтеглено · Кеш разлика · движения · несверени · ДДС остатък · находки НАП',
   );
   // негово, 13.09 (запис 203), точка 1: „Реда на подтабовете в Сметки да се
   // качи на 2ро място." Първо КОЛКО, после КЪДЕ, после КАКВО ВЪВЕЖДАМ, накрая
@@ -208,7 +208,13 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
   );
   proveri('Кеш дадено', await tekstNa(p, '[data-tsifra="kesh-dadeno"]'), EVRO_1500);
   proveri('Кеш изтеглено', await tekstNa(p, '[data-tsifra="kesh-izvlechenie"]'), EVRO_1500);
-  proveri('Кеш вкарано (по редовете)', await tekstNa(p, '[data-tsifra="kesh-vkarano"]'), EVRO_1500);
+  // „Кеш вкарано" стана огледало на „Кеш дадено" и си отиде · на мястото му
+  // стои РАЗЛИКАТА дадено − изтеглено (негово, 13.09 · запис 205)
+  proveri(
+    'Кеш разлика · дадено − изтеглено · нулата значи, че сверката затваря',
+    await tekstNa(p, '[data-tsifra="kesh-razlika"]'),
+    EVRO_0,
+  );
   proveri('полетата на двете форми имат име', await poletaBezIme(p), 0);
   const sverki = await tekstNa(p, '[data-kesh-sverki]');
   // ЕДНА сверка · другата стана тъждество, когато дадените пари почнаха да се
@@ -247,6 +253,58 @@ export async function blok1(ctx: KonteksNaProhoda): Promise<void> {
     'и разликата за месеца е приход + разход',
     await tekstNa(p, `[data-razlika-suma="${MESETS}"]`),
     EVRO_MINUS_300,
+  );
+
+  // ══ 4в3 · ПЕРИОДЪТ УПРАВЛЯВА СМЕТКИТЕ · негово, 13.09 (запис 205) ═════
+  // „Да има и според вкарания период, а ако е сега периода да е за периода на
+  // такта. Това така да влиае на останалите изчисления и да се съобраазява
+  // изцяло в сметките с календара."
+  razdel = '4в3 · периодът на календара';
+  proveri(
+    'подсказката на Баланса КАЗВА двата обхвата · числото е натрупано, цветът е за периода',
+    (await p.$eval('[data-pole="balans"]', (e) => e.getAttribute('data-podskazka') ?? '')).includes(
+      'ЧИСЛОТО е натрупано',
+    ) &&
+      (
+        await p.$eval('[data-pole="balans"]', (e) => e.getAttribute('data-podskazka') ?? '')
+      ).includes('ЦВЕТЪТ е за периода'),
+    true,
+  );
+  // ВКАРАН ПЕРИОД далеч от данните · сметките се свиват до него, балансът остава
+  await p.fill('[data-period-ot]', '2020-01-01');
+  await p.fill('[data-period-do]', '2020-03-31');
+  await p.waitForFunction(
+    (evro) => document.querySelector('[data-tsifra="prihod"]')?.textContent?.trim() === evro,
+    EVRO_0,
+  );
+  proveri(
+    'вкараният период свива ПРИХОДА и РАЗХОДА · парите извън него не се броят',
+    `${await tekstNa(p, '[data-tsifra="prihod"]')} · ${await tekstNa(p, '[data-tsifra="razhod"]')}`,
+    `${EVRO_0} · ${EVRO_0}`,
+  );
+  proveri(
+    'но БАЛАНСЪТ не мърда · той е състояние, не отчет за период',
+    await tekstNa(p, '[data-tsifra="balans"]'),
+    EVRO_MINUS_300,
+  );
+  proveri(
+    'и записът по месеци се свива с периода · няма месец в него',
+    await p.$$eval('[data-reshetka="razliki"] tbody tr.red', (es) => es.length),
+    0,
+  );
+  // обратно на година · всичко се връща
+  await p.selectOption('[data-takt]', 'godina');
+  await p.waitForFunction(
+    (evro) => document.querySelector('[data-tsifra="prihod"]')?.textContent?.trim() === evro,
+    EVRO_1200,
+  );
+  proveri(
+    'такт година връща периода около днес · и приходът се вижда пак',
+    `${await tekstNa(p, '[data-tsifra="prihod"]')} · ${await p.$$eval(
+      '[data-reshetka="razliki"] tbody tr.red',
+      (es) => es.length,
+    )}`,
+    `${EVRO_1200} · 1`,
   );
 
   // ══ 4г · Книгата · листът Сметки ═════════════════════════════════════
